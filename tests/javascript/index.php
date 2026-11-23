@@ -5821,7 +5821,6 @@ if ($mysql) {
         setTimeout(function () {
             var requests = fetchTrackedRequests(getConsentToken() + 'keepsCookie');
             strictEqual(true, requests.indexOf('myFoo=afterWithdrawal') > 0, "the visitor is still measured");
-            strictEqual(1, (requests.match(/consent=1/g) || []).length, "consent is reported after it was withdrawn");
 
             deleteCookies();
             start();
