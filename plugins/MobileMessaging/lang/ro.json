@@ -40,7 +40,7 @@
         "Settings_SMSAPIAccount": "Gestioneaza contul SMS API",
         "Settings_SMSProvider": "Operator SMS",
         "Settings_SelectCountry": "Selectare țară",
-        "Settings_SuperAdmin": "Setările utilizatorului privilegiat",
+        "Settings_SuperAdmin": "Setări de superutilizator",
         "Settings_SuspiciousPhoneNumber": "Dacă nu primiți un mesaj text, puteți încerca fără primul zero. de exemplu. %s.",
         "Settings_UpdateOrDeleteAccount": "Puteți, de asemenea %1$sactualiza%2$s sau %3$ssterge%4$s acest cont.",
         "Settings_ValidatePhoneNumber": "Verifică",
