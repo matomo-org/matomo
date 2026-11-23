@@ -18,6 +18,7 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\Plugins\Live\API;
 use Piwik\Plugins\Live\Live;
+use Piwik\Plugins\CoreHome\Columns\Consent;
 use Piwik\Plugins\CoreHome\Columns\VisitGoalBuyer;
 use Piwik\Plugins\Ecommerce\Widgets\GetEcommerceLog;
 use Piwik\Plugins\UserCountryMap\Widgets\GetRealtimeMap;
@@ -25,6 +26,7 @@ use Piwik\Widget\WidgetConfig;
 use Piwik\Plugins\Live\MeasurableSettings;
 use Piwik\Plugins\Live\Model;
 use Piwik\Plugins\Live\SystemSettings;
+use Piwik\Plugins\PrivacyManager\Settings\ConsentAwareAnalytics;
 use Piwik\Policy\PolicyEnforcementBypass;
 use Piwik\Policy\CnilPolicy;
 use Piwik\Tests\Framework\Fixture;
@@ -90,6 +92,7 @@ class ConsentedVisitsTest extends IntegrationTestCase
 
         // the visits are tracked first, as the policy discards the user id while tracking
         CnilPolicy::setActiveStatus($this->policySite, true);
+        ConsentAwareAnalytics::setEnabled(true, $this->policySite);
         Fixture::clearInMemoryCaches();
     }
 
@@ -112,6 +115,45 @@ class ConsentedVisitsTest extends IntegrationTestCase
         $this->assertFalse(Live::isVisitorProfileEnabled($this->policySite));
 
         $this->assertFalse(Live::isVisitorLogLimitedToConsentedVisits($this->otherSite));
+    }
+
+    public function testTheVisitsLogOfThePolicySiteStaysHiddenWithoutConsentAwareAnalytics(): void
+    {
+        ConsentAwareAnalytics::setEnabled(false, $this->policySite);
+        Fixture::clearInMemoryCaches();
+
+        // no visit holds consent without it, so the visits log, the visitor profile and the widgets built on them
+        // stay hidden, as on a site whose policy disables the visits log
+        $this->assertFalse(Live::isVisitorLogAvailable($this->policySite));
+        $this->assertFalse(Live::isVisitorProfileAvailable($this->policySite));
+        $this->assertFalse($this->isWidgetEnabled(GetRealtimeMap::class, $this->policySite));
+
+        // while the visits that are read anyway, for example by the GDPR tools, are still limited to consented ones
+        $this->assertTrue(Live::isVisitorLogLimitedToConsentedVisits($this->policySite));
+        $model = new Model();
+        $this->assertSame(
+            ['log_visit.consent = ?', [Consent::CONSENTED]],
+            $model->getConsentedVisitsOnlyCondition([$this->policySite])
+        );
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Visits log is deactivated');
+
+        API::getInstance()->getLastVisitsDetails($this->policySite, 'day', '2024-03-01');
+    }
+
+    public function testTheVisitsLogOfThePolicySiteIsShownWhenConsentAwareAnalyticsIsOnForAllWebsites(): void
+    {
+        ConsentAwareAnalytics::setEnabled(false, $this->policySite);
+        ConsentAwareAnalytics::setEnabled(true);
+        Fixture::clearInMemoryCaches();
+
+        try {
+            $this->assertTrue(Live::isVisitorLogAvailable($this->policySite));
+            $this->assertTrue(Live::isVisitorProfileAvailable($this->policySite));
+        } finally {
+            ConsentAwareAnalytics::setEnabled(false);
+        }
     }
 
     /**
@@ -377,6 +419,7 @@ class ConsentedVisitsTest extends IntegrationTestCase
     {
         $idSite = Fixture::createWebsite('2020-01-01 00:00:00', $ecommerce = 1);
         CnilPolicy::setActiveStatus($idSite, true);
+        ConsentAwareAnalytics::setEnabled(true, $idSite);
         Fixture::clearInMemoryCaches();
 
         return $idSite;

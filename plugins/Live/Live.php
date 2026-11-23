@@ -14,6 +14,7 @@ use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugins\CoreHome\CoreHome;
+use Piwik\Plugins\PrivacyManager\Settings\ConsentAwareAnalytics;
 use Piwik\Plugins\SegmentEditor\Settings\LimitSegments;
 use Piwik\Policy\PolicyEnforcementBypass;
 use Piwik\Site;
@@ -228,8 +229,19 @@ class Live extends \Piwik\Plugin
     }
 
     /**
+     * Returns whether the visits log of the given site is shown with only the visits of visitors who gave consent:
+     * it is limited to them (see {@link isVisitorLogLimitedToConsentedVisits()}) and the site measures consent-aware
+     * analytics. Without consent-aware analytics no visit holds consent, so the visits log stays hidden, as the
+     * policy says. The limit itself still applies wherever those visits are read, for example by the GDPR tools.
+     */
+    private static function isVisitorLogShownForConsentedVisits(int $idSite): bool
+    {
+        return self::isVisitorLogLimitedToConsentedVisits($idSite) && ConsentAwareAnalytics::isEnabledForSite($idSite);
+    }
+
+    /**
      * Throws an exception if the visits log can list no visit at all, neither every visit nor only the visits of
-     * visitors who gave consent (see {@link isVisitorLogLimitedToConsentedVisits()})
+     * visitors who gave consent (see {@link isVisitorLogShownForConsentedVisits()})
      *
      * @param int|string|int[]|null $idSite
      * @throws \Exception
@@ -245,7 +257,7 @@ class Live extends \Piwik\Plugin
             }
 
             foreach ($idSites as $siteId) {
-                if (!self::isVisitorLogEnabled($siteId) && !self::isVisitorLogLimitedToConsentedVisits($siteId)) {
+                if (!self::isVisitorLogEnabled($siteId) && !self::isVisitorLogShownForConsentedVisits($siteId)) {
                     throw $e;
                 }
             }
@@ -287,11 +299,17 @@ class Live extends \Piwik\Plugin
             }
 
             foreach ($idSites as $siteId) {
-                if (self::isVisitorProfileEnabled($siteId) || self::isVisitorProfileLimitedToConsentedVisits($siteId)) {
+                if (
+                    self::isVisitorProfileEnabled($siteId)
+                    || (
+                        self::isVisitorProfileLimitedToConsentedVisits($siteId)
+                        && self::isVisitorLogShownForConsentedVisits($siteId)
+                    )
+                ) {
                     continue;
                 }
 
-                if (self::isVisitorLogLimitedToConsentedVisits($siteId)) {
+                if (self::isVisitorLogShownForConsentedVisits($siteId)) {
                     // the profile is disabled by its own setting, tell so rather than that the visits log is
                     self::checkIsVisitorProfileSettingEnabled($siteId);
                 }
