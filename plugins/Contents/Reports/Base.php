@@ -49,9 +49,7 @@ abstract class Base extends Report
             array_keys($this->getProcessedMetrics())
         );
 
-        if (property_exists($view->config, 'selectable_columns')) {
-            $view->config->selectable_columns = $this->metrics;
-        }
+        $view->config->selectable_columns = $this->metrics;
 
         $view->requestConfig->filter_sort_column = 'nb_impressions';
 
