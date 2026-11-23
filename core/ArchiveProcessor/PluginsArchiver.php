@@ -18,6 +18,7 @@ use Piwik\DataTable\Manager;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Plugin\Archiver;
+use Piwik\SettingsPiwik;
 use Piwik\Log;
 use Piwik\Timer;
 use Exception;
@@ -28,6 +29,11 @@ use Exception;
  */
 class PluginsArchiver
 {
+    public const UNIQUE_VISITORS_SKETCH_RECORD = 'VisitsSummary_uniq_visitors_sketch';
+    public const USERS_SKETCH_RECORD = 'VisitsSummary_users_sketch';
+    // 1 on archives whose unique visitors and users are estimated, 0 on ones of an estimated period that aren't
+    public const UNIQUES_ESTIMATED_METRIC = 'uniques_estimated';
+
     /**
      * @var string|null
      */
@@ -315,6 +321,23 @@ class PluginsArchiver
 
         $metrics = $this->convertMetricsIdToName($data);
         $this->archiveProcessor->insertNumericRecords($metrics);
+
+        // days stay exact but store the sketches longer periods are estimated from. Not for several sites (eg
+        // Roll-Ups): the sketch counts visitor IDs, while uniques across sites are counted by fingerprint
+        if (
+            SettingsPiwik::isUniqueVisitorsEstimateEnabled()
+            && !empty($metrics['nb_visits'])
+            && count($this->params->getIdSites()) === 1
+        ) {
+            $logAggregator = $this->archiveProcessor->getLogAggregator();
+            $precision = SettingsPiwik::getUniqueVisitorsEstimatePrecision();
+
+            $this->insertSketch(self::UNIQUE_VISITORS_SKETCH_RECORD, $logAggregator->queryUniqueVisitorsSketch($precision));
+            if (!empty($metrics['nb_users'])) {
+                $this->insertSketch(self::USERS_SKETCH_RECORD, $logAggregator->queryUsersSketch($precision));
+            }
+        }
+
         return $metrics;
     }
 
@@ -331,10 +354,108 @@ class PluginsArchiver
     protected function aggregateMultipleVisitsMetrics()
     {
         $toSum = Metrics::getVisitsMetricNames();
-        $metrics = $this->archiveProcessor->aggregateNumericMetrics($toSum);
+
+        if (!SettingsPiwik::isUniqueVisitorsEstimateEnabled()) {
+            return $this->archiveProcessor->aggregateNumericMetrics($toSum);
+        }
+
+        $isSingleSite = count($this->params->getIdSites()) === 1;
+
+        $periodLabel = $this->params->getPeriod()->getLabel();
+
+        if (!SettingsPiwik::isUniqueVisitorsEstimated($periodLabel)) {
+            $metrics = $this->archiveProcessor->aggregateNumericMetrics($toSum);
+
+            // this period is counted or off, but a longer estimated one is built from its sketches
+            $sketches = $isSingleSite && SettingsPiwik::isUniqueVisitorsSketchNeeded($periodLabel) ? $this->aggregateSketches() : null;
+            if ($sketches !== null) {
+                $this->insertSketches(...$sketches);
+            }
+
+            return $metrics;
+        }
+
+        if ($isSingleSite) {
+            $metrics = $this->aggregateMultipleVisitsMetricsWithEstimates($toSum);
+            if ($metrics !== null) {
+                return $metrics;
+            }
+        }
+
+        // no estimate: the unique visitors are counted from the logs if that is enabled for the period, and left
+        // out otherwise. The flag is stored as 0 rather than left out, as a range missing a requested record is
+        // archived again on every request
+        $this->archiveProcessor->insertNumericRecords([self::UNIQUES_ESTIMATED_METRIC => 0]);
+        return $this->archiveProcessor->aggregateNumericMetrics($toSum);
+    }
+
+    /**
+     * Estimates unique visitors and users from the sub-periods' sketches, or returns null when they can't be.
+     */
+    private function aggregateMultipleVisitsMetricsWithEstimates(array $toSum): ?array
+    {
+        $sketches = $this->aggregateSketches();
+        if ($sketches === null) {
+            return null;
+        }
+        [$visitorsSketch, $usersSketch] = $sketches;
+
+        $metrics = $this->archiveProcessor->aggregateNumericMetrics(
+            array_values(array_diff($toSum, ['nb_uniq_visitors', 'nb_users']))
+        );
+
+        // an estimate can't exceed the visits it was built from
+        $metrics['nb_uniq_visitors'] = min($visitorsSketch->estimate(), (int) $metrics['nb_visits']);
+        $metrics['nb_users'] = min($usersSketch->estimate(), (int) $metrics['nb_visits']);
+        $this->archiveProcessor->insertNumericRecords([
+            'nb_uniq_visitors' => $metrics['nb_uniq_visitors'],
+            'nb_users' => $metrics['nb_users'],
+            self::UNIQUES_ESTIMATED_METRIC => 1,
+        ]);
+
+        $this->insertSketches($visitorsSketch, $usersSketch);
+
         return $metrics;
     }
 
+    /**
+     * Merges the sub-periods' visitors and users sketches, or returns null if one is missing or damaged.
+     *
+     * @return array{0: HyperLogLog, 1: HyperLogLog}|null
+     */
+    private function aggregateSketches(): ?array
+    {
+        $visitorsSketch = $this->archiveProcessor->aggregateUniqueVisitorsSketch(self::UNIQUE_VISITORS_SKETCH_RECORD);
+        if ($visitorsSketch === null) {
+            return null;
+        }
+
+        // a sub-period with visitors sketch but no users sketch had no users
+        $usersSketch = $this->archiveProcessor->aggregateUniqueVisitorsSketch(self::USERS_SKETCH_RECORD, false);
+        if ($usersSketch === null) {
+            return null;
+        }
+
+        return [$visitorsSketch, $usersSketch];
+    }
+
+    private function insertSketches(HyperLogLog $visitorsSketch, HyperLogLog $usersSketch): void
+    {
+        // only stored where a longer estimated period reads it
+        if (!SettingsPiwik::isUniqueVisitorsSketchNeeded($this->params->getPeriod()->getLabel())) {
+            return;
+        }
+
+        $this->insertSketch(self::UNIQUE_VISITORS_SKETCH_RECORD, $visitorsSketch);
+        if ($usersSketch->estimate() > 0) {
+            $this->insertSketch(self::USERS_SKETCH_RECORD, $usersSketch);
+        }
+    }
+
+    private function insertSketch(string $recordName, HyperLogLog $sketch): void
+    {
+        $this->archiveProcessor->insertBlobRecord($recordName, $sketch->toString());
+    }
 
     /**
      * @param class-string<Archiver> $archiverClass

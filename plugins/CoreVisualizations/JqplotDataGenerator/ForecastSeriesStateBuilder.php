@@ -51,7 +51,7 @@ class ForecastSeriesStateBuilder
      * disabled). The forecast-only fields stay absent from the resulting state -- consumers
      * fall back to their default behaviour when the series label is missing from those maps.
      *
-     * @param array<int, float|int> $seriesData
+     * @param array<int, float|int|null> $seriesData
      */
     public function addDataOnlySeries(string $seriesLabel, array $seriesData): void
     {
@@ -63,7 +63,7 @@ class ForecastSeriesStateBuilder
      * monotonicity, precision, and row/column identifiers the builder and sub-period
      * fetcher consume).
      *
-     * @param array<int, float|int> $seriesData
+     * @param array<int, float|int|null> $seriesData
      * @param array<int, bool> $seriesDataAvailability
      * @param mixed $rowLabel
      */
