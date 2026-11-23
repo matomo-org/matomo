@@ -904,11 +904,19 @@ class Sqlite extends Mysql
     /**
      * Without statistics SQLite assumes a table holds about a million rows, so it would scan a whole log
      * table and probe a segment's few visits in the temporary table, rather than the other way round.
-     * ANALYZE of a temporary table writes only to the connection's temporary schema.
+     * ANALYZE of a temporary table writes only to the connection's temporary schema. An empty table gets no
+     * statistics from it, so it is recorded as holding one row, and the temporary schema's statistics reloaded.
      */
     public function getTemporaryTableFilledSql(string $tableName): array
     {
-        return ['ANALYZE temp.`' . str_replace('`', '', $tableName) . '`'];
+        $tableName = str_replace('`', '', $tableName);
+
+        return [
+            'ANALYZE temp.`' . $tableName . '`',
+            "INSERT INTO temp.sqlite_stat1 (tbl, idx, stat) SELECT '" . str_replace("'", "''", $tableName) . "', NULL, '1'"
+                . " WHERE NOT EXISTS (SELECT 1 FROM temp.sqlite_stat1 WHERE tbl = '" . str_replace("'", "''", $tableName) . "')",
+            'ANALYZE temp.sqlite_schema',
+        ];
     }
 
     public function getHourSql(string $datetime): string

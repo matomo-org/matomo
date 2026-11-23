@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\CoreHome\Columns;
 
 use Piwik\Columns\DimensionSegmentFactory;
+use Piwik\Db;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugin\Segment;
 use Piwik\Segment\SegmentsList;
@@ -17,10 +18,23 @@ use Piwik\Segment\SegmentsList;
 class VisitorDaysSinceFirst extends VisitDimension
 {
     protected $type = self::TYPE_NUMBER;
-    protected $sqlSegment = 'ROUND(log_visit.visitor_seconds_since_first / 86400.0)';
+    protected $sqlSegment = 'ROUND(log_visit.visitor_seconds_since_first / 86400)';
     protected $nameSingular = 'General_DaysSinceFirstVisit';
     protected $columnName = 'visitor_seconds_since_first';
     protected $segmentName = 'daysSinceFirstVisit';
+
+    public function getSqlSegment()
+    {
+        // SQLite divides integers as integers, truncating before the rounding
+        if (
+            $this->sqlSegment === 'ROUND(log_visit.visitor_seconds_since_first / 86400)'
+            && Db\Sqlite\Connection::isSqliteConnection(Db::get())
+        ) {
+            return 'ROUND(log_visit.visitor_seconds_since_first / 86400.0)';
+        }
+
+        return parent::getSqlSegment();
+    }
 
     public function configureSegments(SegmentsList $segmentsList, DimensionSegmentFactory $dimensionSegmentFactory)
     {

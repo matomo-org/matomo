@@ -18,7 +18,8 @@ use Piwik\Plugins\VisitorInterest\Columns\VisitorDaysSinceLast;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
- * The days-since segments evaluate to the same day count on every database.
+ * The days-since dimensions' SQL, used where a report selects or groups by the dimension, evaluates to the same day
+ * count on every database. (The registered daysSinceFirstVisit segment compares the seconds column instead.)
  *
  * @group CoreHome
  * @group Plugins

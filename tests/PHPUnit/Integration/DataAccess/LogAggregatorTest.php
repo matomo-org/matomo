@@ -319,13 +319,24 @@ class LogAggregatorTest extends IntegrationTestCase
         $this->assertSame($expected, $query);
     }
 
-    public function testSegmentTableIsTheOuterLoopOfTheJoinOnSqlite()
+    public function getSegmentsForTheJoinOrder(): array
+    {
+        return [
+            'matching visits' => ['browserCode==FF'],
+            'matching no visit' => ['browserCode==ZZ'],
+        ];
+    }
+
+    /**
+     * @dataProvider getSegmentsForTheJoinOrder
+     */
+    public function testSegmentTableIsTheOuterLoopOfTheJoinOnSqlite(string $definition)
     {
         if (!Fixture::isSqlite()) {
             $this->markTestSkipped('SQLite query planner');
         }
 
-        $segment = new Segment('browserCode==FF', array($this->site->getId()));
+        $segment = new Segment($definition, array($this->site->getId()));
         $this->logAggregator = new LogAggregator(new Parameters($this->site, $this->period, $segment));
         $this->logAggregator->allowUsageSegmentCache();
 

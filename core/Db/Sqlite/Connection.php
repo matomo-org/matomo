@@ -75,6 +75,20 @@ final class Connection
     }
 
     /**
+     * Whether the library has SQLite's math functions (`FLOOR()` etc.), which Matomo's queries use. They are
+     * built in unless the library was compiled without them.
+     */
+    public static function hasMathFunctions(): bool
+    {
+        try {
+            $pdo = new PDO('sqlite::memory:', null, null, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+            return (int) $pdo->query('SELECT floor(1.5)')->fetchColumn() === 1;
+        } catch (\PDOException $e) {
+            return false;
+        }
+    }
+
+    /**
      * How long a statement waits for another connection's write lock before failing, in milliseconds.
      * Can be changed with `[database] sqlite_busy_timeout`. In a benchmark with tracking, hourly archiving and
      * the raw-data deletion running together, the longest wait was 0.63 s.

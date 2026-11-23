@@ -288,19 +288,52 @@ class Response
      * SQLite returns the shortest number (0.062, 260). On SQLite, both sides are compared by value: a
      * decimal loses its trailing zeros, and in JSON a quoted number loses its quotes.
      */
+    /**
+     * Fields whose values are names or identifiers, compared as they are even when they look like numbers.
+     */
+    private const SQLITE_UNNORMALIZED_FIELDS = ['label', 'sku', 'idorder', 'orderId', 'name', 'title', 'url', 'segment'];
+
+    /**
+     * On SQLite, API values compare by value: MySQL returns some sums as strings ("260") and pads decimals to their
+     * column's scale (12.50), SQLite returns numbers (260, 12.5). Values of the fields above are left as they are.
+     */
     private function normalizeNumbersOnSqlite($apiResponse)
     {
         if (!Fixture::isSqlite()) {
             return $apiResponse;
         }
 
+        $number = '-?(?:0|[1-9]\d*)(?:\.\d+)?';
+        $isNormalized = function ($field) {
+            return $field === '' || !in_array($field, self::SQLITE_UNNORMALIZED_FIELDS, true);
+        };
+        $trimZeros = function ($value) {
+            return strpos($value, '.') === false ? $value : rtrim(rtrim($value, '0'), '.');
+        };
+
         if (str_starts_with((string) ($this->requestUrl['format'] ?? ''), 'json')) {
-            $apiResponse = preg_replace('/(?<=[:\[,])"(-?\d+(?:\.\d+)?)"(?=[,}\]])/', '$1', $apiResponse);
+            // "field":"260" and array elements ["260"] become numbers; "field":12.50 becomes 12.5
+            return preg_replace_callback(
+                '/(?:"((?:[^"\\\\]|\\\\.)*)":|(?<=[\[,]))("?)(' . $number . ')\2(?=[,}\]])/',
+                function ($m) use ($isNormalized, $trimZeros) {
+                    $prefix = $m[1] !== '' ? '"' . $m[1] . '":' : '';
+                    return $isNormalized($m[1]) ? $prefix . $trimZeros($m[3]) : $m[0];
+                },
+                $apiResponse
+            );
         }
 
-        // whole values only: XML text, JSON and CSV/TSV fields, not attributes such as version="1.0"
-        return preg_replace_callback('/(?<=[>:,\[\t]|^)(-?\d+)\.(\d*?)0+(?=[<,}\]\t\r\n]|$)/m', function ($m) {
-            return $m[2] === '' ? $m[1] : $m[1] . '.' . $m[2];
+        // XML elements, and whole CSV/TSV fields: 12.50 becomes 12.5
+        $apiResponse = preg_replace_callback(
+            '/<([\w:-]+)>(' . $number . ')<\/\1>/',
+            function ($m) use ($isNormalized, $trimZeros) {
+                return $isNormalized($m[1]) ? '<' . $m[1] . '>' . $trimZeros($m[2]) . '</' . $m[1] . '>' : $m[0];
+            },
+            $apiResponse
+        );
+
+        return preg_replace_callback('/(?<=[,\t]|^)(-?\d+\.\d*0)(?=[,\t\r\n]|$)/m', function ($m) use ($trimZeros) {
+            return $trimZeros($m[1]);
         }, $apiResponse);
     }
 
