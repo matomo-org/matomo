@@ -23,7 +23,7 @@
         "MetricDocumentationEvolution": "Variația procentuală a acestei metrici față de perioada anterioară pentru acest site. O valoare pozitivă indică o creștere, iar o valoare negativă indică o scădere.",
         "MetricDocumentationHits": "Numărul total de acțiuni înregistrate pentru acest site, inclusiv vizualizările de pagină, descărcările și linkurile externe.",
         "MetricDocumentationHitsIncludingAi": "Numărul total de acțiuni înregistrate pentru acest site, inclusiv vizualizările de pagină, descărcările, linkurile externe și cererile chatboților AI.",
-        "MetricDocumentationPageviews": "Numărul total de pagini vizualizate pe acest site. Include vizualizările multiple ale aceleiași pagini de către un singur vizitator.",
+        "MetricDocumentationPageviews": "Numărul total de vizualizări de pagină pe acest site. Include vizualizările multiple ale aceleiași pagini de către un singur vizitator.",
         "MetricDocumentationRevenue": "Venitul total urmărit pentru acest site. Această metrică este disponibilă dacă urmărirea comerțului electronic este activată și reflectă achizițiile sau venitul bazat pe ținte.",
         "MetricDocumentationVisits": "Numărul total de vizite înregistrate pentru acest site. O vizită începe când un utilizator accesează site-ul și se încheie după o perioadă de inactivitate sau când sesiunea expiră.",
         "MetricDocumentationWebsite": "Lista site-urilor urmărite afișate în panoul de control. Fiecare rând reprezintă un site separat, cu datele de analiză corespunzătoare.",
