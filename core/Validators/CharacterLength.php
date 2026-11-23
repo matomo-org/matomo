@@ -9,8 +9,15 @@
 
 namespace Piwik\Validators;
 
+use Attribute;
 use Piwik\Piwik;
 
+/**
+ * Checks that a value has a number of characters within the given range.
+ *
+ * @api
+ */
+#[Attribute(Attribute::TARGET_PARAMETER)]
 class CharacterLength extends BaseValidator
 {
     /**

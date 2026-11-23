@@ -444,6 +444,21 @@ class Proxy
     }
 
     /**
+     * Returns the validator attributes of each parameter of the given method with their arguments.
+     *
+     * @return array<string, list<string>>
+     */
+    public function getParameterRules(string $class, string $methodName): array
+    {
+        if (!method_exists($class, $methodName)) {
+            return [];
+        }
+
+        // read on demand, as only the API reference needs them
+        return StaticContainer::get(ParameterValidator::class)->describe(new ReflectionMethod($class, $methodName));
+    }
+
+    /**
      * Returns the 'moduleName' part of '\\Piwik\\Plugins\\moduleName\\API'
      *
      * @param string $className "API"

@@ -11,6 +11,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * `[General] archive_failure_retry_delays` and `[General] archive_failure_max_attempts` set how long `core:archive` waits before retrying a failed archive and after how many failed attempts it stops retrying. Jobs still running after `[General] archive_failure_recovery_timeout` now count as a failed attempt instead of being queued again right away.
 
 ### New APIs
+* API method parameters can be validated with validator attributes such as `#[Piwik\Validators\NumberRange(0)]`, which run when the method calls `$this->checkParameters(__METHOD__, get_defined_vars())` as its first statement; plugins using this must require Matomo 6.1.0 or later.
 * Controller actions can ask the user to confirm with their second factor, e.g. a two-factor authentication code, by calling `Piwik\Plugins\Login\SecondFactorVerifier::requireSecondFactorConfirmed()`. Each confirmation can be used once, for that action only.
 * Plugins that provide a second factor answer the new events `Login.userRequiresSecondFactorConfirmation` and `Login.verifySecondFactor`.
 * The *Administration → Development → Component Library* page, available in development mode, documents the generic components, starting with the selector (`.mtm-selector`), and what each Matomo version changes in them.
@@ -28,6 +29,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * `Piwik\DataAccess\Model::isSimilarArchiveInProgress()` is deprecated and will be removed in Matomo 7; use `Piwik\DataAccess\Model::isArchiveAlreadyInProgress()` instead.
 
 ### HTTP API
+* API methods that validate their parameters answer an invalid request with HTTP 400 and an error message naming every invalid parameter. JSON responses additionally list them in an `errors` array, eg. `{"result": "error", "message": "...", "errors": [{"parameter": "limit", "message": "..."}]}`. More API methods will adopt parameter validation over time, so API clients should expect such errors from any method.
 * The `parts` parameter of `Transitions.getTransitionsForAction` accepts the new value `followingActionsWithoutLoops`: the following actions without page reloads, as in the full report.
 * `prettyDate` of `API.getProcessedReport` now names the period the report's rows were archived for:
   * For a relative date such as `today`, `yesterday`, `lastN` or `previousN` with the period `day`, `week`, `month` or `year` on a single site whose day differs from UTC's, it names the site's days instead of UTC's, and so do the date line and file name of the scheduled reports generated from it.

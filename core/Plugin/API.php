@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugin;
 
+use Piwik\API\ParameterValidator;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugins\Login\PasswordVerifier;
@@ -145,6 +146,39 @@ abstract class API
             // in case of any error (e.g. the provided password is too weak)
             throw new Exception(Piwik::translate('UsersManager_CurrentPasswordNotCorrect'));
         }
+    }
+
+    /**
+     * Runs the validator attributes of the calling method's parameters (any validator in
+     * `Piwik\Validators` that is marked as an attribute, for example `#[NumberRange(0)]`). Call it as the
+     * method's first statement:
+     *
+     *     public function getUsers(#[NumberRange(0)] ?int $limit = null)
+     *     {
+     *         $this->checkParameters(__METHOD__, get_defined_vars());
+     *         // ...
+     *     }
+     *
+     * It covers every caller: HTTP requests and `Request::processRequest()` as well as direct PHP calls.
+     * Parameters whose value is `null` or identical to their declared default are skipped. `__METHOD__`
+     * names the declaring class, so the validators keep applying when a subclass overrides the method and
+     * calls `parent::`.
+     *
+     * The validators check the values the method receives. For HTTP requests, the string values of a method
+     * not marked `@unsanitized` are HTML-encoded before that, so e.g. `CharacterLength` counts `&` as the
+     * five characters of `&amp;`. A method marked `@unsanitized` receives the values as sent.
+     *
+     * @param string $method the calling method as `Class::method`, see `__METHOD__`
+     * @param array<string, mixed> $arguments the calling method's arguments by name, see `get_defined_vars()`
+     * @throws \Piwik\API\ParameterValidationException listing every parameter that failed (HTTP 400)
+     * @since 6.1.0
+     */
+    protected function checkParameters(
+        string $method,
+        #[\SensitiveParameter]
+        array $arguments
+    ): void {
+        StaticContainer::get(ParameterValidator::class)->validate($method, $arguments);
     }
 
     /**
