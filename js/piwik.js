@@ -73,7 +73,7 @@
     setDownloadClasses, setLinkClasses,
     setCampaignNameKey, setCampaignKeywordKey,
     getConsentRequestsQueue, requireConsent, requireConsentForRestrictedData, getRememberedConsent, hasRememberedConsent, isConsentRequired, isRestrictedDataConsentRequired,
-    setConsentGiven, rememberConsentGiven, forgetConsentGiven, unload, hasConsent,
+    setConsentGiven, rememberConsentGiven, forgetConsentGiven, unload, hasConsent, hasGivenConsent,
     discardHashTag, alwaysUseSendBeacon, disableAlwaysUseSendBeacon, isUsingAlwaysUseSendBeacon,
     setCookieNamePrefix, setCookieDomain, setCookiePath, setSecureCookie, setVisitorIdCookie, getCookieDomain, hasCookies, setSessionCookie,
     setVisitorCookieTimeout, setSessionCookieTimeout, setReferralCookieTimeout, getCookie, getCookiePath, getSessionCookieTimeout,
@@ -2884,6 +2884,27 @@ if (typeof window.Matomo !== 'object') {
             }
 
             /*
+             * Triggers the ConsentGiven event when hasGivenConsent() has gone from false to true
+             * since wasGiven was read. Every place that can turn it on calls this afterwards, and
+             * the places that only turn it off need not: it never fires on withdrawal. A page that
+             * called neither requireConsent() nor requireConsentForRestrictedData() never gets it,
+             * as hasGivenConsent() stays false there.
+             */
+            function triggerConsentGivenIfChanged(wasGiven) {
+                if (wasGiven || !hasGivenConsent()) {
+                    return;
+                }
+
+                // a handler that throws must not stop consent from being reported or requests
+                // from being sent
+                try {
+                    Matomo.trigger('ConsentGiven', [trackerInstance]);
+                } catch (e) {
+                    logConsoleError('A ConsentGiven event handler failed.');
+                }
+            }
+
+            /*
              * Removes hash tag from the URL
              * Removes ignore_referrer/ignore_referer
              * Removes configVisitorIdUrlParameter
@@ -3259,6 +3280,8 @@ if (typeof window.Matomo !== 'object') {
              * change to the user opt-in/out status in another browser window will be respected.
              */
             function refreshConsentStatus() {
+                var wasGiven = hasGivenConsent();
+
                 if (getCookie(CONSENT_REMOVED_COOKIE_NAME)) {
                     configHasConsent = false;
                     configConsentGiven = false;
@@ -3275,6 +3298,8 @@ if (typeof window.Matomo !== 'object') {
                     // may have written it. Only a site that asked for this consent itself may
                     // act on it; otherwise one site's banner would change what its neighbours
                     // collect.
+                    triggerConsentGivenIfChanged(wasGiven);
+
                     return;
                 }
 
@@ -3299,6 +3324,8 @@ if (typeof window.Matomo !== 'object') {
                         configCookiesDisabled = true;
                     }
                 }
+
+                triggerConsentGivenIfChanged(wasGiven);
             }
 
             function injectBrowserFeaturesAndClientHints(request) {
@@ -5526,6 +5553,25 @@ if (typeof window.Matomo !== 'object') {
             };
 
             /**
+             * Returns true once the visitor has given tracking consent on a tracker that called
+             * requireConsentForRestrictedData() or requireConsent(), and false otherwise, including
+             * on a tracker that called neither. Unlike hasConsent(), it is false on the first page
+             * view of a requireConsentForRestrictedData() site until consent is given.
+             * Consent remembered on an earlier page view counts from the first tracking request.
+             *
+             * To learn when it becomes true, listen to the ConsentGiven event:
+             * `Matomo.on('ConsentGiven', function (tracker) { ... })`. It runs each time this
+             * changes from false to true for a tracker, and not when consent is withdrawn.
+             * A handler added after the change is not called for it, so call this method when
+             * adding the handler as well.
+             *
+             * @returns {boolean}
+             */
+            this.hasGivenConsent = function () {
+                return hasGivenConsent();
+            };
+
+            /**
              * Get the visitor information (from first party cookie)
              *
              * @returns {Array}
@@ -6652,7 +6698,12 @@ if (typeof window.Matomo !== 'object') {
                     return false;
                 }
 
+                var wasGiven = hasGivenConsent();
+
                 configRestrictedDataConsentRequired = true;
+
+                // consent given before this call counts from here on
+                triggerConsentGivenIfChanged(wasGiven);
 
                 if (getCookie(MEASUREMENT_CONSENT_COOKIE_NAME)) {
                     // consented on an earlier page view, so there is nothing to withhold
@@ -7593,6 +7644,8 @@ if (typeof window.Matomo !== 'object') {
              * time the user gives you consent, you do not need to ever call `_paq.push(['setConsentGiven'])`.
              */
             this.requireConsent = function (isFromOptUserOut) {
+                var wasGiven = hasGivenConsent();
+
                 if (configRestrictedDataConsentRequired && true !== isFromOptUserOut) {
                     // the two contradict each other. Withholding everything is the stricter of
                     // the two, so it is the one that stands
@@ -7607,6 +7660,10 @@ if (typeof window.Matomo !== 'object') {
                     // user might call `setConsentGiven` next
                     configCookiesDisabled = true;
                 }
+
+                // consent remembered on an earlier page view counts from here on
+                triggerConsentGivenIfChanged(wasGiven);
+
                 // Matomo.addPlugin might not be defined at this point, we add the plugin directly also to make JSLint happy
                 // We also want to make sure to define an unload listener for each tracker, not only one tracker.
                 coreConsentCounter++;
@@ -7689,6 +7746,9 @@ if (typeof window.Matomo !== 'object') {
                 ) {
                     sendRequest(getRequest('ping=1', null, 'ping'), configTrackerPause);
                 }
+
+                // last, so the requests above are already on their way when handlers run
+                triggerConsentGivenIfChanged(wasReportingConsent);
             };
 
             /**
