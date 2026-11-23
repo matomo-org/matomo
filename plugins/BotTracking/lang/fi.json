@@ -47,7 +47,6 @@
         "NoDataCloudflareInstructions2": "Ota Worker (Node.js) käyttöön ja aseta Matomo-URL-osoitteesi ja sivuston ID.",
         "NoDataCloudflareInstructions3": "Liitä Worker vyöhykkeeseesi tai reittiisi, jotta se suoritetaan pyyntöjen yhteydessä.",
         "NoDataCloudflareInstructions4": "Varmista määritys tarkistamalla, että tekoälychatbottien osumat näkyvät seurantaraporteissa.",
-        "NoDataHttpTrackingApiDescription": "HTTP-seurantarajapinnan avulla voit seurata tekoälychatbottien pyyntöjä suoraan, kun tarvitset mukautetun integraation. Aloita %1$sTracking API -tietämyskannasta%2$s ja katso uusimmat bottiseurannan parametrit ja toiminnot %3$sHTTP Tracking API -viitteestä%4$s.",
         "NoDataLinkKnowledgeBase": "Dokumentaatio: %1$sMatomon tietämyskanta%2$s",
         "NoDataLinkSourceCode": "Lähdekoodi: %1$sGitHub-repositorio%2$s",
         "NoDataMissingOneContactUs": "Puuttuuko jokin? Ota yhteyttä",

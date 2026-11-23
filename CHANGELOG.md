@@ -19,6 +19,8 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The new API method `PrivacyManager.getDataSubjectSearchScope` describes whether the GDPR tools can search the requested websites, and whether only the visits of visitors who gave consent can be found on any of them.
 * `archive_invalidations.status` can now be `Piwik\Archive\ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD` (`2`): `core:archive` doesn't process such invalidations until the failed archive they wait for can be retried.
 * `Piwik\Plugins\Live\Live::isVisitorLogAvailable()` and `Piwik\Plugins\Live\Live::isVisitorProfileAvailable()`, and their `checkIs…()` variants, tell whether the visits log and the visitor profile can show visits, all of them or only those of visitors who gave consent (`Piwik\Plugins\Live\Live::isVisitorLogLimitedToConsentedVisits()`). `isVisitorLogEnabled()` and `isVisitorProfileEnabled()` are unchanged.
+* The new event `SitesManager.globalSettingsUpdated` is posted after the global website settings were saved on the global settings page. Its single array parameter holds the current settings after the save, with the same keys as the `SitesManager.getGlobalSettings` controller action, except `exclusionTypeForQueryParamsPolicyControlled`. If the save fails part way, the event is posted only if the values saved before the failure changed a setting.
+* The new event `CoreAdminHome.mailSettingsUpdated` is posted after the email server settings were saved on the general settings page. Its single array parameter holds the saved settings and `password_set`, but never the password.
 
 ### New commands
 * `core:archive-failures` lists the archives `core:archive` failed to process and resets them, so they are retried in the next run.
@@ -39,7 +41,11 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### Archiving
 * Different `core:archive` processes can now archive "All visits" and segments of the same site and an overlapping period at the same time. State that an archiver shares across a site's segments must therefore also be safe to use while the "All visits" archive is processed.
 
+### New PHP events
+* New event `Metrics.formatEvolutionValue` that lets plugins format their metric values in the row evolution popover.
+
 ### Other changes
+* Action names stored in `log_action.name` are now truncated to 4096 characters if they exceed the column limit.
 * The JavaScript `AjaxHelper` now handles an API error answered with a 4xx status like one answered with status `200`, unless an error callback set via `setErrorCallback()` handles it.
 * On a website whose compliance policy disables the visits log, `PrivacyManager.findDataSubjects` now returns the visits of visitors who gave consent instead of nothing, and `PrivacyManager.exportDataSubjects` rejects any other visit of such a website. Each visit returned by `PrivacyManager.findDataSubjects` now includes a `consent` column. `PrivacyManager.exportDataSubjects` and `PrivacyManager.deleteDataSubjects` now reject an `idsite` or `idvisit` that is not a positive integer, such as `3abc`, `-1` or `5.0`, with a 400 error on every website, where such a value used to be cast to an integer.
 * On a website whose compliance policy disables the visits log, `Live.getLastVisitsDetails`, `Live.getVisitorProfile`, `Live.getMostRecentVisitorId` and `Live.getFirstVisitForVisitorId` now return the visits of visitors who gave consent instead of an error, when asked for that website alone; a request for several websites still skips it. On such a website, `API.getSuggestedValuesForSegment` now suggests values from the visits of visitors who gave consent instead of failing.

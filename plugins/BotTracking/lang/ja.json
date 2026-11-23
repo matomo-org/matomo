@@ -81,7 +81,6 @@
         "NoDataCloudflareInstructions2": "ワーカー（Node.js）をデプロイし、MatomoのURLとサイトIDを設定してください。",
         "NoDataCloudflareInstructions3": "Workerをゾーンまたはルートに紐付けて、リクエストと連動して実行されるようにします。",
         "NoDataCloudflareInstructions4": "トラッキングレポートにAIチャットボットのアクセス数が表示されていることを確認し、設定が正しいか検証してください。",
-        "NoDataHttpTrackingApiDescription": "HTTP トラッキング API を使用すると、カスタム統合が必要な場合に、AI チャットボットのリクエストを直接追跡できます。まずは %1$sTracking API ナレッジベース%2$s を確認し、最新のボット追跡パラメータや動作については %3$sHTTP トラッキング API リファレンス%4$s を参照してください。",
         "NoDataLinkKnowledgeBase": "ドキュメント：%1$sMatomo ナレッジベース%2$s",
         "NoDataLinkSourceCode": "ソースコード：%1$sGitHubリポジトリ%2$s",
         "NoDataMissingOneContactUs": "不足しているものはありますか？お問い合わせください",

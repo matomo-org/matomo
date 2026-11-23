@@ -47,10 +47,11 @@ class Model
      * Returns the archives IDs that have already been invalidated and have been since re-processed.
      *
      * These archives { archive name (includes segment hash) , idsite, date, period } will be deleted.
+     * Partial archives of a plugin that a newer usable archive for all plugins replaces are returned too.
      *
      * @param string $archiveTable
      * @param bool $setGroupContentMaxLen for tests only
-     * @return array
+     * @return string[]
      * @throws Exception
      */
     public function getInvalidatedArchiveIdsSafeToDelete($archiveTable, $setGroupContentMaxLen = true)
@@ -107,7 +108,37 @@ class Model
             }
         }
 
-        return $archiveIds;
+        // and the partial archives that a newer archive for all plugins replaces
+        $partialArchiveIds = $this->getPartialArchiveIdsOlderThanUsableFullArchive($archiveTable);
+
+        return array_values(array_unique(array_merge($archiveIds, $partialArchiveIds)));
+    }
+
+    /**
+     * Partial archives of a plugin (done<hash>.<Plugin>) are read only until a newer usable archive for all plugins
+     * (done<hash>) exists for the same site, period and segment, see ArchiveSelector. Older ones are not read again.
+     *
+     * @return string[]
+     */
+    private function getPartialArchiveIdsOlderThanUsableFullArchive(string $archiveTable): array
+    {
+        $usableValues = implode(',', [ArchiveWriter::DONE_OK, ArchiveWriter::DONE_OK_TEMPORARY, ArchiveWriter::DONE_INVALIDATED]);
+
+        $sql = "SELECT DISTINCT partial.idarchive
+                  FROM `$archiveTable` partial
+                  JOIN `$archiveTable` fullarchive
+                    ON fullarchive.idsite = partial.idsite
+                   AND fullarchive.date1 = partial.date1
+                   AND fullarchive.date2 = partial.date2
+                   AND fullarchive.period = partial.period
+                   AND fullarchive.name = SUBSTRING_INDEX(partial.name, '.', 1)
+                   AND fullarchive.value IN ($usableValues)
+                   AND fullarchive.ts_archived > partial.ts_archived
+                   AND fullarchive.idarchive > partial.idarchive
+                 WHERE partial.name LIKE 'done%.%'
+                   AND partial.value = " . ArchiveWriter::DONE_PARTIAL;
+
+        return array_map('strval', array_column(Db::fetchAll($sql), 'idarchive'));
     }
 
     public function updateArchiveAsInvalidated(

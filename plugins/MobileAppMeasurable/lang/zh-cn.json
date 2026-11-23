@@ -2,6 +2,7 @@
     "MobileAppMeasurable": {
         "MobileApp": "移动应用程序",
         "MobileAppDescription": "iOS、Android或任何其他移动操作系统的本地移动应用程序。",
+        "MobileAppLongDescription": "跟踪原生 iOS 和 Android 应用中的用户活动。收集的数据可以包括屏幕浏览、应用内事件、设备详情和用户会话。此类型专为使用 Matomo 移动 SDK 的应用而设计。",
         "MobileApps": "移动应用"
     }
 }

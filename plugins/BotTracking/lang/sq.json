@@ -45,7 +45,6 @@
         "NoDataAmazonCloudFrontInstructions4": "Verifikojeni ujdisjen duke kontrolluar nëse vizitat pre Robotësh IA Fjalosjesh shfaqen te raportet e ndjekjes.",
         "NoDataCloudflareInstructions2": "Vini në punë Worker-in (Node.js) dhe ujdisni URL-në e Matomo-s tuaj dhe ID-në e sajtit.",
         "NoDataCloudflareInstructions4": "Verifikojeni ujdisjen duke kontrolluar nëse vizitat nga Robotë IA Fjalosjesh shfaqen te raporte ndjekjesh.",
-        "NoDataHttpTrackingApiDescription": "API Ndjekjesh HTTP ju lejon të ndiqni kërkesa robotësh IA fjalosjesh drejtpërdrejt, kur ju duhet një integrim i përshtatur. Fillojani me %1$sbazën e dijes për API Ndekjesh%2$s dhe përdorni %3$sreferencë API Ndjekjesh HTTP%4$s për parametrat më të rinj dhe sjelljet lidhur me ndjekje robotësh.",
         "NoDataLinkKnowledgeBase": "Dokumentim: %1$sBazë Dijesh e Matomo-s%2$s",
         "NoDataLinkSourceCode": "Kod burim: %1$sDepo GitHub%2$s",
         "NoDataMissingOneContactUs": "Mungon një i tillë? Lidhuni me ne",
