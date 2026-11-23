@@ -22,7 +22,7 @@
         "NbVisitors": "%s visitors",
         "NextVisitor": "Next visitor",
         "NoMoreVisits": "These are all the visits for this visitor.",
-        "OnlyConsentedVisitsShown": "Showing consented visitors only — CNIL compliance mode is active.",
+        "OnlyConsentedVisitsShown": "Only the visits of visitors who gave consent are shown, as the compliance policy of this website disables the visits log.",
         "PageRefreshed": "Number of times this page was viewed / refreshed in a row.",
         "PluginDescription": "Provides the live visits log and lets you watch your visitors live in the real-time dashboard widget. A visitor profile can be browsed for any given user.",
         "PreviousVisitor": "Previous visitor",

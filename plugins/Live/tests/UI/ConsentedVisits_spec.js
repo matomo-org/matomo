@@ -13,7 +13,8 @@ describe("Live_ConsentedVisits", function () {
     const policySite = 5;
     const realTimePolicySite = 6;
     const otherSite = 1;
-    const notice = 'Showing consented visitors only — CNIL compliance mode is active.';
+    const notice = 'Only the visits of visitors who gave consent are shown, as the compliance policy of this website'
+        + ' disables the visits log.';
 
     function widgetUrl(action, idSite, extraParams = '')
     {
