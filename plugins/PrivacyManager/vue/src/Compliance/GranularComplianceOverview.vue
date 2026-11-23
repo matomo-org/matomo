@@ -122,6 +122,11 @@ export default defineComponent({
       type: String,
       required: true,
     },
+    // bumped by the page when the setting texts must be fetched again
+    reloadCount: {
+      type: Number,
+      default: 0,
+    },
   },
   components: {
     ActivityIndicator,
@@ -151,6 +156,8 @@ export default defineComponent({
       },
       { immediate: true },
     );
+
+    watch(() => props.reloadCount, () => store.reload());
 
     const toggleableSettings = computed(
       () => store.state.settings.filter((s) => s.section === 'settings'),
