@@ -20,6 +20,7 @@ use Piwik\Db;
 use Piwik\Plugins\Live\MeasurableSettings as LiveMeasurableSettings;
 use Piwik\Plugins\Live\SystemSettings as LiveSystemSettings;
 use Piwik\Plugins\PrivacyManager\Model\DataSubjects;
+use Piwik\Plugins\SegmentEditor\Settings\LimitSegments;
 use Piwik\Policy\CnilPolicy;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
@@ -84,6 +85,7 @@ class DataSubjectsConsentTest extends IntegrationTestCase
         FakeAccess::$superUser = true;
         CnilPolicy::setActiveStatus(null, false);
         CnilPolicy::setActiveStatus($this->policySite, false);
+        LimitSegments::setEnforced(null, $this->otherSite);
         Fixture::resetTranslations();
 
         parent::tearDown();
@@ -553,6 +555,48 @@ class DataSubjectsConsentTest extends IntegrationTestCase
 
         $this->assertNotContains('userId', $segments);
         $this->assertNotContains('visitorId', $segments);
+    }
+
+    /**
+     * Segment availability can be limited on its own, without a policy disabling the visits log. The GDPR tools only
+     * lift that limit where only the visits of visitors who gave consent can be found.
+     */
+    public function testTheIdentifyingSegmentsStayLimitedOnASiteWithoutPolicyThatLimitsSegments(): void
+    {
+        LimitSegments::setEnforced(true, $this->otherSite);
+
+        foreach ([(string) $this->otherSite, $this->policySite . ',' . $this->otherSite] as $idSites) {
+            $parameters = [
+                'idSites' => $idSites,
+                'idSite' => $idSites,
+                'filter_limit' => -1,
+                'forDataSubjectSearch' => 1,
+            ];
+            $this->setRequestParameters($parameters);
+
+            try {
+                $segments = array_column($this->processRootRequest('API.getSegmentsMetadata', $parameters), 'segment');
+            } finally {
+                $this->setRequestParameters([]);
+            }
+
+            foreach (['userId', 'visitorId', 'visitId', 'visitIp'] as $segment) {
+                $this->assertNotContains($segment, $segments, "$segment for websites $idSites");
+            }
+        }
+
+        try {
+            $this->findDataSubjects((string) $this->otherSite, 'visitId==' . $this->visits['other:alice:1']);
+            $this->fail('Expected the segment to be refused');
+        } catch (\Exception $e) {
+            $this->assertStringContainsString("Segment 'visitId' is not a supported segment", $e->getMessage());
+        }
+
+        // the website where only consented visits can be found still gets them
+        $this->assertSame(
+            $this->getVisitIds(['policy:alice:1']),
+            $this->findVisitIds($this->policySite, 'visitId==' . $this->visits['policy:alice:1'])
+        );
     }
 
     public function testOnlyTheIdentifyingSegmentsAreListedAgainForTheGdprToolsOnThePolicySite(): void

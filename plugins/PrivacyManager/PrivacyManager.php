@@ -34,6 +34,7 @@ use Piwik\Plugins\Live\Live;
 use Piwik\Plugins\Installation\FormDefaultSettings;
 use Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizations;
 use Piwik\Plugins\PrivacyManager\Settings\IPAnonymisation;
+use Piwik\Plugins\SegmentEditor\Settings\LimitSegments;
 use Piwik\Request;
 use Piwik\Segment\SegmentsList;
 use Piwik\Site;
@@ -295,7 +296,8 @@ class PrivacyManager extends Plugin
     /**
      * Whether the GDPR tools, in the request being served, may search every requested website by the segments that
      * identify a visitor: none of the websites the user can view is one the GDPR tools cannot search (see
-     * {@link getIdSitesByDataSubjectSearchScope()}).
+     * {@link getIdSitesByDataSubjectSearchScope()}), and any of them that limits the segments is one where only the
+     * visits of visitors who gave consent can be found. Elsewhere, a limit on segments stays in force.
      *
      * Every site list the request holds must qualify, whether given as idSite or idSites, in the query or the body,
      * as the segments list may read any of them.
@@ -325,6 +327,12 @@ class PrivacyManager extends Plugin
 
             if (!empty($sites['none']) || (empty($sites['all']) && empty($sites['consentedVisitsOnly']))) {
                 return false;
+            }
+
+            foreach ($sites['all'] as $idSite) {
+                if (LimitSegments::getInstance($idSite)->getValue()) {
+                    return false;
+                }
             }
         }
 
