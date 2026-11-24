@@ -1122,7 +1122,8 @@ class CronArchive
 
             try {
                 $this->logger->debug('  Will invalidate archived reports for ' . $date . ' for following websites ids: ' . $listSiteIds);
-                $this->invalidateWithSegments($siteIdsToInvalidate, $date, 'day');
+                // a day whose archive is fresh or being built keeps its marker, its segments wait with it
+                $this->invalidateWithSegments($siteIdsToInvalidate, $date, 'day', false, false, true);
             } catch (Exception $e) {
                 $message = ExceptionToTextProcessor::getMessageAndWholeBacktrace($e);
                 $this->logger->info('  Failed to invalidate archived reports: ' . $message);
@@ -1193,7 +1194,8 @@ class CronArchive
         $date,
         string $period,
         bool $skipWhenRunningOrNewEnoughArchiveExists = false,
-        bool $onlyProcessSegmentsChangedRecently = false
+        bool $onlyProcessSegmentsChangedRecently = false,
+        bool $deferWithAllVisitsArchive = false
     ) {
         if ($date instanceof Date) {
             $date = $date->toString();
@@ -1222,11 +1224,16 @@ class CronArchive
                 )
             );
 
+            $isAllVisitsSkipped = true;
             if ($this->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params, $skipWhenRunningOrNewEnoughArchiveExists)) {
                 $this->logger->debug('  Found usable archive for {archive}, skipping invalidation.', ['archive' => $params]);
-            } elseif ($skipWhenRunningOrNewEnoughArchiveExists && $this->canWeSkipInvalidatingBecauseInvalidationAlreadyInProgress($site->getId(), $periodObj)) {
+            } elseif (
+                ($skipWhenRunningOrNewEnoughArchiveExists || $deferWithAllVisitsArchive)
+                && $this->canWeSkipInvalidatingBecauseInvalidationAlreadyInProgress($site->getId(), $periodObj)
+            ) {
                 $this->logger->debug('  Invalidation for {archive} already in progress, skipping invalidation.', ['archive' => $params]);
             } else {
+                $isAllVisitsSkipped = false;
                 $this->getApiToInvalidateArchivedReport()->invalidateArchivedReports(
                     $idSite,
                     $date,
@@ -1235,6 +1242,11 @@ class CronArchive
                     $cascadeDown = false,
                     $period === 'range'
                 );
+            }
+
+            if ($deferWithAllVisitsArchive && $isAllVisitsSkipped) {
+                // the remembered day stays queued and invalidates its segments once it's applied
+                continue;
             }
 
             $allSegments = $this->segmentArchiving->getAllSegments();
