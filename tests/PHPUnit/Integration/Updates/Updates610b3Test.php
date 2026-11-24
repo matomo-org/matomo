@@ -49,7 +49,7 @@ class Updates610b3Test extends IntegrationTestCase
         parent::tearDown();
     }
 
-    public function testOnlySavedSegmentsWithAChangedContinentConditionAreRearchived(): void
+    public function testOnlySavedSegmentsWithAContinentConditionAreRearchived(): void
     {
         $notEurope = $this->createSegment('continentCode!=eur', 0);
         $notSouthAmerica = $this->createSegment('continentCode%21%3Dams', 2);
@@ -58,11 +58,12 @@ class Updates610b3Test extends IntegrationTestCase
         $containingAm = $this->createSegment('continentCode=@am', 0);
         $unknown = $this->createSegment('continentCode==unk', 0);
         $europeOrNotAsia = $this->createSegment('continentCode==eur,continentCode!=asi', 0);
-        $this->createSegment('continentCode==eur', 0);
-        $this->createSegment('continentCode==EUR;continentCode==asi', 0);
-        // an empty value selects the same visits as before
-        $this->createSegment('continentCode!=', 0);
-        $this->createSegment('continentCode==', 0);
+        // a country code stored in upper case is no longer in Europe, nor the legacy Tibet code outside Asia
+        $europe = $this->createSegment('continentCode==eur', 0);
+        $europeAndAsia = $this->createSegment('continentCode==EUR;continentCode==asi', 0);
+        // a visit without a country is no longer empty, but on the Unknown continent
+        $notEmpty = $this->createSegment('continentCode!=', 0);
+        $empty = $this->createSegment('continentCode==', 0);
         // saved again by other users, encoded or not, rearchived once
         $this->createSegment('continentCode!=eur', 0);
         $this->createSegment('continentCode%21%3Deur', 0);
@@ -83,6 +84,10 @@ class Updates610b3Test extends IntegrationTestCase
             "./console core:invalidate-report-data --sites=all --dates=2026-03-01,today --segment=$containingAm",
             "./console core:invalidate-report-data --sites=all --dates=2026-03-01,today --segment=$unknown",
             "./console core:invalidate-report-data --sites=all --dates=2026-03-01,today --segment=$europeOrNotAsia",
+            "./console core:invalidate-report-data --sites=all --dates=2026-03-01,today --segment=$europe",
+            "./console core:invalidate-report-data --sites=all --dates=2026-03-01,today --segment=$europeAndAsia",
+            "./console core:invalidate-report-data --sites=all --dates=2026-03-01,today --segment=$notEmpty",
+            "./console core:invalidate-report-data --sites=all --dates=2026-03-01,today --segment=$empty",
         ], $hints);
 
         $update->doUpdate(new Updater());
@@ -96,6 +101,10 @@ class Updates610b3Test extends IntegrationTestCase
             ['idSites' => 'all', 'pluginName' => null, 'report' => null, 'startDate' => $startDate, 'segment' => 'continentCode=@am'],
             ['idSites' => 'all', 'pluginName' => null, 'report' => null, 'startDate' => $startDate, 'segment' => 'continentCode==unk'],
             ['idSites' => 'all', 'pluginName' => null, 'report' => null, 'startDate' => $startDate, 'segment' => 'continentCode==eur,continentCode!=asi'],
+            ['idSites' => 'all', 'pluginName' => null, 'report' => null, 'startDate' => $startDate, 'segment' => 'continentCode==eur'],
+            ['idSites' => 'all', 'pluginName' => null, 'report' => null, 'startDate' => $startDate, 'segment' => 'continentCode==EUR;continentCode==asi'],
+            ['idSites' => 'all', 'pluginName' => null, 'report' => null, 'startDate' => $startDate, 'segment' => 'continentCode!='],
+            ['idSites' => 'all', 'pluginName' => null, 'report' => null, 'startDate' => $startDate, 'segment' => 'continentCode=='],
         ], $this->getReArchiveEntries());
     }
 

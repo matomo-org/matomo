@@ -29,13 +29,13 @@ use Piwik\Updates;
 
 class Updates_6_1_0_b3 extends Updates
 {
-    private const CONTINENT_CODES = ['eur', 'asi', 'amc', 'amn', 'ams', 'afr', 'ant', 'oce'];
-
     /**
      * A Continent segment now applies its operator to the continent of the visit country, where it used to
      * match the countries of the continent it names whatever the operator, so `!=` matched the very continent
-     * it excludes. Its saved segments keep their definition, so the reports archived for them since the start
-     * of the current month are rearchived, or only invalidated for the segments `core:archive` does not archive.
+     * it excludes. It also maps the stored country code case-sensitively and puts a visit without a country on
+     * the Unknown continent, as the Continent report does, so any Continent condition may now select other visits.
+     * Its saved segments keep their definition, so the reports archived for them since the start of the current
+     * month are rearchived, or only invalidated for the segments `core:archive` does not archive.
      *
      * @return Migration[]
      */
@@ -76,7 +76,7 @@ class Updates_6_1_0_b3 extends Updates
                 continue;
             }
 
-            if (!in_array(true, array_map([$this, 'hasAChangedContinentCondition'], $parsedDefinitions), true)) {
+            if (!in_array(true, array_map([$this, 'hasAContinentCondition'], $parsedDefinitions), true)) {
                 continue;
             }
 
@@ -284,24 +284,11 @@ class Updates_6_1_0_b3 extends Updates
         }
     }
 
-    /**
-     * Only `==` on a continent matches the same visits as before, any other Continent condition changed,
-     * except an empty value, as the tracker always stores a country, `xx` when it is unknown.
-     * The legacy Tibet code, now counted in Asia, is left aside: current geolocation no longer sets it.
-     */
-    private function hasAChangedContinentCondition(array $conditions): bool
+    private function hasAContinentCondition(array $conditions): bool
     {
         foreach ($conditions as $orConditions) {
             foreach ($orConditions as $condition) {
-                if ($condition[SegmentExpression::INDEX_OPERAND_NAME] !== 'continentCode') {
-                    continue;
-                }
-
-                $operator = $condition[SegmentExpression::INDEX_OPERAND_OPERATOR];
-                $isSameAsBefore = in_array($operator, [SegmentExpression::MATCH_IS_NULL_OR_EMPTY, SegmentExpression::MATCH_IS_NOT_NULL_NOR_EMPTY], true)
-                    || ($operator === SegmentExpression::MATCH_EQUAL
-                        && in_array(strtolower((string) $condition[SegmentExpression::INDEX_OPERAND_VALUE]), self::CONTINENT_CODES, true));
-                if (!$isSameAsBefore) {
+                if ($condition[SegmentExpression::INDEX_OPERAND_NAME] === 'continentCode') {
                     return true;
                 }
             }
