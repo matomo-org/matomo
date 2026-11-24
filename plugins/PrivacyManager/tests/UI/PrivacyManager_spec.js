@@ -698,7 +698,7 @@ describe("PrivacyManager", function () {
     });
 
     it('should show the granular dashboard as read only when policy is enabled via config', async function() {
-      // self-contained: set both overrides here instead of relying on the previous test
+      // self-contained: set the feature flags and the policy here instead of relying on the previous test
       testEnvironment.overrideConfig('FeatureFlags', {
         GranularPrivacyCompliance_feature: 'enabled',
         HybridTracking_feature: 'enabled',
