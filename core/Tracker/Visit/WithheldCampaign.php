@@ -36,13 +36,11 @@ class WithheldCampaign
      * brings the campaign with it, and that campaign describes the same arrival, so it must not
      * split the visit. Callers decide for themselves whether the request carries a campaign.
      *
-     * This reads the consent the request reports rather than asking whether the server honours
-     * it, because a site admin can change the tracking code where only a superuser can opt the
-     * site in, and splitting the visit over that disagreement would count one visitor as two.
-     * Nothing may be relaxed on the strength of this alone. It is limited to the sites where the
-     * campaign can have been withheld: those whose policy masks campaigns, and those that measure
-     * consent-aware analytics. Elsewhere a site using requireConsent() reports consent on every
-     * request, and a campaign it carries is an ordinary campaign change.
+     * The consent is read from the request, not from what the server honours: a site admin can
+     * change the tracking code where only a superuser can opt the site in, and splitting the visit
+     * over that would count one visitor as two. Without a policy that masks campaigns, the site
+     * must be opted in, because a site using requireConsent() reports consent the same way.
+     * Nothing may be relaxed on the strength of this alone.
      *
      * @param Action|null $action the action this request records, if it records one
      */
