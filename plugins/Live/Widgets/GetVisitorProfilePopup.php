@@ -32,7 +32,7 @@ class GetVisitorProfilePopup extends \Piwik\Widget\Widget
             return;
         }
 
-        if (!Live::isVisitorProfileEnabled($idSite)) {
+        if (!Live::isVisitorProfileAvailable($idSite)) {
             $config->disable();
         }
     }
