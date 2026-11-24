@@ -6,9 +6,6 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ## Matomo 6.1.0
 
-### Breaking Changes
-* The `continentCode` segment now applies its operator to the continent of the visit's country, so `!=` and `!@` exclude the continent instead of matching it, and it accepts `unk` for an unknown country. Its `sqlSegment` is now a `CASE` expression on `log_visit.location_country` instead of a column.
-
 ### New features
 * New setting `consent_aware_analytics` (PrivacyManager, off by default), turned on by a superuser on the *Privacy → Compliance* page for the whole instance or for a website. A website measures it when either is on. The page offers it while the granular compliance feature is enabled. When it is on and a compliance policy is enforced, a visitor who has given consent is measured without the policy's restrictions: campaign values, the full referrer (up to the site's own anonymisation level) and the User ID. `ConsentAwareAnalytics::isEnabled()` and `ConsentAwareAnalytics::hasRelaxableRestriction()` read it from the tracker cache.
 * New event `PrivacyManager.consentAwareAnalyticsUpdated`, posted when consent-aware measurement is turned on or off. For a website, `enabled` is the website's own value and `enabledForAllWebsites` says whether it is on for the whole instance.
@@ -69,6 +66,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * On a website whose compliance policy disables the visits log, `PrivacyManager.findDataSubjects` now returns the visits of visitors who gave consent instead of nothing, and `PrivacyManager.exportDataSubjects` rejects any other visit of such a website. Each visit returned by `PrivacyManager.findDataSubjects` now includes `consentState`, as `Live.getLastVisitsDetails` reports it. `PrivacyManager.exportDataSubjects` and `PrivacyManager.deleteDataSubjects` now reject an `idsite` or `idvisit` that is not a positive integer, such as `3abc`, `-1` or `5.0`, with a 400 error on every website, where such a value used to be cast to an integer.
 * On a website whose compliance policy disables the visits log, `Live.getLastVisitsDetails`, `Live.getVisitorProfile`, `Live.getMostRecentVisitorId` and `Live.getFirstVisitForVisitorId` now return the visits of visitors who gave consent instead of an error, when asked for that website alone; a request for several websites still skips it. On such a website, `API.getSuggestedValuesForSegment` now suggests values from the visits of visitors who gave consent instead of failing.
 * On a website whose compliance policy disables the visits log, the JavaScript globals `piwik.visitorLogEnabled` and `piwik.visitorProfileEnabled` are now `true`, and the new `piwik.visitorLogUnavailableSegments` lists the segments its visits log cannot filter by, such as `userId`. Each visit returned by the Live API now includes a `consentState` column: `consented` or `refused`, and none when no decision is stored.
+* The `continentCode` segment now applies its operator to the continent of the visit's country, so `!=` and `!@` exclude the continent instead of matching it, and it accepts `unk` for an unknown country. Its `sqlSegment` is now a `CASE` expression on `log_visit.location_country` instead of a column.
 
 ## Matomo 6.0.0
 
