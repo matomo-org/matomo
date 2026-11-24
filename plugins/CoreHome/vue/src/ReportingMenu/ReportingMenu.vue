@@ -122,7 +122,7 @@
         >
           <li>
             <a class="collapsible-header">
-              <i :class="category.icon ? category.icon : 'icon-chevron-down'" />{{ category.name }}
+              <i :class="category.icon ? category.icon : 'icon-chevron-down'" aria-hidden="true" />{{ category.name }}
             </a>
             <div class="collapsible-body">
               <ul>
