@@ -13,6 +13,10 @@ use Piwik\Cache;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
+use Piwik\Plugins\CoreHome\CoreHome;
+use Piwik\Plugins\PrivacyManager\Settings\ConsentAwareAnalytics;
+use Piwik\Plugins\SegmentEditor\Settings\LimitSegments;
+use Piwik\Policy\PolicyEnforcementBypass;
 use Piwik\Site;
 use Piwik\Plugins\Live\Settings\VisitorLogDisabled as VisitorLogDisabledSetting;
 
@@ -46,10 +50,33 @@ class Live extends \Piwik\Plugin
     {
         $actionsToDisplayCollapsed = (int)StaticContainer::get('Live.pageViewActionsToDisplayCollapsed');
         $out .= "
-        piwik.visitorLogEnabled = " . json_encode(self::isVisitorLogEnabled()) . ";
+        piwik.visitorLogEnabled = " . json_encode(self::isVisitorLogAvailable()) . ";
         piwik.visitorProfileEnabled = " . json_encode(self::isVisitorProfileEnabled()) . ";
+        piwik.visitorProfileAvailable = " . json_encode(self::isVisitorProfileAvailable()) . ";
+        piwik.visitorLogUnavailableSegments = " . json_encode(self::getSegmentsUnavailableToTheVisitorLog()) . ";
         piwik.visitorLogActionsToDisplayCollapsed = $actionsToDisplayCollapsed;
         ";
+    }
+
+    /**
+     * Returns the segments the visits log of the requested site cannot filter by while it only lists the visits of
+     * visitors who gave consent, as the visitor profile is not enabled and the compliance policy may limit segments
+     *
+     * @return string[]
+     */
+    private static function getSegmentsUnavailableToTheVisitorLog(): array
+    {
+        $idSite = (int) Common::getRequestVar('idSite', 0, 'int');
+        if ($idSite <= 0 || !self::isVisitorLogLimitedToConsentedVisits($idSite)) {
+            return [];
+        }
+
+        $segments = ['userId', 'visitorId'];
+        if (LimitSegments::getInstance($idSite)->getValue()) {
+            $segments = array_merge($segments, array_column(CoreHome::SEGMENTS_REMOVED_BY_LIMIT_SEGMENTS, 1));
+        }
+
+        return array_values(array_unique($segments));
     }
 
     /**
@@ -97,11 +124,11 @@ class Live extends \Piwik\Plugin
 
     /**
      * Returns whether the real-time widget should be limited to the aggregated counters only,
-     * i.e. the detailed visits log is disabled (for the given site).
+     * i.e. the detailed visits log can list no visit (for the given site).
      */
     public static function shouldShowAggregatedRealtimeOnly(?int $idSite = null): bool
     {
-        return !self::isVisitorLogEnabled($idSite);
+        return !self::isVisitorLogAvailable($idSite);
     }
 
     /**
@@ -113,7 +140,18 @@ class Live extends \Piwik\Plugin
     public static function checkIsVisitorProfileEnabled($idSite = null): void
     {
         self::checkIsVisitorLogEnabled($idSite); // visitor log is required for visitor profile
+        self::checkIsVisitorProfileSettingEnabled($idSite);
+    }
 
+    /**
+     * Throws an exception if visitor profile is disabled by the system or website settings, without looking at
+     * whether the visitor log is enabled
+     *
+     * @param int|string|int[]|null $idSite
+     * @throws \Exception
+     */
+    private static function checkIsVisitorProfileSettingEnabled($idSite = null): void
+    {
         $systemSettings = new SystemSettings();
 
         if ($systemSettings->disableVisitorProfile->getValue() === true) {
@@ -153,6 +191,168 @@ class Live extends \Piwik\Plugin
         return true;
     }
 
+    /**
+     * Returns whether only the visits of visitors who gave consent may be looked at one by one on the given site:
+     * its compliance policy disables the visits log, while neither its own settings nor the system settings disable
+     * the visits log or the visitor profile. Those visits may hold identifying data, such as a User ID, so they must
+     * stay reachable to answer their visitors' requests to access or erase their data.
+     */
+    public static function isVisitorProfileLimitedToConsentedVisits(int $idSite): bool
+    {
+        if (!self::isVisitorLogLimitedToConsentedVisits($idSite)) {
+            return false;
+        }
+
+        try {
+            self::checkIsVisitorProfileSettingEnabled($idSite);
+        } catch (\Exception $e) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Returns whether the visits log of the given site may only list the visits of visitors who gave consent: its
+     * compliance policy disables the visits log, while neither its own settings nor the system settings do.
+     */
+    public static function isVisitorLogLimitedToConsentedVisits(int $idSite): bool
+    {
+        if (PolicyEnforcementBypass::isActive()) {
+            // the policy does not apply, as for the visits log setting itself
+            return false;
+        }
+
+        return VisitorLogDisabledSetting::isEnforced($idSite)
+            && true !== VisitorLogDisabledSetting::getSystemValue()
+            && true !== VisitorLogDisabledSetting::getMeasurableValue($idSite);
+    }
+
+    /**
+     * Returns whether the visits log of the given site is shown with only the visits of visitors who gave consent:
+     * it is limited to them (see {@link isVisitorLogLimitedToConsentedVisits()}) and the site measures consent-aware
+     * analytics. Without consent-aware analytics no visit holds consent, so the visits log stays hidden, as the
+     * policy says. The limit itself still applies wherever those visits are read, for example by the GDPR tools.
+     */
+    private static function isVisitorLogShownForConsentedVisits(int $idSite): bool
+    {
+        return self::isVisitorLogLimitedToConsentedVisits($idSite) && ConsentAwareAnalytics::isEnabledForSite($idSite);
+    }
+
+    /**
+     * Throws an exception if the visits log can list no visit at all, neither every visit nor only the visits of
+     * visitors who gave consent (see {@link isVisitorLogShownForConsentedVisits()})
+     *
+     * @param int|string|int[]|null $idSite
+     * @throws \Exception
+     */
+    public static function checkIsVisitorLogAvailable($idSite = null): void
+    {
+        try {
+            self::checkIsVisitorLogEnabled($idSite);
+        } catch (\Exception $e) {
+            $idSites = self::getIdSitesFromParameterOrRequest($idSite);
+            if (empty($idSites)) {
+                throw $e;
+            }
+
+            foreach ($idSites as $siteId) {
+                if (!self::isVisitorLogEnabled($siteId) && !self::isVisitorLogShownForConsentedVisits($siteId)) {
+                    throw $e;
+                }
+            }
+        }
+    }
+
+    /**
+     * Returns whether the visits log can list visits (for the given site), every visit or only the visits of
+     * visitors who gave consent
+     *
+     * @param int|string|int[]|null $idSite
+     */
+    public static function isVisitorLogAvailable($idSite = null): bool
+    {
+        try {
+            self::checkIsVisitorLogAvailable($idSite);
+        } catch (\Exception $e) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Throws an exception if the visitor profile can show no visitor at all, neither every visitor nor only the
+     * visitors who gave consent (see {@link isVisitorProfileLimitedToConsentedVisits()})
+     *
+     * @param int|string|int[]|null $idSite
+     * @throws \Exception
+     */
+    public static function checkIsVisitorProfileAvailable($idSite = null): void
+    {
+        try {
+            self::checkIsVisitorProfileEnabled($idSite);
+        } catch (\Exception $e) {
+            $idSites = self::getIdSitesFromParameterOrRequest($idSite);
+            if (empty($idSites)) {
+                throw $e;
+            }
+
+            foreach ($idSites as $siteId) {
+                if (
+                    self::isVisitorProfileEnabled($siteId)
+                    || (
+                        self::isVisitorProfileLimitedToConsentedVisits($siteId)
+                        && self::isVisitorLogShownForConsentedVisits($siteId)
+                    )
+                ) {
+                    continue;
+                }
+
+                if (self::isVisitorLogShownForConsentedVisits($siteId)) {
+                    // the profile is disabled by its own setting, tell so rather than that the visits log is
+                    self::checkIsVisitorProfileSettingEnabled($siteId);
+                }
+
+                throw $e;
+            }
+        }
+    }
+
+    /**
+     * Returns whether the visitor profile can show visitors (for the given site), every visitor or only the
+     * visitors who gave consent
+     *
+     * @param int|string|int[]|null $idSite
+     */
+    public static function isVisitorProfileAvailable($idSite = null): bool
+    {
+        try {
+            self::checkIsVisitorProfileAvailable($idSite);
+        } catch (\Exception $e) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * @param int|string|int[]|null $idSite
+     * @return int[]
+     */
+    private static function getIdSitesFromParameterOrRequest($idSite): array
+    {
+        if (empty($idSite)) {
+            $idSite = Common::getRequestVar('idSite', '', 'string');
+        }
+
+        if (empty($idSite)) {
+            return [];
+        }
+
+        return array_map('intval', Site::getIdSitesFromIdSitesString($idSite));
+    }
+
     public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = "plugins/Live/stylesheets/live.less";
@@ -176,6 +376,7 @@ class Live extends \Piwik\Plugin
         $translationKeys[] = 'General_ErrorRequest';
         $translationKeys[] = "Live_ClickToViewAllActions";
         $translationKeys[] = "Live_NoMoreVisits";
+        $translationKeys[] = 'Live_OnlyConsentedVisitsShown';
         $translationKeys[] = "Live_ShowMap";
         $translationKeys[] = "Live_HideMap";
         $translationKeys[] = "Live_PageRefreshed";
