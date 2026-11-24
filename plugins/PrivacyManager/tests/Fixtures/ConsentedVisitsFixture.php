@@ -12,6 +12,7 @@ namespace Piwik\Plugins\PrivacyManager\tests\Fixtures;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Plugins\PrivacyManager\Settings\ConsentAwareAnalytics;
 use Piwik\Policy\CnilPolicy;
 
 /**
@@ -19,7 +20,8 @@ use Piwik\Policy\CnilPolicy;
  * some visits: on site 5, the visits with an even id are consented and the others hold none; on site 1, the visits
  * with an even id are consented, those with an id divisible by 3 hold 0, and the others hold none.
  *
- * The consent is written directly, as tracking only records it on a site measuring consent-aware analytics.
+ * The consent is written directly, as tracking only records it on a site measuring consent-aware analytics. Both
+ * policy sites measure it, as the visits log only shows their consented visits when they do.
  */
 class ConsentedVisitsFixture extends MultipleSitesMultipleVisitsFixture
 {
@@ -46,6 +48,7 @@ class ConsentedVisitsFixture extends MultipleSitesMultipleVisitsFixture
         );
 
         CnilPolicy::setActiveStatus(self::POLICY_SITE, true);
+        ConsentAwareAnalytics::setEnabled(true, self::POLICY_SITE);
     }
 
     private function setUpRealTimePolicySite(): void
@@ -70,5 +73,6 @@ class ConsentedVisitsFixture extends MultipleSitesMultipleVisitsFixture
         }
 
         CnilPolicy::setActiveStatus(self::REAL_TIME_POLICY_SITE, true);
+        ConsentAwareAnalytics::setEnabled(true, self::REAL_TIME_POLICY_SITE);
     }
 }
