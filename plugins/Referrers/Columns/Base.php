@@ -1027,9 +1027,6 @@ abstract class Base extends VisitDimension
      * Whether the campaign this request carries is the one the visit arrived through, rather than
      * a different campaign reached later, as WithheldCampaign::revealsArrival() decides it.
      *
-     * Unlike shouldCompleteWithheldCampaign() this does not ask whether the server honours the
-     * consent, because splitting a visit cannot wait for that answer.
-     *
      * @param Action|null $action
      * @internal
      */
