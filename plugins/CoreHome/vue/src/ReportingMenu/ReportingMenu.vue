@@ -36,6 +36,7 @@
             :class="`menu-icon ${category.icon ? category.icon :
               (category.subcategories && category.id === activeCategory ?
                 'icon-chevron-down' : 'icon-chevron-right')}`"
+            aria-hidden="true"
           />{{ category.name }}
           <span class="hidden">
             {{ translate('CoreHome_Menu') }}

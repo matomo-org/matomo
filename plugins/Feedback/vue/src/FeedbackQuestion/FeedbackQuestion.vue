@@ -26,7 +26,7 @@
           <h2>{{ translate(`Feedback_Question${question}`) }}</h2>
           <p
             v-html="$sanitize(translate('Feedback_FeedbackSubtitle',
-            `<i class='icon-heart red-text'></i>`))"></p>
+            `<i class='icon-heart red-text' aria-hidden='true'></i>`))"></p>
           <br/>
           <div class="messageContainer">
             <div class="error-text" v-if="errorMessage">{{ errorMessage }}</div>
@@ -53,7 +53,7 @@
         >
           <h2>{{ translate(`Feedback_ThankYou`) }}</h2>
           <p v-html="$sanitize(translate('Feedback_ThankYourForFeedback',
-        `<i class='icon-heart red-text'></i>`))">
+        `<i class='icon-heart red-text' aria-hidden='true'></i>`))">
           </p>
           <input
             type="button"
