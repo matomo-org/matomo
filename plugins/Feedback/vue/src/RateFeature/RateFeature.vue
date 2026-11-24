@@ -177,7 +177,7 @@
       >
         <h2 v-html="$sanitize(translate(
           'Feedback_ThankYouHeart',
-          `<i class='icon-heart red-text'></i>`,
+          `<i class='icon-heart red-text' aria-hidden='true'></i>`,
         ))"></h2>
         <div
           v-if="like"
