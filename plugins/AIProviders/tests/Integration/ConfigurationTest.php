@@ -1164,24 +1164,57 @@ class ConfigurationTest extends IntegrationTestCase
         $this->assertContains('Authorization: Bearer managed-custom-key', $capturedHeaders);
     }
 
-    public function testPrivateEndpointUrlIsRefusedBeforeTheRequestIsSent(): void
-    {
+    /**
+     * @dataProvider getRefusedEndpointUrls
+     * @param string[] $resolvedIps
+     */
+    public function testRefusedEndpointUrlGetsTheSameErrorWhateverTheReason(
+        string $endpointUrl,
+        array $resolvedIps,
+        string $proxyHost
+    ): void {
+        StaticContainer::getContainer()->set(
+            EgressHostValidator::class,
+            new EgressHostValidator(fn() => $resolvedIps, [])
+        );
+        Config::getInstance()->proxy = ['host' => $proxyHost] + Config::getInstance()->proxy;
+
         $capturedUrl = null;
         $capturedHeaders = null;
         $this->mockModelListingResponse($capturedUrl, $capturedHeaders);
 
         try {
-            $this->api->testConnection(
-                'custom-provider',
-                (string) json_encode(['endpointUrl' => 'http://169.254.169.254/v1'])
-            );
-            $this->fail('Expected the private endpoint URL to be refused.');
+            $this->api->testConnection('custom-provider', (string) json_encode(['endpointUrl' => $endpointUrl]));
+            $this->fail('Expected the endpoint URL to be refused.');
         } catch (AIProviderClientException $e) {
             $this->assertInstanceOf(EgressBlockedException::class, $e->getPrevious());
-            $this->assertStringContainsString('custom-providerEndpointUrl', $e->getMessage());
+            $this->assertSame(
+                Piwik::translate(
+                    'AIProviders_ErrorEndpointEgressBlocked',
+                    ['Custom Provider', 'custom-providerEndpointUrl']
+                ),
+                $e->getMessage()
+            );
         }
 
         $this->assertNull($capturedUrl);
+    }
+
+    /**
+     * @return array<string, array{string, string[], string}>
+     */
+    public function getRefusedEndpointUrls(): array
+    {
+        return [
+            'private IP literal' => ['http://169.254.169.254/v1', [], ''],
+            'host on a private address' => ['https://llm.example.test/v1', ['10.0.0.5'], ''],
+            'host that does not resolve' => ['https://llm.example.test/v1', [], ''],
+            'public host behind a configured proxy' => [
+                'https://llm.example.test/v1',
+                ['93.184.215.14'],
+                'proxy.example.test',
+            ],
+        ];
     }
 
     public function testPrivateEndpointUrlFromTheServerConfigurationIsNotRefused(): void
