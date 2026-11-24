@@ -32,7 +32,7 @@
   flex-direction: column;
   padding: @marketplace-card-padding;
   min-height: @marketplace-card-height;
-  border: 0.5px solid @theme-color-border;
+  border: 1px solid @theme-color-border;
   border-radius: @marketplace-card-radius;
   background: @theme-color-background-contrast;
   cursor: pointer;
@@ -149,14 +149,11 @@
   }
 }
 
-// The second class is only here to outrank CoreAdminHome's `.admin p`, which would otherwise set
-// this paragraph's spacing and line height; `padding-bottom` is reset for the same reason.
-.pluginCard .pluginCard__description {
+.pluginCard__description {
   @_lines: 3;
   @_lineHeight: 20px;
 
   margin: 4px 0 0;
-  padding-bottom: 0;
   font-size: 14px;
   line-height: @_lineHeight;
   color: @theme-color-text-lighter;

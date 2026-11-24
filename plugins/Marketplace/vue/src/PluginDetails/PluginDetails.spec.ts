@@ -692,6 +692,53 @@ describe('PluginDetails', () => {
     expect(vmOf(wrapper).fetchErrorMessage).toBe('');
   });
 
+  it.each([
+    [false, false, false, null],
+    [false, true, false, ['downloads']],
+    [false, false, true, ['updated']],
+    [false, true, true, ['downloads', '·', 'updated']],
+    [true, false, false, ['rating', 'reviews']],
+    [true, true, false, ['rating', 'reviews', '·', 'downloads']],
+    [true, false, true, ['rating', 'reviews', '·', 'updated']],
+    [true, true, true, ['rating', 'reviews', '·', 'downloads', '·', 'updated']],
+  ])('puts a dot only between the facts it shows (reviews %s, downloads %s, updated %s)', async (
+    hasReviews,
+    hasDownloads,
+    hasUpdated,
+    expected,
+  ) => {
+    mockPost.mockResolvedValue({
+      ...detailsResponse,
+      numDownloads: hasDownloads ? 12 : 0,
+      lastUpdated: hasUpdated ? 'today' : '',
+      shop: {
+        ...detailsResponse.shop,
+        reviews: hasReviews
+          ? { embedUrl: 'https://shop.example/reviews', averageRating: '4.50', reviewCount: 3 }
+          : {},
+      },
+    });
+
+    const wrapper = mountDetails(cardRow);
+    await flushPromises();
+
+    const stats = wrapper.find('.marketplacePluginDetails__stats');
+    const items = stats.exists()
+      ? Array.from(stats.element.children).map((item) => {
+        if (item.classList.contains('marketplacePluginDetails__factSeparator')) {
+          // decoration only; a screen reader would otherwise announce "middle dot"
+          expect(item.getAttribute('aria-hidden')).toBe('true');
+          return item.textContent;
+        }
+        if (item.classList.contains('marketplacePluginDetails__rating')) return 'rating';
+        if (item.classList.contains('marketplacePluginDetails__reviewsLink')) return 'reviews';
+        if (item.classList.contains('marketplacePluginDetails__fact--updated')) return 'updated';
+        return 'downloads';
+      })
+      : null;
+    expect(items).toEqual(expected);
+  });
+
   it('labels an uncategorised plugin Other, as its card does', async () => {
     mockPost.mockResolvedValue({ ...detailsResponse, owner: 'openmost' });
 

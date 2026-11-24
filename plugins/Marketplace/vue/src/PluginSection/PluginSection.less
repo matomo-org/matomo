@@ -5,15 +5,6 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-// override: CoreAdminHome's `.admin section` puts default spacing on every section of an admin
-// page and outranks a lone class, so the tag is the narrowest selector that reaches it. The
-// section list owns the spacing between sections.
-section.pluginSection {
-  margin-top: 0;
-  padding-bottom: 0;
-  line-height: inherit;
-}
-
 .pluginSection__header {
   display: flex;
   flex-wrap: wrap;

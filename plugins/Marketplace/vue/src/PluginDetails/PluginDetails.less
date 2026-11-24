@@ -76,16 +76,11 @@ button.marketplacePluginDetails__back:focus:not(:focus-visible) {
   outline: none;
 }
 
-// override: CoreAdminHome's `.admin section` puts default spacing on every section of an admin
-// page and outranks a lone class, so the tag is the narrowest selector that reaches it. This file
-// is merged after generalSettings.less, so the equal specificity resolves here.
-section.marketplacePluginDetails__head {
+.marketplacePluginDetails__head {
   display: flex;
   align-items: safe center;
   gap: 24px;
-  margin-top: 0;
   padding: 20px;
-  line-height: inherit;
   border: 1px solid @theme-color-border;
   border-radius: @marketplace-details-radius;
   background: @theme-color-background-contrast;
@@ -144,10 +139,8 @@ section.marketplacePluginDetails__head {
   }
 }
 
-// override: the tag outranks CoreAdminHome's `.admin p` line height and padding, as on the head
-p.marketplacePluginDetails__lede {
+.marketplacePluginDetails__lede {
   margin: 0 0 18px;
-  padding-bottom: 0;
   // the description is one or two sentences; the head is far wider than that reads well at
   max-width: 535px;
   font-size: 14px;
@@ -206,26 +199,23 @@ p.marketplacePluginDetails__lede {
   color: #f5a623;
 }
 
-// the design separates the rating, downloads and update facts with a middle dot
-.marketplacePluginDetails__rating ~ .marketplacePluginDetails__fact,
-.marketplacePluginDetails__fact ~ .marketplacePluginDetails__fact {
-  &::before {
-    content: "\00B7";
-    margin-right: 14px;
-    font-size: 13px;
-    line-height: 20px;
-  }
+// wraps under the labels as one group, so a separator never starts a line
+.marketplacePluginDetails__stats {
+  display: flex;
+  align-items: safe center;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+}
+
+.marketplacePluginDetails__factSeparator {
+  font-size: 13px;
+  line-height: 20px;
 }
 
 .marketplacePluginDetails__fact--updated {
   display: inline-flex;
   align-items: safe center;
   gap: 6px;
-
-  // the dot is a flex item here, so the gap adds to its margin
-  &.marketplacePluginDetails__fact::before {
-    margin-right: 8px;
-  }
 
   .icon-clock {
     font-size: 16px;
@@ -281,11 +271,8 @@ button.marketplacePluginDetails__reviewsLink:focus:not(:focus-visible) {
   overflow-y: auto;
 }
 
-// override: the same `.admin section` spacing as on the head above
-section.marketplacePluginDetails__card {
-  margin-top: 0;
+.marketplacePluginDetails__card {
   padding: 20px;
-  line-height: inherit;
   border: 1px solid @theme-color-border;
   border-radius: @marketplace-details-radius;
   background: @theme-color-background-contrast;
@@ -510,14 +497,14 @@ section.marketplacePluginDetails__card {
   });
 }
 
-section.marketplacePluginDetails__buy {
+.marketplacePluginDetails__buy {
   display: flex;
   flex-direction: column;
   gap: 24px;
 }
 
 // a price to pay for: given the room and lift of the pricing card on plugins.matomo.org
-section.marketplacePluginDetails__buy--highlighted {
+.marketplacePluginDetails__buy--highlighted {
   padding: 32px;
   border-radius: 10px;
   box-shadow: 0 2px 8px @theme-color-boxShadow;
@@ -636,7 +623,7 @@ section.marketplacePluginDetails__buy--highlighted {
 }
 
 @media (max-width: 760px) {
-  section.marketplacePluginDetails__head {
+  .marketplacePluginDetails__head {
     flex-direction: column;
     align-items: flex-start;
     gap: @marketplace-details-gap;
@@ -648,7 +635,7 @@ section.marketplacePluginDetails__buy--highlighted {
     max-width: 360px;
   }
 
-  section.marketplacePluginDetails__card {
+  .marketplacePluginDetails__card {
     padding: @marketplace-details-gap;
   }
 
