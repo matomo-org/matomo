@@ -826,6 +826,8 @@ describe("PrivacyManager", function () {
             const toggle = document.querySelector('#hybridTrackingEnabled');
             const note = document.querySelector('.hybridTrackingEnabledForAllWebsites');
             const guideLink = document.querySelector('.hybridTrackingRequirements a');
+            const rolloutNote = document.querySelector('.hybridTracking .hybridTrackingRolloutNote');
+            const rolloutNoteLink = rolloutNote ? rolloutNote.querySelector('a') : null;
 
             const policyTable = document.querySelector('table.granularCompliance');
 
@@ -838,6 +840,14 @@ describe("PrivacyManager", function () {
                 hasSaveButton: !!document.querySelector('.hybridTrackingSave'),
                 note: note ? note.innerText.trim() : null,
                 hasGuideLink: !!guideLink,
+                // the note opens the block's content, right under its title
+                rolloutNoteIsFirst: !!rolloutNote
+                  && rolloutNote.parentElement.firstElementChild === rolloutNote
+                  && !!rolloutNote.parentElement.previousElementSibling
+                  && rolloutNote.parentElement.previousElementSibling.classList.contains('card-title'),
+                hasRolloutNoteGuideLink: !!rolloutNoteLink
+                  && rolloutNoteLink.href.includes('configure-matomo-analytics-for-hybrid-tracking')
+                  && rolloutNoteLink.target === '_blank',
                 // the policy tables switch to the consent-aware wording without a page reload
                 tablesDescribeConsent: !!policyTable && policyTable.innerText.includes(
                   'masked before storage for visitors who have not given their consent'
@@ -865,6 +875,8 @@ describe("PrivacyManager", function () {
       let state = await hybridTrackingState();
       expect(state.isBeforePolicies).to.equal(true);
       expect(state.hasGuideLink).to.equal(true);
+      expect(state.rolloutNoteIsFirst).to.equal(true);
+      expect(state.hasRolloutNoteGuideLink).to.equal(true);
       expect(state.checked).to.equal(false);
       expect(state.disabled).to.equal(false);
       expect(state.tablesDescribeConsent).to.equal(false);

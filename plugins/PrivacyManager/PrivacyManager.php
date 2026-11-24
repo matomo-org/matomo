@@ -738,6 +738,7 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_ComplianceScopeOverrideNote';
         $translationKeys[] = 'PrivacyManager_ComplianceScopeAllWebsitesNotice';
         $translationKeys[] = 'PrivacyManager_ComplianceHybridTrackingTitle';
+        $translationKeys[] = 'PrivacyManager_ComplianceHybridTrackingRolloutNote';
         $translationKeys[] = 'PrivacyManager_ComplianceHybridTrackingDescription';
         $translationKeys[] = 'PrivacyManager_ComplianceHybridTrackingRequirementsIntro';
         $translationKeys[] = 'PrivacyManager_ComplianceHybridTrackingRequirementPolicy';

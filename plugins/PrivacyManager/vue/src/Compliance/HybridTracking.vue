@@ -21,6 +21,9 @@
     class="hybridTracking"
     :content-title="translate('PrivacyManager_ComplianceHybridTrackingTitle')"
   >
+    <div class="system notification notification-info hybridTrackingRolloutNote">
+      <p v-html="$sanitize(rolloutNote)" />
+    </div>
     <p>{{ translate('PrivacyManager_ComplianceHybridTrackingDescription') }}</p>
     <p>{{ translate('PrivacyManager_ComplianceHybridTrackingRequirementsIntro') }}</p>
     <ul class="hybridTrackingRequirements">
@@ -155,6 +158,12 @@ export default defineComponent({
       '</a>',
     );
 
+    const rolloutNote = translate(
+      'PrivacyManager_ComplianceHybridTrackingRolloutNote',
+      externalLink(SETUP_GUIDE_URL),
+      '</a>',
+    );
+
     return {
       state: store.state,
       hasUnsavedChanges: store.hasUnsavedChanges,
@@ -163,6 +172,7 @@ export default defineComponent({
       showEnabledForAllWebsitesNote,
       toggleHelp,
       requirementConsent,
+      rolloutNote,
       showPasswordConfirmation: ref(false),
     };
   },
