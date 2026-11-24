@@ -2,7 +2,7 @@
     "Live": {
         "ActionsAndDuration": "%1$s acțiuni în %2$s",
         "AveragePageGenerationTime": "Fiecare pagină s-a încărcat în medie în %1$s pentru acest vizitator.",
-        "CalculatedOverNPageViews": "Calculat folosind aceast vizitator trecut %1$s pagini văzute.",
+        "CalculatedOverNPageViews": "Calculat folosind ultimele %1$s vizualizări de pagină ale acestui vizitator.",
         "ClickToSeeAllContents": "Faceți clic pentru a vedea fiecare interacțiune/afișare de conținut",
         "ClickToViewAllActions": "Faceți clic pentru a vedea în detaliu toate acțiunile din acest grup",
         "ClickToViewMoreAboutVisit": "Faceți clic pentru mai multe informații despre această vizită",
@@ -59,7 +59,7 @@
         "VisitedPages": "Pagini vizitate",
         "VisitorLog": "Jurnalul vizitelor",
         "VisitorLogDocumentation": "Acest tabel afișează cele mai recente vizite din intervalul de date selectat. Treceți cursorul peste data unei vizite pentru a afla când a avut loc cea mai recentă. %1$s Dacă intervalul de date include ziua de astăzi, puteți vedea vizitatorii în timp real. %2$s Datele afișate aici sunt întotdeauna în timp real, indiferent dacă și cât de des utilizați sarcina cron de arhivare.",
-        "VisitorLogNoDataMessagePurged": "Datele au fost probabil șterse, deoarece ștergerea periodică a datelor brute vechi este activată, iar data acestui raport este mai veche de %s zile. Un super utilizator poate modifica această setare din Administrare → Confidențialitate.",
+        "VisitorLogNoDataMessagePurged": "Datele au fost probabil șterse, deoarece ștergerea periodică a datelor brute vechi este activată, iar data acestui raport este mai veche de %s zile. Un superutilizator poate modifica această setare din Administrare → Confidențialitate.",
         "VisitorLogPolicySettingRequirementNote": "Jurnalul vizitelor trebuie să fie dezactivat.",
         "VisitorLogSubcategoryHelp1": "Jurnalul vizitelor vă arată în detaliu fiecare vizită primită de site-ul dumneavoastră. Aflați ce acțiuni a efectuat fiecare vizitator, cum a ajuns pe site, câte ceva despre cine este și multe altele (respectând în continuare reglementările locale privind confidențialitatea).",
         "VisitorLogSubcategoryHelp2": "În timp ce alte rapoarte din Matomo arată comportamentul vizitatorilor la nivel agregat, jurnalul vizitelor oferă detalii granulare. Puteți folosi și segmente pentru a-l restrânge la anumite tipuri de vizite, ca să vă înțelegeți mai bine vizitatorii.",

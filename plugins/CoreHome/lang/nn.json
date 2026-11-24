@@ -12,6 +12,8 @@
         "ClickToEditX": "Klikk for å redigere %s",
         "ClickToSeeFullInformation": "Klikk for å sjå all informasjonen",
         "CloseWidgetDirections": "Du kan lukke dette småprogrammet ved å klikke på X-ikonet øvst i småprogrammet.",
+        "ConsentState": "Samtykkestatus",
+        "ConsentStateConsented": "Samtykt",
         "CopyModalNote": "%1$sMerk:%2$s Den kopierte %3$s kan trenge justeringar viss han inneheld tilvisingar som er særskilde for den opphavlege nettstaden. Gå gjennom innstillingane for å sikre at alt passar.",
         "CopyX": "Kopier %1$s",
         "CopyXDescription": "Vel nettstaden du vil kopiere %1$s til. Det lagar ein nøyaktig kopi, inkludert innstillingar, på den valde nettstaden.",

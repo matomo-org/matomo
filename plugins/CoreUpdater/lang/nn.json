@@ -37,7 +37,7 @@
         "FeedbackRequest": "Del gjerne ideane og framlegga dine med Matomo-teamet her:",
         "HelpMessageContent": "Sjå %1$s Matomo-FAQ-en %2$s, som forklarar dei vanlegaste feila ved oppdatering. %3$s Spør systemadministratoren din – han eller ho kan kanskje hjelpe deg med feilen, som truleg har med tenar- eller MySQL-oppsettet ditt å gjere.",
         "HelpMessageIntroductionWhenError": "Ovanfor står kjernefeilmeldinga. Den burde forklara grunnen, men om du treng meir hjelp:",
-        "HelpMessageIntroductionWhenWarning": "Oppdateringa var vellykka, med det var problem i prosessen. Sjå forklaringane over for detaljar. For meir hjelp:",
+        "HelpMessageIntroductionWhenWarning": "Oppdateringa vart fullført, men det oppstod nokre problem undervegs. Les skildringane over for detaljar. For vidare hjelp:",
         "HighTrafficPiwikServerEnableMaintenance": "Viss du driftar ein Matomo-tenar med mykje trafikk, tilrår vi å %1$sskru av sporing av besøkande mellombels og setje brukargrensesnittet til Matomo i vedlikehaldsmodus%2$s.",
         "IncompatbilePluginsWillBeDisabledInfo": "Merk: Nokre innstikk er ikkje kompatible med Matomo %s. Vi oppdaterer dei viss det finst ei oppdatering i Marketplace, elles skrur vi dei av når du oppgraderer:",
         "InstallingTheLatestVersion": "Installerer siste versjon",
