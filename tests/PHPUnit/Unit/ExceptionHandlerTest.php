@@ -79,8 +79,10 @@ class ExceptionHandlerTest extends \PHPUnit\Framework\TestCase
         Config::getInstance()->database['password'] = 'myTestDbPass';
         Config::getInstance()->mail['username'] = 'myTestSmtpUser';
         Config::getInstance()->mail['password'] = 'myTestSmtpPass';
+        Config::getInstance()->mail['oauth_client_secret'] = 'myTestOAuthSecret';
+        Config::getInstance()->mail['oauth_private_key_password'] = 'myTestKeyPass';
 
-        $credentials = 'myTestDbUser, myTestDbPass, myTestSmtpUser, myTestSmtpPass';
+        $credentials = 'myTestDbUser, myTestDbPass, myTestSmtpUser, myTestSmtpPass, myTestOAuthSecret, myTestKeyPass';
         $testMessage = 'Error in ' . PIWIK_DOCUMENT_ROOT . "/index.php containing myTestToken, myTestSalt, $credentials";
 
         $this->assertSame(
@@ -88,52 +90,29 @@ class ExceptionHandlerTest extends \PHPUnit\Framework\TestCase
             \Piwik\ExceptionHandler::replaceSensitiveValues($testMessage, false)
         );
         $this->assertSame(
-            'Error in /index.php containing tokenauth, generalSalt, dbuser, dbpass, smtpuser, smtppass',
+            'Error in /index.php containing tokenauth, generalSalt, dbuser, dbpass, smtpuser, smtppass, '
+                . 'smtpoauthclientsecret, smtpoauthprivatekeypassword',
             \Piwik\ExceptionHandler::replaceSensitiveValues($testMessage)
         );
     }
 
     /**
+     * @dataProvider getMessagesForResponseData
      * @runInSeparateProcess SettingsPiwik holds the salt as a static value.
      */
-    public function testGetMessageForResponseRewritesTheDatabaseAccount()
+    public function testGetMessageForResponse(string $message, string $expected)
     {
+        StaticContainer::get('Piwik\Access')->setTokenAuth('myTestToken');
+        Config::getInstance()->General['salt'] = 'myTestSalt';
         Config::getInstance()->database['username'] = 'myTestDbUser';
         Config::getInstance()->database['password'] = 'myTestDbPass';
+        Config::getInstance()->mail['username'] = 'myTestSmtpUser';
+        Config::getInstance()->mail['password'] = 'myTestSmtpPass';
+        Config::getInstance()->mail['oauth_client_secret'] = 'myTestOAuthSecret';
+        Config::getInstance()->mail['oauth_private_key_password'] = 'myTestKeyPass';
 
-        $denied = "command denied to user 'myTestDbUser'@'localhost' for table 't'";
-        $expected = "command denied to user 'dbuser'@'localhost' for table 't'";
-
-        $this->assertSame($expected, \Piwik\ExceptionHandler::getMessageForResponse(new \Exception($denied)));
-        $this->assertSame($expected, \Piwik\ExceptionHandler::getMessageForResponse(new \PDOException($denied)));
-        $this->assertSame(
-            "User dbuser already has more than 'max_user_connections' active connections",
-            \Piwik\ExceptionHandler::getMessageForResponse(
-                new \PDOException("User myTestDbUser already has more than 'max_user_connections' active connections")
-            )
-        );
-        $this->assertSame(
-            "User 'dbuser' has exceeded the 'max_questions' resource (current value: 100)",
-            \Piwik\ExceptionHandler::getMessageForResponse(
-                new \PDOException("User 'myTestDbUser' has exceeded the 'max_questions' resource (current value: 100)")
-            )
-        );
-        $this->assertSame(
-            "Something failed for 'myTestDbPass'",
-            \Piwik\ExceptionHandler::getMessageForResponse(new \PDOException("Something failed for 'myTestDbPass'"))
-        );
-        $this->assertSame(
-            'Something failed for myTestDbUser.',
-            \Piwik\ExceptionHandler::getMessageForResponse(new \Exception('Something failed for myTestDbUser.'))
-        );
-    }
-
-    /**
-     * @dataProvider getMessagesForResponseData
-     */
-    public function testGetMessageForResponseOnlyRewritesDatabaseServerMessages(string $message, string $expected)
-    {
         $this->assertSame($expected, \Piwik\ExceptionHandler::getMessageForResponse(new \Exception($message)));
+        $this->assertSame($expected, \Piwik\ExceptionHandler::getMessageForResponse(new \PDOException($message)));
     }
 
     public function getMessagesForResponseData(): array
@@ -143,21 +122,23 @@ class ExceptionHandlerTest extends \PHPUnit\Framework\TestCase
                 "SQLSTATE[HY000] [1045] Access denied for user 'some'@'localhost' (using password: YES)",
                 "SQLSTATE[HY000] [1045] Access denied for user 'dbuser'@'localhost' (using password: YES)",
             ],
-            'user name with a quote' => [
-                "INSERT command denied to user 'o'brien'@'10.0.0.1' for table 't'",
-                "INSERT command denied to user 'dbuser'@'10.0.0.1' for table 't'",
+            'command denied' => [
+                "SELECT command denied to user 'myTestDbUser'@'10.0.0.5' for table 't'",
+                "SELECT command denied to user 'dbuser'@'10.0.0.5' for table 't'",
             ],
-            'quoted value that looks like an account' => [
-                "The value 'some'@'thing' is not valid.",
-                "The value 'some'@'thing' is not valid.",
+            'command denied in another language' => [
+                "SQLSTATE[42000]: 1142 SELECT Befehl nicht erlaubt f\u{FC}r Benutzer 'some'@'localhost' auf Tabelle 't'",
+                "SQLSTATE[42000]: 1142 SELECT Befehl nicht erlaubt f\u{FC}r Benutzer 'dbuser'@'localhost' auf Tabelle 't'",
             ],
-            'other text about a user and a limit' => [
-                'User some already has more than five reports.',
-                'User some already has more than five reports.',
+            'token, salt and root path' => [
+                'Error in ' . PIWIK_DOCUMENT_ROOT . '/index.php containing myTestToken and myTestSalt',
+                'Error in /index.php containing tokenauth and generalSalt',
             ],
-            'other text about an exceeded limit' => [
-                "User 'some' has exceeded the limit.",
-                "User 'some' has exceeded the limit.",
+            'other text' => [
+                "Something failed for 'myTestDbUser', myTestDbPass, myTestSmtpUser, myTestSmtpPass, "
+                    . 'myTestOAuthSecret and myTestKeyPass.',
+                "Something failed for 'myTestDbUser', myTestDbPass, myTestSmtpUser, myTestSmtpPass, "
+                    . 'myTestOAuthSecret and myTestKeyPass.',
             ],
         ];
     }

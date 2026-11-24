@@ -413,6 +413,8 @@ class Controller extends Plugin\ControllerAdmin
 
         if (!ExceptionHandler::shouldPrintBackTraceWithMessage()) {
             unset($lastError['backtrace']);
+        } elseif (!empty($lastError['backtrace'])) {
+            $lastError['backtrace'] = ExceptionHandler::replaceSensitiveValues($lastError['backtrace']);
         }
 
         $view = new View('@CorePluginsAdmin/safemode');

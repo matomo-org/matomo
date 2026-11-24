@@ -131,7 +131,11 @@ class Transport
             ]);
 
             // the mail library appends the reply of the mail server, which is only written to the log
-            throw new PHPMailerException('The email could not be sent. See the error log for details.', $e->getCode(), $e);
+            throw new PHPMailerException(
+                Piwik::translate('General_ExceptionEmailNotSent', ['core:test-email']),
+                $e->getCode(),
+                $e
+            );
         }
     }
 

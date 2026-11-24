@@ -122,17 +122,8 @@ class ExceptionHandler
         // only the token, the salt and the root path are rewritten here
         $message = self::replaceSensitiveValues($exception->getMessage(), false);
 
-        // only the messages the database server itself writes are rewritten, anything else is left alone
-        $accountPatterns = [
-            // Access denied for user 'u'@'h', SELECT command denied to user 'u'@'h' for table 't'
-            "/\\bdenied (for|to) user '.*?'@'/" => "denied $1 user 'dbuser'@'",
-            // User 'u' has exceeded the 'max_questions' resource
-            "/\\bUser '.*?'(?= has exceeded the '\\w+' resource\\b)/" => "User 'dbuser'",
-            // User u already has more than 'max_user_connections' active connections
-            "/\\bUser .+?(?= already has more than 'max_user_connections' active connections\\b)/" => 'User dbuser',
-        ];
-
-        return preg_replace(array_keys($accountPatterns), array_values($accountPatterns), $message) ?? $message;
+        // the database server writes the account as 'user'@'host', whatever language it uses
+        return preg_replace("/'[^']*'@'/", "'dbuser'@'", $message) ?? $message;
     }
 
     public static function replaceSensitiveValues(string $message, bool $replaceCredentials = true): string
@@ -157,14 +148,14 @@ class ExceptionHandler
             if (!empty($mailConfig['password'])) {
                 $valuesToReplace['smtppass'] = $mailConfig['password'];
             }
-        }
 
-        if (!empty($mailConfig['oauth_client_secret'])) {
-            $valuesToReplace['smtpoauthclientsecret'] = $mailConfig['oauth_client_secret'];
-        }
+            if (!empty($mailConfig['oauth_client_secret'])) {
+                $valuesToReplace['smtpoauthclientsecret'] = $mailConfig['oauth_client_secret'];
+            }
 
-        if (!empty($mailConfig['oauth_private_key_password'])) {
-            $valuesToReplace['smtpoauthprivatekeypassword'] = $mailConfig['oauth_private_key_password'];
+            if (!empty($mailConfig['oauth_private_key_password'])) {
+                $valuesToReplace['smtpoauthprivatekeypassword'] = $mailConfig['oauth_private_key_password'];
+            }
         }
 
         // Remove possible empty entries
