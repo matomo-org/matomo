@@ -168,6 +168,22 @@ class ContinentSegmentTest extends IntegrationTestCase
         $this->assertSame(2, $this->getVisitsInSegment('continentCode==unk'));
     }
 
+    public function testACountryCodeStoredInUpperCaseIsOnTheUnknownContinentAsInTheReport(): void
+    {
+        $tracker = Fixture::getTracker($this->idSite, $this->date . ' 20:00:00');
+        $tracker->setIp('10.0.0.100');
+        Fixture::checkResponse($tracker->doTrackPageView('/upper-case'));
+
+        // the tracker stores lower-case codes, a code may still be stored otherwise, eg. by an authenticated override
+        $logVisit = Common::prefixTable('log_visit');
+        Db::query("UPDATE `$logVisit` SET location_country = 'FR' WHERE idvisit = ?", [Db::fetchOne("SELECT MAX(idvisit) FROM `$logVisit`")]);
+
+        $this->assertSame('unk', Common::getContinent('FR'));
+        $this->assertSame(2, $this->getVisitsInSegment('continentCode==eur'));
+        $this->assertSame(7, $this->getVisitsInSegment('continentCode!=eur'));
+        $this->assertSame(3, $this->getVisitsInSegment('continentCode==unk'));
+    }
+
     private function getVisitsInSegment(string $segment): int
     {
         /** @var DataTable $table */

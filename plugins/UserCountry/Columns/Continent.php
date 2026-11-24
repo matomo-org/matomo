@@ -59,7 +59,8 @@ class Continent extends Dimension
         // Common::getContinent() counts the legacy Tibet code as China
         $countriesByContinent[Common::getContinent('ti')][] = 'ti';
 
-        $column = $this->dbTableName . '.' . $this->columnName;
+        // compared as binary, as Common::getContinent() looks the stored code up case-sensitively whatever the collation
+        $column = sprintf('CAST(%s.%s AS BINARY)', $this->dbTableName, $this->columnName);
         $sql = 'CASE';
         foreach ($countriesByContinent as $continentCode => $countryCodes) {
             $sql .= sprintf(" WHEN %s IN ('%s') THEN '%s'", $column, implode("', '", $countryCodes), $continentCode);
