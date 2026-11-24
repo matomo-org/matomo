@@ -45,11 +45,12 @@
   </div>
 
   <template v-if="siteId">
+    <HybridTracking
+      v-if="hybridTrackingEnabled"
+      :id-site="siteId"
+      @saved="reloadPolicies"
+    />
     <template v-if="granularComplianceEnabled">
-      <HybridTracking
-        :id-site="siteId"
-        @saved="reloadPolicies"
-      />
       <GranularComplianceOverview
         v-for="type in complianceTypes"
         :key="type.id"
@@ -99,6 +100,10 @@ const SCOPE_SINGLE_WEBSITE = 'site';
 export default defineComponent({
   props: {
     granularComplianceEnabled: {
+      type: Boolean,
+      default: false,
+    },
+    hybridTrackingEnabled: {
       type: Boolean,
       default: false,
     },

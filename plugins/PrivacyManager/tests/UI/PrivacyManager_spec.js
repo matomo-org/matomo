@@ -685,6 +685,44 @@ describe("PrivacyManager", function () {
       expect(entries).to.not.include('All Websites');
     });
 
+    async function complianceBlocksWithOnlyFeatureFlag(featureFlag) {
+      testEnvironment.overrideConfig('FeatureFlags', {
+        [featureFlag]: 'enabled',
+      });
+      testEnvironment.save();
+
+      try {
+        await page.goto('?module=PrivacyManager&action=compliance&idSite=all');
+        await page.waitForNetworkIdle();
+        await page.waitForSelector('table.dataTable.compliance', { visible: true });
+
+        return await page.evaluate(() => ({
+          hasHybridTracking: !!document.querySelector('.hybridTracking'),
+          hasGranularTable: !!document.querySelector('table.granularCompliance'),
+          hasSimpleTable: !!document.querySelector('table.dataTable.compliance:not(.granularCompliance)'),
+        }));
+      } finally {
+        delete testEnvironment.configOverride.FeatureFlags;
+        testEnvironment.save();
+      }
+    }
+
+    it('should show hybrid tracking above the simple overview when only its feature flag is enabled', async function() {
+      expect(await complianceBlocksWithOnlyFeatureFlag('HybridTracking_feature')).to.deep.equal({
+        hasHybridTracking: true,
+        hasGranularTable: false,
+        hasSimpleTable: true,
+      });
+    });
+
+    it('should show the granular dashboard without hybrid tracking when only its feature flag is enabled', async function() {
+      expect(await complianceBlocksWithOnlyFeatureFlag('GranularPrivacyCompliance_feature')).to.deep.equal({
+        hasHybridTracking: false,
+        hasGranularTable: true,
+        hasSimpleTable: false,
+      });
+    });
+
     it('should hide the policy controls when policy is enabled via config', async function() {
       testEnvironment.overrideConfig('CnilPolicy', {
         cnil_v1_policy_enabled: '1',
@@ -698,9 +736,10 @@ describe("PrivacyManager", function () {
     });
 
     it('should show the granular dashboard as read only when policy is enabled via config', async function() {
-      // self-contained: set both overrides here instead of relying on the previous test
+      // self-contained: set the feature flags and the policy here instead of relying on the previous test
       testEnvironment.overrideConfig('FeatureFlags', {
         GranularPrivacyCompliance_feature: 'enabled',
+        HybridTracking_feature: 'enabled',
       });
       testEnvironment.overrideConfig('CnilPolicy', {
         cnil_v1_policy_enabled: '1',
