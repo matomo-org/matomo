@@ -961,7 +961,7 @@ class API extends \Piwik\Plugin\API
                         $coreProperties[$pluginName] = [];
                     }
 
-                    $coreProperties[$pluginName][] = ['name' => $fieldName, 'value' => $setting['value']];
+                    $coreProperties[$pluginName][] = ['name' => $fieldName, 'value' => $setting['value'] ?? null];
                     return $coreProperties;
                 }
             }
