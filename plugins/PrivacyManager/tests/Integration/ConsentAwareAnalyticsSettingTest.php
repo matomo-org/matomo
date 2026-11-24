@@ -54,7 +54,7 @@ class ConsentAwareAnalyticsSettingTest extends IntegrationTestCase
         $this->otherIdSite = Fixture::createWebsite('2024-01-01 00:00:00', 0, 'Other');
         $this->api = API::getInstance();
 
-        Config::getInstance()->FeatureFlags = ['GranularPrivacyCompliance_feature' => 'enabled'];
+        Config::getInstance()->FeatureFlags = ['HybridTracking_feature' => 'enabled'];
     }
 
     public function testASiteMeasuresItWhenItIsOnForTheSiteOrForTheInstance(): void
@@ -227,18 +227,22 @@ class ConsentAwareAnalyticsSettingTest extends IntegrationTestCase
         $this->api->getConsentAwareAnalytics($this->idSite);
     }
 
-    public function testGetAndSetRequireTheGranularComplianceFeature(): void
+    public function testGetAndSetRequireTheHybridTrackingFeature(): void
     {
-        Config::getInstance()->FeatureFlags = ['GranularPrivacyCompliance_feature' => 'disabled'];
+        // the granular compliance feature alone is not enough
+        Config::getInstance()->FeatureFlags = [
+            'HybridTracking_feature' => 'disabled',
+            'GranularPrivacyCompliance_feature' => 'enabled',
+        ];
 
         try {
             $this->api->setConsentAwareAnalytics($this->idSite, '1');
             $this->fail('It was turned on without the feature');
         } catch (Exception $e) {
-            $this->assertSame('Granular compliance configuration is not enabled', $e->getMessage());
+            $this->assertSame('Hybrid tracking is not enabled', $e->getMessage());
         }
 
-        $this->expectExceptionMessage('Granular compliance configuration is not enabled');
+        $this->expectExceptionMessage('Hybrid tracking is not enabled');
         $this->api->getConsentAwareAnalytics($this->idSite);
     }
 

@@ -142,16 +142,37 @@ describe('PrivacyManager/Compliance', () => {
     expect(wrapper.findComponent(GranularComplianceOverview).props('idSite')).toEqual('all');
   });
 
-  it('shows hybrid tracking for the chosen scope with the granular dashboard only', async () => {
-    const granular = await createWrapper({ idSite: '2', complianceScope: 'site' }, { granularComplianceEnabled: true });
-    expect(granular.findComponent(HybridTracking).props('idSite')).toEqual('2');
+  it('shows hybrid tracking for the chosen scope only when its feature is enabled', async () => {
+    const both = await createWrapper(
+      { idSite: '2', complianceScope: 'site' },
+      { granularComplianceEnabled: true, hybridTrackingEnabled: true },
+    );
+    expect(both.findComponent(HybridTracking).props('idSite')).toEqual('2');
 
-    const legacy = await createWrapper({ idSite: 'all' });
-    expect(legacy.findComponent(HybridTracking).exists()).toBe(false);
+    const none = await createWrapper({ idSite: 'all' });
+    expect(none.findComponent(HybridTracking).exists()).toBe(false);
+  });
+
+  it('shows hybrid tracking above the simple overview without the granular dashboard', async () => {
+    const wrapper = await createWrapper({ idSite: 'all' }, { hybridTrackingEnabled: true });
+
+    expect(wrapper.findComponent(HybridTracking).props('idSite')).toEqual('all');
+    expect(wrapper.findComponent(ComplianceOverview).exists()).toBe(true);
+    expect(wrapper.findComponent(GranularComplianceOverview).exists()).toBe(false);
+  });
+
+  it('shows the granular dashboard without hybrid tracking when only that feature is enabled', async () => {
+    const wrapper = await createWrapper({ idSite: 'all' }, { granularComplianceEnabled: true });
+
+    expect(wrapper.findComponent(GranularComplianceOverview).exists()).toBe(true);
+    expect(wrapper.findComponent(HybridTracking).exists()).toBe(false);
   });
 
   it('waits for a website to be picked before showing hybrid tracking', async () => {
-    const wrapper = await createWrapper({ idSite: '1' }, { granularComplianceEnabled: true });
+    const wrapper = await createWrapper(
+      { idSite: '1' },
+      { granularComplianceEnabled: true, hybridTrackingEnabled: true },
+    );
 
     await scopeField(wrapper).vm.$emit('update:modelValue', 'site');
     await flushPromises();
@@ -160,7 +181,10 @@ describe('PrivacyManager/Compliance', () => {
   });
 
   it('reloads the policy tables once hybrid tracking is saved', async () => {
-    const wrapper = await createWrapper({ idSite: 'all' }, { granularComplianceEnabled: true });
+    const wrapper = await createWrapper(
+      { idSite: 'all' },
+      { granularComplianceEnabled: true, hybridTrackingEnabled: true },
+    );
     const before = wrapper.findComponent(GranularComplianceOverview);
     expect(before.props('reloadCount')).toBe(0);
 

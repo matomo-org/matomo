@@ -701,6 +701,7 @@ describe("PrivacyManager", function () {
       // self-contained: set both overrides here instead of relying on the previous test
       testEnvironment.overrideConfig('FeatureFlags', {
         GranularPrivacyCompliance_feature: 'enabled',
+        HybridTracking_feature: 'enabled',
       });
       testEnvironment.overrideConfig('CnilPolicy', {
         cnil_v1_policy_enabled: '1',

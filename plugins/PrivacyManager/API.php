@@ -25,6 +25,7 @@ use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\Live\Settings\VisitorLogDisabled;
 use Piwik\Plugins\PrivacyManager\Compliance\ComplianceSettingsProvider;
 use Piwik\Plugins\PrivacyManager\FeatureFlags\GranularPrivacyCompliance;
+use Piwik\Plugins\PrivacyManager\FeatureFlags\HybridTracking;
 use Piwik\Plugins\PrivacyManager\Model\DataSubjects;
 use Piwik\Plugins\PrivacyManager\Dao\LogDataAnonymizer;
 use Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizations;
@@ -1074,7 +1075,7 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSuperUserAccess();
 
-        $this->checkGranularComplianceFeatureIsEnabled();
+        $this->checkHybridTrackingFeatureIsEnabled();
 
         $idSite = $this->resolveCompliancePolicyIdSite($idSite);
 
@@ -1102,7 +1103,7 @@ class API extends \Piwik\Plugin\API
     ): array {
         Piwik::checkUserHasSuperUserAccess();
 
-        $this->checkGranularComplianceFeatureIsEnabled();
+        $this->checkHybridTrackingFeatureIsEnabled();
 
         if (StaticContainer::get(AuthenticationToken::class)->isSessionToken()) {
             $this->confirmCurrentUserPassword($passwordConfirmation);
@@ -1319,6 +1320,13 @@ class API extends \Piwik\Plugin\API
     {
         if (!$this->featureFlagManager->isFeatureActive(GranularPrivacyCompliance::class)) {
             throw new Exception('Granular compliance configuration is not enabled');
+        }
+    }
+
+    private function checkHybridTrackingFeatureIsEnabled(): void
+    {
+        if (!$this->featureFlagManager->isFeatureActive(HybridTracking::class)) {
+            throw new Exception('Hybrid tracking is not enabled');
         }
     }
 
