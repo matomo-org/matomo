@@ -99,19 +99,18 @@ class Model
 
     /**
      * The date selector compares with the previous year by moving both ends of the range one year back, so a range
-     * crossing 29 February is one day longer or shorter than the range it is compared with.
+     * crossing 29 February is one day longer or shorter than the range it is compared with. Moving 29 February to a
+     * year without it gives 1 March, in PHP as in the date selector.
      */
     private function isSameRangeInAnotherYear(Range $range, Range $comparedRange): bool
     {
         $start = $range->getDateStart();
-        $end = $range->getDateEnd();
         $comparedStart = $comparedRange->getDateStart();
-        $comparedEnd = $comparedRange->getDateEnd();
+        $years = (int) $comparedStart->toString('Y') - (int) $start->toString('Y');
 
-        return $start->toString('m-d') === $comparedStart->toString('m-d')
-            && $end->toString('m-d') === $comparedEnd->toString('m-d')
-            && (int) $start->toString('Y') - (int) $comparedStart->toString('Y')
-                === (int) $end->toString('Y') - (int) $comparedEnd->toString('Y');
+        return $years !== 0
+            && $start->addPeriod($years, 'year')->toString() === $comparedStart->toString()
+            && $range->getDateEnd()->addPeriod($years, 'year')->toString() === $comparedRange->getDateEnd()->toString();
     }
 
     /**
