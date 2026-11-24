@@ -187,9 +187,19 @@ class Updates610b3Test extends IntegrationTestCase
         Fixture::createWebsite('2015-01-01 00:00:00');
         CustomDimensionsAPI::getInstance()->configureNewCustomDimension(1, 'Plan', 'visit', true);
         CustomDimensionsAPI::getInstance()->configureNewCustomDimension(3, 'Plan', 'visit', true);
-        $this->createSegment('continentCode!=eur;dimension1==premium', 0);
+        $notEuropePremium = $this->createSegment('continentCode!=eur;dimension1==premium', 0);
 
-        (new Updates_6_1_0_b3())->doUpdate(new Updater());
+        $update = new Updates_6_1_0_b3();
+        // a command for all sites would fail, as the custom dimension is only a segment in the context of a site
+        self::assertSame(
+            [
+                "./console core:invalidate-report-data --sites=1 --dates=2026-03-01,today --segment=$notEuropePremium\n"
+                . "./console core:invalidate-report-data --sites=3 --dates=2026-03-01,today --segment=$notEuropePremium",
+            ],
+            array_map('strval', $update->getMigrations(new Updater()))
+        );
+
+        $update->doUpdate(new Updater());
 
         self::assertSame([[1], [3]], array_column($this->getReArchiveEntries(), 'idSites'));
     }

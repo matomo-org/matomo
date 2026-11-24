@@ -122,25 +122,34 @@ class Updates_6_1_0_b3 extends Updates
                 continue;
             }
 
+            $segmentsOfSites = $this->getSegmentsToRearchive($idSegment, $definition, $idSites);
+            if (empty($segmentsOfSites)) {
+                continue;
+            }
+
             if (!$segmentToRearchive['isAutoArchived']) {
                 // core:archive never archives this segment and would only drop its invalidations,
                 // so its archives are marked as invalidated, to be archived again when viewed
-                $migrations[] = new CustomMigration(function () use ($idSegment, $definition, $idSites, $startDate) {
-                    $this->invalidateArchives($idSegment, $definition, $idSites, $startDate);
+                $migrations[] = new CustomMigration(function () use ($idSegment, $segmentsOfSites, $startDate) {
+                    $this->invalidateArchives($idSegment, $segmentsOfSites, $startDate);
                 }, '');
                 continue;
             }
 
-            $migrationHint = sprintf(
-                './console core:invalidate-report-data --sites=%s --dates=%s,today --segment=%d',
-                is_array($idSites) ? implode(',', $idSites) : $idSites,
-                $startDate->toString(),
-                $idSegment
-            );
+            // one command per site when the segment is only valid site by site, as a command for all of them would fail
+            $migrationHints = [];
+            foreach ($segmentsOfSites as [$sites]) {
+                $migrationHints[] = sprintf(
+                    './console core:invalidate-report-data --sites=%s --dates=%s,today --segment=%d',
+                    is_array($sites) ? implode(',', $sites) : $sites,
+                    $startDate->toString(),
+                    $idSegment
+                );
+            }
 
-            $migrations[] = new CustomMigration(function () use ($idSegment, $definition, $idSites, $startDate) {
-                $this->scheduleReArchiving($idSegment, $definition, $idSites, $startDate);
-            }, $migrationHint);
+            $migrations[] = new CustomMigration(function () use ($idSegment, $segmentsOfSites, $startDate) {
+                $this->scheduleReArchiving($idSegment, $segmentsOfSites, $startDate);
+            }, implode("\n", $migrationHints));
         }
 
         return $migrations;
@@ -161,15 +170,10 @@ class Updates_6_1_0_b3 extends Updates
     }
 
     /**
-     * @param 'all'|int[] $idSites
+     * @param array<array{0: 'all'|int[], 1: Segment}> $segmentsToRearchive
      */
-    private function scheduleReArchiving(int $idSegment, string $definition, $idSites, Date $startDate): void
+    private function scheduleReArchiving(int $idSegment, array $segmentsToRearchive, Date $startDate): void
     {
-        $segmentsToRearchive = $this->getSegmentsToRearchive($idSegment, $definition, $idSites);
-        if (empty($segmentsToRearchive)) {
-            return;
-        }
-
         // the entries ArchiveInvalidator::scheduleReArchiving() adds, added at once as the list is rewritten on each addition
         $items = [];
         foreach ($segmentsToRearchive as [$sites, $segment]) {
@@ -193,15 +197,10 @@ class Updates_6_1_0_b3 extends Updates
     }
 
     /**
-     * @param 'all'|int[] $idSites
+     * @param array<array{0: 'all'|int[], 1: Segment}> $segmentsToRearchive
      */
-    private function invalidateArchives(int $idSegment, string $definition, $idSites, Date $startDate): void
+    private function invalidateArchives(int $idSegment, array $segmentsToRearchive, Date $startDate): void
     {
-        $segmentsToRearchive = $this->getSegmentsToRearchive($idSegment, $definition, $idSites);
-        if (empty($segmentsToRearchive)) {
-            return;
-        }
-
         $dates = [];
         for ($date = $startDate; $date->isEarlier(Date::today()); $date = $date->addDay(1)) {
             $dates[] = $date;
