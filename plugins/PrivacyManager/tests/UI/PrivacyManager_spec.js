@@ -780,10 +780,132 @@ describe("PrivacyManager", function () {
       expect(await page.$('table.granularCompliance')).to.equal(null);
     });
 
+    async function hybridTrackingState()
+    {
+        return await page.evaluate(() => {
+            const block = document.querySelector('.hybridTracking');
+            const toggle = document.querySelector('#hybridTrackingEnabled');
+            const note = document.querySelector('.hybridTrackingEnabledForAllWebsites');
+            const guideLink = document.querySelector('.hybridTrackingRequirements a');
+
+            const policyTable = document.querySelector('table.granularCompliance');
+
+            return {
+                // the block sits between the scope selector and the policy tables
+                isBeforePolicies: !!block && !!policyTable
+                  && !!(block.compareDocumentPosition(policyTable) & Node.DOCUMENT_POSITION_FOLLOWING),
+                checked: toggle ? toggle.checked : null,
+                disabled: toggle ? toggle.disabled : null,
+                hasSaveButton: !!document.querySelector('.hybridTrackingSave'),
+                note: note ? note.innerText.trim() : null,
+                hasGuideLink: !!guideLink,
+                // the policy tables switch to the consent-aware wording without a page reload
+                tablesDescribeConsent: !!policyTable && policyTable.innerText.includes(
+                  'masked before storage for visitors who have not given their consent'
+                ),
+            };
+        });
+    }
+
+    async function toggleHybridTrackingAndSave()
+    {
+        await page.click('.hybridTracking .switch .lever');
+        await page.waitForTimeout(150);
+        await (await page.jQuery('.hybridTrackingSave input')).click();
+        await page.waitForTimeout(150);
+        await confirmPassword();
+        await page.waitForNetworkIdle();
+        await page.waitForTimeout(250);
+    }
+
+    it('should turn hybrid tracking on for all websites, which every website then measures', async function() {
+      await page.goto('?module=PrivacyManager&action=compliance&idSite=1&period=day&date=yesterday');
+      await page.waitForNetworkIdle();
+      await page.waitForSelector('.hybridTracking .switch', { visible: true });
+
+      let state = await hybridTrackingState();
+      expect(state.isBeforePolicies).to.equal(true);
+      expect(state.hasGuideLink).to.equal(true);
+      expect(state.checked).to.equal(false);
+      expect(state.disabled).to.equal(false);
+      expect(state.tablesDescribeConsent).to.equal(false);
+
+      await toggleHybridTrackingAndSave();
+
+      state = await hybridTrackingState();
+      expect(state.checked).to.equal(true);
+      expect(state.tablesDescribeConsent).to.equal(true);
+      expect(await page.evaluate(() => $('.hybridTrackingSaveNotifications .notification-success').length)).to.equal(1);
+
+      await page.goto('?module=PrivacyManager&action=compliance&idSite=1&complianceScope=site'
+        + '&period=day&date=yesterday');
+      await page.waitForNetworkIdle();
+      await page.waitForSelector('.hybridTracking .switch', { visible: true });
+
+      // the switch keeps showing the website's own value, which is still off
+      state = await hybridTrackingState();
+      expect(state.checked).to.equal(false);
+      expect(state.disabled).to.equal(false);
+      expect(state.hasSaveButton).to.equal(true);
+      expect(state.note).to.equal('Hybrid tracking is enabled for all websites.');
+
+      // turn it back off, so the rest of the suite measures without it
+      await page.goto('?module=PrivacyManager&action=compliance&idSite=1&period=day&date=yesterday');
+      await page.waitForNetworkIdle();
+      await page.waitForSelector('.hybridTracking .switch', { visible: true });
+      await toggleHybridTrackingAndSave();
+
+      expect((await hybridTrackingState()).checked).to.equal(false);
+    });
+
+    it('should turn hybrid tracking on for a single website only', async function() {
+      await page.goto('?module=PrivacyManager&action=compliance&idSite=1&complianceScope=site'
+        + '&period=day&date=yesterday');
+      await page.waitForNetworkIdle();
+      await page.waitForSelector('.hybridTracking .switch', { visible: true });
+
+      expect((await hybridTrackingState()).checked).to.equal(false);
+
+      await toggleHybridTrackingAndSave();
+
+      expect(await page.evaluate(() => $('.hybridTrackingSaveNotifications .notification-success').length)).to.equal(1);
+
+      // kept for that website after a reload, and still changeable there
+      await page.reload();
+      await page.waitForNetworkIdle();
+      await page.waitForSelector('.hybridTracking .switch', { visible: true });
+
+      let state = await hybridTrackingState();
+      expect(state.checked).to.equal(true);
+      expect(state.disabled).to.equal(false);
+      expect(state.hasSaveButton).to.equal(true);
+      expect(state.note).to.equal(null);
+
+      // another website and the all websites scope are left off
+      await page.goto('?module=PrivacyManager&action=compliance&idSite=2&complianceScope=site'
+        + '&period=day&date=yesterday');
+      await page.waitForNetworkIdle();
+      await page.waitForSelector('.hybridTracking .switch', { visible: true });
+      expect((await hybridTrackingState()).checked).to.equal(false);
+
+      await page.goto('?module=PrivacyManager&action=compliance&idSite=1&period=day&date=yesterday');
+      await page.waitForNetworkIdle();
+      await page.waitForSelector('.hybridTracking .switch', { visible: true });
+      expect((await hybridTrackingState()).checked).to.equal(false);
+    });
+
     after(async function () {
-      // leave no config overrides or pending page state behind for later tests
-      delete testEnvironment.configOverride.FeatureFlags;
-      delete testEnvironment.configOverride.CnilPolicy;
-      testEnvironment.save();
+      // a hybrid tracking test that failed part way would leave it on for later tests. The API
+      // needs the feature flag, so this runs before the flag is removed
+      try {
+        for (const idSite of ['all', 1, 2]) {
+          await testEnvironment.callApi('PrivacyManager.setConsentAwareAnalytics', { idSite, enabled: 0 });
+        }
+      } finally {
+        // leave no config overrides or pending page state behind for later tests
+        delete testEnvironment.configOverride.FeatureFlags;
+        delete testEnvironment.configOverride.CnilPolicy;
+        testEnvironment.save();
+      }
     });
   });

@@ -22,6 +22,7 @@ use Piwik\Option;
 use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
+use Piwik\Plugins\PrivacyManager\Settings\ConsentAwareAnalytics;
 use Piwik\Plugin;
 use Piwik\Plugins\Goals\Archiver;
 use Piwik\Plugins\Installation\FormDefaultSettings;
@@ -574,6 +575,15 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_ComplianceScopeSingleWebsite';
         $translationKeys[] = 'PrivacyManager_ComplianceScopeOverrideNote';
         $translationKeys[] = 'PrivacyManager_ComplianceScopeAllWebsitesNotice';
+        $translationKeys[] = 'PrivacyManager_ComplianceHybridTrackingTitle';
+        $translationKeys[] = 'PrivacyManager_ComplianceHybridTrackingDescription';
+        $translationKeys[] = 'PrivacyManager_ComplianceHybridTrackingRequirementsIntro';
+        $translationKeys[] = 'PrivacyManager_ComplianceHybridTrackingRequirementPolicy';
+        $translationKeys[] = 'PrivacyManager_ComplianceHybridTrackingRequirementConsent';
+        $translationKeys[] = 'PrivacyManager_ComplianceHybridTrackingToggleTitle';
+        $translationKeys[] = 'PrivacyManager_ComplianceHybridTrackingToggleHelpAllWebsites';
+        $translationKeys[] = 'PrivacyManager_ComplianceHybridTrackingToggleHelpSingleWebsite';
+        $translationKeys[] = 'PrivacyManager_ComplianceHybridTrackingEnabledForAllWebsites';
         $translationKeys[] = 'PrivacyManager_ComplianceScopeSingleWebsiteNotice';
         $translationKeys[] = 'PrivacyManager_ComplianceEnforceCheckboxIntro';
         $translationKeys[] = 'PrivacyManager_ComplianceEnforceCheckboxTitle';
@@ -623,6 +633,8 @@ class PrivacyManager extends Plugin
         $config->setTrackerCache($cacheContent);
 
         PolicyManager::storePolicySettingValuesInTrackerCache($cacheContent, $idSite);
+
+        $cacheContent[ConsentAwareAnalytics::TRACKER_CACHE_KEY] = ConsentAwareAnalytics::isEnabledForSite($idSite);
     }
 
     public function getStylesheetFiles(&$stylesheets)

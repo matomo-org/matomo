@@ -65,11 +65,25 @@ class CampaignParameterValuesMasked implements
 
     public static function getWhatItDoes(?int $idSite = null): string
     {
+        // the consent-aware wording describes what a site measuring consent-aware analytics
+        // does. It is off by default, and where it is not turned on every visitor is treated the
+        // same, so the plain wording is what is true there.
+        if (ConsentAwareAnalytics::isEnabledForScope($idSite)) {
+            return Piwik::translate('PrivacyManager_CampaignParameterValuesMaskedSettingWhatItDoesConsentAware');
+        }
+
         return Piwik::translate('PrivacyManager_CampaignParameterValuesMaskedSettingWhatItDoes');
     }
 
     public static function getImpact(?int $idSite = null): string
     {
+        // the consent-aware wording describes what a site measuring consent-aware analytics
+        // does. It is off by default, and where it is not turned on every visitor is treated the
+        // same, so the plain wording is what is true there.
+        if (ConsentAwareAnalytics::isEnabledForScope($idSite)) {
+            return Piwik::translate('PrivacyManager_CampaignParameterValuesMaskedSettingImpactConsentAware');
+        }
+
         return Piwik::translate('PrivacyManager_CampaignParameterValuesMaskedSettingImpact');
     }
 

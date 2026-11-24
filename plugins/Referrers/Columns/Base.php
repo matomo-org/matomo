@@ -13,14 +13,17 @@ use Piwik\Common;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
+use Piwik\Plugins\CoreHome\Columns\Consent;
 use Piwik\Plugins\PrivacyManager\Settings\CampaignParameterValuesMasked;
 use Piwik\Plugins\Referrers\AIAssistant as AIAssistantDetection;
 use Piwik\Plugins\Referrers\SearchEngine as SearchEngineDetection;
 use Piwik\Plugins\Referrers\Social as SocialNetworkDetection;
 use Piwik\Plugins\SitesManager\SiteUrls;
+use Piwik\Tracker\Action;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\PageUrl;
 use Piwik\Tracker\Request;
+use Piwik\Tracker\Visit\EntryPage;
 use Piwik\Tracker\Visitor;
 use Piwik\UrlHelper;
 
@@ -173,15 +176,25 @@ abstract class Base extends VisitDimension
             $referrerInformation['referer_keyword'] = $this->truncateReferrerKeyword($referrerInformation['referer_keyword']);
         }
 
+        // PHPStan reads $typeReferrerAnalyzed as never being a campaign here and so calls this
+        // condition dead, which it is not: detectReferrerCampaign() sets the property through a
+        // path it does not follow. The entry is baselined for that reason - do not delete the
+        // block on the strength of the analyser's view.
         if (
             $referrerInformation['referer_type'] == Common::REFERRER_TYPE_CAMPAIGN
-            && CampaignParameterValuesMasked::isEnabled((int) $this->idsite)
+            && $this->isCampaignMaskedFor($request, $visitor)
         ) {
             $referrerInformation['referer_name'] = CampaignParameterValuesMasked::getPlaceholderValue();
             $referrerInformation['referer_keyword'] = CampaignParameterValuesMasked::getPlaceholderValue();
         }
 
         return $referrerInformation;
+    }
+
+    private function isCampaignMaskedFor(Request $request, Visitor $visitor): bool
+    {
+        return !$this->hasVisitorConsented($request, $visitor)
+            && CampaignParameterValuesMasked::isEnabled((int) $this->idsite);
     }
 
     protected function getExcludedReferrers($idSite): array
@@ -742,12 +755,22 @@ abstract class Base extends VisitDimension
             Common::printDebug("No referrer attribution found for this user. Current user's visit referrer is used.");
         }
 
+        // The campaign reaching here can come from the attribution cookie, which outlives the
+        // visit and is not subject to the policy while it sits in the browser, so the conversion
+        // may only report what the visit itself holds in the clear. Each value is judged on its
+        // own, because a visit can hold its campaign name and still have had the keyword
+        // withheld.
         if (
             $type === Common::REFERRER_TYPE_CAMPAIGN
             && CampaignParameterValuesMasked::isEnabled($request->getIdSite())
         ) {
-            $name = CampaignParameterValuesMasked::getPlaceholderValue();
-            $keyword = CampaignParameterValuesMasked::getPlaceholderValue();
+            if (!$this->conversionMayReportCampaignValue($request, $visitor, 'referer_name', $name)) {
+                $name = CampaignParameterValuesMasked::getPlaceholderValue();
+            }
+
+            if (!$this->conversionMayReportCampaignValue($request, $visitor, 'referer_keyword', $keyword)) {
+                $keyword = CampaignParameterValuesMasked::getPlaceholderValue();
+            }
         }
 
         $this->setCampaignValuesToLowercase($type, $name, $keyword);
@@ -763,6 +786,48 @@ abstract class Base extends VisitDimension
         }
 
         return false;
+    }
+
+    /**
+     * Whether a conversion may report one of the campaign values it carries, rather than the
+     * placeholder the policy would otherwise write.
+     *
+     * It may only where the visitor consented and where the value is the one the visit itself
+     * holds in the clear. The campaign on a conversion comes from the attribution cookie, which
+     * outlives the visit and may name an older campaign than the one the visit was started by,
+     * so neither the consent nor the match may be assumed from the visit holding some campaign.
+     *
+     * @param string $column the visit column holding the value this one would be reported against
+     * @param mixed $value the value the conversion carries
+     */
+    private function conversionMayReportCampaignValue(
+        Request $request,
+        Visitor $visitor,
+        string $column,
+        $value
+    ): bool {
+        // The visit is only measured as a consenting visitor's where the site measures
+        // consent-aware analytics, so a site that never opted in, or one switched back off part
+        // way through a visit, masks as it did before.
+        if (!$this->hasVisitorConsented($request, $visitor)) {
+            return false;
+        }
+
+        if (Common::REFERRER_TYPE_CAMPAIGN != $visitor->getVisitorColumn('referer_type')) {
+            return false;
+        }
+
+        $held = (string) $visitor->getVisitorColumn($column);
+
+        // a visit measured before the visitor consented holds the placeholder, and reporting
+        // anything against that would contradict it with detail gathered beforehand
+        if ('' === $held || CampaignParameterValuesMasked::isPlaceholderValue($held)) {
+            return false;
+        }
+
+        // the campaign the cookie carries may be an older one than the visit was started by, so
+        // it is reported only where it is the same. Stored values are lowercased when written.
+        return mb_strtolower($held) === mb_strtolower((string) $value);
     }
 
     /**
@@ -784,8 +849,27 @@ abstract class Base extends VisitDimension
 
     protected function isReferrerInformationNew(Visitor $visitor, $information)
     {
+        return $this->isReferrerInformationNewForRequest($visitor, $information);
+    }
+
+    /**
+     * As isReferrerInformationNew(), for a caller that can say which request is asking.
+     *
+     * A discarded campaign can only be compared against an incoming one while the visit is still
+     * on the page it arrived on, which needs the request. This is a method of its own so that the
+     * two above keep the signatures a plugin dimension may already be overriding.
+     *
+     * @internal
+     * @param Action|null $action
+     */
+    protected function isReferrerInformationNewForRequest(
+        Visitor $visitor,
+        $information,
+        $action = null,
+        ?Request $request = null
+    ) {
         foreach (['referer_keyword', 'referer_name', 'referer_type'] as $infoName) {
-            if ($this->hasReferrerColumnChanged($visitor, $information, $infoName)) {
+            if ($this->hasReferrerColumnChangedForRequest($visitor, $information, $infoName, $action, $request)) {
                 return true;
             }
         }
@@ -803,6 +887,35 @@ abstract class Base extends VisitDimension
         }
 
         return $result;
+    }
+
+    /**
+     * As hasReferrerColumnChanged(), for a caller that can say which request is asking.
+     *
+     * @param Action|null $action
+     */
+    private function hasReferrerColumnChangedForRequest(
+        Visitor $visitor,
+        $information,
+        $infoName,
+        $action = null,
+        ?Request $request = null
+    ) {
+        $new = mb_strtolower($information[$infoName] ?? '');
+
+        // the incoming campaign was discarded as well, so it stands for the stored one rather than
+        // for a different campaign, and must not count as a change
+        if (CampaignParameterValuesMasked::isPlaceholderValue($new)) {
+            return false;
+        }
+
+        // a discarded campaign kept nothing to compare an incoming one against, so the two can only
+        // be told apart while the visit is still on the page it arrived on
+        if (CampaignParameterValuesMasked::isPlaceholderValue(mb_strtolower($visitor->getVisitorColumn($infoName) ?? ''))) {
+            return false === EntryPage::isRequestOnEntryPage($visitor, $action, $request);
+        }
+
+        return $this->hasReferrerColumnChanged($visitor, $information, $infoName);
     }
 
     protected function doesLastActionHaveSameReferrer(Visitor $visitor, $referrerType)
@@ -825,9 +938,200 @@ abstract class Base extends VisitDimension
         return mb_substr($refererKeyword, 0, 255);
     }
 
+    /**
+     * Whether the visitor has given their consent, by this request or earlier in the visit.
+     *
+     * Consent describes the visitor, not the request, so for the campaign a later request that
+     * does not repeat the flag - one sent in a batch, or by a tracker that does not report it at
+     * all - is not treated as though the visitor had never consented.
+     *
+     * The User ID and the referrer anonymisation level follow the same rule, through the same
+     * answer, so that one visit is measured one way throughout.
+     */
+    private function hasVisitorConsented(Request $request, Visitor $visitor): bool
+    {
+        return Consent::visitHasConsent($request, $visitor);
+    }
+
+    /**
+     * Whether referrer detail a compliance policy withheld may be re-recorded from this request.
+     *
+     * Anonymisation shortens or clears a value rather than replacing it, so unlike a discarded
+     * campaign there is no marker saying it was withheld. This goes instead by the visit not
+     * having consented until now, which is true only of the request folding consent into it.
+     *
+     * Two things have to hold besides. The referrer must be the same kind the visit arrived with,
+     * or completing it would credit the visit to one that did not bring the visitor to it. And
+     * the visit must still be on the page it arrived on, which is the only time the request
+     * carries the referrer the visit started from - checked here rather than taken from the
+     * caller, because a site with nothing to relax reaches this without that being established.
+     *
+     * @param Action|null $action
+     */
+
+    /**
+     * @internal
+     */
+    protected function shouldCompleteWithheldReferrer(Visitor $visitor, array $information, Request $request, $action = null): bool
+    {
+        if (!$request->hasConsent() || Consent::hasVisitConsented($visitor)) {
+            return false;
+        }
+
+        if ($information['referer_type'] != $visitor->getImmutableVisitorColumn('referer_type')) {
+            return false;
+        }
+
+        // The type alone does not identify the referrer - two search engines share one - so the
+        // name has to match as well, or a different referrer of the same kind would have its URL
+        // and keyword written onto this visit. A discarded campaign has no name left to compare,
+        // and is kept apart by its own placeholder rules instead. The only anonymisation level
+        // that clears a name outright is also the strictest one an admin can set, where their own
+        // value leaves nothing to relax, so a name that cannot be compared under it is never one
+        // there was anything to complete.
+        $storedName = (string) $visitor->getImmutableVisitorColumn('referer_name');
+
+        if (
+            !CampaignParameterValuesMasked::isPlaceholderValue($storedName)
+            && mb_strtolower($storedName) !== mb_strtolower((string) ($information['referer_name'] ?? ''))
+        ) {
+            return false;
+        }
+
+        return true === EntryPage::isRequestOnEntryPage($visitor, $action, $request);
+    }
+
+    /**
+     * Whether consent reported now reveals the campaign this visit actually arrived through.
+     *
+     * Where the tracker withholds campaign parameters until consent, the request that opened the
+     * visit carried none, so it was attributed to whatever was left - the referring site, or a
+     * direct entry. Consent given while the visitor is still on the page they arrived on brings
+     * the campaign with it, and it describes that same arrival rather than a new one.
+     *
+     * @internal
+     * @param Action|null $action
+     */
+    protected function shouldCompleteWithheldCampaign(
+        Visitor $visitor,
+        array $information,
+        Request $request,
+        $action = null
+    ): bool {
+        return $request->hasConsent()
+            && $this->withheldCampaignDescribesTheArrival($visitor, $information, $request, $action);
+    }
+
+    /**
+     * Whether the campaign this request carries is the one the visit arrived through, rather than
+     * a different campaign reached later.
+     *
+     * Unlike shouldCompleteWithheldCampaign() this does not ask whether the server honours the
+     * consent, because splitting a visit cannot wait for that answer. A tracker reports consent as
+     * soon as the site's own code asks it to, while the server also requires the site to be opted
+     * in and not forcing cookieless tracking - and a site admin can change the tracking code where
+     * only a superuser can opt the site in. Where the two disagree the campaign still describes the
+     * arrival, so splitting would count one visitor as two over a question neither of them asked.
+     * Nothing is relaxed on the strength of this, and it is kept to the sites where the campaign
+     * could have been withheld in the first place: a site whose policy does not mask campaigns
+     * follows the ordinary rule, whatever its tracker reports.
+     *
+     * @param Action|null $action
+     * @internal
+     */
+    protected function withheldCampaignDescribesTheArrival(
+        Visitor $visitor,
+        array $information,
+        Request $request,
+        $action = null
+    ): bool {
+        if ($information['referer_type'] != Common::REFERRER_TYPE_CAMPAIGN) {
+            return false;
+        }
+
+        if ('1' !== $request->getParam('consent') || Consent::hasVisitConsented($visitor)) {
+            return false;
+        }
+
+        // The consent reported is read straight from the request, so a site using requireConsent()
+        // reaches here too - it has always sent the flag on every request once consent is given.
+        // Only a policy that masks campaigns can have withheld the one this request carries, so
+        // without that there is nothing being completed and the ordinary rule decides.
+        if (!CampaignParameterValuesMasked::isEnabled((int) $request->getIdSiteIfExists())) {
+            return false;
+        }
+
+        // a visit already attributed to a campaign is completed through the placeholder rules
+        // instead, and a second campaign over the first is a change rather than a completion
+        if ($visitor->getImmutableVisitorColumn('referer_type') == Common::REFERRER_TYPE_CAMPAIGN) {
+            return false;
+        }
+
+        return true === EntryPage::isRequestOnEntryPage($visitor, $action, $request);
+    }
+
+    /**
+     * Whether the consent this request reports may relax what is recorded against the visit it is
+     * being written to.
+     *
+     * A request that reports consent can still land on a visit measured before any was given,
+     * without being able to start one of its own - a ping, which records no page. Its consent
+     * belongs to the visit that the next request able to start one will create, so it must not
+     * relax what is written to the earlier visit. A request that reports no consent is unaffected.
+     *
+     * Callers abandon the whole hook on a false rather than only the parts that complete withheld
+     * detail, which is deliberate: the referrer information this request carries was read with its
+     * consent already applied, so none of it may reach a visit the consent does not belong to -
+     * not even an upgrade from direct entry that would otherwise be ordinary tracking.
+     *
+     * @internal
+     * @param Action|null $action
+     */
+    protected function mayRelaxForThisVisit(Request $request, Visitor $visitor, $action = null): bool
+    {
+        return !$request->hasConsent() || Consent::appliesToVisit($request, $visitor, $action);
+    }
+
     protected function isCurrentReferrerDirectEntry(Visitor $visitor)
     {
         $referrerType = $visitor->getImmutableVisitorColumn('referer_type');
         return $referrerType == Common::REFERRER_TYPE_DIRECT_ENTRY;
+    }
+
+    /**
+     * Whether the discarded value stored for this column should be replaced with the one the
+     * current request carries.
+     *
+     * @internal
+     * @param Action|null $action
+     */
+    protected function shouldCompleteDiscardedCampaign(Visitor $visitor, array $information, string $column, $action = null, ?Request $request = null): bool
+    {
+        return CampaignParameterValuesMasked::isPlaceholderValue($visitor->getVisitorColumn($column))
+            && $information['referer_type'] == Common::REFERRER_TYPE_CAMPAIGN
+            && $this->canCompleteDiscardedCampaign($visitor, $information[$column] ?? '', $action, $request);
+    }
+
+    /**
+     * Whether a campaign this visit discarded may be completed from the current request.
+     *
+     * Nothing was kept of the discarded campaign, so completing the visit from one the visitor
+     * arrived through later would credit the first campaign's visit to the second. It is allowed
+     * only while the visit is still on the page it arrived on, which is also the only time the
+     * original campaign parameters are still in the URL.
+     *
+     * @param Action|null $action
+     */
+    private function canCompleteDiscardedCampaign(Visitor $visitor, $incomingValue, $action = null, ?Request $request = null): bool
+    {
+        $incomingValue = (string) ($incomingValue ?? '');
+
+        // an empty value would claim the visitor arrived without one, where the placeholder says it
+        // was not collected
+        if ('' === $incomingValue || CampaignParameterValuesMasked::isPlaceholderValue($incomingValue)) {
+            return false;
+        }
+
+        return true === EntryPage::isRequestOnEntryPage($visitor, $action, $request);
     }
 }

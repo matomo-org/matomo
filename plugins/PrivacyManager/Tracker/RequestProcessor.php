@@ -17,6 +17,8 @@ use Piwik\Tracker\Request;
 use Piwik\Tracker;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
 use Piwik\Tracker\Visit\VisitProperties;
+use Piwik\Tracker\Visitor;
+use Piwik\Plugins\CoreHome\Columns\Consent;
 
 class RequestProcessor extends Tracker\RequestProcessor
 {
@@ -35,6 +37,28 @@ class RequestProcessor extends Tracker\RequestProcessor
         if (is_numeric($idSite) && $idSite) {
             $this->config->setIdSite((int) $idSite);
         }
+    }
+
+    /**
+     * The level this request's referrer is anonymised to.
+     *
+     * Consent lifts the level a compliance policy enforces back to the one the admin configured,
+     * and that consent belongs to the visit rather than to the request: a later request in a
+     * visit that consented is not anonymised more strictly just because it does not repeat the
+     * flag. Where the visit is not known - a request handled before one is - the request's own
+     * answer is all there is.
+     */
+    private function getReferrerAnonymisation(Request $request, ?VisitProperties $visitProperties = null): string
+    {
+        $hasConsent = null === $visitProperties
+            ? $request->hasConsent()
+            : Consent::visitHasConsent($request, Visitor::makeFromVisitProperties($visitProperties, $request));
+
+        if (!$hasConsent) {
+            return $this->config->anonymizeReferrer;
+        }
+
+        return (string) $this->config->getConfiguredValue('anonymizeReferrer');
     }
 
     public function manipulateRequest(Request $request)
@@ -61,27 +85,29 @@ class RequestProcessor extends Tracker\RequestProcessor
     public function onNewVisit(VisitProperties $visitProperties, Request $request)
     {
         $this->provideIdSiteToPrivacyManagerConfig($request);
+        $anonymisation = $this->getReferrerAnonymisation($request, $visitProperties);
 
         $type = $visitProperties->getProperty('referer_type');
 
         // we do not anonymise the referrer url in manipulateRequest because otherwise the referrer would not be detected
         // correctly
         $url = $visitProperties->getProperty('referer_url');
-        $url = $this->referrerAnonymizer->anonymiseReferrerUrl($url, $this->config->anonymizeReferrer);
+        $url = $this->referrerAnonymizer->anonymiseReferrerUrl($url, $anonymisation);
         $visitProperties->setProperty('referer_url', $url);
 
         $name = $visitProperties->getProperty('referer_name');
-        $name = $this->referrerAnonymizer->anonymiseReferrerName($name, $type, $this->config->anonymizeReferrer);
+        $name = $this->referrerAnonymizer->anonymiseReferrerName($name, $type, $anonymisation);
         $visitProperties->setProperty('referer_name', $name);
 
         $keyword = $visitProperties->getProperty('referer_keyword');
-        $keyword = $this->referrerAnonymizer->anonymiseReferrerKeyword($keyword, $type, $this->config->anonymizeReferrer);
+        $keyword = $this->referrerAnonymizer->anonymiseReferrerKeyword($keyword, $type, $anonymisation);
         $visitProperties->setProperty('referer_keyword', $keyword);
     }
 
     public function onExistingVisit(&$valuesToUpdate, VisitProperties $visitProperties, Request $request)
     {
         $this->provideIdSiteToPrivacyManagerConfig($request);
+        $anonymisation = $this->getReferrerAnonymisation($request, $visitProperties);
 
         if (isset($valuesToUpdate['referer_type'])) {
             $type = $valuesToUpdate['referer_type'];
@@ -90,15 +116,15 @@ class RequestProcessor extends Tracker\RequestProcessor
         }
 
         if (isset($valuesToUpdate['referer_url'])) {
-            $valuesToUpdate['referer_url'] = $this->referrerAnonymizer->anonymiseReferrerUrl($valuesToUpdate['referer_url'], $this->config->anonymizeReferrer);
+            $valuesToUpdate['referer_url'] = $this->referrerAnonymizer->anonymiseReferrerUrl($valuesToUpdate['referer_url'], $anonymisation);
         }
 
         if (isset($valuesToUpdate['referer_name'])) {
-            $valuesToUpdate['referer_name'] = $this->referrerAnonymizer->anonymiseReferrerName($valuesToUpdate['referer_name'], $type, $this->config->anonymizeReferrer);
+            $valuesToUpdate['referer_name'] = $this->referrerAnonymizer->anonymiseReferrerName($valuesToUpdate['referer_name'], $type, $anonymisation);
         }
 
         if (isset($valuesToUpdate['referer_keyword'])) {
-            $valuesToUpdate['referer_keyword'] = $this->referrerAnonymizer->anonymiseReferrerKeyword($valuesToUpdate['referer_keyword'], $type, $this->config->anonymizeReferrer);
+            $valuesToUpdate['referer_keyword'] = $this->referrerAnonymizer->anonymiseReferrerKeyword($valuesToUpdate['referer_keyword'], $type, $anonymisation);
         }
     }
 

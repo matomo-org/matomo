@@ -209,6 +209,38 @@ describe('PrivacyManager/GranularCompliance.store', () => {
     expect(store.state.settings[0].id).toBe('B.Two');
   });
 
+  it('fetches the texts again on reload and keeps the toggles not saved yet', async () => {
+    const store = await createLoadedStore([
+      setting({ id: 'A.One', enforced: false, whatItDoes: 'old' }),
+      setting({ id: 'B.Two', enforced: false }),
+    ]);
+    store.toggleSetting('A.One');
+    fetchMock.mockResolvedValueOnce(payload([
+      setting({ id: 'A.One', enforced: false, whatItDoes: 'new' }),
+      setting({ id: 'B.Two', enforced: true }),
+    ]));
+
+    store.reload();
+    await new Promise(process.nextTick);
+
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(store.state.settings[0].whatItDoes).toBe('new');
+    expect(store.state.localEnforced['A.One']).toBe(true);
+    expect(store.state.localEnforced['B.Two']).toBe(true);
+    expect(store.dirtySettingIds.value).toEqual(['A.One']);
+  });
+
+  it('does not reload while a save is in progress', async () => {
+    const store = await createLoadedStore([setting({ id: 'A.One', enforced: false })]);
+    postMock.mockReturnValueOnce(new Promise(() => {}));
+
+    store.toggleSetting('A.One');
+    store.save('secret');
+    store.reload();
+
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
   it('records the error when fetching fails', async () => {
     fetchMock.mockRejectedValueOnce(new Error('offline'));
     const store = createGranularComplianceStore('cnil_v1');

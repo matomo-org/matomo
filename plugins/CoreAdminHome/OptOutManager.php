@@ -476,7 +476,7 @@ JS;
 
         window.MatomoConsent = {                         
             cookiesDisabled: (!navigator || !navigator.cookieEnabled),        
-            CONSENT_COOKIE_NAME: 'mtm_consent', CONSENT_REMOVED_COOKIE_NAME: 'mtm_consent_removed', 
+            CONSENT_COOKIE_NAME: 'mtm_consent', CONSENT_REMOVED_COOKIE_NAME: 'mtm_consent_removed', MEASUREMENT_CONSENT_COOKIE_NAME: 'mtm_measurement_consent', 
             cookieIsSecure: false, useSecureCookies: true, cookiePath: '', cookieDomain: '', cookieSameSite: 'Lax',     
             init: function(useSecureCookies, cookiePath, cookieDomain, cookieSameSite) {
                 this.useSecureCookies = useSecureCookies; this.cookiePath = cookiePath;
@@ -504,6 +504,7 @@ JS;
                 this.setCookie(this.CONSENT_COOKIE_NAME, new Date().getTime(), 946080000000);
             },      
             consentRevoked: function() {    
+                this.setCookie(this.MEASUREMENT_CONSENT_COOKIE_NAME, '', -129600000);
                 this.setCookie(this.CONSENT_COOKIE_NAME, '', -129600000);
                 this.setCookie(this.CONSENT_REMOVED_COOKIE_NAME, new Date().getTime(), 946080000000);                
             },                   
