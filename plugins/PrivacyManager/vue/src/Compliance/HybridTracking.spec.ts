@@ -58,6 +58,15 @@ describe('PrivacyManager/HybridTracking', () => {
       .toContain('PrivacyManager_ComplianceHybridTrackingRequirementConsent|<a href="https://matomo.org/faq/how-to/configure-matomo-analytics-for-hybrid-tracking/">');
   });
 
+  it('opens the block with an informational note on the staged rollout, linked to the setup guide', async () => {
+    const wrapper = await mountHybridTracking('all');
+    const note = wrapper.find('.hybridTracking > :first-child');
+
+    expect(note.classes()).toEqual(expect.arrayContaining(['hybridTrackingRolloutNote', 'notification-info']));
+    expect(note.html())
+      .toContain('PrivacyManager_ComplianceHybridTrackingRolloutNote|<a href="https://matomo.org/faq/how-to/configure-matomo-analytics-for-hybrid-tracking/">');
+  });
+
   it('describes the toggle for the instance', async () => {
     const wrapper = await mountHybridTracking('all', { enabled: true, enabledForAllWebsites: true });
 
