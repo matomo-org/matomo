@@ -13,10 +13,12 @@ namespace Piwik\Plugins\CoreHome\Columns;
 
 use Piwik\Columns\DimensionMetricFactory;
 use Piwik\Columns\MetricsList;
+use Piwik\Common;
 use Piwik\Http\BadRequestException;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
+use Piwik\Plugins\PrivacyManager\Settings\CampaignParameterValuesMasked;
 use Piwik\Plugins\PrivacyManager\Settings\ConsentAwareAnalytics;
 use Piwik\Segment\SegmentExpression;
 use Piwik\Tracker\Action;
@@ -208,5 +210,47 @@ class Consent extends VisitDimension
     public static function hasVisitConsented(Visitor $visitor): bool
     {
         return self::CONSENT_GIVEN === (int) $visitor->getImmutableVisitorColumn('consent');
+    }
+
+    /**
+     * Whether a campaign this request carries is the one the visit arrived through, revealed by
+     * consent, rather than a different campaign reached later.
+     *
+     * Where the tracker withholds campaign parameters until consent, the request that opened the
+     * visit carried none, so the visit was attributed to whatever was left - the referring site,
+     * or a direct entry. Consent reported while the visitor is still on the page they arrived on
+     * brings the campaign with it, and that campaign describes the same arrival, so it must not
+     * split the visit. Callers decide for themselves whether the request carries a campaign.
+     *
+     * This reads the consent the request reports rather than asking whether the server honours
+     * it, because a site admin can change the tracking code where only a superuser can opt the
+     * site in, and splitting the visit over that disagreement would count one visitor as two.
+     * Nothing may be relaxed on the strength of this alone. It is limited to the sites where the
+     * campaign can have been withheld: those whose policy masks campaigns, and those that measure
+     * consent-aware analytics. Elsewhere a site using requireConsent() reports consent on every
+     * request, and a campaign it carries is an ordinary campaign change.
+     *
+     * @param Action|null $action
+     */
+    public static function revealsWithheldCampaignArrival(Request $request, Visitor $visitor, $action = null): bool
+    {
+        if ('1' !== $request->getParam('consent') || self::hasVisitConsented($visitor)) {
+            return false;
+        }
+
+        if (
+            !CampaignParameterValuesMasked::isEnabled((int) $request->getIdSiteIfExists())
+            && !$request->measuresConsentAwareAnalytics()
+        ) {
+            return false;
+        }
+
+        // a visit already attributed to a campaign is completed through the placeholder rules
+        // instead, and a second campaign over the first is a change rather than a completion
+        if ($visitor->getImmutableVisitorColumn('referer_type') == Common::REFERRER_TYPE_CAMPAIGN) {
+            return false;
+        }
+
+        return true === EntryPage::isRequestOnEntryPage($visitor, $action, $request);
     }
 }

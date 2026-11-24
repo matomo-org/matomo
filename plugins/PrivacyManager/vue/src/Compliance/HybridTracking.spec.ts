@@ -55,7 +55,7 @@ describe('PrivacyManager/HybridTracking', () => {
     const wrapper = await mountHybridTracking('all');
 
     expect(wrapper.find('.hybridTrackingRequirements').html())
-      .toContain('PrivacyManager_ComplianceHybridTrackingRequirementConsent|<a href="https://matomo.org/');
+      .toContain('PrivacyManager_ComplianceHybridTrackingRequirementConsent|<a href="https://matomo.org/faq/how-to/configure-matomo-analytics-for-hybrid-tracking/">');
   });
 
   it('describes the toggle for the instance', async () => {

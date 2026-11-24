@@ -97,8 +97,7 @@ import {
 import { PasswordConfirmation, SaveButton } from 'CorePluginsAdmin';
 import { createHybridTrackingStore } from './HybridTracking.store';
 
-// TODO: replace with the address of the hybrid tracking setup guide once documentation provides it
-const SETUP_GUIDE_URL = 'https://matomo.org/faq/how-to/hybrid-tracking/';
+const SETUP_GUIDE_URL = 'https://matomo.org/faq/how-to/configure-matomo-analytics-for-hybrid-tracking/';
 
 export default defineComponent({
   props: {

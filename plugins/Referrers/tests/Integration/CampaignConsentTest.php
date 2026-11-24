@@ -280,6 +280,61 @@ class CampaignConsentTest extends IntegrationTestCase
         $this->assertSame(self::CAMPAIGN_NAME, $this->fetchVisitColumn('referer_name', 1));
     }
 
+    /**
+     * A site measuring consent-aware analytics withholds the campaign until consent through its
+     * tracker (disableCampaignParameters()), with or without a policy that masks campaigns. Consent
+     * given on the arrival page brings the campaign the visitor arrived through, so the visit is
+     * completed with it rather than split.
+     *
+     * @dataProvider getConsentingRequestsOnTheArrivalPage
+     */
+    public function testConsentOnTheArrivalPageCompletesTheCampaignWithoutAPolicy(string $request): void
+    {
+        // deliberately no enforceCampaignMasking(): the site is opted in, nothing is enforced
+
+        // the tracker withheld the campaign on the arrival page view
+        $this->tracker->setUrlReferrer('https://www.facebook.com/');
+        $this->trackPageView('landing', $withCampaign = false, $consent = null);
+        $this->tracker->setUrlReferrer('');
+
+        // consent given on the same page: the tracker now sends the campaign
+        if ('event' === $request) {
+            $this->prepareRequest('landing', $withCampaign = true, $consent = '1');
+            Fixture::checkResponse($this->tracker->doTrackEvent('Consent', 'Given'));
+        } else {
+            $this->trackPageView('landing', $withCampaign = true, $consent = '1');
+        }
+
+        $this->assertSame(1, $this->countVisits(), 'the visit was split over the campaign it arrived through');
+        $this->assertSame('1', (string) $this->fetchVisitColumn('consent'));
+        $this->assertSame(Common::REFERRER_TYPE_CAMPAIGN, (int) $this->fetchVisitColumn('referer_type'));
+        $this->assertSame(self::CAMPAIGN_NAME, $this->fetchVisitColumn('referer_name'));
+    }
+
+    public function getConsentingRequestsOnTheArrivalPage(): array
+    {
+        return [['event'], ['page view']];
+    }
+
+    /**
+     * Baseline: a site measuring consent-aware analytics through the classic requireConsent()
+     * reports consent from the first request, so the visit already holds it when a campaign link
+     * is opened later. That campaign is a change, and starts a visit of its own as it always has.
+     */
+    public function testACampaignOnTheLandingPageStillStartsAVisitOnceTheVisitHasConsented(): void
+    {
+        // deliberately no enforceCampaignMasking(): the site is opted in, nothing is enforced
+
+        $this->tracker->setUrlReferrer('https://www.google.com/search?q=running+shoes');
+        $this->trackPageView('landing', $withCampaign = false, $consent = '1');
+        $this->tracker->setUrlReferrer('');
+
+        $this->trackPageView('landing', $withCampaign = true, $consent = '1');
+
+        $this->assertSame(2, $this->countVisits(), 'the campaign should start a visit of its own');
+        $this->assertSame(self::CAMPAIGN_NAME, $this->fetchVisitColumn('referer_name', 1));
+    }
+
     private function disableConsentAwareAnalytics(): void
     {
         $measurable = ConsentAwareAnalyticsSetting::getMeasurableSetting($this->idSite);
