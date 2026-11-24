@@ -12,6 +12,7 @@ namespace Piwik\Plugin;
 use Piwik\Application\Kernel\PluginList;
 use Piwik\Cache;
 use Piwik\Columns\Dimension;
+use Piwik\Columns\Updater as ColumnsUpdater;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Config as PiwikConfig;
@@ -1505,6 +1506,7 @@ class Manager
             $this->updatePluginsInstalledConfig($pluginsInstalled);
             $updater = new Updater();
             $updater->markComponentSuccessfullyUpdated($plugin->getPluginName(), $plugin->getVersion(), $isNew = true);
+            $this->installPluginDimensions($plugin, $updater);
             $saveConfig = true;
 
             /**
@@ -1520,6 +1522,53 @@ class Manager
         if ($saveConfig) {
             PiwikConfig::getInstance()->forceSave();
             $this->clearCache($pluginName);
+        }
+    }
+
+    /**
+     * Adds the log table columns of a plugin's dimensions as part of installing the plugin.
+     *
+     * Leaving them to the next Columns\Updater pass is not enough when the plugin is installed
+     * by a migration: core:update plans the dimension updates before any migration runs, and
+     * only enumerates the dimensions of plugins that are already activated, so the columns of
+     * a plugin activated during that run are never planned.
+     */
+    private function installPluginDimensions(Plugin $plugin, Updater $updater): void
+    {
+        $visitDimensions = VisitDimension::getDimensions($plugin);
+        $actionDimensions = ActionDimension::getDimensions($plugin);
+        $conversionDimensions = ConversionDimension::getDimensions($plugin);
+
+        $versions = [];
+        $dimensionsByPrefix = [
+            VisitDimension::INSTALLER_PREFIX => $visitDimensions,
+            ActionDimension::INSTALLER_PREFIX => $actionDimensions,
+            ConversionDimension::INSTALLER_PREFIX => $conversionDimensions,
+        ];
+        foreach ($dimensionsByPrefix as $prefix => $dimensions) {
+            foreach ($dimensions as $dimension) {
+                // dimensions w/o columns do not need DB updates
+                if ($dimension->getColumnName() && $dimension->hasColumnType()) {
+                    $versions[$prefix . $dimension->getColumnName()] = $dimension->getVersion();
+                }
+            }
+        }
+
+        if (empty($versions)) {
+            return;
+        }
+
+        // Records which of these components are new or changed, so that Columns\Updater
+        // plans them: it only considers components the updater reports as having a new version.
+        $updater->getComponentsWithUpdateFile($versions);
+
+        $columnsUpdater = new ColumnsUpdater($visitDimensions, $actionDimensions, $conversionDimensions);
+        $columnsUpdater->doUpdate($updater);
+
+        foreach ($versions as $component => $version) {
+            if ($updater->hasNewVersion($component)) {
+                $updater->markComponentSuccessfullyUpdated($component, $version);
+            }
         }
     }
 
