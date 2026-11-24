@@ -23,14 +23,14 @@ use Piwik\Segment;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Updater;
-use Piwik\Updates\Updates_6_1_0_b1;
+use Piwik\Updates\Updates_6_1_0_b3;
 
-require_once __DIR__ . '/../../../../core/Updates/6.1.0-b1.php';
+require_once __DIR__ . '/../../../../core/Updates/6.1.0-b3.php';
 
 /**
  * @group Updates
  */
-class Updates610b1Test extends IntegrationTestCase
+class Updates610b3Test extends IntegrationTestCase
 {
     public function setUp(): void
     {
@@ -72,7 +72,7 @@ class Updates610b1Test extends IntegrationTestCase
         $this->createSegment('countryCode!=fr', 0);
         $this->createSegment('continentCode!=asi', 0, $deleted = 1);
 
-        $update = new Updates_6_1_0_b1();
+        $update = new Updates_6_1_0_b3();
         $hints = array_map('strval', $update->getMigrations(new Updater()));
 
         self::assertSame([
@@ -110,7 +110,7 @@ class Updates610b1Test extends IntegrationTestCase
         // created today, nothing to rearchive
         $this->createSegment('continentCode!=ams', 0, 0, 1, '2026-03-20 08:00:00');
 
-        $update = new Updates_6_1_0_b1();
+        $update = new Updates_6_1_0_b3();
         self::assertSame([
             "./console core:invalidate-report-data --sites=all --dates=2026-03-05,today --segment=$notEurope",
             "./console core:invalidate-report-data --sites=all --dates=2026-03-01,today --segment=$notAsia",
@@ -129,7 +129,7 @@ class Updates610b1Test extends IntegrationTestCase
         Date::$now = strtotime('2026-03-01 12:00:00');
         $this->createSegment('continentCode!=eur', 0);
 
-        self::assertSame([], (new Updates_6_1_0_b1())->getMigrations(new Updater()));
+        self::assertSame([], (new Updates_6_1_0_b3())->getMigrations(new Updater()));
     }
 
     public function testTheArchivesOfASegmentNotAutoArchivedAreOnlyInvalidated(): void
@@ -138,7 +138,7 @@ class Updates610b1Test extends IntegrationTestCase
         $archiveTable = ArchiveTableCreator::getNumericTable(Date::factory('2026-03-10'), true);
         $idArchive = $this->insertDoneFlag($archiveTable, 'continentCode!=eur', '2026-03-10');
 
-        $update = new Updates_6_1_0_b1();
+        $update = new Updates_6_1_0_b3();
         self::assertSame([''], array_map('strval', $update->getMigrations(new Updater())));
 
         $update->doUpdate(new Updater());
@@ -156,7 +156,7 @@ class Updates610b1Test extends IntegrationTestCase
         $this->createSegment('continentCode!=eur;segmentOfARemovedPlugin==x', 0);
         $this->createSegment('continentCode!=ams', 0);
 
-        (new Updates_6_1_0_b1())->doUpdate(new Updater());
+        (new Updates_6_1_0_b3())->doUpdate(new Updater());
 
         self::assertSame(['continentCode!=ams'], array_column($this->getReArchiveEntries(), 'segment'));
     }
@@ -169,7 +169,7 @@ class Updates610b1Test extends IntegrationTestCase
 
         self::assertSame(
             ["./console core:invalidate-report-data --sites=2 --dates=2026-03-01,today --segment=$notAsia"],
-            array_map('strval', (new Updates_6_1_0_b1())->getMigrations(new Updater()))
+            array_map('strval', (new Updates_6_1_0_b3())->getMigrations(new Updater()))
         );
     }
 
@@ -180,7 +180,7 @@ class Updates610b1Test extends IntegrationTestCase
         CustomDimensionsAPI::getInstance()->configureNewCustomDimension(3, 'Plan', 'visit', true);
         $this->createSegment('continentCode!=eur;dimension1==premium', 0);
 
-        (new Updates_6_1_0_b1())->doUpdate(new Updater());
+        (new Updates_6_1_0_b3())->doUpdate(new Updater());
 
         self::assertSame([[1], [3]], array_column($this->getReArchiveEntries(), 'idSites'));
     }
@@ -190,7 +190,7 @@ class Updates610b1Test extends IntegrationTestCase
         Config::getInstance()->General['rearchive_reports_in_past_last_n_months'] = 0;
         $this->createSegment('continentCode!=eur', 0);
 
-        self::assertSame([], (new Updates_6_1_0_b1())->getMigrations(new Updater()));
+        self::assertSame([], (new Updates_6_1_0_b3())->getMigrations(new Updater()));
     }
 
     private function createSegment(

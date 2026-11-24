@@ -27,7 +27,7 @@ use Piwik\Updater\Migration;
 use Piwik\Updater\Migration\Custom as CustomMigration;
 use Piwik\Updates;
 
-class Updates_6_1_0_b1 extends Updates
+class Updates_6_1_0_b3 extends Updates
 {
     private const CONTINENT_CODES = ['eur', 'asi', 'amc', 'amn', 'ams', 'afr', 'ant', 'oce'];
 
