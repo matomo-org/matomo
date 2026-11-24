@@ -24,6 +24,7 @@ use Piwik\Tracker\Cache;
 use Piwik\Tracker\PageUrl;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visit\EntryPage;
+use Piwik\Tracker\Visit\WithheldCampaign;
 use Piwik\Tracker\Visitor;
 use Piwik\UrlHelper;
 
@@ -1024,7 +1025,7 @@ abstract class Base extends VisitDimension
 
     /**
      * Whether the campaign this request carries is the one the visit arrived through, rather than
-     * a different campaign reached later, as Consent::revealsWithheldCampaignArrival() decides it.
+     * a different campaign reached later, as WithheldCampaign::revealsArrival() decides it.
      *
      * Unlike shouldCompleteWithheldCampaign() this does not ask whether the server honours the
      * consent, because splitting a visit cannot wait for that answer.
@@ -1039,7 +1040,7 @@ abstract class Base extends VisitDimension
         $action = null
     ): bool {
         return $information['referer_type'] == Common::REFERRER_TYPE_CAMPAIGN
-            && Consent::revealsWithheldCampaignArrival($request, $visitor, $action);
+            && WithheldCampaign::revealsArrival($request, $visitor, $action);
     }
 
     /**
