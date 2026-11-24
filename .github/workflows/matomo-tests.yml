@@ -90,7 +90,7 @@ jobs:
           ref: ${{ inputs.ref || github.ref }}
       - &runner-mysql
         name: Start MySQL
-        if: ${{ (matrix.environment.mysql-engine || 'Mysql') == 'Mysql' }}
+        if: ${{ (matrix.environment.mysql-engine || 'Mysql') == 'Mysql' && (matrix.environment.mysql-version || '8.0') == '8.0' }}
         run: |
           set -eu
           mysqld --version | grep -q ' 8\.0\.' || { echo "::error::the runner's MySQL is not 8.0: $(mysqld --version)"; exit 1; }
@@ -108,7 +108,7 @@ jobs:
         with:
           report-deprecations: ${{ inputs.report_deprecations == true }}
           test-type: 'UnitTests'
-          mysql-service: ${{ (matrix.environment.mysql-engine || 'Mysql') != 'Mysql' }}
+          mysql-service: ${{ !((matrix.environment.mysql-engine || 'Mysql') == 'Mysql' && (matrix.environment.mysql-version || '8.0') == '8.0') }}
           mysql-driver: ${{ matrix.environment.adapter }}
           mysql-engine: ${{ matrix.environment.mysql-engine }}
           mysql-version: ${{ matrix.environment.mysql-version }}
@@ -142,7 +142,7 @@ jobs:
         with:
           report-deprecations: ${{ inputs.report_deprecations == true }}
           test-type: ${{ matrix.type }}
-          mysql-service: ${{ (matrix.environment.mysql-engine || 'Mysql') != 'Mysql' }}
+          mysql-service: ${{ !((matrix.environment.mysql-engine || 'Mysql') == 'Mysql' && (matrix.environment.mysql-version || '8.0') == '8.0') }}
           mysql-driver: ${{ matrix.environment.adapter }}
           mysql-engine: ${{ matrix.environment.mysql-engine }}
           mysql-version: ${{ matrix.environment.mysql-version }}
@@ -184,7 +184,7 @@ jobs:
         with:
           report-deprecations: ${{ inputs.report_deprecations == true }}
           test-type: 'IntegrationTestsCore'
-          mysql-service: ${{ (matrix.environment.mysql-engine || 'Mysql') != 'Mysql' }}
+          mysql-service: ${{ !((matrix.environment.mysql-engine || 'Mysql') == 'Mysql' && (matrix.environment.mysql-version || '8.0') == '8.0') }}
           phpunit-test-options: >-
             --configuration tests/PHPUnit/phpunit-bucket-${{ matrix.bucket }}.xml
             --testsuite Bucket
@@ -229,7 +229,7 @@ jobs:
         with:
           report-deprecations: ${{ inputs.report_deprecations == true }}
           test-type: 'IntegrationTestsPlugins'
-          mysql-service: ${{ (matrix.environment.mysql-engine || 'Mysql') != 'Mysql' }}
+          mysql-service: ${{ !((matrix.environment.mysql-engine || 'Mysql') == 'Mysql' && (matrix.environment.mysql-version || '8.0') == '8.0') }}
           phpunit-test-options: >-
             --configuration tests/PHPUnit/phpunit-bucket-${{ matrix.bucket }}.xml
             --testsuite Bucket
@@ -274,7 +274,7 @@ jobs:
         with:
           report-deprecations: ${{ inputs.report_deprecations == true }}
           test-type: 'SystemTestsPlugins'
-          mysql-service: ${{ (matrix.environment.mysql-engine || 'Mysql') != 'Mysql' }}
+          mysql-service: ${{ !((matrix.environment.mysql-engine || 'Mysql') == 'Mysql' && (matrix.environment.mysql-version || '8.0') == '8.0') }}
           phpunit-test-options: >-
             --configuration tests/PHPUnit/phpunit-bucket-${{ matrix.bucket }}.xml
             --testsuite Bucket
@@ -439,7 +439,7 @@ jobs:
           report-deprecations: ${{ inputs.report_deprecations == true }}
           ui-test-options: '--plugin=${{ matrix.plugin }}'
           test-type: 'UI'
-          mysql-service: ${{ (matrix.environment.mysql-engine || 'Mysql') != 'Mysql' }}
+          mysql-service: ${{ !((matrix.environment.mysql-engine || 'Mysql') == 'Mysql' && (matrix.environment.mysql-version || '8.0') == '8.0') }}
           php-version: '8.1'
           mysql-engine: 'Mysql'
           mysql-version: '8.0'
@@ -479,7 +479,7 @@ jobs:
             --core-tests-only --num-test-groups=${{ strategy.job-total }}
             --test-group=${{ strategy.job-index }}
           test-type: 'UI'
-          mysql-service: ${{ (matrix.environment.mysql-engine || 'Mysql') != 'Mysql' }}
+          mysql-service: ${{ !((matrix.environment.mysql-engine || 'Mysql') == 'Mysql' && (matrix.environment.mysql-version || '8.0') == '8.0') }}
           php-version: '8.1'
           mysql-engine: 'Mysql'
           mysql-version: '8.0'
