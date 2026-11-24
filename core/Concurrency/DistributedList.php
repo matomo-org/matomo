@@ -119,16 +119,21 @@ class DistributedList
 
         $allItems = $this->getAll();
 
+        $hasRemovedAnItem = false;
         foreach ($items as $item) {
+            // an item already removed, eg. by another process, does not prevent removing the others
             $existingIndex = array_search($item, $allItems);
             if ($existingIndex === false) {
-                return;
+                continue;
             }
 
             unset($allItems[$existingIndex]);
+            $hasRemovedAnItem = true;
         }
 
-        $this->setAll(array_values($allItems));
+        if ($hasRemovedAnItem) {
+            $this->setAll(array_values($allItems));
+        }
     }
 
     /**
