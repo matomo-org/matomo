@@ -193,7 +193,7 @@ rm -f CHANGELOG.md
 rm -f CONTRIBUTING.md
 
 # Delete unwanted git folders, recursively
-for x in .git .github ; do
+for x in .git .github .git-hooks-matomo ; do
     find . -name "$x" -exec rm -rf {} \; 2>/dev/null
 done
 
@@ -206,9 +206,13 @@ for x in .gitignore .gitmodules .gitattributes .git-blame-ignore-revs .bowerrc .
     .phpstorm.meta.php .lfsconfig .travis.sh tsconfig.json tsconfig.spec.json \
     .eslintrc.js .eslintignore .eslintrc .browserslistrc babel.config.js jest.config.js \
     karma.conf.js karma-conf.js vue.config.js .npmignore .ncurc.json .prettierrc .jscsrc \
-    phpstan.neon phpstan.neon.dist phpstan-baseline.neon package.xml .stylelintrc.json; do
+    phpstan.neon phpstan.neon.dist phpstan-baseline.neon phpstan.created.neon phpstan.modified.neon \
+    package.xml .stylelintrc.json; do
     find . -name "$x" -exec rm -f {} \;
 done
+
+# Delete the plugin phpstan/ folders the removals above leave empty
+find plugins -mindepth 2 -maxdepth 2 -type d -name phpstan -empty -delete
 
 # Delete DDEV environment files
 rm -rf .ddev
