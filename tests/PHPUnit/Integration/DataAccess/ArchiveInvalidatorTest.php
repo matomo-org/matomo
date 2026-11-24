@@ -769,6 +769,18 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertSame([], $this->invalidator->getRememberedArchivedReportsThatShouldBeInvalidated());
     }
 
+    public function testMarkArchivesOverlappingRangeAsInvalidatedKeepsTheRememberedDates(): void
+    {
+        $this->rememberReport(1, '2014-04-05');
+
+        $dates = [[Date::factory('2014-04-05'), Date::factory('2014-04-10')]];
+        $this->invalidator->markArchivesOverlappingRangeAsInvalidated([1], $dates);
+        $this->invalidator->markArchivesOverlappingRangeAsInvalidated([1], $dates, new Segment('browserCode==FF', [1]));
+
+        // the day itself was not invalidated, so it still has to be
+        $this->assertSameReports(['2014-04-05' => [1]], $this->invalidator->getRememberedArchivedReportsThatShouldBeInvalidated());
+    }
+
     public function testReArchiveReportKeepsTheRememberedDates(): void
     {
         Config::setSetting('General', 'rearchive_reports_in_past_last_n_months', 'last1');

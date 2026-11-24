@@ -1075,6 +1075,28 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
         $invalidator->forgetRememberedArchivedReportsToInvalidate(1, Date::factory('2019-01-05'));
     }
 
+    public function testCommandForRangePeriodsKeepsTheRememberedDates(): void
+    {
+        $invalidator = StaticContainer::get(ArchiveInvalidator::class);
+        $invalidator->rememberToInvalidateArchivedReportsLater(1, Date::factory('2019-01-01'));
+
+        $code = $this->applicationTester->run([
+            'command' => 'core:invalidate-report-data',
+            '--dates' => ['2019-01-01,2019-01-09'],
+            '--periods' => 'range',
+            '--sites' => '1',
+            '-vvv' => true,
+        ]);
+
+        $this->assertEquals(0, $code, $this->getCommandDisplayOutputErrorMessage());
+
+        // only range archives were invalidated, the day still has to be
+        $remembered = $invalidator->getRememberedArchivedReportsThatShouldBeInvalidated(1);
+        $this->assertEquals(['2019-01-01' => [1]], $remembered);
+
+        $invalidator->forgetRememberedArchivedReportsToInvalidate(1, Date::factory('2019-01-01'));
+    }
+
     public function testCommandInvalidateDateRangeInvalidDate()
     {
         $code = $this->applicationTester->run([
