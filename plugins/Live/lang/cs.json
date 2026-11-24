@@ -65,6 +65,7 @@
         "VisitorLogSubcategoryHelp2": "Zatímco ostatní přehledy v Matomu ukazují chování návštěvníků souhrnně, protokol návštěv poskytuje podrobné údaje. Pomocí segmentů jej můžete také omezit na konkrétní typy návštěv a lépe tak porozumět svým návštěvníkům.",
         "VisitorLogSubcategoryHelp3": "Další informace najdete v průvodci protokolem návštěv.",
         "VisitorProfile": "Profil návštěvníka",
+        "VisitorProfileNotFound": "Tohoto návštěvníka se nepodařilo najít. Údaje o jeho návštěvě mohly být smazány.",
         "VisitorsInRealTime": "Návštěvy v reálném čase",
         "VisitorsLastVisit": "Web navštívil také o %s dnů dříve.",
         "VisitsFrom": "%1$s%2$s návštěv%3$s z",

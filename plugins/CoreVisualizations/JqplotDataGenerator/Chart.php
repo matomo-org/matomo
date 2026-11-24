@@ -97,6 +97,11 @@ class Chart
             $unit = (isset($seriesUnits[$label]) ? $seriesUnits[$label] : null);
 
             array_walk($data, function (&$v) use ($unit) {
+                // a missing point stays null, so the graph shows a gap there
+                if ($v === null) {
+                    return;
+                }
+
                 $v = (float) Common::forceDotAsSeparatorForDecimalPoint($v);
                 if ($unit === '%') {
                     $v = $v * 100;

@@ -1,11 +1,33 @@
 {
     "VisitTime": {
+        "ColumnLocalHour": "Ora locală — ora (începutul vizitei)",
+        "ColumnLocalMinute": "Ora locală — minutul (începutul vizitei)",
         "ColumnLocalTime": "Ora locală",
+        "ColumnServerHour": "Ora serverului — ora",
+        "ColumnSiteHour": "Ora site-ului — ora",
+        "ColumnUTCMinute": "Ora UTC — minutul",
+        "ColumnVisitEndSiteHour": "Ora site-ului — ora (momentul ultimei acțiuni)",
+        "ColumnVisitEndUTCDate": "Ora UTC — data (momentul ultimei acțiuni)",
+        "ColumnVisitEndUTCDayOfMonth": "Ora UTC — ziua lunii (momentul ultimei acțiuni)",
+        "ColumnVisitEndUTCDayOfWeek": "Ora UTC — ziua săptămânii (momentul ultimei acțiuni)",
+        "ColumnVisitEndUTCDayOfYear": "Ora UTC — ziua anului (momentul ultimei acțiuni)",
+        "ColumnVisitEndUTCMinute": "Ora UTC — minutul (momentul ultimei acțiuni)",
+        "ColumnVisitEndUTCMonth": "Ora UTC — luna (momentul ultimei acțiuni)",
+        "ColumnVisitEndUTCQuarter": "Ora UTC — trimestrul (momentul ultimei acțiuni)",
+        "ColumnVisitEndUTCSecond": "Ora UTC — secunda (momentul ultimei acțiuni)",
+        "ColumnVisitEndUTCWeekOfYear": "Ora UTC — săptămâna anului (momentul ultimei acțiuni)",
+        "ColumnVisitEndUTCYear": "Ora UTC — anul (momentul ultimei acțiuni)",
+        "ColumnVisitStartSiteHour": "Ora site-ului — ora (începutul vizitei)",
+        "ColumnVisitStartUTCMinute": "Ora UTC — minutul (începutul vizitei)",
         "DayOfWeek": "Zi a săptămânii",
         "LocalTime": "Vizite pe timpul local",
+        "PluginDescription": "Raportează ora locală și ora serverului la care vizitatorii vă vizualizează site-ul sau aplicația.",
+        "SiteTime": "Vizite pe oră în fusul orar al site-ului",
         "SubmenuTimes": "Timp",
-        "VisitsByDayOfWeek": "Vizite ordonate după ziua săptămânii",
+        "TimesSubcategoryHelp": "Secțiunea \"Timp\" arată când vă vizitează oamenii site-ul. Orele locale populare vă ajută să vă adaptați site-ul la viața lor. Orele de server cele mai populare dezvăluie cererea tehnică.",
+        "VisitsByDayOfWeek": "Vizite în funcție de ziua săptămânii",
         "WidgetByDayOfWeekDocumentation": "Acest grafic arată numărul de vizite primite de site-ul dvs. în fiecare zi a săptămânii.",
-        "WidgetLocalTimeDocumentation": "Acest grafic arată ce timp a fost în zonele %1$s vizitatorilor' \"fus orar %2$s în timpul vizitei lor."
+        "WidgetLocalTimeDocumentation": "Acest grafic arată ce timp a fost în zonele %1$s vizitatorilor' \"fus orar %2$s în timpul vizitei lor.",
+        "WidgetSiteTimeDocumentation": "Acest grafic arată ce oră era în %1$s fusul orar al site-ului %2$s în timpul vizitelor."
     }
 }

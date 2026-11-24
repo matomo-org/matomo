@@ -1,6 +1,21 @@
 {
     "Widgetize": {
+        "DirectLink": "› Link direct",
+        "DisplayDashboardInIframe": "Puteți afișa și întregul panou de control Matomo în aplicația sau pe site-ul dumneavoastră, într-un IFRAME (%1$svedeți exemplul%2$s). Parametrul date poate primi o dată calendaristică anume, \"today\" sau \"yesterday\". Parametrul period poate primi valorile \"day\", \"week\", \"month\" sau \"year\". Parametrul language poate primi codul de limbă al unei traduceri, de exemplu language=fr. De exemplu, pentru idSite=1 și date=yesterday, puteți scrie:",
+        "DisplayDashboardInIframeAllSites": "Puteți afișa ca widget și panoul de control al tuturor site-urilor, într-un IFRAME (%1$svedeți exemplul%2$s)",
+        "EmbedIframe": "&rsaquo; Încorporare iframe",
+        "ErrorTokenAuthFailed": "Acest URL de widget nu a putut fi autentificat cu parametrul <code>token_auth</code> furnizat. URL-urile widget-urilor funcționează doar cu token-uri create cu opțiunea 'Only allow secure requests' debifată. Creați un token utilizabil în URL de pe %1$spagina Securitate%2$s sau acordați %3$sacces de vizualizare utilizatorului anonim%4$s pentru a încorpora acest widget fără token.",
+        "ErrorTokenAuthFailedDisabledByPolicy": "Acest URL de widget nu a putut fi autentificat, deoarece parametrul <code>token_auth</code> în URL este dezactivat de politica serverului pe această instanță Matomo. Acordați %1$sacces de vizualizare utilizatorului anonim%2$s sau preluați widget-ul printr-un proxy pe server care trimite token-ul prin POST.",
+        "Intro": "Cu Matomo, puteți %1$sexporta rapoartele de analiză web%2$s pe blogul, site-ul sau panoul de control al intranetului dumneavoastră… cu un singur clic.",
         "OpenInNewWindow": "Deschide într-o fereastră nouă",
-        "TopLinkTooltip": "Exporta Rapoarte Matomo ca Widgets și încorporeaza tabloul de bord în aplicația ca un iframe."
+        "PluginDescription": "Afișați orice raport Matomo pe site-ul sau în aplicația dumneavoastră cu o simplă etichetă HTML \"embed\".",
+        "Reports": "Rapoarte ca widget-uri",
+        "SelectAReport": "Selectați un raport și copiați în pagina dumneavoastră codul de încorporare de sub widget:",
+        "TooHighAccessLevel": "Acest utilizator are acces de super utilizator. Încorporarea widget-urilor cu autentificare prin token de super utilizator nu este permisă. %1$sConsultați FAQ pentru mai multe informații.%2$s",
+        "TopLinkTooltip": "Exportați rapoartele Matomo ca widget-uri și încorporați panoul de control în aplicația dumneavoastră ca iframe.",
+        "UrlTokensDisabledByPolicy": "Parametrul <code>token_auth</code> în URL este dezactivat de politica serverului pe această instanță Matomo (<code>only_allow_secure_auth_tokens</code> este activat). URL-urile widget-urilor nu pot fi autentificate cu un parametru token. Pentru a publica aceste widget-uri pe o pagină protejată prin parolă, acordați %1$sacces de vizualizare utilizatorului anonim%2$s sau preluați widget-urile printr-un proxy pe server care trimite token-ul prin POST.",
+        "ViewAccessRequired": "Acest utilizator are cel puțin un acces de scriere. Pot fi folosite doar token-urile utilizatorilor care au exclusiv acces de vizualizare. Consultați %1$s pentru mai multe informații.",
+        "ViewableAnonymously": "Dacă doriți ca widget-urile să poată fi văzute de toată lumea, trebuie mai întâi să acordați permisiunea 'view' utilizatorului anonim în %1$ssecțiunea Gestionare utilizatori%2$s. <br>Ca alternativă, dacă publicați widget-uri pe o pagină protejată prin parolă sau privată, nu este neapărat necesar să permiteți utilizatorului 'anonymous' să vă vadă rapoartele. În acest caz, puteți adăuga parametrul secret <code>token_auth</code> în URL-ul widget-ului. Puteți gestiona token-urile de autentificare pe %3$spagina Securitate%4$s.",
+        "ViewableAnonymouslyUrlTokenRequirement": "Ca parametru URL pot fi folosite doar token-urile create cu opțiunea 'Only allow secure requests' debifată. Token-urile marcate ca securizate trebuie trimise prin POST și nu vor autentifica un URL de widget."
     }
 }

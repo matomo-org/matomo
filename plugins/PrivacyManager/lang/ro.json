@@ -51,6 +51,7 @@
         "AwarenessDocumentationDesc4": "Documentați utilizarea Matomo în %1$sregistrul activelor informaționale%2$s.",
         "AwarenessDocumentationIntro": "Informați-vă utilizatorii în mod clar și transparent și aduceți la cunoștința colegilor ce date sunt colectate și cum sunt utilizate:",
         "BackgroundColor": "Culoarea fundalului",
+        "BuildYourOwn": "Creați propriul formular",
         "CampaignParameterDiscarded": "(parametru UTM eliminat)",
         "CampaignParameterValuesMaskedSettingImpact": "Atribuirea campaniilor și metricile agregate de achiziție rămân disponibile, dar numele și cuvintele cheie originale ale campaniilor nu pot fi vizualizate sau folosite pentru a distinge campaniile individuale.",
         "CampaignParameterValuesMaskedSettingRequirementNote": "Valorile parametrilor de campanie trebuie mascate înainte de a fi stocate.",

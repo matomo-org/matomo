@@ -556,12 +556,15 @@ class Visit implements VisitInterface
         $visitorId = $this->request->getVisitorId();
         if ($visitorId && strlen($visitorId) === Tracker::LENGTH_BINARY_ID) {
             // Might update the idvisitor when it was forced or overwritten for this visit
-            $valuesToUpdate['idvisitor'] = $this->request->getVisitorId();
+            $valuesToUpdate['idvisitor'] = $visitorId;
         }
 
         if (TrackerConfig::getConfigValue('enable_userid_overwrites_visitorid', $this->request->getIdSiteIfExists())) {
-            // User ID takes precedence and overwrites idvisitor value
-            $userId = $this->request->getForcedUserId();
+            // User ID takes precedence and overwrites idvisitor value, where this site collects
+            // the User ID at all. A policy withholding it withholds it here too, whether or not
+            // the request reports consent, so a visitor's identifier does not move with their
+            // answer.
+            $userId = $this->request->getForcedUserIdForConsent(false);
             if ($userId) {
                 $userIdHash = $this->request->getUserIdHashed($userId);
                 $binIdVisitor = Common::hex2bin($userIdHash);

@@ -1,25 +1,25 @@
 {
     "VisitorInterest": {
-        "BetweenXYMinutes": "%1$s-%2$s min",
-        "BetweenXYSeconds": "%1$s-%2$ssec.",
+        "BetweenXYMinutes": "%1$s–%2$s min",
+        "BetweenXYSeconds": "%1$s–%2$ss",
         "ColumnPagesPerVisit": "Pagini pentru o vizită",
         "ColumnPercentageVisitsDocumentation": "Procentul din totalul vizitelor în care vizitatorii aveau deja acest număr total de vizite.",
         "ColumnVisitDuration": "Durata vizitei",
         "Engagement": "Vizite repetate",
         "NPages": "%s pagini",
         "OnePage": "1 pagina",
-        "PluginDescription": "Rapoarte despre interesul vizitatorilor: numarul paginilor vazute, timpul petrecut pe site, zilele de la ultima vizita, si mai multe.",
+        "PluginDescription": "Interesul vizitatorilor: numărul de pagini vizualizate, timpul petrecut pe site, zilele de la ultima vizită și multe altele.",
         "VisitNum": "Numărul de vizite",
         "VisitsByDaysSinceLast": "Vizite ordonate după zile de la ultima vizită",
         "VisitsPerDuration": "Vizite per durata",
         "VisitsPerNbOfPages": "Vizite per numar pagini",
         "WidgetLengths": "Durata vizitelor",
-        "WidgetLengthsDocumentation": "În acest raport, puteți vedea cât de multe vizite au avut o anumită durată totală. Inițial, raportul este prezentat ca un tag, duratele mai comune sunt afișate într-un font mai mare.",
+        "WidgetLengthsDocumentation": "Câte vizite au avut o anumită durată totală. Inițial, raportul este afișat ca un nor de etichete, în care duratele mai frecvente au un font mai mare.",
         "WidgetPages": "Pagini pentru o vizită",
-        "WidgetPagesDocumentation": "În acest raport, puteți vedea câte vizite implica un anumit număr de vizualizări de pagină. Inițial, raportul este prezentat ca un tag, un număr mare de pagini sunt afișate într-un font mai mare.",
+        "WidgetPagesDocumentation": "Câte vizite au implicat un anumit număr de vizualizări de pagină. Inițial, raportul este afișat ca un nor de etichete, în care numerele de pagini mai frecvente au un font mai mare.",
         "WidgetVisitsByDaysSinceLast": "Vizite ordonate după zile de la ultima vizită",
-        "WidgetVisitsByDaysSinceLastDocumentation": "În acest raport, puteți vedea cât de multe vizite au fost de la vizitatori a căror vizită in trecut a fost un anumit număr de zile.",
-        "WidgetVisitsByNumDocumentation": "În acest raport, puteți vedea numărul de vizite, care au fost de la N vizita , de exemplu. de vizitatori care au vizitat site-ul dvs., cel puțin, de N ori.",
-        "visitsByVisitCount": "VIzite ordonate după numărul de vizite"
+        "WidgetVisitsByDaysSinceLastDocumentation": "Câte vizite au provenit de la vizitatori care revin și a căror ultimă vizită a avut loc cu un anumit număr de zile în urmă.",
+        "WidgetVisitsByNumDocumentation": "Numărul de vizitatori care ajung la a N-a vizită. Adică numărul total de vizitatori care vizitează site-ul dumneavoastră de un anumit număr de ori sau mai mult.",
+        "visitsByVisitCount": "Vizite în funcție de numărul de ordine al vizitei"
     }
 }

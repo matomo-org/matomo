@@ -6,8 +6,21 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ## Matomo 6.1.0
 
+### New features
+* New setting `consent_aware_analytics` (PrivacyManager, off by default), turned on by a superuser on the *Privacy → Compliance* page for the whole instance or for a website. A website measures it when either is on. The page offers it while the granular compliance feature is enabled. When it is on and a compliance policy is enforced, a visitor who has given consent is measured without the policy's restrictions: campaign values, the full referrer (up to the site's own anonymisation level) and the User ID. `ConsentAwareAnalytics::isEnabled()` and `ConsentAwareAnalytics::hasRelaxableRestriction()` read it from the tracker cache.
+* New event `PrivacyManager.consentAwareAnalyticsUpdated`, posted when consent-aware measurement is turned on or off. For a website, `enabled` is the website's own value and `enabledForAllWebsites` says whether it is on for the whole instance.
+* The HTTP Tracking API accepts `consent=1`: the visitor had given consent when the request was sent. Any other value, or no value, means no consent was reported, not a refusal. It is ignored for a site that is not opted in or that forces cookieless tracking.
+* `log_visit.consent` is now written: `1` once consent was reported during the visit, empty otherwise. When consent arrives after the visitor left the page they arrived on, a new visit starts, but only where a policy restriction applies.
+* JavaScript tracker: new `requireConsentForRestrictedData()`, which replaces `requireCookieConsent()` for a site measuring under a consent exemption. With it, `setConsentGiven()` and `rememberConsentGiven()` add `consent=1` to requests, `rememberConsentGiven()` stores it in the new `mtm_measurement_consent` cookie, `forgetConsentGiven()` removes it without stopping tracking, and `disableCampaignParameters()` keeps campaign parameters once consent is given. `setCookieConsentGiven()` and the `mtm_consent` cookie are not consent to being measured. `requireConsent()` wins if both are called. A tracker that does not call `requireConsentForRestrictedData()` sends the same requests as before, except that with `requireConsent()` bulk requests now also carry `consent=1`, as single requests already did.
+* New methods for tracking code: `Request::hasConsent()`, `Request::measuresConsentAwareAnalytics()`, `Request::getForcedUserIdForConsent()`, `Consent::visitHasConsent()`, `Consent::hasVisitConsented()`, `Consent::appliesToVisit()`, `EntryPage::isRequestOnEntryPage()`, `UserIdDisabled::shouldDiscardUserId()` and `PrivacyManager\Config::getConfiguredValue()`.
+* New tracker cache entries: `PrivacyManager.consentAwareAnalytics`, `PrivacyManager.anonymizeReferrerConfiguredValue` and `UserId.userIdDisabledConfiguredValue`.
+* Where `enable_userid_overwrites_visitorid` is on, a User ID that a policy withholds is never used for `idvisitor`, even with consent, so `nb_uniq_visitors` keeps counting browsers.
+
 ### New config.ini.php settings
+* `[PrivacyManager] consent_aware_analytics` sets consent-aware measurement for the whole instance and locks that value on the *Privacy → Compliance* page. It does not lock the websites: each one keeps its own value, which takes effect while the instance value is off. A website measures it when either the instance or the website has it on.
 * `[log] log_format` (and `log_format_<writer>` per writer) lets the file, database, errorlog and syslog log writers write `json`, `loggly` or `logstash` instead of `text`.
+* `[General] enable_processing_estimated_unique_visitors_week`, `_month`, `_year` and `_range` (default `0`) estimate a website's unique visitors and users for that period instead of counting them from the visit logs. To estimate periods archived before, invalidate their days.
+* `[General] unique_visitors_estimate_precision` (default `14`, from `4` to `18`) sets how accurate the estimate is.
 * `[General] archive_failure_retry_delays` and `[General] archive_failure_max_attempts` set how long `core:archive` waits before retrying a failed archive and after how many failed attempts it stops retrying. Jobs still running after `[General] archive_failure_recovery_timeout` now count as a failed attempt instead of being queued again right away.
 
 ### New APIs
@@ -37,9 +50,11 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   * A module that selects its own set of sites, such as `MultiSites.getAll`, is labelled on the days its rows cover, which are UTC's days when it covers more than one site.
   * A scheduled report that holds `MultiSites` reports next to site reports takes its date line and file name from the site reports.
 * A segment using `!=` with the value `0`, or a value its segment maps to `0` such as `visitorType!=new`, `deviceType!=desktop` or `visitEcommerceStatus!=none`, now also matches the visits where the segment's value is `NULL`, as `!=` already did for any other value.
+* For estimated periods, `VisitsSummary.get`, `VisitFrequency.get`, `AIAgents.get` and `API.get` return estimated `nb_uniq_visitors` and `nb_users`, and a new `uniques_estimated` column (`1` when estimated). `VisitFrequency.get` and `AIAgents.get` return it per visitor type, for example `uniques_estimated_returning`. A period without a unique count now leaves out `nb_uniq_visitors` and `nb_users` instead of returning `0`, also in `API.getProcessedReport`, `ImageGraph` and `VisitsSummary.getUniqueVisitors` / `getUsers`.
 
 ### Archiving
 * Different `core:archive` processes can now archive "All visits" and segments of the same site and an overlapping period at the same time. State that an archiver shares across a site's segments must therefore also be safe to use while the "All visits" archive is processed.
+* Plugins reading `nb_uniq_visitors` or `nb_users` from the `VisitsSummary` archive of an estimated period get the estimate. The archive's `uniques_estimated` record is `1` when the value was estimated.
 
 ### New PHP events
 * New event `Metrics.formatEvolutionValue` that lets plugins format their metric values in the row evolution popover.
