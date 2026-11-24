@@ -24,6 +24,7 @@ use Piwik\Tracker\Cache;
 use Piwik\Tracker\PageUrl;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visit\EntryPage;
+use Piwik\Tracker\Visit\WithheldCampaign;
 use Piwik\Tracker\Visitor;
 use Piwik\UrlHelper;
 
@@ -1024,17 +1025,7 @@ abstract class Base extends VisitDimension
 
     /**
      * Whether the campaign this request carries is the one the visit arrived through, rather than
-     * a different campaign reached later.
-     *
-     * Unlike shouldCompleteWithheldCampaign() this does not ask whether the server honours the
-     * consent, because splitting a visit cannot wait for that answer. A tracker reports consent as
-     * soon as the site's own code asks it to, while the server also requires the site to be opted
-     * in and not forcing cookieless tracking - and a site admin can change the tracking code where
-     * only a superuser can opt the site in. Where the two disagree the campaign still describes the
-     * arrival, so splitting would count one visitor as two over a question neither of them asked.
-     * Nothing is relaxed on the strength of this, and it is kept to the sites where the campaign
-     * could have been withheld in the first place: a site whose policy does not mask campaigns
-     * follows the ordinary rule, whatever its tracker reports.
+     * a different campaign reached later, as WithheldCampaign::revealsArrival() decides it.
      *
      * @param Action|null $action
      * @internal
@@ -1045,29 +1036,8 @@ abstract class Base extends VisitDimension
         Request $request,
         $action = null
     ): bool {
-        if ($information['referer_type'] != Common::REFERRER_TYPE_CAMPAIGN) {
-            return false;
-        }
-
-        if ('1' !== $request->getParam('consent') || Consent::hasVisitConsented($visitor)) {
-            return false;
-        }
-
-        // The consent reported is read straight from the request, so a site using requireConsent()
-        // reaches here too - it has always sent the flag on every request once consent is given.
-        // Only a policy that masks campaigns can have withheld the one this request carries, so
-        // without that there is nothing being completed and the ordinary rule decides.
-        if (!CampaignParameterValuesMasked::isEnabled((int) $request->getIdSiteIfExists())) {
-            return false;
-        }
-
-        // a visit already attributed to a campaign is completed through the placeholder rules
-        // instead, and a second campaign over the first is a change rather than a completion
-        if ($visitor->getImmutableVisitorColumn('referer_type') == Common::REFERRER_TYPE_CAMPAIGN) {
-            return false;
-        }
-
-        return true === EntryPage::isRequestOnEntryPage($visitor, $action, $request);
+        return $information['referer_type'] == Common::REFERRER_TYPE_CAMPAIGN
+            && WithheldCampaign::revealsArrival($request, $visitor, $action);
     }
 
     /**
