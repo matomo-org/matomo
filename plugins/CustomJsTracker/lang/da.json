@@ -1,6 +1,8 @@
 {
     "CustomJsTracker": {
         "DiagnosticPiwikJsMakeWritable": "Vi anbefaler at gøre %1$s skrivbare ved at køre denne kommando: %2$s",
-        "DiagnosticPiwikJsWritable": "JavaScript-sporingsfiler (%s) skrivbare"
+        "DiagnosticPiwikJsNotWritable": "Matomos JavaScript-sporingsfil %s er ikke skrivbar, hvilket betyder, at andre udvidelsesmoduler ikke kan udvide JavaScript-trackeren. Fremover vil selv nogle kernefunktioner måske ikke virke som forventet.",
+        "DiagnosticPiwikJsWritable": "JavaScript-sporingsfiler (%s) skrivbare",
+        "PluginDescription": "Gør det muligt for ethvert udvidelsesmodul at udvide Matomos JavaScript-sporingsfil (matomo.js) og tilføje nye funktioner og måder at måle hjemmesider på."
     }
 }

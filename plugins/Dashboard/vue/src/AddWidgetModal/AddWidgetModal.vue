@@ -19,7 +19,7 @@
       :aria-label="translate('General_Close')"
       @click="close"
     >
-      <i class="icon-close"></i>
+      <i class="icon-close" aria-hidden="true"></i>
     </button>
     <h3 class="add-widget-modal-title">{{ translate('Dashboard_AddAWidget') }}</h3>
     <div class="add-widget-modal-body widgetpreview-base">

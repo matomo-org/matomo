@@ -119,6 +119,12 @@
 	<row>
 		<type>dimension</type>
 		<category>Visitors</category>
+		<name>Consent state</name>
+		<segment>consentState</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
 		<name>Device brand</name>
 		<segment>deviceBrand</segment>
 	</row>

@@ -52,6 +52,7 @@ export interface GranularComplianceStore {
   state: DeepReadonly<GranularComplianceStoreState>;
   dirtySettingIds: ComputedRef<string[]>;
   setIdSite: (idSite: string) => void;
+  reload: () => void;
   toggleSetting: (settingId: string) => void;
   enforceAll: () => void;
   save: (password: string) => void;
@@ -72,7 +73,21 @@ export function createGranularComplianceStore(policy: string): GranularComplianc
     saveSuccess: false,
   });
 
-  function applyPayload(payload: PolicySettingsPayload) {
+  const dirtySettingIds = computed(
+    () => state.settings
+      .filter((s) => s.toggleable && state.localEnforced[s.id] !== !!s.enforced)
+      .map((s) => s.id),
+  );
+
+  function applyPayload(payload: PolicySettingsPayload, keepLocalChanges = false) {
+    // toggles changed but not saved yet, which a reload must not throw away
+    const pendingEnforced: Record<string, boolean> = {};
+    if (keepLocalChanges) {
+      dirtySettingIds.value.forEach((settingId) => {
+        pendingEnforced[settingId] = state.localEnforced[settingId];
+      });
+    }
+
     state.description = payload.description;
     state.configControlled = payload.configControlled;
     state.policyEnforced = payload.policyEnforced;
@@ -81,19 +96,15 @@ export function createGranularComplianceStore(policy: string): GranularComplianc
     const localEnforced: Record<string, boolean> = {};
     payload.settings.forEach((setting) => {
       if (setting.toggleable) {
-        localEnforced[setting.id] = !!setting.enforced;
+        localEnforced[setting.id] = setting.id in pendingEnforced
+          ? pendingEnforced[setting.id]
+          : !!setting.enforced;
       }
     });
     state.localEnforced = localEnforced;
   }
 
-  const dirtySettingIds = computed(
-    () => state.settings
-      .filter((s) => s.toggleable && state.localEnforced[s.id] !== !!s.enforced)
-      .map((s) => s.id),
-  );
-
-  function fetchSettings() {
+  function fetchSettings(keepLocalChanges = false) {
     if (!state.idSite) {
       return;
     }
@@ -114,7 +125,7 @@ export function createGranularComplianceStore(policy: string): GranularComplianc
       },
     ).then((payload) => {
       if (state.idSite === requestedIdSite) {
-        applyPayload(payload);
+        applyPayload(payload, keepLocalChanges);
       }
     }).catch((error) => {
       if (state.idSite === requestedIdSite) {
@@ -132,6 +143,16 @@ export function createGranularComplianceStore(policy: string): GranularComplianc
     state.saveError = null;
     state.saveSuccess = false;
     fetchSettings();
+  }
+
+  // fetches the texts again, e.g. once hybrid tracking changes them, and keeps unsaved toggles
+  function reload() {
+    // a reload answered before an ongoing save would bring the values from before it back
+    if (state.saving) {
+      return;
+    }
+
+    fetchSettings(true);
   }
 
   function toggleSetting(settingId: string) {
@@ -204,6 +225,7 @@ export function createGranularComplianceStore(policy: string): GranularComplianc
     state: publicState,
     dirtySettingIds,
     setIdSite,
+    reload,
     toggleSetting,
     enforceAll,
     save,

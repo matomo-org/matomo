@@ -2,6 +2,9 @@
     "DevicePlugins": {
         "BrowserWithNoPluginsEnabled": "%1$s fără plugin-uri activate",
         "BrowserWithPluginsEnabled": "%1$s cu plugin-uri %2$s activate",
+        "ColumnPercentageVisitsDocumentation": "Procentul din totalul vizitelor în care a fost detectat pluginul. O vizită poate include mai multe pluginuri. Valoarea este rotunjită în jos la numere întregi.",
+        "PluginDescription": "Raportează lista pluginurilor acceptate de browserele vizitatorilor.",
+        "PluginDetectionDoesNotWorkInIE": "Notă: detectarea pluginurilor nu funcționează în Internet Explorer anterior versiunii 11. Acest raport se bazează doar pe browserele non-IE și pe versiunile mai noi de IE.",
         "WidgetPlugins": "Lista pluginurilor",
         "WidgetPluginsDocumentation": "Acest raport arată ce plugin-uri de browser-ul au activat vizitatorii. Aceste informație ar putea fi importanta pentru a alege modul corect de a livra conținut."
     }

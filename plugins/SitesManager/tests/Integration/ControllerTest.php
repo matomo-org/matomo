@@ -11,6 +11,7 @@ namespace Piwik\Plugins\SitesManager\tests\Integration;
 
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
+use Piwik\Plugins\SitesManager\API;
 use Piwik\Plugins\SitesManager\Controller;
 use Piwik\SiteContentDetector;
 use Piwik\Tests\Framework\Fixture;
@@ -30,11 +31,15 @@ class ControllerTest extends IntegrationTestCase
     /** @var array */
     private $backupGet;
 
+    /** @var array */
+    private $backupPost;
+
     public function setUp(): void
     {
         parent::setUp();
 
         $this->backupGet = $_GET;
+        $this->backupPost = $_POST;
 
         if (!Fixture::siteCreated(1)) {
             Fixture::createWebsite('2021-01-01 00:00:00');
@@ -55,6 +60,7 @@ class ControllerTest extends IntegrationTestCase
     public function tearDown(): void
     {
         $_GET = $this->backupGet;
+        $_POST = $this->backupPost;
 
         parent::tearDown();
     }
@@ -103,10 +109,113 @@ class ControllerTest extends IntegrationTestCase
         );
     }
 
+    public function testSetGlobalSettingsPostsEventWithStoredSettings()
+    {
+        $postedSettings = [];
+        Piwik::addAction('SitesManager.globalSettingsUpdated', function ($settings) use (&$postedSettings) {
+            $postedSettings[] = $settings;
+        });
+
+        $_POST = $this->getGlobalSettingsRequest();
+
+        $response = $this->getControllerSkippingTokenCheck()->setGlobalSettings();
+
+        self::assertStringContainsString('success', $response);
+        self::assertSame([[
+            'keepURLFragmentsGlobal' => true,
+            'defaultCurrency' => 'EUR',
+            'searchKeywordParametersGlobal' => 'q,query',
+            'searchCategoryParametersGlobal' => 'cat',
+            'defaultTimezone' => 'Europe/Berlin',
+            'excludedIpsGlobal' => '10.0.0.1,192.168.0.0/16',
+            'excludedQueryParametersGlobal' => 'sessionid',
+            'excludedUserAgentsGlobal' => 'bot',
+            'excludedReferrersGlobal' => 'spam.example.com',
+            'exclusionTypeForQueryParams' => 'custom',
+        ]], $postedSettings);
+    }
+
+    public function testSetGlobalSettingsPostsEventWhenSaveFailsAfterAChangeWasSaved()
+    {
+        $postedSettings = [];
+        Piwik::addAction('SitesManager.globalSettingsUpdated', function ($settings) use (&$postedSettings) {
+            $postedSettings[] = $settings;
+        });
+
+        $_POST = array_merge($this->getGlobalSettingsRequest(), ['currency' => 'not-a-currency']);
+
+        $response = $this->getControllerSkippingTokenCheck()->setGlobalSettings();
+
+        self::assertStringContainsString('error', $response);
+        self::assertCount(1, $postedSettings);
+        self::assertSame('Europe/Berlin', $postedSettings[0]['defaultTimezone']);
+        self::assertSame('USD', $postedSettings[0]['defaultCurrency']);
+        self::assertFalse($postedSettings[0]['excludedIpsGlobal']);
+    }
+
+    public function testSetGlobalSettingsDoesNotPostEventWhenSaveFailsBeforeAChangeWasSaved()
+    {
+        $eventCount = 0;
+        Piwik::addAction('SitesManager.globalSettingsUpdated', function () use (&$eventCount) {
+            $eventCount++;
+        });
+
+        $_POST = array_merge($this->getGlobalSettingsRequest(), ['timezone' => 'UTC', 'currency' => 'not-a-currency']);
+
+        $response = $this->getControllerSkippingTokenCheck()->setGlobalSettings();
+
+        self::assertStringContainsString('error', $response);
+        self::assertSame(0, $eventCount);
+    }
+
+    public function testSetGlobalSettingsReportsSuccessWhenListenerFails()
+    {
+        Piwik::addAction('SitesManager.globalSettingsUpdated', function () {
+            throw new \Exception('listener failed');
+        });
+
+        $_POST = $this->getGlobalSettingsRequest();
+
+        $response = $this->getControllerSkippingTokenCheck()->setGlobalSettings();
+
+        self::assertStringContainsString('success', $response);
+        self::assertSame('Europe/Berlin', API::getInstance()->getDefaultTimezone());
+    }
+
     public function provideContainerConfig()
     {
         return [
             'Piwik\Access' => new FakeAccess(),
+        ];
+    }
+
+    private function getControllerSkippingTokenCheck(): Controller
+    {
+        $controller = $this->getMockBuilder(Controller::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['checkTokenInUrl'])
+            ->getMock();
+
+        $controller->expects($this->once())
+            ->method('checkTokenInUrl');
+
+        return $controller;
+    }
+
+    private function getGlobalSettingsRequest(): array
+    {
+        return [
+            'format' => 'json',
+            'timezone' => 'Europe/Berlin',
+            'excludedIps' => '10.0.0.1,192.168.0.0/16',
+            'excludedQueryParameters' => 'sessionid',
+            'excludedUserAgents' => 'bot',
+            'excludedReferrers' => 'spam.example.com',
+            'currency' => 'EUR',
+            'searchKeywordParameters' => 'q,query',
+            'searchCategoryParameters' => 'cat',
+            'keepURLFragments' => '1',
+            'exclusionTypeForQueryParams' => 'custom',
         ];
     }
 

@@ -321,7 +321,7 @@
             this.$element.on('mapClick', function (e, visit, mapPath) {
                 var VisitorProfileControl = require('piwik/UI').VisitorProfileControl;
                 if (visit
-                    && piwik.visitorProfileEnabled
+                    && piwik.visitorProfileAvailable
                     && VisitorProfileControl
                     && !self.$element.closest('.visitor-profile').length
                 ) {

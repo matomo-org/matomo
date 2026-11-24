@@ -32,6 +32,7 @@
         "ReturningVisitDocumentation": "老访客 (相对于新访客) 指至少访问过这个网站一次的访客。",
         "ReturningVisitsDocumentation": "这是老访客的概览。",
         "SubmenuFrequency": "频率",
+        "VisitFrequencyReportDocumentation": "此报告将回访访客的访问等常用指标与新访客的相同指标并排显示。了解回访访客与新访客相比的总体表现。",
         "WidgetGraphReturning": "老访客趋势",
         "WidgetOverview": "频率概览"
     }

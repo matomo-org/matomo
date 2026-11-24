@@ -10,6 +10,7 @@
         "ClickHereToOptIn": "Cliceáil anseo chun roghnú.",
         "ClickHereToOptOut": "Cliceáil anseo chun díliostáil.",
         "CloudflareDescription": "Má óstáiltear do láithreán gréasáin ar Cloudflare, féach %1$sthis guide%2$s.",
+        "ComponentLibrary": "Leabharlann Comhpháirteanna",
         "ConfirmDeleteAllTrackingFailures": "An bhfuil tú cinnte go bhfuil fonn ort gach teip rianaithe a scriosadh?",
         "ConfirmDeleteThisTrackingFailure": "An bhfuil tú cinnte go bhfuil fonn ort an teip rianaithe seo a scriosadh?",
         "Cors": "Corsaicis",

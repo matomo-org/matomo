@@ -2,6 +2,7 @@
     "IntranetMeasurable": {
         "Intranet": "内联网网站",
         "IntranetDescription": "内联网是可测量的，就像一个网站，但托管在一个内部网络。",
+        "IntranetLongDescription": "跟踪只能在您组织网络内访问的内部网站。Matomo 使用第一方 Cookie，以便在内部网环境中更准确地识别独立访客。",
         "Intranets": "内联网网站"
     }
 }

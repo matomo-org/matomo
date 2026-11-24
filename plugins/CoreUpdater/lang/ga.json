@@ -37,7 +37,7 @@
         "FeedbackRequest": "Thig leat do chuid smaointe agus moltaí a roinnt le Foireann Matomo anseo:",
         "HelpMessageContent": "Seiceáil an %1$s Matomo Ceisteanna Coitianta%2$s a mhíníonn na hearráidí is coitianta le linn an nuashonraithe. %3$s Cuir ceist ar riarthóir an chórais - b'fhéidir go mbeidh siad in ann cabhrú leat leis an earráid is dóichí a bhaineann le do fhreastalaí nó le socrú MySQL.",
         "HelpMessageIntroductionWhenError": "Is é an méid thuas an teachtaireacht earráide lárnach. Ba chóir go gcabhródh sé leis an gcúis a mhíniú, ach má theastaíonn tuilleadh cabhrach uait, le do thoil:",
-        "HelpMessageIntroductionWhenWarning": "Cuireadh an nuashonrú i gcrích go rathúil, ach bhí saincheisteanna ann le linn an phróisis. Léigh na tuairiscí thuas le haghaidh sonraí. Chun tuilleadh cabhrach a fháil:",
+        "HelpMessageIntroductionWhenWarning": "Críochnaíodh an nuashonrú go rathúil, ach tharla fadhbanna le linn an phróisis. Léigh na tuairiscí thuas le do thoil chun tuilleadh sonraí a fháil. Chun tuilleadh cabhrach a fháil:",
         "HighTrafficPiwikServerEnableMaintenance": "Má bhainistíonn tú freastalaí Matomo tráchta ard, molaimid %1$smomentarily rianú cuairteoirí a dhíchumasú agus Comhéadan Úsáideora Matomo a chur i mód cothabhála%2$s.",
         "IncompatbilePluginsWillBeDisabledInfo": "Nóta: níl roinnt breiseán comhoiriúnach le Matomo %s. Déanfaimid iad a nuashonrú má tá nuashonrú ar an Margadh, ar shlí eile déanfaimid iad a dhíchumasú nuair a dhéanann tú uasghrádú:",
         "InstallingTheLatestVersion": "Suiteáil an leagan is déanaí",

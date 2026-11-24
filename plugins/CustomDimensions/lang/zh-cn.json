@@ -2,6 +2,7 @@
     "CustomDimensions": {
         "CannotBeDeleted": "自定义维度不能被删除，只能停用。",
         "ColumnAvgTimeOnDimension": "在维度上的平均时间",
+        "ColumnAvgTimeOnDimensionDocumentation": "自定义动作维度的平均停留时间是指访客在转到另一个被跟踪的动作之前，在某个特定自定义动作上花费的平均时间。计算方法是将所有访问中在该动作上花费的时间相加，然后除以该动作被执行的次数。",
         "ColumnUniqueActions": "单一动作",
         "ConfigureDimension": "配置%1$s 自定义维度 %2$s",
         "ConfigureNewDimension": "配置一个新的维度",
@@ -9,6 +10,10 @@
         "CustomDimensions": "自定义维度",
         "CustomDimensionsIntro": "通过创建%1$s自定义维度%2$s，您可以收集“%3$s”的任何自定义数据。",
         "CustomDimensionsIntroNext": "Matomo会生成每个自定义维度的报告（包括对每个目标的转化率），以便于您可以基于这些值轻松地细分用户。自定义维度类似于%1$s自定义变量%2$s，但自定义维度和自定义变量之间也有一些%3$s差异%4$s。",
+        "DescriptionAllowedCharacters": "描述中不允许使用 HTML 标签。",
+        "DescriptionHelpText": "输入描述以提供更多背景信息，例如用途或使用方式。",
+        "DescriptionIsTooLong": "描述包含的字符过多，最多只能使用 %d 个字符。",
+        "DescriptionPlaceholder": "将用户分为访客或已登录用户",
         "DimensionCreated": "自定义维度创建",
         "DimensionUpdated": "自定义维度更新",
         "EmptyValue": "空值",
@@ -29,8 +34,10 @@
         "IncreaseAvailableCustomDimensionsTakesLong": "创建新的自定义维度可以根据您的数据库的大小需要很长的时间，因为它需要你的数据库架构更改。因此，这是唯一可能经由其需要在命令行上执行的控制台命令来做到这一点。",
         "IncreaseAvailableCustomDimensionsTitle": "增加可用自定义维度的数量",
         "NameAllowedCharacters": "允许的字符是任何字母，数字，空格，破折号和下划线。",
+        "NameHelpText": "输入一个唯一的名称，以便清楚地识别此维度。",
         "NameIsRequired": "一个名称是必需的。",
         "NameIsTooLong": "名称包含太多字符，最多只能使用 %d 个字符。",
+        "NamePlaceholder": "用户类型",
         "NoCustomDimensionConfigured": "尚未配置自定义维度，现在就配置一个吧。",
         "NoValue": "没有价值",
         "PageUrlParam": "网页URL参数",
@@ -39,6 +46,9 @@
         "ScopeDescriptionActionMoreInfo": "提取物可以被定义，以便自定义维度值从页面网址，网页标题或网页网址中提取查询参数。",
         "ScopeDescriptionVisit": "在“访问”范围内自定义维度可以发送任何跟踪请求，并存储在访问中。",
         "ScopeDescriptionVisitMoreInfo": "如果您给访问的生命周期中给定的维度设置不同的值，最后一个值集将被使用。",
+        "ScopeTitleAction": "动作维度",
+        "ScopeTitleVisit": "访问维度",
+        "UrlQueryStringParameter": "网址查询字符串参数",
         "XofYLeft": "还剩 %1$s 维度，共 %2$s"
     }
 }

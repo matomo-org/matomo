@@ -17,11 +17,15 @@
         @open="$emit('open', $event)"
       />
     </div>
+    <div class="transitionsColumn__loader" v-if="loading">
+      <ActivityIndicator :loading="true" />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
+import { ActivityIndicator } from 'CoreHome';
 import TransitionsSection from './TransitionsSection.vue';
 import { TransitionsSectionData } from './types';
 
@@ -35,8 +39,14 @@ export default defineComponent({
       type: Array as PropType<string[]>,
       default: () => [],
     },
+    /** Set while some of the column's groups are still being requested. */
+    loading: {
+      type: Boolean,
+      default: false,
+    },
   },
   components: {
+    ActivityIndicator,
     TransitionsSection,
   },
   emits: ['highlight', 'unhighlight', 'navigate', 'open'],
