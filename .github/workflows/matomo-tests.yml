@@ -10,6 +10,7 @@ on:
       - '[0-9]+.x-dev'
       - '[0-9]+.[0-9]+.x-dev'
       - 'next_release'
+      - 'throwaway-id-309-5x-full'
   workflow_dispatch:
   workflow_call:
     inputs:
@@ -82,8 +83,11 @@ jobs:
           submodules: true
           path: matomo
           ref: ${{ inputs.ref || github.ref }}
+      - name: Block the image mirror on pull requests (throwaway)
+        if: github.event_name == 'pull_request'
+        run: echo "0.0.0.0 mirror.gcr.io" | sudo tee -a /etc/hosts
       - name: running tests
-        uses: matomo-org/github-action-tests@main
+        uses: matomo-org/github-action-tests@throwaway-id-309-merged
         with:
           test-type: 'UnitTests'
           mysql-driver: ${{ matrix.environment.adapter }}
@@ -113,8 +117,11 @@ jobs:
           submodules: true
           path: matomo
           ref: ${{ inputs.ref || github.ref }}
+      - name: Block the image mirror on pull requests (throwaway)
+        if: github.event_name == 'pull_request'
+        run: echo "0.0.0.0 mirror.gcr.io" | sudo tee -a /etc/hosts
       - name: running tests
-        uses: matomo-org/github-action-tests@main
+        uses: matomo-org/github-action-tests@throwaway-id-309-merged
         with:
           test-type: ${{ matrix.type }}
           mysql-driver: ${{ matrix.environment.adapter }}
@@ -152,8 +159,11 @@ jobs:
             $(( ${{ matrix.bucket }} - 1 )) \
             10 \
             --write-xml=tests/PHPUnit/phpunit-bucket-${{ matrix.bucket }}.xml
+      - name: Block the image mirror on pull requests (throwaway)
+        if: github.event_name == 'pull_request'
+        run: echo "0.0.0.0 mirror.gcr.io" | sudo tee -a /etc/hosts
       - name: running tests
-        uses: matomo-org/github-action-tests@main
+        uses: matomo-org/github-action-tests@throwaway-id-309-merged
         with:
           test-type: 'IntegrationTestsCore'
           phpunit-test-options: >-
@@ -194,8 +204,11 @@ jobs:
             $(( ${{ matrix.bucket }} - 1 )) \
             10 \
             --write-xml=tests/PHPUnit/phpunit-bucket-${{ matrix.bucket }}.xml
+      - name: Block the image mirror on pull requests (throwaway)
+        if: github.event_name == 'pull_request'
+        run: echo "0.0.0.0 mirror.gcr.io" | sudo tee -a /etc/hosts
       - name: running tests
-        uses: matomo-org/github-action-tests@main
+        uses: matomo-org/github-action-tests@throwaway-id-309-merged
         with:
           test-type: 'IntegrationTestsPlugins'
           phpunit-test-options: >-
@@ -236,8 +249,11 @@ jobs:
             $(( ${{ matrix.bucket }} - 1 )) \
             10 \
             --write-xml=tests/PHPUnit/phpunit-bucket-${{ matrix.bucket }}.xml
+      - name: Block the image mirror on pull requests (throwaway)
+        if: github.event_name == 'pull_request'
+        run: echo "0.0.0.0 mirror.gcr.io" | sudo tee -a /etc/hosts
       - name: running tests
-        uses: matomo-org/github-action-tests@main
+        uses: matomo-org/github-action-tests@throwaway-id-309-merged
         with:
           test-type: 'SystemTestsPlugins'
           phpunit-test-options: >-
@@ -312,8 +328,11 @@ jobs:
           submodules: true
           path: matomo
           ref: ${{ inputs.ref || github.ref }}
+      - name: Block the image mirror on pull requests (throwaway)
+        if: github.event_name == 'pull_request'
+        run: echo "0.0.0.0 mirror.gcr.io" | sudo tee -a /etc/hosts
       - name: running tests
-        uses: matomo-org/github-action-tests@main
+        uses: matomo-org/github-action-tests@throwaway-id-309-merged
         with:
           test-type: 'JS'
           php-version: '7.2'
@@ -329,8 +348,11 @@ jobs:
           submodules: true
           path: matomo
           ref: ${{ inputs.ref || github.ref }}
+      - name: Block the image mirror on pull requests (throwaway)
+        if: github.event_name == 'pull_request'
+        run: echo "0.0.0.0 mirror.gcr.io" | sudo tee -a /etc/hosts
       - name: running tests
-        uses: matomo-org/github-action-tests@main
+        uses: matomo-org/github-action-tests@throwaway-id-309-merged
         with:
           test-type: 'Client'
           node-version: '16'
@@ -395,8 +417,11 @@ jobs:
           if [ -e "plugins/$PLUGIN/.git" ]; then
             git -C "plugins/$PLUGIN" lfs pull --include "tests/UI/expected-screenshots/*" --exclude=
           fi
+      - name: Block the image mirror on pull requests (throwaway)
+        if: github.event_name == 'pull_request'
+        run: echo "0.0.0.0 mirror.gcr.io" | sudo tee -a /etc/hosts
       - name: running tests
-        uses: matomo-org/github-action-tests@main
+        uses: matomo-org/github-action-tests@throwaway-id-309-merged
         with:
           ui-test-options: '--plugin=${{ matrix.plugin }}'
           test-type: 'UI'
@@ -428,8 +453,11 @@ jobs:
           # Persisted so github-action-tests' own `git lfs pull --exclude=` stays scoped too
           git config lfs.fetchinclude "tests/UI/expected-screenshots/*"
           git lfs pull --include "tests/UI/expected-screenshots/*" --exclude=
+      - name: Block the image mirror on pull requests (throwaway)
+        if: github.event_name == 'pull_request'
+        run: echo "0.0.0.0 mirror.gcr.io" | sudo tee -a /etc/hosts
       - name: running tests
-        uses: matomo-org/github-action-tests@main
+        uses: matomo-org/github-action-tests@throwaway-id-309-merged
         with:
           ui-test-options: >-
             --core-tests-only --num-test-groups=${{ strategy.job-total }}
