@@ -152,7 +152,7 @@ class VisitorDetails extends VisitorDetailsAbstract
             $this->getReferrerType() == 'social'
             && !empty($this->details['referer_name'])
         ) {
-            return Social::getInstance()->getMainUrl($this->details['referer_url']);
+            return Social::getInstance()->getMainUrl($this->details['referer_url'] ?? '');
         }
 
         return null;
@@ -175,7 +175,7 @@ class VisitorDetails extends VisitorDetailsAbstract
             $this->getReferrerType() === 'ai'
             && !empty($this->details['referer_name'])
         ) {
-            return AIAssistant::getInstance()->getMainUrl($this->details['referer_url']);
+            return AIAssistant::getInstance()->getMainUrl($this->details['referer_url'] ?? '');
         }
 
         return null;
