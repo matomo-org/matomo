@@ -3,10 +3,15 @@
         "ColumnConfiguration": "Konfigurasjon",
         "ColumnResolution": "Oppløsning",
         "Configurations": "Konfigurasjoner",
-        "PluginDescription": "Rapporterer skjermoppløsningen til dine besøkere.",
+        "PluginDescription": "Rapporterer skjermoppløsningen til dine besøkende.",
         "Resolutions": "Oppløsninger",
+        "ScreenResolutionDetectionDisabled": "Gjenkjenning av skjermoppløsning er skrudd av",
+        "ScreenResolutionDetectionDisabledImpact": "Informasjon om skjermoppløsning samles ikke inn, og rapportene om skjermoppløsning under <strong>Besøkende &gt; Enheter</strong> er ikke tilgjengelige.",
+        "ScreenResolutionDetectionDisabledRequirementNote": "Gjenkjenning av skjermoppløsning og rapporten om skjermoppløsning må være skrudd av.",
+        "ScreenResolutionDetectionDisabledWhatItDoes": "Gjenkjenning av skjermoppløsning er skrudd av.<br><br>Dette reduserer risikoen for at besøkende identifiseres ut fra skjermoppsettet deres.",
+        "ScreenResolutionReportDisabledByCompliancePolicy": "Rapporten om skjermoppløsning er skrudd av på grunn av en etterlevelsesregel.",
         "WidgetGlobalVisitors": "Besøkendes konfigurasjon",
-        "WidgetGlobalVisitorsDocumentation": "Denne rapporten viser de mest vanlige konfigurasjonene som dine besøkere har. En konfigurasjon er kombinasjonen av operativsystem, nettlesertype og skjermoppløsning.",
+        "WidgetGlobalVisitorsDocumentation": "Denne rapporten viser de mest vanlige konfigurasjonene som dine besøkende har. En konfigurasjon er kombinasjonen av operativsystem, nettlesertype og skjermoppløsning.",
         "WidgetResolutions": "Skjermoppløsninger",
         "WidgetResolutionsDocumentation": "Denne rapporten viser skjermoppløsningene dine besøkende brukte da de besøkte nettsiden din."
     }

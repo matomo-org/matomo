@@ -249,9 +249,9 @@ class Http
      * @param bool $validateEgressIp when true, the request is served over the SSRF-safe path: public-IP validation,
      *                               manual per-hop redirect re-validation and connection pinning. See
      *                               {@see sendHttpRequest()} for the full contract.
+     * @param bool $followRedirects when false, the redirect response is returned, so a secret is not sent to another URL
      *
      * @return ($destinationPath is null ? ($getExtendedInfo is true ? array{status: ?int, headers?: ?array, data?: ?string, effectiveUrl?: string} : string|false) : bool)
-     * @throws Exception
      */
     public static function sendHttpRequestBy(
         $method,
@@ -272,7 +272,8 @@ class Http
         $additionalHeaders = array(),
         $forcePost = null,
         $checkHostIsAllowed = true,
-        $validateEgressIp = false
+        $validateEgressIp = false,
+        $followRedirects = true
     ) {
         if ($followDepth > 5) {
             throw new Exception('Too many redirects (' . $followDepth . ')');
@@ -399,7 +400,8 @@ class Http
         /** @var string|null $response */
         $response = null;
 
-        $httpAuthIsUsed = !empty($httpUsername) || !empty($httpPassword);
+        $httpAuthIsUsed = ($httpUsername !== null && $httpUsername !== '')
+            || ($httpPassword !== null && $httpPassword !== '');
 
         $httpAuth = '';
         if ($httpAuthIsUsed) {
@@ -417,6 +419,7 @@ class Http
             'verifySsl' => !$acceptInvalidSslCertificate,
             'destinationPath' => $destinationPath,
             'validateEgressIp' => $validateEgressIp,
+            'followRedirects' => $followRedirects,
         );
 
         /**
@@ -434,6 +437,8 @@ class Http
          *                      - 'destinationPath' If set, the response of the HTTP request should be saved to this file
          *                      - 'validateEgressIp' Whether the caller asked for SSRF-safe semantics. A listener
          *                        resolving the request itself must honour them or leave it unhandled
+         *                      - 'followRedirects' When false, a listener resolving the request itself must not
+         *                        follow a redirect, as the request carries a secret
          * @param string &$response A plugin listening to this event should assign the HTTP response it received to this variable, for example "{value: true}"
          * @param int &$status A plugin listening to this event should assign the HTTP status code it received to this variable, for example "200"
          * @param array &$headers A plugin listening to this event should assign the HTTP headers it received to this variable, eg array('Content-Length' => '5')
@@ -601,7 +606,7 @@ class Http
                 }
 
                 // handle redirect
-                if (preg_match('/^Location:\s*(.+)/', rtrim($line, "\r\n"), $m)) {
+                if ($followRedirects && preg_match('/^Location:\s*(.+)/', rtrim($line, "\r\n"), $m)) {
                     if (is_resource($file)) {
                         @fclose($file);
                     }
@@ -638,9 +643,13 @@ class Http
                 self::parseHeaderLine($headers, $line);
             }
 
+            // a redirect that is not followed may have no body (4xx and 5xx statuses were handled above)
+            $isUnfollowedRedirect = !$followRedirects && $status >= 300;
+
             if (
                 feof($fsock)
                 && $httpMethod != 'HEAD'
+                && !$isUnfollowedRedirect
             ) {
                 throw new Exception('Unexpected end of transmission');
             }
@@ -692,8 +701,9 @@ class Http
                             . $via . "\r\n"
                             . (!empty($additionalHeaders) ? implode("\r\n", $additionalHeaders) . "\r\n" : '')
                             . $rangeHeader,
-                        'max_redirects' => 5, // PHP 5.1.0
-                        'timeout'       => $timeout, // PHP 5.2.1
+                        'max_redirects' => 5,
+                        'follow_location' => $followRedirects ? 1 : 0,
+                        'timeout'       => $timeout,
                     ),
                 );
 
@@ -814,7 +824,10 @@ class Http
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $requestBodyQuery);
             }
 
-            if (!empty($httpUsername) && !empty($httpPassword)) {
+            if (
+                $httpUsername !== null && $httpUsername !== ''
+                && $httpPassword !== null && $httpPassword !== ''
+            ) {
                 $curl_options += array(
                     CURLOPT_USERPWD => $httpUsername . ':' . $httpPassword,
                 );
@@ -838,11 +851,10 @@ class Http
                 }
             }
 
-            /*
-             * as of php 5.2.0, CURLOPT_FOLLOWLOCATION can't be set if
-             * in safe_mode or open_basedir is set
-             */
-            if (!$validateEgressIp && (string)ini_get('safe_mode') == '' && ini_get('open_basedir') == '') {
+            // CURLOPT_FOLLOWLOCATION cannot be set when open_basedir is set
+            if (!$followRedirects) {
+                @curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
+            } elseif (!$validateEgressIp && ini_get('open_basedir') == '') {
                 $protocols = 0;
 
                 foreach (explode(',', $allowedProtocols) as $protocol) {
@@ -918,7 +930,7 @@ class Http
             unset($ch);
 
             // SSRF-safe path follows redirects manually so each hop is re-validated and re-pinned.
-            if ($validateEgressIp && $status >= 300 && $status < 400 && $status !== 304) {
+            if ($followRedirects && $validateEgressIp && $status >= 300 && $status < 400 && $status !== 304) {
                 if (is_resource($file)) {
                     // CURLOPT_HEADER is off for file downloads, so the Location cannot be re-validated: fail closed.
                     @fclose($file);
@@ -1004,6 +1016,8 @@ class Http
          *                      - 'destinationPath' If set, the response of the HTTP request should be saved to this file
          *                      - 'validateEgressIp' Whether the caller asked for SSRF-safe semantics. A listener
          *                        resolving the request itself must honour them or leave it unhandled
+         *                      - 'followRedirects' When false, a redirect was not followed and the response is the
+         *                        redirect response itself
          * @param string &$response The response of the HTTP request, for example "{value: true}"
          * @param int &$status The returned HTTP status code, for example "200"
          * @param array &$headers The returned headers, eg array('Content-Length' => '5')

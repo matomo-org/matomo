@@ -10,6 +10,7 @@
         "ClickHereToOptIn": "Klikněte zde pro přihlášení.",
         "ClickHereToOptOut": "Klikněte zde pro vyloučení.",
         "CloudflareDescription": "Pokud jsou vaše webové stránky hostovány na serveru Cloudflare, přečtěte si %1$stento návod%2$s.",
+        "ComponentLibrary": "Knihovna komponent",
         "ConfirmDeleteAllTrackingFailures": "Opravdu vymazat všechna selhání sledování?",
         "ConfirmDeleteThisTrackingFailure": "Opravdu chcete vymazat toto selhání sledování?",
         "Cors": "Sdílené zdroje odjinud (CORS)",

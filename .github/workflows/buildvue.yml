@@ -16,6 +16,10 @@ permissions:
   security-events: none
   statuses: none
 
+concurrency:
+  group: buildvue-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-24.04
@@ -85,8 +89,6 @@ jobs:
           node-version: '24'
           cache: 'npm'
         if: steps.vars.outputs.branch != '' && steps.vuecheck.outputs.vue_modified == '1'
-      - run: npm install --ignore-scripts
-        if: steps.vars.outputs.branch != '' && steps.vuecheck.outputs.vue_modified == '1'
       - name: Get composer cache directory
         id: composer-cache
         run: echo "dir=$(composer config cache-files-dir)" >> "$GITHUB_OUTPUT"
@@ -125,6 +127,9 @@ jobs:
         env:
           BRANCH_NAME: ${{ steps.vars.outputs.branch }}
           IS_LOCAL_BRANCH: ${{ steps.vars.outputs.islocalbranch }}
+        if: steps.vars.outputs.branch != '' && steps.vuecheck.outputs.vue_modified == '1'
+      # after the branch checkout, because npm install can rewrite package-lock.json and block the checkout
+      - run: npm install --ignore-scripts
         if: steps.vars.outputs.branch != '' && steps.vuecheck.outputs.vue_modified == '1'
       - name: Build Vue Modules
         run: php ./console vue:build

@@ -107,7 +107,7 @@ class BotRequestHandlingTest extends IntegrationTestCase
                     'manipulateRequest',
                     'handleRequest',
                 ],
-                'RequestProcessor' => version_compare(Version::VERSION, '6.0.0-rc1', '<') ? [
+                'RequestProcessor' => version_compare(Version::VERSION, '7.0.0-b1', '<') ? [
                     'manipulateRequest', // currently still triggered for bc reasons
                 ] : [],
             ],
@@ -134,7 +134,7 @@ class BotRequestHandlingTest extends IntegrationTestCase
                     'manipulateRequest',
                     'handleRequest',
                 ],
-                'RequestProcessor' => version_compare(Version::VERSION, '6.0.0-rc1', '<') ? [
+                'RequestProcessor' => version_compare(Version::VERSION, '7.0.0-b1', '<') ? [
                     'manipulateRequest', // currently still triggered for bc reasons
                 ] : [],
             ],

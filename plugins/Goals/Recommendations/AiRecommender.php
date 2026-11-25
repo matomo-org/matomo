@@ -94,7 +94,7 @@ class AiRecommender
             ->withSystemPrompt($this->getSystemPrompt())
             ->withJsonResponse()
             ->withIdSite($idSite)
-            ->withFeatureKey('goal-recommendation')
+            ->withFeatureKey('Goals.recommendation')
             ->withThinkingBudget(0)
             ->withMaxTokens(self::MAX_TOKENS);
 

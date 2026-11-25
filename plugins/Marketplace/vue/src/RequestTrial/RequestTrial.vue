@@ -7,7 +7,10 @@
 <template>
   <div class="ui-confirm" ref="confirm">
     <h2>{{ translate('Marketplace_RequestTrialConfirmTitle', plugin?.displayName) }}</h2>
-    <p>{{ translate('Marketplace_RequestTrialConfirmEmailWarning') }}</p>
+    <p v-if="plugin?.isTrialPending">
+      {{ translate('Marketplace_RequestTrialConfirmAlreadyRequested') }}
+    </p>
+    <p v-else>{{ translate('Marketplace_RequestTrialConfirmEmailWarning') }}</p>
     <input role="yes" type="button" :value="translate('General_Yes')"/>
     <input role="no" type="button" :value="translate('General_No')"/>
   </div>

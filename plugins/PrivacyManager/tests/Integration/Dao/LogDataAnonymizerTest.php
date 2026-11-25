@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\PrivacyManager\tests\Integration\Dao;
 
 use Piwik\Common;
+use Piwik\DataAccess\RawLogDao;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Option;
@@ -19,6 +20,7 @@ use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Plugins\PrivacyManager\tests\Fixtures\MultipleSitesMultipleVisitsFixture;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Tracker\Action;
 use Piwik\Tracker\Cache;
 
 /**
@@ -182,6 +184,62 @@ class LogDataAnonymizerTest extends IntegrationTestCase
         $this->assertNotEmpty($result1);
         $this->assertNotEmpty($result2);
         $this->assertNotEmpty($result3);
+    }
+
+    public function testUnsetLogPageViewTimeTableColumnsRemovesTheSecondCopyOfTheActionIds()
+    {
+        $this->theFixture->setUpWebsites();
+        $this->theFixture->trackVisits($idSite = 1, 2);
+
+        $table = Common::prefixTable('log_page_view_time');
+        $this->assertGreaterThan(
+            0,
+            (int) Db::fetchOne("SELECT count(*) FROM `$table` WHERE idaction_url IS NOT NULL")
+        );
+
+        $result = $this->anonymizer->unsetLogPageViewTimeTableColumns($idSites = null, $startDate = '2010-01-01 00:00:00', $endDate = '2035-01-01 23:59:59', ['idaction_url', 'idaction_name']);
+
+        $this->assertNotEmpty($result);
+        $this->assertSame(
+            0,
+            (int) Db::fetchOne("SELECT count(*) FROM `$table` WHERE idaction_url IS NOT NULL OR idaction_name IS NOT NULL")
+        );
+    }
+
+    public function testUnsetActionColumnsLetsThePageUrlStringsBePurged()
+    {
+        $this->theFixture->setUpWebsites();
+        $this->theFixture->trackVisits($idSite = 1, 1);
+
+        $start = '2010-01-01 00:00:00';
+        $end = '2035-01-01 23:59:59';
+        $columns = ['idaction_url', 'idaction_name', 'idaction_url_ref', 'idaction_name_ref'];
+
+        $this->anonymizer->unsetLogVisitTableColumns($idSites = null, $start, $end, [
+            'visit_entry_idaction_url', 'visit_entry_idaction_name',
+            'visit_exit_idaction_url', 'visit_exit_idaction_name',
+        ]);
+        $this->anonymizer->unsetLogLinkVisitActionColumns($idSites = null, $start, $end, $columns);
+        $this->anonymizer->unsetLogPageViewTimeTableColumns($idSites = null, $start, $end, $columns);
+
+        $dao = new RawLogDao();
+        $dao->deleteUnusedLogActions();
+
+        $table = Common::prefixTable('log_action');
+        $remaining = Db::fetchAll("SELECT name FROM `$table` WHERE type = ?", [Action::TYPE_PAGE_URL]);
+
+        $this->assertSame([], $remaining, 'the anonymized page urls must not be kept alive by log_page_view_time');
+    }
+
+    public function testUnsetLogPageViewTimeTableColumnsIgnoresColumnsItDoesNotHave()
+    {
+        $this->theFixture->setUpWebsites();
+        $this->theFixture->trackVisits($idSite = 1, 1);
+
+        // pageview_position only exists on log_link_visit_action, as idaction_url does on both
+        $result = $this->anonymizer->unsetLogPageViewTimeTableColumns($idSites = null, $startDate = '2010-01-01 00:00:00', $endDate = '2035-01-01 23:59:59', ['pageview_position']);
+
+        $this->assertSame(0, $result);
     }
 
     public function testGetAvailableVisitColumnsToAnonymize()

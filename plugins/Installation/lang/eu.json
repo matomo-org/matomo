@@ -135,7 +135,6 @@
         "SystemCheckUpdateHttps": "Eguneratu HTTPS bidez",
         "SystemCheckViewFullSystemCheck": "Ikusi sistemaren egiaztapenaren txosten osoa",
         "SystemCheckWarnDomHelp": "\"dom\" hedapena aktibatu beharko zenuke (adibidez, \"php-dom\" edota \"php-xml\" paketeak instalatuz).",
-        "SystemCheckWarnJsonHelp": "\"JSON\" hedapena aktibatu beharko zenuke (adibidez, \"php-json\" paketea instalatuz).",
         "SystemCheckWarnLibXmlHelp": "\"libxml\" hedapena aktibatu beharko zenuke (adibidez, \"php-libxml\" paketea instalatuz) PHP oinarrizko hedapen batzuk behar baitute.",
         "SystemCheckWarnOpensslHelp": "\"OpenSSL\" hedapena aktibatu beharko zenuke eguneratze seguruak baimentzeko.",
         "SystemCheckWarnSimpleXMLHelp": "\"SimpleXML\" hedapena aktibatu beharko zenuke (adibidez, \"php-simplexml\" edota \"php-xml\" paketeak instalatuz).",

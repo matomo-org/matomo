@@ -17,6 +17,7 @@
         "EvolutionFromPreviousPeriod": "oproti předchozímu období",
         "EvolutionFromPreviousWeek": "oproti předchozímu týdnu",
         "EvolutionFromPreviousYear": "oproti předchozímu roku",
+        "HitsIncludingAiTooltip": "Včetně všech požadavků od lidí a požadavků AI chatbotů",
         "LoadingWebsites": "Načítání webů",
         "MetricDocumentationAiChatbotsRequests": "Celkový počet požadavků AI chatbotů zaznamenaných pro tento web.",
         "MetricDocumentationEvolution": "Procentní změna této metriky pro daný web oproti předchozímu období. Kladná hodnota znamená růst, zatímco záporná hodnota značí pokles.",
@@ -29,11 +30,6 @@
         "PluginDescription": "Zobrazte a porovnejte všechny své weby a aplikace na praktické nástěnce „Všechny weby“.",
         "SegmentationNotSupported": "Segmentace není podporována",
         "SingleWebsitesDashboardDocumentation": "Tento přehled poskytuje souhrnné informace o konkrétním webu a obsahuje základní metriky jeho návštěvníků.",
-        "TopLinkTooltip": "Porovnejte statistiky webové analytiky pro všechny své weby.",
-        "TotalAiChatbotsRequests": "Celkový počet požadavků AI chatbotů",
-        "TotalHits": "Celkový počet akcí",
-        "TotalHitsIncludingAiTooltip": "Celkový počet akcí: zahrnuje všechny akce lidských návštěvníků a požadavky AI chatbotů",
-        "TotalPageviews": "Celkový počet zobrazení stránek",
-        "TotalVisits": "Celkový počet návštěv"
+        "TopLinkTooltip": "Porovnejte statistiky webové analytiky pro všechny své weby."
     }
 }

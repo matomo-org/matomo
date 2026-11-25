@@ -19,6 +19,7 @@ use Piwik\Development;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\AIProviders\Exception\AIProviderClientException;
+use Piwik\Plugins\AIProviders\Exception\AIQuotaExceededException;
 use Piwik\Plugins\AIProviders\Model\AIProcessingSettings;
 use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
 use Psr\Log\LoggerInterface;
@@ -200,6 +201,9 @@ class GoalRecommendationService
                         ['message' => $e->getMessage()]
                     );
                     $aiError = Piwik::translate('Goals_RecommendationAiUnavailable');
+                } catch (AIQuotaExceededException $e) {
+                    // An AI usage limit was reached. The message is translated text meant for the user.
+                    $aiError = Piwik::translate('Goals_RecommendationAiUsageLimitReached', $e->getMessage());
                 } catch (AIProviderClientException $e) {
                     $this->getLogger()->warning(
                         'Goals recommendations: AI request failed: {message}',
@@ -458,10 +462,20 @@ class GoalRecommendationService
     /**
      * Dismisses a single saved recommendation so it is no longer shown. The
      * dismissal lasts until the next scan replaces the saved recommendations.
+     * Dismissing the last shown one removes the saved scan.
      */
     public function dismissRecommendation(int $idSite, string $recommendationId): bool
     {
-        return $this->store->markDismissed($idSite, $recommendationId);
+        if (!$this->store->markDismissed($idSite, $recommendationId)) {
+            return false;
+        }
+
+        $saved = $this->store->get($idSite);
+        if ($saved !== null && count($saved['dismissed']) >= count($saved['goals'])) {
+            $this->store->delete($idSite);
+        }
+
+        return true;
     }
 
     private function assignRecommendationIds(array $goals): array

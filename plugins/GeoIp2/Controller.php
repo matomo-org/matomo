@@ -3,6 +3,7 @@
 namespace Piwik\Plugins\GeoIp2;
 
 use Piwik\Common;
+use Piwik\Exception\NoPrivilegesException;
 use Piwik\Http;
 use Piwik\Http\JsonResponse;
 use Piwik\Option;
@@ -296,7 +297,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     private function dieIfGeolocationAdminIsDisabled(): void
     {
         if (!UserCountry::isGeoLocationAdminEnabled()) {
-            throw new \Exception('Geo location setting page has been disabled.');
+            throw new NoPrivilegesException('Geo location setting page has been disabled.', 403);
         }
     }
 }

@@ -204,12 +204,17 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.click('.limitSelection [data-limit="10"]');
             await page.mouse.move(0, 0);
             await page.waitForNetworkIdle();
+            // the annotation icons under the graph load in a separate request, which the network idle
+            // wait stops counting once it is slow, so a capture could miss their row
+            await page.waitForSelector('.dataTableVizEvolution .evolution-annotations');
 
             expect(await screenshotPageWrap()).to.matchImage('visitors_overview_limit');
         });
 
         it('should keep the limit when reload the page', async function () {
             await page.reload();
+            // see the previous test: the annotation row loads after network idle may have given up
+            await page.waitForSelector('.dataTableVizEvolution .evolution-annotations');
 
             delete testEnvironment.ignoreClearAllViewDataTableParameters;
             testEnvironment.save();
@@ -347,16 +352,17 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.waitForSelector('.enrichedHeadline');
             elem = await page.$('.enrichedHeadline');
             await elem.hover();
-            await page.click('.helpIcon');
+            await page.click('.enrichedHeadline__helpIcon');
             await page.waitForTimeout(100);
             await page.evaluate(function () {
-                $('.helpDate:visible').html('Report generated xx hours xx min ago');
+                $('.mtm-helpPanel__date:visible').html('Report generated xx hours xx min ago');
             });
             await page.mouse.move(-10, -10);
 
             // the report itself is already covered by the `actions_pages` screenshot, so here we
-            // only capture the headline together with its expanded inline help box
-            expect(await page.screenshotSelector('.enrichedHeadline:has(.helpIcon.active)')).to.matchImage('actions_pages_tooltip_help');
+            // only capture the report header together with its expanded inline help box. The
+            // header, not the headline: the help opens in a row of its own beside it.
+            expect(await page.screenshotSelector('.reportHeader:has(.enrichedHeadline__helpIcon--active)')).to.matchImage('actions_pages_tooltip_help');
         });
 
         it('should load the actions > entry pages page correctly', async function () {

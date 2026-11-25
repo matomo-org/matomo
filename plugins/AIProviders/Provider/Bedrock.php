@@ -99,6 +99,20 @@ class Bedrock extends AIProvider
         '#(?:^|[./])(?:anthropic\\.)?claude-'
         . '(?:3|(?:opus-4(?:-[0156])?|sonnet-4(?:-[056])?|haiku-4(?:-5)?)(?!-?\\d{1,2}(?:\\D|$)))#i';
 
+    /**
+     * Prompt-cache counters, which Converse reports under both the API name and
+     * the CloudWatch metric name. `usage.inputTokens` excludes both of them, so
+     * a cached request that reports 2 input tokens can still have processed
+     * thousands.
+     *
+     * @see https://docs.aws.amazon.com/bedrock/latest/userguide/quotas-token-burndown.html
+     * @var non-empty-list<string>
+     */
+    private const CACHE_READ_USAGE_KEYS = ['cacheReadInputTokens', 'cacheReadInputTokenCount'];
+
+    /** @var non-empty-list<string> */
+    private const CACHE_WRITE_USAGE_KEYS = ['cacheWriteInputTokens', 'cacheWriteInputTokenCount'];
+
     /** Exact Bedrock model ID fragments that support the gpt-oss reasoning_effort field. */
     private const GPT_OSS_MODEL_PATTERN = '/(?:^|[.\/])openai\.gpt-oss-(?:20b|120b)-1:0$/';
 
@@ -258,9 +272,13 @@ class Bedrock extends AIProvider
             $request,
             $model,
             $this->extractText($response, $this->isNovaGen1Model($model)),
-            isset($response['usage']['inputTokens']) ? (int) $response['usage']['inputTokens'] : null,
-            isset($response['usage']['outputTokens']) ? (int) $response['usage']['outputTokens'] : null,
-            $stopReason
+            $this->readUsageTokens($response['usage'] ?? null, ['inputTokens']),
+            $this->readUsageTokens($response['usage'] ?? null, ['outputTokens']),
+            $stopReason,
+            null,
+            null,
+            $this->readUsageTokens($response['usage'] ?? null, self::CACHE_READ_USAGE_KEYS),
+            $this->readUsageTokens($response['usage'] ?? null, self::CACHE_WRITE_USAGE_KEYS)
         );
     }
 
@@ -325,8 +343,11 @@ class Bedrock extends AIProvider
                 $thinking
             ),
             $stopReason,
-            isset($response['usage']['inputTokens']) ? (int) $response['usage']['inputTokens'] : null,
-            isset($response['usage']['outputTokens']) ? (int) $response['usage']['outputTokens'] : null
+            $this->readUsageTokens($response['usage'] ?? null, ['inputTokens']),
+            $this->readUsageTokens($response['usage'] ?? null, ['outputTokens']),
+            null,
+            $this->readUsageTokens($response['usage'] ?? null, self::CACHE_READ_USAGE_KEYS),
+            $this->readUsageTokens($response['usage'] ?? null, self::CACHE_WRITE_USAGE_KEYS)
         );
     }
 

@@ -228,3 +228,30 @@
         padding-bottom: 0;
     }
 }
+
+.marketplaceUnsubscribePage {
+    .loginSection {
+        margin-top: 32px;
+
+        > .col {
+            max-width: 750px;
+            float: none;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
+
+    .loginForm form {
+        .row,
+        .submit {
+            margin-bottom: 0;
+        }
+    }
+
+    // the ID is needed to outrank Login's `#loginPage .message`
+    &#loginPage .loginForm .message {
+        .inDarkMode({
+            background-color: transparent;
+        });
+    }
+}

@@ -44,7 +44,7 @@ abstract class ApiRenderer
     protected function init()
     {
         $this->hideIdSubDataTable = $this->requestObj->getBoolParameter('hideIdSubDatable', false);
-        $this->showMetadata = $this->requestObj->getBoolParameter('showMetadata', true); // @todo change default in Matomo 6
+        $this->showMetadata = $this->requestObj->getBoolParameter('showMetadata', true); // @todo change default in a future major version
     }
 
     protected function shouldSendBacktrace(): bool

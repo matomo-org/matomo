@@ -84,7 +84,6 @@
         "NoDataCloudflareInstructions2": "Nasaďte Worker (Node.js) a nastavte URL svého Matoma a ID webu.",
         "NoDataCloudflareInstructions3": "Připojte Worker ke své zóně nebo trase, aby se spouštěl přímo při zpracování požadavků.",
         "NoDataCloudflareInstructions4": "Ověřte nastavení kontrolou, zda se záznamy AI chatbotů zobrazují v sestavách sledování.",
-        "NoDataHttpTrackingApiDescription": "Rozhraní HTTP Tracking API umožňuje přímo sledovat požadavky AI chatbotů, když potřebujete vlastní integraci. Začněte v %1$sznalostní bázi Tracking API%2$s a nejnovější parametry a chování sledování botů najdete v %3$sreferenční dokumentaci HTTP Tracking API%4$s.",
         "NoDataLinkKnowledgeBase": "Dokumentace: %1$sznalostní báze Matoma%2$s",
         "NoDataLinkSourceCode": "Zdrojový kód: %1$srepozitář na GitHubu%2$s",
         "NoDataMissingOneContactUs": "Chybí některý způsob? Kontaktujte nás",
@@ -108,6 +107,15 @@
         "SiteWithoutDataOtherInstallMethodsIntro": "Nabízíme několik způsobů sledování – vyberte ten, který odpovídá vašemu nastavení.",
         "SiteWithoutDataRecommendationText": "Zjistili jsme, že váš web používá %1$s, takže můžete sledování AI chatbotů nastavit pomocí naší oficiální integrace pro %1$s.",
         "SiteWithoutDataStepByStepGuide": "Návod krok za krokem",
-        "TopPageUrlsLast30MinutesDocumentation": "Zobrazuje URL stránek požadované AI chatboty během posledních 30 minut, seřazené podle počtu požadavků chatbotů."
+        "TopPageUrlsLast30MinutesDocumentation": "Zobrazuje URL stránek požadované AI chatboty během posledních 30 minut, seřazené podle počtu požadavků chatbotů.",
+        "AIChatbotTrafficRatioBelowValue": "&lt;%1$s×",
+        "AIChatbotTrafficRatioValue": "%1$s×",
+        "ColumnAIChatbotTrafficRatio": "Poměr požadavků AI chatbotů k zobrazením stránek",
+        "ColumnAIChatbotTrafficRatioDocumentation": "Poměr požadavků AI chatbotů k zobrazením stránek lidmi, ať už přímo, nebo prostřednictvím AI agentů. Hodnota 2,0× znamená, že požadavků AI chatbotů bylo dvakrát více než zobrazení stránek.",
+        "NoDataHttpTrackingApiInstructions1": "Rozhraní HTTP Tracking API umožňuje sledovat požadavky AI chatbotů přímo v Matomu, pokud potřebujete vlastní integraci. Zjištěné požadavky AI chatbotů odesílejte do Matoma s požadovanými parametry pro sledování botů.",
+        "NoDataHttpTrackingApiInstructions2": "Identifikujte požadavky AI chatbotů ve své aplikaci nebo na serveru.",
+        "NoDataHttpTrackingApiInstructions3": "Odešlete požadavky do Matoma prostřednictvím HTTP Tracking API s ID webu v Matomu a požadovanými parametry pro sledování botů.",
+        "NoDataHttpTrackingApiInstructions4": "Po nastavení a zaznamenání aktivity AI chatbotů ověřte, že se tato aktivita zobrazuje v přehledech AI chatbotů.",
+        "NoDataLinkApiReference": "Referenční příručka API: %1$sreferenční příručka HTTP Tracking API%2$s"
     }
 }

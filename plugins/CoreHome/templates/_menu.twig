@@ -17,7 +17,7 @@
                 {% if hasSubmenuItem %}
                     {% set subMenu %}
                         <a class="item {% if collapsible %}collapsible-header{% endif %}" tabindex="5">
-                            <span class="menu-icon {{ level2._icon|default('icon-chevron-down') }}"></span>{{ level1|translate }}
+                            <span class="menu-icon {{ level2._icon|default('icon-chevron-down') }}" aria-hidden="true"></span>{{ level1|translate }}
                             <span class="hidden">
                              {{ 'CoreHome_Menu'|translate }}
                            </span>
@@ -38,7 +38,7 @@
                                             {% if urlParameters._url %}
                                                 href="index.php?{{ urlParameters._url|urlRewriteWithParameters|slice(1) }}"
                                             {% endif %}>
-                                            {% if urlParameters._icon is defined and urlParameters._icon %}<span class="icon {{ urlParameters._icon|e('html_attr') }}" style="margin-right: 5px;"></span>{% endif %}
+                                            {% if urlParameters._icon is defined and urlParameters._icon %}<span class="icon {{ urlParameters._icon|e('html_attr') }}" style="margin-right: 5px;" aria-hidden="true"></span>{% endif %}
                                             {{ name|translate|rawSafeDecoded }}
                                         </a>
                                         {% if urlParameters._help %}

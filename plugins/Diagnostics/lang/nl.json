@@ -18,7 +18,6 @@
         "DatabaseReaderConnection": "Database Reader-verbinding",
         "DatabaseUtf8Requirement": "Dit is nodig om 4-byte UTF8-karakters te kunnen opslaan. Tenzij utf8mb4 beschikbaar is, worden speciale karakters, zoals emoji's, minder gebruikelijke tekens van Aziatische talen, diverse historische scripts of wiskundige symbolen vervangen door %1$s. Meer details over dit onderwerp kunt u lezen in %2$sdeze FAQ%3$s.",
         "DatabaseUtf8mb4CharsetAvailableButNotUsed": "Uw database ondersteunt de utf8mb4 karakterset, maar uw databasetabellen zijn nog niet geconverteerd. U kunt dit doen door het commando %1$s uit te voeren of de automatische conversie te activeren in Algemene instellingen.",
-        "DatabaseUtf8mb4CharsetRecommended": "Uw database ondersteunt nog geen utf8mb4-karakterset.",
         "EnableRequiredDirectoriesDiagnostic": "Deze controle werd overgeslagen omdat deze is uitgeschakeld in de config. Om deze controle in te schakelen stelt u '[General] enable_required_directories_diagnostic = 1' in het \"config/config.ini.php\" bestand in.",
         "HideUnchanged": "Wanneer je alleen de gewijzigde waarden wil zien %1$sverberg alle ongewijzigde waarden%2$s.",
         "HtaccessWarningNginx": "Om ervoor te zorgen dat gevoelige bestanden niet rechtstreeks bereikbaar zijn, is het raadzaam uw webserver te configureren om de toegang tot bepaalde mappen te beperken. Zie voor meer informatie de %1$sofficiële nginx server configuratie.%2$s",

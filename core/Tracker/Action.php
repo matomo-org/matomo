@@ -12,6 +12,7 @@ namespace Piwik\Tracker;
 use Exception;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
+use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugin\Manager;
 use Piwik\Log\LoggerInterface;
@@ -110,7 +111,7 @@ abstract class Action
         }
 
         if (self::isCustomActionRequest($request)) {
-            throw new Exception('Request was meant for a plugin which is no longer activated. Request needs to be ignored.');
+            throw new InvalidRequestParameterException('Request was meant for a plugin which is no longer activated. Request needs to be ignored.');
         }
 
         return new ActionPageview($request);

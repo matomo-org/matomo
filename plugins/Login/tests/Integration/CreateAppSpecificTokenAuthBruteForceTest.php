@@ -12,6 +12,8 @@ namespace Piwik\Plugins\Login\tests\Integration;
 use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\Container\StaticContainer;
+use Piwik\Exception\NoPrivilegesException;
+use Piwik\IP;
 use Piwik\NoAccessException;
 use Piwik\Plugins\Login\Login as LoginPlugin;
 use Piwik\Plugins\Login\Security\BruteForceDetection;
@@ -144,6 +146,24 @@ class CreateAppSpecificTokenAuthBruteForceTest extends IntegrationTestCase
 
         $plugin = new LoginPlugin();
         $plugin->beforeLoginCheckBruteForce();
+    }
+
+    public function testApiRequestAuthenticateThrowsClientErrorWhenIpIsBlocked(): void
+    {
+        $ip = IP::getIpFromHeader();
+        // the detector reads its limit on construction, before setUp() lowers the setting
+        $attempts = $this->settings->maxFailedLoginsPerMinutes->getDefaultValue() + 1;
+        for ($i = 0; $i < $attempts; $i++) {
+            $this->bruteForceDetection->addFailedAttempt($ip);
+        }
+        $this->assertFalse($this->bruteForceDetection->isAllowedToLogin($ip));
+
+        $this->expectException(NoPrivilegesException::class);
+        $this->expectExceptionCode(403);
+        $this->expectExceptionMessage('Login_LoginNotAllowedBecauseBlocked');
+
+        $plugin = new LoginPlugin();
+        $plugin->apiRequestAuthenticate('anytoken');
     }
 
     public function testCreateAppSpecificTokenAuthRecordsFailedAttemptForTheTargetLogin(): void

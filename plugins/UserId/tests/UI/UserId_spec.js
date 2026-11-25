@@ -36,4 +36,13 @@ describe("UserId", function () {
     expect(await page.getWholeCurrentUrl()).to.match(/&popover=RowAction%243AvisitorDetails%243A[a-f0-9]{16}$/);
     expect(await page.screenshotSelector('#Piwik_Popover')).to.matchImage('visitor_profile_popup');
   });
+
+  it('should show an error in the visitor profile popover for an unknown visitor', async function () {
+    await page.goto('?module=CoreHome&action=index&idSite=1&period=day&date=2010-02-04#?idSite=1&period=day&date=2010-02-04&category=General_Visitors&subcategory=UserId_UserReportTitle&popover=RowAction$3AvisitorDetails$3Affffffffffffffff');
+
+    await page.waitForSelector('.ui-dialog .Piwik_Popover_Error_Title', { visible: true });
+
+    const message = await page.$eval('.ui-dialog .Piwik_Popover_Error_Title', (element) => element.textContent);
+    expect(message).to.equal('This visitor could not be found. Their visit data may have been deleted.');
+  });
 });

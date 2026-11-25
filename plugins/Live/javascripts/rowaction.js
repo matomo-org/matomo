@@ -18,6 +18,24 @@
         return $(tr).attr('data-segment-filter');
     }
 
+    /**
+     * Whether the row segment uses a segment the visits log cannot filter by, such as userId when only the visits of
+     * visitors who gave consent are listed
+     */
+    function usesUnavailableSegment(rawSegment)
+    {
+        var unavailableSegments = piwik.visitorLogUnavailableSegments || [];
+        if (!unavailableSegments.length) {
+            return false;
+        }
+
+        return rawSegment.split(/[;,]/).some(function (condition) {
+            // segment names are never encoded, unlike their values
+            var match = condition.match(/^([a-zA-Z0-9_.]+)(==|!=|<=|>=|=@|!@|=\^|=\$|<|>)/);
+            return !!match && unavailableSegments.indexOf(match[1]) !== -1;
+        });
+    }
+
     function getDataTableFromApiMethod(apiMethod)
     {
         var div = $(require('piwik/UI').DataTable.getDataTableByReport(apiMethod));
@@ -94,18 +112,33 @@
 
     DataTable_RowActions_SegmentVisitorLog.prototype.trigger = function (tr, e, subTableLabel) {
         var clickedSegment = getRawSegmentValueFromRow(tr);
-        var currentSegment = this.dataTable.param.segment || '';
         var suffix = this.dataTable.props.segmented_visitor_log_segment_suffix || '';
         var extraParams = {};
 
-        // The main segment is the report's own context: its current segment (if any) plus any
-        // report-defined suffix, ANDed together at the action level. The clicked row's segment is
-        // always intersected at the visit level instead (see Model::queryLogVisits $intersectSegment),
-        // so a same-dimension condition — e.g. current pageUrl==X with clicked pageUrl==Y — is not
-        // collapsed onto a single action row, which would match nothing.
+        // A comparison row belongs to one series, so that series' segment (none for "All visits")
+        // is the context instead of the report's segment
+        var paramOverride = $(tr).data('param-override');
+        var isComparisonRow = typeof paramOverride === 'object' && paramOverride !== null;
+        var contextSegment = isComparisonRow
+            ? (paramOverride.segment || '')
+            : decodeURIComponent(this.dataTable.param.segment || '');
+
+        // The report adds conditions to its rows after the comparison rows are built (e.g. the
+        // referrerType==campaign prefix on Campaigns), so the row the comparison belongs to carries
+        // the complete filter for the clicked value
+        if (isComparisonRow) {
+            var reportRow = $(tr).prevAll('tr.parentComparisonRow').first();
+            clickedSegment = getRawSegmentValueFromRow(reportRow) || clickedSegment;
+        }
+
+        // The main segment is the context plus any report-defined suffix, ANDed together at the
+        // action level. The clicked row's segment is always intersected at the visit level instead
+        // (see Model::queryLogVisits $intersectSegment), so a same-dimension condition — e.g. context
+        // pageUrl==X with clicked pageUrl==Y — is not collapsed onto a single action row, which
+        // would match nothing.
         var parts = [];
-        if (currentSegment) {
-            parts.push(decodeURIComponent(currentSegment));
+        if (contextSegment) {
+            parts.push(contextSegment);
         }
         if (suffix) {
             parts.push(suffix);
@@ -138,7 +171,11 @@
         if (typeof paramOverride !== 'object') {
             paramOverride = {};
         }
-        $.extend(extraParams, DataTable_RowActions_SegmentVisitorLog.filterAllowedExtraParams(paramOverride));
+        paramOverride = DataTable_RowActions_SegmentVisitorLog.filterAllowedExtraParams(paramOverride);
+        // trigger() already built the segment from the row's series and the report's suffix, so the
+        // series segment in the override must not replace it
+        delete paramOverride.segment;
+        $.extend(extraParams, paramOverride);
 
         this.openPopover(apiMethod, segment, extraParams);
     };
@@ -182,7 +219,7 @@
 
         isAvailableOnRow: function (dataTableParams, tr) {
             var value = getRawSegmentValueFromRow(tr);
-            if ('undefined' === (typeof value)) {
+            if ('undefined' === (typeof value) || usesUnavailableSegment(value)) {
                 return false;
             }
 

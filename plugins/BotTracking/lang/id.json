@@ -41,7 +41,6 @@
         "NoDataCloudflareInstructions2": "Deploy Worker (Node.js) dan atur URL Matomo serta ID situs Anda.",
         "NoDataCloudflareInstructions3": "Lampirkan Worker ke zone atau route Anda agar berjalan langsung bersama permintaan.",
         "NoDataCloudflareInstructions4": "Verifikasi pengaturan dengan memeriksa bahwa hit Chatbot AI muncul dalam laporan pelacakan.",
-        "NoDataHttpTrackingApiDescription": "HTTP Tracking API memungkinkan Anda melacak permintaan chatbot AI secara langsung ketika Anda memerlukan integrasi kustom. Mulailah dengan %1$sbasis pengetahuan Tracking API%2$s dan gunakan %3$sreferensi HTTP Tracking API%4$s untuk parameter dan perilaku pelacakan bot terbaru.",
         "NoDataLinkKnowledgeBase": "Dokumentasi: %1$sBasis Pengetahuan Matomo%2$s",
         "NoDataLinkSourceCode": "Kode sumber: %1$srepositori GitHub%2$s",
         "NoDataMissingOneContactUs": "Ada yang kurang? Hubungi kami",

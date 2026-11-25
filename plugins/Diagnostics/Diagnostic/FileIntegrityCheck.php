@@ -36,7 +36,9 @@ class FileIntegrityCheck implements Diagnostic
         list($ok, $messages) = FileIntegrity::getFileIntegrityInformation();
 
         if ($ok) {
-            return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_OK, implode('<br/>', $messages)));
+            // A passing check can still carry notes, such as leftover developer docs
+            $comment = empty($messages) ? '' : $this->formatMessages($messages);
+            return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_OK, $comment));
         }
 
         $comment = $this->translator->translate('General_FileIntegrityWarning');
@@ -46,9 +48,13 @@ class FileIntegrityCheck implements Diagnostic
             $messages = array_slice($messages, 0, 20);
             $messages[] = '...';
         }
-        $comment .= '<br/><br/><pre style="overflow-x: scroll;max-width: 600px;">'
-            . implode("\n", $messages) . '</pre>';
+        $comment .= '<br/><br/>' . $this->formatMessages($messages);
 
         return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_WARNING, $comment));
+    }
+
+    private function formatMessages(array $messages): string
+    {
+        return '<pre style="overflow-x: scroll;max-width: 600px;">' . implode("\n", $messages) . '</pre>';
     }
 }

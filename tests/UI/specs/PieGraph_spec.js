@@ -25,18 +25,16 @@ describe("PieGraph", function () {
     });
 
     it("should display the metric picker when the metric picker button is clicked", async function () {
-        await page.click('.metrics-picker__toggle');
+        await page.click('.series-picker-wrapper .mtm-selector__trigger');
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('metric_picker_shown');
         await page.keyboard.press('Escape');
     });
 
     it("should change displayed metric when another metric picked", async function () {
-        await page.click('.metrics-picker__toggle');
-        // click the label, not the input: the options sit in the DOM whether the dropdown is open
-        // or not, and the input itself is the hidden half of a Materialize checkbox
-        await page.waitForSelector('.metrics-picker__options label');
-        var element = await page.jQuery('.metrics-picker__options .metrics-picker__label:has(input:not(:checked)):eq(0)');
+        await page.click('.series-picker-wrapper .mtm-selector__trigger');
+        await page.waitForSelector('.series-picker-wrapper .mtm-dropdownPanel__menuLink');
+        var element = await page.jQuery('.series-picker-wrapper .mtm-dropdownPanel__menuLink[aria-checked="false"]:eq(0)');
         await element.click();
 
         await page.waitForNetworkIdle();

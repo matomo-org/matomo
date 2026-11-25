@@ -3,6 +3,11 @@
         "PluginDescription": "Muestra reportes de usuario",
         "ThereIsNoDataForThisReportHelp": "%1$sLea la guía del usuario para saber cómo generar datos para este informe.%2$s",
         "UserId": "UserId",
+        "UserIdDisabledSettingImpact": "No se recopilan los valores de User ID. Los informes, los segmentos y el análisis entre visitas basados en el User ID no están disponibles.",
+        "UserIdDisabledSettingRequirementNote": "La recopilación del User ID durante el seguimiento debe estar desactivada.",
+        "UserIdDisabledSettingTitle": "Seguimiento del User ID desactivado",
+        "UserIdDisabledSettingWhatItDoes": "El seguimiento del User ID está desactivado. Las implementaciones de seguimiento no deben enviar User ID mediante setUserId ni métodos equivalentes.<br><br>Así se impide identificar directamente a los visitantes y asociarlos entre visitas o dispositivos.",
+        "UserIdSegmentHelp": "cualquier cadena única no vacía que identifique al usuario (como una dirección de correo electrónico o un nombre de usuario).",
         "UserReportDocumentation": "Muestra las visitas y otras métricas generales para cada ID de usuario individual.",
         "UserReportTitle": "IDs de Usuario",
         "VisitorsUserSubcategoryHelp": "El informe de ID de usuario muestra las visitas asociadas con todos sus usuarios registrados y conectados. Comprenda el uso del sitio web por parte de sus usuarios específicos y descubra quiénes son sus usuarios más y menos activos."

@@ -249,7 +249,7 @@ class IniFileChain
 
         $merged = $this->mergeFileSettings();
         // remove reference to $this->settingsChain... otherwise dump() or compareElements() will never notice a difference
-        // on PHP 7+ as they would be always equal
+        // as they would be always equal
         $this->mergedSettings = $this->copy($merged);
 
         if (!empty($GLOBALS['MATOMO_MODIFY_CONFIG_SETTINGS']) && !empty($this->mergedSettings)) {

@@ -94,6 +94,8 @@ When a managed environment forces a provider from configuration, the service als
     'text' => 'Generated response text.',
     'inputTokens' => 42,                   // input/prompt tokens reported by the provider, or null
     'outputTokens' => 12,                  // output/completion tokens reported by the provider, or null
+    'cacheReadTokens' => null,             // input tokens served from the prompt cache, not in inputTokens, or null
+    'cacheWriteTokens' => null,            // input tokens written to the prompt cache, not in inputTokens, or null
     'reasoningLevel' => 'none',            // reasoning level used
     'webSearchUsed' => false,              // whether provider-side web search actually ran
     'webSearchRequestCount' => null,       // searches performed, or null when none ran / not reported
@@ -147,8 +149,10 @@ verbatim, so escape them where you render them. URLs are guaranteed to be `http(
 
 **Grounding is not a marginal cost.** Every provider charges per search, and the retrieved page content
 is billed as input tokens on top, so a grounded request costs a multiple of the same request
-ungrounded rather than a little more. The number of searches is capped on Anthropic (`max_uses`: 5)
-and the retrieved context on OpenAI (`search_context_size`: medium); Google exposes no cap at all.
+ungrounded rather than a little more. The number of searches is capped at
+`AIRequest::DEFAULT_MAX_WEB_SEARCHES` (2) on Anthropic (`max_uses`) and OpenAI (`max_tool_calls`);
+raise or lower it per request with `withMaxWebSearches()`. OpenAI also caps the retrieved context
+(`search_context_size`: medium). Google exposes no cap at all and ignores the setting.
 
 Grounded requests are slow (30-90s). The provider timeout defaults to 120s for them (30s otherwise).
 That outlasts the default read timeout of every common web server and proxy in front of PHP (nginx
@@ -234,3 +238,42 @@ if (!$service->canConverse()) {
     // Hide or disable the feature.
 }
 ```
+
+## Usage limits and metering (events)
+
+AIProviders posts events around every `complete()` and `converse()` provider call so a plugin can limit or bill AI usage (Matomo Cloud does) without AIProviders depending on it. With no listener, nothing changes.
+
+| Event | When | Listener gets |
+| --- | --- | --- |
+| `AIProviders.beforeRequest` | Before every `complete()` / `converse()` provider call, after the provider is resolved | `AIRequestContext $context`, `AIRequestDecision $decision` |
+| `AIProviders.usage` | After every `complete()` / `converse()` provider call: success, empty completion or error | `AIUsage $usage` |
+| `AIProviders.getRemainingBudget` | When a caller calls `getRemainingBudget($featureKey)` before a batch | `string $featureKey`, `?int &$budget` |
+| `AIProviders.checkFeatureAllowed` | When a caller calls `checkFeatureAllowed($featureKey, $payload)` before an action | `string $featureKey`, `array $payload`, `AIRequestDecision $decision` |
+
+- A decision starts as allowed, and listeners can `deny()` but not allow again, so one listener cannot overrule another's denial. A denied call is never sent: the caller gets an `AIQuotaExceededException` carrying the decision. `deny()` can also take an `AIUsageAction`, for example "Buy more credits" when the allowance is used up, read back through `getAction()`. Pass it only to a user who can follow it. The first denial's action wins with it, and a denial without one drops the link of an earlier report.
+- A `checkFeatureAllowed` or `beforeRequest` listener that allows can call `reportUsage($used, $limit, $remaining, $message, $action)` so the caller can show the figures, for example "20 of 25 prompts used". The optional `$message` is translated plain text about the usage, such as when the allowance renews, and the optional `AIUsageAction` is a link that raises it, such as "Buy more credits"; pass an action only to a user who can follow it. Its URL is always relative or http(s). On a report or a denial, the limit must be the real allowance in the feature key's units, and the other figures must match it: callers may act on the limit, not only show it. It is ignored once the decision is denied; with several listeners the report with the least remaining wins, together with its message and action, on a tie the later report wins, and one without a remaining figure never replaces one that has it. Only `checkFeatureAllowed()` and `probeRequest()` return an allowed decision, so usage reported on a real `complete()` or `converse()` call is not passed on.
+- `beforeRequest` and `usage` share one context, whose request ID links them and can serve as a dedupe key.
+- An exception thrown by a `usage` listener is logged and not passed on, because the call has already been made and paid for. It does stop the listeners after it, so catch your own errors.
+- Meter `usage` events with outcome `success` only. An `error` outcome may mean nothing was sent or billed, for example when no API key is configured. `beforeRequest` is also posted by `assertRequestAllowed()` and `probeRequest()` (with `$context->isProbe()` true), and no usage follows a probe or a denial.
+- Connection tests and model listings in the admin UI call the provider directly and post no events.
+- Neither event carries prompt or response content.
+
+Callers help listeners by describing the call:
+
+```php
+$request = (new AIRequest($prompt, 'YourPlugin'))
+    ->withFeatureKey('YourPlugin.summary') // defaults to 'YourPlugin.default'
+    ->withIdSite($idSite)
+    ->withUsageReference((string) $idQuery) // your own ID for this call
+    ->withMeta(['source' => 'scheduled']); // extra data for listeners, no prompt content
+
+try {
+    $response = $service->complete($request);
+} catch (AIQuotaExceededException $e) {
+    // Show $e->getMessage(); $e->getDecision() has the used / limit figures and, from getAction(), an optional link.
+}
+```
+
+`assertRequestAllowed($request)` asks the listeners the same question before a feature starts, without calling the provider. It does not check whether the provider supports the request. `probeRequest($request)` does the same and returns the allowed decision, so the feature can also show the usage a listener reported, for example a warning before the allowance runs out.
+
+Providers report what a call used on their response: input, output and prompt-cache token counts (`inputTokens` excludes cached tokens for every provider), web searches, `flatFeeCalls` for per-call priced APIs, the provider-billed `cost`, and free-form `providerMeta`.

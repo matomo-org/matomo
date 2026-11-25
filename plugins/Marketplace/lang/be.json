@@ -1,6 +1,8 @@
 {
     "Marketplace": {
         "ActivateLicenseKey": "Актываваць",
+        "CategoryEcommerce": "Электронная камерцыя",
+        "CategorySecurity": "Бяспека",
         "PluginKeywords": "Ключавыя словы",
         "SubscriptionType": "Тып"
     }

@@ -19,6 +19,7 @@ use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Translation\Translator;
 use Piwik\Url;
+use Piwik\ViewDataTable\EstimatedUniques;
 
 class Controller extends \Piwik\Plugin\Controller
 {
@@ -101,7 +102,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $currentPeriod = Common::getRequestVar('period', false);
 
-        if (!SettingsPiwik::isUniqueVisitorsEnabled($currentPeriod)) {
+        if (!SettingsPiwik::isUniqueVisitorsTotalAvailable($currentPeriod)) {
             $selectableColumns = array_diff($selectableColumns, ['nb_uniq_visitors', 'nb_users']);
         }
 
@@ -123,6 +124,10 @@ class Controller extends \Piwik\Plugin\Controller
 
         if (empty($view->config->columns_to_display)) {
             $view->config->columns_to_display = array('nb_visits');
+        }
+
+        if (SettingsPiwik::isUniqueVisitorsEstimated((string) $currentPeriod)) {
+            EstimatedUniques::labelFromData($view, EstimatedUniques::getMetricTranslations());
         }
 
         return $this->renderView($view);

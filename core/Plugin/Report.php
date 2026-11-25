@@ -15,6 +15,7 @@ use Piwik\Columns\Dimension;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\Sort;
+use Piwik\Exception\NoPrivilegesException;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
@@ -270,7 +271,7 @@ class Report
      * customize the error message. Eg.
      * ```
      * if (!$this->isEnabled()) {
-     * throw new Exception('Setting XYZ is not enabled or the user has not enough permission');
+     * throw new NoPrivilegesException('Setting XYZ is not enabled or the user has not enough permission', 403);
      * }
      * ```
      * @throws \Exception
@@ -279,7 +280,7 @@ class Report
     public function checkIsEnabled()
     {
         if (!$this->isEnabled()) {
-            throw new Exception(Piwik::translate('General_ExceptionReportNotEnabled'));
+            throw new NoPrivilegesException(Piwik::translate('General_ExceptionReportNotEnabled'), 403);
         }
     }
 
@@ -758,6 +759,24 @@ class Report
      * @return null|callable
      */
     public function getSecondarySortColumnCallback()
+    {
+        return null;
+    }
+
+    /**
+     * Returns a filter to search the report's rows with, in place of matching the pattern against
+     * each row's label, or `null` to keep matching the label.
+     *
+     * Lets a report recognise a search the label alone cannot answer, such as a full URL pasted
+     * into a report whose labels hold only the path. The filter is applied to every table of the
+     * response, and has to keep a row whose subtable still holds a match.
+     *
+     * @param string $pattern The search as {@link Common::getRequestVar()} returns it, sanitized
+     *                        like the pattern the label filter receives.
+     * @return callable|null A filter taking the DataTable to search.
+     * @ignore
+     */
+    public function getSearchFilter(string $pattern): ?callable
     {
         return null;
     }

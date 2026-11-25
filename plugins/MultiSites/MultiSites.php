@@ -89,10 +89,6 @@ class MultiSites extends \Piwik\Plugin
         $translations[] = 'MultiSites_EvolutionFromPreviousPeriod';
         $translations[] = 'MultiSites_EvolutionFromPreviousWeek';
         $translations[] = 'MultiSites_EvolutionFromPreviousYear';
-        $translations[] = 'MultiSites_TotalHits';
-        $translations[] = 'MultiSites_TotalAiChatbotsRequests';
-        $translations[] = 'MultiSites_TotalPageviews';
-        $translations[] = 'MultiSites_TotalVisits';
         $translations[] = 'MultiSites_AllWebsitesDashboardErrorMessage';
         $translations[] = 'MultiSites_MetricDocumentationWebsite';
         $translations[] = 'MultiSites_MetricDocumentationVisits';
@@ -105,11 +101,14 @@ class MultiSites extends \Piwik\Plugin
         $translations[] = 'MultiSites_AiChatbotsRequests';
         $translations[] = 'MultiSites_SegmentationNotSupported';
         $translations[] = 'MultiSites_AiChatbotsSegmentationTooltip';
-        $translations[] = 'MultiSites_TotalHitsIncludingAiTooltip';
+        $translations[] = 'MultiSites_HitsIncludingAiTooltip';
     }
 
     public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = "plugins/MultiSites/vue/src/AllWebsitesDashboard/AllWebsitesDashboard.less";
+        // Plain .css, not .less: they rely on @container, which less.php does not support
+        $stylesheets[] = "plugins/MultiSites/vue/src/AllWebsitesDashboard/KPICardContainer.css";
+        $stylesheets[] = "plugins/MultiSites/vue/src/AllWebsitesDashboard/KPICard.css";
     }
 }

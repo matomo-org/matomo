@@ -1,9 +1,35 @@
 {
     "MultiSites": {
+        "AiChatbotsRequests": "Cereri ale chatboților AI",
+        "AiChatbotsSegmentationTooltip": "Segmentarea nu este disponibilă pentru această metrică, deoarece cererile chatboților AI (precum cele de la ChatGPT) nu sunt legate de vizite sau vizitatori obișnuiți.",
+        "AllWebsitesDashboardDocumentation": "Acest raport vă oferă o prezentare informativă pentru fiecare dintre site-urile dumneavoastră, cu cele mai generale metrici despre vizitatori.",
+        "AllWebsitesDashboardErrorMessage": "Datele nu sunt disponibile momentan. Cauza poate fi o problemă temporară a serverului sau faptul că raportul conține prea multe date. Vă rugăm să încercați din nou mai târziu. Dacă problema persistă, contactați administratorul Matomo pentru asistență.",
         "AllWebsitesDashboardTitle": "Toate site-urile",
         "Evolution": "Evoluţie",
+        "EvolutionComparisonDay": "%1$s %2$s în această zi, comparativ cu %3$s %2$s în perioada parțială anterioară (%4$s) Evoluție: %5$s",
+        "EvolutionComparisonIncomplete": "Perioada selectată în prezent este completă în proporție de %1$s.",
+        "EvolutionComparisonMonth": "%1$s %2$s în această lună, comparativ cu %3$s %2$s în perioada parțială anterioară (%4$s) Evoluție: %5$s",
+        "EvolutionComparisonProportional": "Dacă și perioada anterioară ar fi fost completă în proporție de %1$s, ar fi existat aproximativ %2$s %3$s\n(dintr-un total de %4$s %3$s în perioada anterioară).",
+        "EvolutionComparisonWeek": "%1$s %2$s în această săptămână, comparativ cu %3$s %2$s în perioada parțială anterioară (%4$s) Evoluție: %5$s",
+        "EvolutionComparisonYear": "%1$s %2$s în acest an, comparativ cu %3$s %2$s în perioada parțială anterioară (%4$s) Evoluție: %5$s",
+        "EvolutionFromPreviousDay": "Față de ziua anterioară",
+        "EvolutionFromPreviousMonth": "Față de luna anterioară",
+        "EvolutionFromPreviousPeriod": "Față de perioada anterioară",
+        "EvolutionFromPreviousWeek": "Față de săptămâna anterioară",
+        "EvolutionFromPreviousYear": "Față de anul anterior",
+        "HitsIncludingAiTooltip": "Include toate accesările umane și cererile chatboților AI",
         "LoadingWebsites": "încărcare site-uri web",
-        "TopLinkTooltip": "Compara statisticiLE Web Analytics pentru toate site-urile dvs..",
-        "TotalPageviews": "Total Vizualizari"
+        "MetricDocumentationAiChatbotsRequests": "Numărul total de cereri ale chatboților AI înregistrate pentru acest site.",
+        "MetricDocumentationEvolution": "Variația procentuală a acestei metrici față de perioada anterioară pentru acest site. O valoare pozitivă indică o creștere, iar o valoare negativă indică o scădere.",
+        "MetricDocumentationHits": "Numărul total de acțiuni înregistrate pentru acest site, inclusiv vizualizările de pagină, descărcările și linkurile externe.",
+        "MetricDocumentationHitsIncludingAi": "Numărul total de acțiuni înregistrate pentru acest site, inclusiv vizualizările de pagină, descărcările, linkurile externe și cererile chatboților AI.",
+        "MetricDocumentationPageviews": "Numărul total de vizualizări de pagină pe acest site. Include vizualizările multiple ale aceleiași pagini de către un singur vizitator.",
+        "MetricDocumentationRevenue": "Venitul total urmărit pentru acest site. Această metrică este disponibilă dacă urmărirea comerțului electronic este activată și reflectă achizițiile sau venitul bazat pe ținte.",
+        "MetricDocumentationVisits": "Numărul total de vizite înregistrate pentru acest site. O vizită începe când un utilizator accesează site-ul și se încheie după o perioadă de inactivitate sau când sesiunea expiră.",
+        "MetricDocumentationWebsite": "Lista site-urilor urmărite afișate în panoul de control. Fiecare rând reprezintă un site separat, cu datele de analiză corespunzătoare.",
+        "PluginDescription": "Vizualizați și comparați toate site-urile și aplicațiile în acest util panou de control 'Toate site-urile'.",
+        "SegmentationNotSupported": "Segmentarea nu este acceptată",
+        "SingleWebsitesDashboardDocumentation": "Acest raport vă oferă o prezentare informativă pentru un anumit site, cu cele mai generale metrici despre vizitatori.",
+        "TopLinkTooltip": "Compara statisticiLE Web Analytics pentru toate site-urile dvs.."
     }
 }

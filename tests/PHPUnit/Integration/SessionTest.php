@@ -9,6 +9,7 @@
 
 namespace Piwik\Tests\Integration;
 
+use Piwik\Config;
 use Piwik\EventDispatcher;
 use Piwik\Http;
 use Piwik\Session;
@@ -27,6 +28,24 @@ class SessionTest extends IntegrationTestCase
         $url = Fixture::getRootUrl() . '/tests/resources/sessionStarter.php';
         $result = Http::sendHttpRequest($url, 5);
         $this->assertSame('ok', trim($result));
+    }
+
+    /**
+     * PHP builds the session cookie it sends on start and regenerate from these settings.
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
+    public function testStartConfiguresPhpsSessionCookieAndIdHandling()
+    {
+        $_SERVER['HTTPS'] = 'on';
+        Config::getInstance()->General['enable_framed_pages'] = 1;
+
+        Session::start();
+
+        $this->assertTrue(Session::isSessionStarted());
+        $this->assertSame('None', ini_get('session.cookie_samesite'));
+        $this->assertSame('0', ini_get('session.use_strict_mode'));
     }
 
     /**

@@ -1,6 +1,6 @@
 {
     "Dashboard": {
-        "AddAWidget": "Legg til miniprogram",
+        "AddAWidget": "Legg til miniprogram i dette oversiktspanelet",
         "AddPreviewedWidget": "Klikk for å legge til miniprogram i oversikt",
         "ChangeDashboardLayout": "Tilpass oversiktspanel",
         "CopyDashboardToUser": "Kopier oversiktspanel til bruker",
@@ -14,8 +14,9 @@
         "DefaultDashboard": "Standard oversikt – Bruker standardwidgetene og -kolonnelayout",
         "DeleteWidgetConfirm": "Er du sikker på at du vil fjerne dette elementet fra din oversikt?",
         "EmptyDashboard": "Tøm oversikt — Velg dine favorittminiprogrammer",
+        "ExportThisDashboard": "Eksporter oversiktspanel",
         "LoadingWidget": "Laster element, vennligst vent …",
-        "ManageDashboard": "Administrer oversikt",
+        "ManageDashboard": "Administrer oversiktspanel",
         "Maximise": "Maksimer",
         "Minimise": "Minimer",
         "NotUndo": "Du vil ikke være i stand til å angre denne handlingen.",

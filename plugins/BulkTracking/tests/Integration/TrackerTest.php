@@ -10,9 +10,12 @@
 namespace Piwik\Plugins\BulkTracking\tests\Integration;
 
 use Piwik\Common;
+use Piwik\Config;
+use Piwik\EventDispatcher;
 use Piwik\Plugins\BulkTracking\tests\Framework\Mock\Tracker\Response;
 use Piwik\Plugins\BulkTracking\tests\Framework\TestCase\BulkTrackingTestCase;
 use Piwik\Plugins\BulkTracking\Tracker\Handler;
+use Piwik\Tests\Framework\DbErrorRaiser;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tracker;
 use Piwik\Tests\Framework\Mock\Tracker\RequestSet;
@@ -38,6 +41,13 @@ class TrackerTest extends BulkTrackingTestCase
         Fixture::createWebsite('2014-01-01 00:00:00');
 
         $this->injectRawDataToBulk($this->getDummyRequest());
+        DbErrorRaiser::install();
+    }
+
+    public function tearDown(): void
+    {
+        DbErrorRaiser::uninstall();
+        parent::tearDown();
     }
 
     public function testMainShouldIncreaseLoggedRequestsCounter()
@@ -128,6 +138,90 @@ class TrackerTest extends BulkTrackingTestCase
         $response = $this->tracker->main($handler, $this->getEmptyRequestSet());
 
         $this->assertEquals('{"status":"success","tracked":1,"invalid":1}', $response);
+    }
+
+    /**
+     * @dataProvider getErrorsThatEndTheTransaction
+     */
+    public function testMainStoresNothingWhenARequestEndsTheTransaction(int $errorNumber, string $message, bool $isCaught)
+    {
+        $this->raiseErrorWhenTrackingSite(2, $errorNumber, $message, $isCaught);
+
+        $response = $this->trackBulkRequest();
+
+        $this->assertStringStartsWith('{"status":"error"', $response);
+        $this->assertEmpty($this->getIdVisit(1), 'The request tracked before the error must be rolled back too');
+        $this->assertEmpty($this->getIdVisit(2));
+    }
+
+    public function getErrorsThatEndTheTransaction(): iterable
+    {
+        $deadlock = 'Deadlock found when trying to get lock; try restarting transaction';
+        $snapshotConflict = "Record has changed since last read in table 'log_visit'";
+
+        yield 'deadlock caught by a tracking step' => [1213, $deadlock, true];
+        yield 'deadlock not caught' => [1213, $deadlock, false];
+        yield 'snapshot isolation conflict caught by a tracking step' => [1020, $snapshotConflict, true];
+        yield 'snapshot isolation conflict not caught' => [1020, $snapshotConflict, false];
+    }
+
+    public function testMainKeepsTrackingAfterACaughtDeadlockWhenTransactionsAreDisabled()
+    {
+        $this->setTrackerConfig('bulk_requests_use_transaction', 0);
+        $this->raiseErrorWhenTrackingSite(2, 1213, 'Deadlock found when trying to get lock; try restarting transaction', true);
+
+        $response = $this->trackBulkRequest();
+
+        $this->assertSame('{"status":"success","tracked":2,"invalid":0}', $response);
+        $this->assertNotEmpty($this->getIdVisit(1));
+        $this->assertNotEmpty($this->getIdVisit(2));
+    }
+
+    public function testMainSkipsOnlyTheRequestThatHitALockWaitTimeout()
+    {
+        $this->raiseErrorWhenTrackingSite(2, 1205, 'Lock wait timeout exceeded; try restarting transaction', false);
+
+        $response = $this->trackBulkRequest();
+
+        $this->assertStringStartsWith('{"status":"success"', $response);
+        $this->assertNotEmpty($this->getIdVisit(1));
+        $this->assertEmpty($this->getIdVisit(2));
+    }
+
+    private function raiseErrorWhenTrackingSite(int $idSite, int $errorNumber, string $message, bool $isCaught): void
+    {
+        EventDispatcher::getInstance()->addObserver(
+            'Tracker.isExcludedVisit',
+            function (&$excluded, Tracker\Request $request) use ($idSite, $errorNumber, $message, $isCaught) {
+                if ($request->getIdSite() !== $idSite) {
+                    return;
+                }
+
+                try {
+                    DbErrorRaiser::raise(Tracker::getDatabase(), $errorNumber, $message);
+                } catch (\Exception $e) {
+                    if (!$isCaught) {
+                        throw $e;
+                    }
+                    // like a tracking step that logs a failed write and carries on
+                }
+            }
+        );
+    }
+
+    private function trackBulkRequest(): string
+    {
+        $handler = $this->getHandler();
+        $handler->setResponse(new Response());
+
+        return $this->tracker->main($handler, $this->getEmptyRequestSet());
+    }
+
+    private function setTrackerConfig(string $name, $value): void
+    {
+        $tracker = Config::getInstance()->Tracker;
+        $tracker[$name] = $value;
+        Config::getInstance()->Tracker = $tracker;
     }
 
     private function getHandler()

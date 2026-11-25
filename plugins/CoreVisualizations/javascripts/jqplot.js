@@ -51,7 +51,12 @@ function updateLegendFooterStacking($legendFooter)
     // 0 when the footer isn't laid out yet (e.g. display:none); skip so we don't flip-flop
     var width = $legendFooter[0].clientWidth;
     if (width > 0) {
-        $legendFooter.toggleClass('is-narrow', width < FOOTER_STACK_MAX_WIDTH);
+        var isNarrow = width < FOOTER_STACK_MAX_WIDTH;
+        $legendFooter.toggleClass('is-narrow', isNarrow);
+        // The picker is a shared selector, so the layout that knows it is stacked is what puts
+        // the modifier on it. Styling it from the footer would reach into another block.
+        $legendFooter.find('.jqplot-legend-picker .mtm-selector')
+            .toggleClass('mtm-selector--fullWidth', isNarrow);
     }
 }
 
@@ -330,11 +335,16 @@ function applyFooterLegendRowLimit($dataTable)
                 },
                 axesDefaults: {
                     pad: 1.0,
-                    tickRenderer: $.jqplot.CanvasAxisTickRenderer,
+                    // DOM labels rather than canvas ones: canvas ticks are sized from a rounded-down
+                    // text width and a box one font-size tall, which cuts off label edges on
+                    // scaled displays and in the exported image
+                    tickRenderer: $.jqplot.AxisTickRenderer,
                     tickOptions: {
                         showMark: false,
                         fontSize: '11px',
-                        fontFamily: getLabelFontFamily()
+                        fontFamily: getLabelFontFamily(),
+                        // bar graph ticks are report row labels, so insert them as text, not HTML
+                        escapeHTML: true
                     },
                     rendererOptions: {
                         drawBaseline: false
@@ -700,15 +710,11 @@ function applyFooterLegendRowLimit($dataTable)
 
             for (var i = 0; i < canvases.length; i++) {
                 var canvas = canvases.eq(i);
-                var position = canvas.position();
-                var parent = canvas.parent();
-                if (parent.hasClass('jqplot-axis')) {
-                    var addPosition = parent.position();
-                    position.left += addPosition.left;
-                    position.top += addPosition.top + parseInt(parent.css('marginTop'), 10);
-                }
+                var position = this.getExportPosition(canvas);
                 exportCtx.drawImage(canvas[0], Math.round(position.left * pixelRatio), Math.round(position.top * pixelRatio));
             }
+
+            this.drawAxisTicksForExport(exportCtx, container, pixelRatio);
 
             if (hasFooterLegend) {
                 this.drawLegendForExport(
@@ -749,6 +755,50 @@ function applyFooterLegendRowLimit($dataTable)
                 close: function (event, ui) {
                     $(this).dialog("destroy").remove();
                 }
+            });
+        },
+
+        // Position of an element inside the plot container. Axis children are positioned
+        // within their axis div, so add the axis's own offset and margins, which position() leaves out.
+        getExportPosition: function ($element) {
+            var position = $element.position();
+            var $parent = $element.parent();
+            if ($parent.hasClass('jqplot-axis')) {
+                var parentPosition = $parent.position();
+                position.left += parentPosition.left + (parseInt($parent.css('marginLeft'), 10) || 0);
+                position.top += parentPosition.top + (parseInt($parent.css('marginTop'), 10) || 0);
+            }
+            return position;
+        },
+
+        // Axis tick labels are DOM text, so they are not among the copied canvases. Redraw
+        // each one onto the export canvas with the position, font and colour it has on screen.
+        drawAxisTicksForExport: function (ctx, container, pixelRatio) {
+            var self = this;
+            container.find('.jqplot-axis').children().each(function () {
+                var $tick = $(this);
+                var text = $tick.text();
+                // skip canvases (already copied) and the ticks _checkTicksWidth() blanked out
+                if (this.tagName === 'CANVAS' || !$.trim(text)) {
+                    return;
+                }
+
+                var position = self.getExportPosition($tick);
+                var fontSize = parseFloat($tick.css('font-size')) || 11;
+                var alignRight = $tick.css('text-align') === 'right';
+
+                ctx.save();
+                ctx.font = Math.round(fontSize * pixelRatio) + 'px '
+                    + ($tick.css('font-family') || require('piwik/UI').getLabelFontFamily());
+                ctx.fillStyle = $tick.css('color') || '#666666';
+                ctx.textAlign = alignRight ? 'right' : 'left';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(
+                    text,
+                    (position.left + (alignRight ? $tick.outerWidth() : 0)) * pixelRatio,
+                    (position.top + $tick.outerHeight() / 2) * pixelRatio
+                );
+                ctx.restore();
             });
         },
 
@@ -861,8 +911,9 @@ function applyFooterLegendRowLimit($dataTable)
         },
 
         setYTicksForAxis: function (axisName, axis) {
-            // calculate maximum y value of all data sets
+            // calculate maximum and minimum y value of all data sets
             var maxDataValue = 0;
+            var minDataValue = 0;
             for (var i = 0; i < this.data.length; i++) {
                 if (this.jqplotParams.series[i].yaxis == axisName) {
                     var maxValue = Math.max.apply(Math, this.data[i]);
@@ -870,6 +921,11 @@ function applyFooterLegendRowLimit($dataTable)
                         maxDataValue = maxValue;
                     }
                     maxDataValue = parseFloat(maxDataValue);
+
+                    var minValue = Math.min.apply(Math, this.data[i]);
+                    if (minValue < minDataValue) {
+                        minDataValue = parseFloat(minValue);
+                    }
                 }
             }
 
@@ -880,35 +936,54 @@ function applyFooterLegendRowLimit($dataTable)
             var forecastExceedsData = maxForecastValue > maxDataValue;
             var maxCrossDataSets = forecastExceedsData ? maxForecastValue : maxDataValue;
 
-            // add little padding on top
-            maxCrossDataSets += Math.max(1, Math.round(maxCrossDataSets * .03));
+            // add a little padding, then round to the nearest multiple of ten
+            var padAndRound = function (value) {
+                value += Math.max(1, Math.round(value * .03));
+                if (value > 15) {
+                    value = value + 10 - value % 10;
+                }
+                return value;
+            };
 
-            // round to the nearest multiple of ten
-            if (maxCrossDataSets > 15) {
-                maxCrossDataSets = maxCrossDataSets + 10 - maxCrossDataSets % 10;
-            }
+            maxCrossDataSets = padAndRound(maxCrossDataSets);
 
             if (maxCrossDataSets == 0) {
                 maxCrossDataSets = 1;
             }
 
-            // make sure percent axes don't go above 100%
+            // make sure percent axes don't go above 100%, unless a value or forecast does
+            var maxTick = Infinity;
             if (
               axis.tickOptions
               && axis.tickOptions.formatString
               && axis.tickOptions.formatString.endsWith('%')
-              && maxCrossDataSets > 100
+              && Math.max(maxDataValue, maxForecastValue) <= 100
             ) {
-                maxCrossDataSets = 100;
+                maxTick = 100;
             }
+            maxCrossDataSets = Math.min(maxCrossDataSets, maxTick);
 
             // calculate y-values for ticks
             var ticks = [];
             var numberOfTicks = 2;
             var tickDistance = Math.ceil(maxCrossDataSets / numberOfTicks);
-            for (var i = 0; i <= numberOfTicks; i++) {
-                ticks.push(i * tickDistance);
+            var ticksAboveZero = numberOfTicks;
+            var ticksBelowZero = 0;
+            if (minDataValue < 0) {
+                // without ticks below zero, a negative value is drawn off the graph
+                var minCrossDataSets = padAndRound(-minDataValue);
+                tickDistance = Math.max(tickDistance, Math.ceil(minCrossDataSets / numberOfTicks));
+                // the padding gives an all-negative axis a positive maximum, so skip the tick it would add
+                ticksAboveZero = Math.max(maxDataValue, maxForecastValue) <= 0
+                    ? 0
+                    : Math.ceil(maxCrossDataSets / tickDistance);
+                ticksBelowZero = Math.ceil(minCrossDataSets / tickDistance);
             }
+            for (var i = 0; i <= ticksBelowZero + ticksAboveZero; i++) {
+                ticks.push((i - ticksBelowZero) * tickDistance);
+            }
+            // a step sized for large negative values can overshoot 100% at the top
+            ticks[ticks.length - 1] = Math.min(ticks[ticks.length - 1], maxTick);
             axis.ticks = ticks;
 
             if (forecastExceedsData) {
@@ -1515,7 +1590,8 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
             c.markerRenderer.init();
 
             var position = series.gridData[tick];
-            if (typeof position !== 'undefined') {
+            // a missing value is a gap in the graph, so there is no point to highlight
+            if (typeof position !== 'undefined' && position[1] !== null) {
                 c.markerRenderer.draw(position[0], position[1], c.piwikHighlightCanvas._ctx);
 
                 var forecastValues = plot.options.forecastData && plot.options.forecastData[i];
@@ -1678,6 +1754,13 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
             $pickerSlot.empty().append(this.domElem);
             $legendFooter.addClass('has-picker');
             updateLegendFooterStacking($legendFooter);
+        });
+
+        // Again once the picker has drawn itself: the event above fires before its Vue app
+        // mounts, so the selector that carries the stacked layout is not in the DOM yet.
+        $(seriesPicker).bind('seriesPickerRendered', function () {
+            var $dataTable = $(plot.targetId).closest('.dataTable');
+            updateLegendFooterStacking(getOrCreateLegendFooter($dataTable));
         });
 
         // handle seriesPicked event
@@ -2302,8 +2385,9 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         let move = true;
 
         for (let i = 0; i < points.length; i++) {
-            // skip to the first non-null point and move to it.
-            if (null === points[i][0] && null === points[i][1]) {
+            // skip missing points and start a new line after them, so the gap shows
+            if (null === points[i][0] || null === points[i][1]) {
+                move = true;
                 continue;
             }
 
@@ -2339,8 +2423,9 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         move = true;
 
         for (let i = 0; i < points.length; i++) {
-            // skip to the first non-null point and move to it.
-            if (points[i][0] === null && points[i][1] === null) {
+            // skip missing points and start a new line after them, so the gap shows
+            if (points[i][0] === null || points[i][1] === null) {
+                move = true;
                 continue;
             }
 
@@ -2405,8 +2490,9 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
                 let move = true;
 
                 for (let i = 0; i < points.length; i++) {
-                    // skip to the first non-null point and move to it.
-                    if (points[i][0] === null && points[i][1] === null) {
+                    // skip missing points and start a new line after them, so the gap shows
+                    if (points[i][0] === null || points[i][1] === null) {
+                        move = true;
                         continue;
                     }
 

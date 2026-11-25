@@ -121,6 +121,110 @@ class DashboardTest extends IntegrationTestCase
         $this->assertSame('', $decoded[0][0]->uniqueId);
     }
 
+    /**
+     * @dataProvider getLayoutsWithReservedUniqueIds
+     */
+    public function testDecodeLayoutDropsReservedWidgetUniqueIds(string $uniqueId)
+    {
+        $layout = '[[{"uniqueId":"' . $uniqueId . '","parameters":{"module":"Live","action":"widget"}}]]';
+
+        $decoded = $this->dashboard->decodeLayout($layout);
+
+        $this->assertSame('', $decoded[0][0]->uniqueId);
+    }
+
+    public function getLayoutsWithReservedUniqueIds(): array
+    {
+        return [
+            ['__proto__'],
+            ['constructor'],
+            ['prototype'],
+            ['hasOwnProperty'],
+            ['toString'],
+            ['valueOf'],
+            // character sanitization runs first, so a surrounded reserved name still collides
+            ['__proto__ '],
+            // the match is case-insensitive
+            ['__PROTO__'],
+            ['ToString'],
+        ];
+    }
+
+    public function testDecodeLayoutKeepsUniqueIdsThatMerelyResembleReservedNames()
+    {
+        // a legitimate widget id that contains, but does not equal, a reserved name is kept
+        $uniqueId = 'widget__proto__Live';
+        $layout = '[[{"uniqueId":"' . $uniqueId . '","parameters":{"module":"Live","action":"widget"}}]]';
+
+        $decoded = $this->dashboard->decodeLayout($layout);
+
+        $this->assertSame($uniqueId, $decoded[0][0]->uniqueId);
+    }
+
+    public function testDecodeLayoutKeepsWidgetsThatRenderAReport()
+    {
+        $layout = '[[{"uniqueId":"widgetLivewidget","parameters":{"module":"Live","action":"widget"}},'
+            . '{"uniqueId":"widgetVisitsSummaryget","parameters":{"module":"VisitsSummary","action":"get"}}]]';
+
+        $decoded = $this->dashboard->decodeLayout($layout);
+
+        $this->assertCount(1, $decoded);
+        $this->assertCount(2, $decoded[0]);
+        $this->assertSame('Live', $decoded[0][0]->parameters->module);
+        $this->assertSame('VisitsSummary', $decoded[0][1]->parameters->module);
+    }
+
+    public function testDecodeLayoutDropsWidgetsThatDoNotRenderAReport()
+    {
+        // Only widgets served by a plugin render in a dashboard; an entry pointing at the API
+        // module is not a widget and is dropped, while real widgets around it are kept.
+        $layout = '[[{"uniqueId":"widgetApiindex","parameters":{"module":"API","action":"index"}},'
+            . '{"uniqueId":"widgetLivewidget","parameters":{"module":"Live","action":"widget"}}]]';
+
+        $decoded = $this->dashboard->decodeLayout($layout);
+
+        $this->assertCount(1, $decoded[0]);
+        $this->assertSame('widgetLivewidget', $decoded[0][0]->uniqueId);
+    }
+
+    public function testDecodeLayoutDropsNonReportWidgetsRegardlessOfModuleCase()
+    {
+        $layout = '[[{"uniqueId":"widgetApiindex","parameters":{"module":"api","action":"index"}},'
+            . '{"uniqueId":"widgetLivewidget","parameters":{"module":"Live","action":"widget"}}]]';
+
+        $decoded = $this->dashboard->decodeLayout($layout);
+
+        $this->assertCount(1, $decoded[0]);
+        $this->assertSame('widgetLivewidget', $decoded[0][0]->uniqueId);
+    }
+
+    public function testDecodeLayoutDropsNonReportWidgetsWithinColumnsObject()
+    {
+        // columns encoded as an object rather than an array must be filtered too
+        $layout = '{"config":{"layout":"100"},'
+            . '"columns":{"0":[{"uniqueId":"widgetApiindex","parameters":{"module":"API","action":"index"}},'
+            . '{"uniqueId":"widgetLivewidget","parameters":{"module":"Live","action":"widget"}}]}}';
+
+        $decoded = $this->dashboard->decodeLayout($layout);
+
+        $columns = (array) $decoded->columns;
+        $this->assertCount(1, $columns[0]);
+        $this->assertSame('widgetLivewidget', $columns[0][0]->uniqueId);
+    }
+
+    public function testDecodeLayoutKeepsTheColumnLayoutWhenDroppingNonReportWidgets()
+    {
+        $layout = '[[{"uniqueId":"widgetApiindex","parameters":{"module":"API","action":"index"}}],'
+            . '[{"uniqueId":"widgetLivewidget","parameters":{"module":"Live","action":"widget"}}]]';
+
+        $decoded = $this->dashboard->decodeLayout($layout);
+
+        $this->assertCount(2, $decoded);
+        $this->assertCount(0, $decoded[0]);
+        $this->assertCount(1, $decoded[1]);
+        $this->assertSame('widgetLivewidget', $decoded[1][0]->uniqueId);
+    }
+
     public function testRemoveWidgetsNotAvailableToUserKeepsAnAvailableWidget()
     {
         $layout = '[[{"uniqueId":"widgetLivewidget","parameters":{"module":"Live","action":"widget"}}]]';

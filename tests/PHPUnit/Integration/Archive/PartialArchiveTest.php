@@ -10,6 +10,7 @@
 namespace Piwik\Tests\Integration\Archive;
 
 use Piwik\Archive\ArchiveInvalidator;
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\Cache;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
@@ -151,6 +152,36 @@ class PartialArchiveTest extends IntegrationTestCase
             // expect only one blob for new range partial archive
             ['idsite' => 1, 'date1' => '2020-04-06', 'date2' => '2020-04-09', 'period' => Range::PERIOD_ID, 'name' => 'done.Goals', 'value' => ArchiveWriter::DONE_PARTIAL, 'blob_count' => 1],
         ], $archiveInfo);
+    }
+
+    public function testRangePartialArchivesStayUsableAfterADayOfTheRangeIsInvalidated()
+    {
+        $_GET['trigger'] = 'archivephp';
+        GoalsApi::getInstance()->get(1, 'day', '2020-04-07', false, $this->idGoal);
+        unset($_GET['trigger']);
+
+        Rules::setBrowserTriggerArchiving(false);
+
+        // each request archives only the report it asks for, in its own partial archive
+        GoalsApi::getInstance()->getDaysToConversion(1, 'range', '2020-04-06,2020-04-09', false, $this->idGoal);
+        GoalsApi::getInstance()->getVisitsUntilConversion(1, 'range', '2020-04-06,2020-04-09', false, $this->idGoal);
+
+        StaticContainer::get(ArchiveInvalidator::class)->markArchivesAsInvalidated([1], ['2020-04-07'], 'day');
+        Cache::flushAll();
+
+        [, $archiveInfo] = $this->getArchiveInfo('2020_04', Range::PERIOD_ID);
+        $goalsArchiveValues = array_column(array_filter($archiveInfo, function ($row) {
+            return $row['name'] === 'done.Goals';
+        }), 'value');
+        $this->assertEquals([ArchiveWriter::DONE_PARTIAL, ArchiveWriter::DONE_PARTIAL], $goalsArchiveValues);
+
+        $maxIdArchive = $this->getMaxIdArchive('2020_04');
+
+        $data = GoalsApi::getInstance()->getDaysToConversion(1, 'range', '2020-04-06,2020-04-09', false, $this->idGoal);
+        $this->assertEquals(['label' => '0-0', Metrics::INDEX_NB_CONVERSIONS => 1], $data->getFirstRow()->getColumns());
+
+        // an invalidated archive of a past range is archived again on request, which would also return the data
+        $this->assertEquals($maxIdArchive, $this->getMaxIdArchive('2020_04'));
     }
 
     private static function createWebsite()

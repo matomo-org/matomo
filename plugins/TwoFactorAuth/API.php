@@ -9,7 +9,9 @@
 
 namespace Piwik\Plugins\TwoFactorAuth;
 
+use Piwik\Http\BadRequestException;
 use Piwik\Piwik;
+use Piwik\Plugins\UsersManager\Model;
 
 /**
  * Provides API methods for managing two-factor authentication.
@@ -26,9 +28,10 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Disables two-factor authentication for the specified user.
+     * Disables two-factor authentication for the specified user. Your own two-factor authentication can only be
+     * turned off in your personal security settings.
      *
-     * @param string $userLogin The login of the user whose two-factor authentication should be reset.
+     * @param string $userLogin The login or email address of the user whose two-factor authentication should be reset.
      * @param string $passwordConfirmation The current superuser's password confirmation.
      * @return void
      */
@@ -39,7 +42,17 @@ class API extends \Piwik\Plugin\API
     ) {
         Piwik::checkUserHasSuperUserAccess();
 
+        // the database matches logins loosely, so work with the login as it is stored
+        $model = new Model();
+        $user = $model->getUser($userLogin) ?: $model->getUserByEmail($userLogin);
+        $storedLogin = $user['login'] ?? $userLogin;
+
+        // turning off your own 2FA has to go through the personal security settings, which ask for a 2FA code
+        if ($storedLogin === Piwik::getCurrentUserLogin()) {
+            throw new BadRequestException(Piwik::translate('TwoFactorAuth_ResetOwnTwoFactorAuthNotAllowed'));
+        }
+
         $this->confirmCurrentUserPassword($passwordConfirmation);
-        $this->twoFa->disable2FAforUser($userLogin);
+        $this->twoFa->disable2FAforUser($storedLogin);
     }
 }

@@ -512,8 +512,7 @@ class RowEvolution
         );
 
         if (empty($reportMetadata)) {
-            throw new Exception("Requested report $apiModule.$apiAction for Website id=$idSite "
-                . "not found in the list of available reports. \n");
+            throw new Exception(ProcessedReport::getReportNotFoundMessage($idSite, $apiModule, $apiAction, $apiParameters));
         }
 
         $reportMetadata = reset($reportMetadata);
@@ -574,7 +573,7 @@ class RowEvolution
             $firstRow = $subDataTable->getFirstRow();
             foreach ($metadata['metrics'] as $metric => $label) {
                 $value = $firstRow ? $this->getNumericColumnValue($firstRow, $metric) : 0;
-                if ($value > 0) {
+                if ($value != 0) {
                     $firstNonZeroFound[$metric] = true;
                 } elseif (!isset($firstNonZeroFound[$metric])) {
                     continue;
@@ -711,10 +710,6 @@ class RowEvolution
                 $value = 0;
                 if ($row) {
                     $value = $this->getNumericColumnValue($row, (string)$column);
-                }
-
-                if ($value == '') {
-                    $value = 0;
                 }
 
                 $newLabel = (string)$column . '_' . (int)$labelIdx;

@@ -11,8 +11,11 @@ namespace Piwik\Plugins\CoreAdminHome\tests\Integration\Commands;
 
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\LogRecord;
+use Piwik\Archive\ArchiveInvalidator;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
+use Piwik\Date;
 use Piwik\Db;
 use Piwik\Plugins\CustomDimensions\CustomDimensions;
 use Piwik\Plugins\CustomDimensions\API as CustomDimensionsAPI;
@@ -1003,6 +1006,33 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
         ];
     }
 
+    public function testCommandWarnsAboutGivenUpArchives()
+    {
+        $table = Common::prefixTable('archive_failures');
+        Db::query(
+            "INSERT INTO `$table` (idsite, period, date1, date2, archive_hash, name, `report`, attempts, last_error, ts_first_failed, ts_last_failed, ts_retry_after)
+                  VALUES (1, 1, '2019-03-05', '2019-03-05', ?, 'done', '', 5, 'error', NOW(), NOW(), NOW())",
+            [md5('done|')]
+        );
+
+        try {
+            $code = $this->applicationTester->run([
+                'command' => 'core:invalidate-report-data',
+                '--dates' => ['2019-06-01'],
+                '--periods' => 'day',
+                '--sites' => '1,2',
+            ]);
+        } finally {
+            Db::query("DELETE FROM `$table`");
+        }
+
+        $this->assertEquals(0, $code, $this->getCommandDisplayOutputErrorMessage());
+        self::assertStringContainsString(
+            'Warning: 1 archives between 2019-01-01 and 2019-12-31 (site IDs: 1) were given up after failing repeatedly.',
+            $this->getLogOutput()
+        );
+    }
+
     public function testCommandInvalidateDateRange()
     {
         $code = $this->applicationTester->run([
@@ -1018,6 +1048,31 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
         self::assertStringContainsString("Invalidating range periods overlapping 2019-01-01,2019-01-09 for site = [ 1 ], segment = [  ]", $this->getLogOutput());
         self::assertStringContainsString("Invalidating range periods overlapping 2019-01-01,2019-01-09 for site = [ 1 ], segment = [ browserCode==IE ]", $this->getLogOutput());
         self::assertStringContainsString("Invalidating range periods overlapping 2019-01-01,2019-01-09 for site = [ 1 ], segment = [ dimension1==test ]", $this->getLogOutput());
+    }
+
+    public function testCommandForAPluginKeepsTheRememberedDates(): void
+    {
+        $invalidator = StaticContainer::get(ArchiveInvalidator::class);
+        $invalidator->rememberToInvalidateArchivedReportsLater(1, Date::factory('2019-01-01'));
+        $invalidator->rememberToInvalidateArchivedReportsLater(1, Date::factory('2019-01-05'));
+
+        // with all periods, the range periods are invalidated too
+        $code = $this->applicationTester->run([
+            'command' => 'core:invalidate-report-data',
+            '--dates' => ['2019-01-01,2019-01-09'],
+            '--sites' => '1',
+            '--plugin' => 'Actions',
+            '-vvv' => true,
+        ]);
+
+        $this->assertEquals(0, $code, $this->getCommandDisplayOutputErrorMessage());
+
+        $remembered = $invalidator->getRememberedArchivedReportsThatShouldBeInvalidated(1);
+        ksort($remembered);
+        $this->assertEquals(['2019-01-01' => [1], '2019-01-05' => [1]], $remembered);
+
+        $invalidator->forgetRememberedArchivedReportsToInvalidate(1, Date::factory('2019-01-01'));
+        $invalidator->forgetRememberedArchivedReportsToInvalidate(1, Date::factory('2019-01-05'));
     }
 
     public function testCommandInvalidateDateRangeInvalidDate()

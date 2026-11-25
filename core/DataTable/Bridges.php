@@ -27,7 +27,7 @@ namespace {
     }
 
     // only used for BC to unserialize old archived Row instances. We cannot unserialize Row directly as it implements
-    // the Serializable interface and it would fail on PHP5.6+ when userializing the Row instance directly.
+    // the Serializable interface and it would fail when unserializing the Row instance directly.
     class Piwik_DataTable_SerializedRow
     {
         public $c;

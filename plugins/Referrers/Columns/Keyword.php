@@ -39,7 +39,35 @@ class Keyword extends Base
 
     public function onExistingVisit(Request $request, Visitor $visitor, $action)
     {
+        if (!$this->mayRelaxForThisVisit($request, $visitor, $action)) {
+            return false;
+        }
+
         $information = $this->getReferrerInformationFromRequest($request, $visitor);
+
+        // See ReferrerName::onExistingVisit() - the keyword is discarded and completed alongside
+        // the campaign name, so it follows the same rule.
+        if ($this->shouldCompleteDiscardedCampaign($visitor, $information, 'referer_keyword', $action, $request)) {
+            return $information['referer_keyword'];
+        }
+
+        // A search engine's keyword is cleared outright by the same anonymisation that shortens
+        // the referrer URL, with nothing left to say it was ever there. A campaign's is not - it
+        // is discarded and completed through the placeholder above - so this covers the rest.
+        if (
+            $information['referer_type'] != Common::REFERRER_TYPE_CAMPAIGN
+            && '' !== (string) $information['referer_keyword']
+            && $this->shouldCompleteWithheldReferrer($visitor, $information, $request, $action)
+        ) {
+            return $information['referer_keyword'];
+        }
+
+        // the campaign the tracker withheld until consent is the one this visit arrived through,
+        // so it replaces whatever the arrival was attributed to without it
+        if ($this->shouldCompleteWithheldCampaign($visitor, $information, $request, $action)) {
+            return $information['referer_keyword'];
+        }
+
         if (
             $this->isCurrentReferrerDirectEntry($visitor)
             && $information['referer_type'] != Common::REFERRER_TYPE_DIRECT_ENTRY

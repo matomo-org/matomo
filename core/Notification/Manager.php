@@ -9,6 +9,7 @@
 
 namespace Piwik\Notification;
 
+use Piwik\Config\GeneralConfig;
 use Piwik\Notification;
 use Piwik\Session;
 use Piwik\Session\SessionNamespace;
@@ -64,6 +65,21 @@ class Manager
     }
 
     /**
+     * Whether an admin has hidden a notification via `[General] disabled_notifications[]`.
+     * Only notifications that check this before calling {@link notify()} can be hidden.
+     *
+     * @param string $id The notification ID, see {@link notify()}.
+     * @internal
+     */
+    public static function isDisabled(string $id): bool
+    {
+        // a missing or invalid setting hides nothing
+        $disabledIds = GeneralConfig::getArrayConfigValue('disabled_notifications', []);
+
+        return in_array($id, $disabledIds, true);
+    }
+
+    /**
      * Removes all temporary notifications.
      *
      * Call this method after the notifications have been
@@ -108,9 +124,19 @@ class Manager
             throw new \Exception('Notification ID is empty.');
         }
 
-        if (!preg_match('/^\w*$/', $id)) {
+        if (!self::isValidId((string) $id)) {
             throw new \Exception('Invalid Notification ID given. Only word characters (AlNum + underscore) allowed.');
         }
+    }
+
+    /**
+     * Whether a notification can be posted under the given ID, see {@link notify()}.
+     *
+     * @internal
+     */
+    public static function isValidId(string $id): bool
+    {
+        return !empty($id) && preg_match('/^\w*$/', $id) === 1;
     }
 
     private static function addNotification($id, Notification $notification): bool

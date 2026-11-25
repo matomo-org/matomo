@@ -1,5 +1,7 @@
 {
     "Goals": {
-        "CategoryTextGeneral_Actions": "Paĝoj"
+        "CategoryTextGeneral_Actions": "Paĝoj",
+        "RecommendationCountOnePage": "1 paĝo",
+        "RecommendationCountPages": "%s paĝoj"
     }
 }

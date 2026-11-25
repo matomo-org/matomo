@@ -197,7 +197,6 @@
         "ExceptionFileIntegrity": "Цялостната проверка неуспешна: %s",
         "ExceptionFileToDelete": "Файл за изтриване: %s",
         "ExceptionFilesizeMismatch": "Размерът на файла не съответства: %1$s (очаквана дължина: %2$s, намерен: %3$s)",
-        "ExceptionIncompatibleClientServerVersions": "Вашата %1$s клиентска версия е %2$s ,която е несъвместима с версията на сървъра %3$s.",
         "ExceptionInvalidAggregateReportsFormat": "Формат на обобщените доклади '%1$s' не е валиден. Опитайте някое от следните вместо това: %2$s.",
         "ExceptionInvalidArchiveTimeToLive": "Днес времето за живот на архива трябва да бъде число в секунди по-голямо от нула",
         "ExceptionInvalidDateBeforeFirstWebsite": "Датата '%1$s' е дата от преди момента, в който първият сайт е бил онлайн. Опитайте дата, която'е след %2$s (времева марка %3$s).",

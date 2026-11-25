@@ -131,6 +131,10 @@ class API extends \Piwik\Plugin\API
         $layout = $this->dashboard->getLayoutForUser($login, $idDashboard);
 
         if ($layout !== false) {
+            // Store the layout the recipient would be served: only renderable report widgets, the
+            // same normalisation the serve path applies.
+            $layout = $this->dashboard->encodeLayout($this->dashboard->decodeLayout($layout));
+
             return $this->model->createNewDashboardForUser($copyToUser, $dashboardName, $layout);
         }
 

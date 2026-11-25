@@ -119,4 +119,21 @@ describe("ReportExporting", function () {
     formats.forEach(normalReportTest);
     formats.forEach(evolutionReportTest);
     formats.forEach(rowEvolutionReportTest);
+
+    // A by-dimension page swaps its reports in one pane; switching used to export the previous one.
+    it('should export the report switched to on a by-dimension page', async function () {
+        await page.goto('?module=CoreHome&action=index&idSite=1&period=year&date=2012-08-09'
+            + '#?idSite=1&period=year&date=2012-08-09&category=Goals_Ecommerce&subcategory=Goals_Products');
+        await page.waitForNetworkIdle();
+
+        const sku = await page.jQuery('.reportDimension .dimension:contains(Product SKU)');
+        await sku.click();
+        await page.waitForNetworkIdle();
+
+        await openExport('.reportsByDimensionView');
+        await page.waitForSelector('#reportExport a.btn');
+
+        const url = await page.evaluate(() => $('#reportExport a.btn').attr('href'));
+        expect(url).to.contain('method=Goals.getItemsSku');
+    });
 });

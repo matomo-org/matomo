@@ -143,7 +143,6 @@
         "SystemCheckUpdateHttps": "HTTPS இல் புதுப்பிக்கவும்",
         "SystemCheckViewFullSystemCheck": "முழு கணினி-சோதனை அறிக்கையைக் காண்க",
         "SystemCheckWarnDomHelp": "நீங்கள் \"DOM\" நீட்டிப்பை இயக்க வேண்டும் (எ.கா., \"PHP-DOM\" மற்றும்/அல்லது \"PHP-XML\" தொகுப்பை நிறுவவும்).",
-        "SystemCheckWarnJsonHelp": "நீங்கள் \"சேசன்\" நீட்டிப்பை இயக்க வேண்டும் (எ.கா., \"PHP-JSON\" தொகுப்பை நிறுவவும்).",
         "SystemCheckWarnLibXmlHelp": "மற்ற முக்கிய பிஎச்பி நீட்டிப்புகளால் தேவைப்படுவதால், \"LIBXML\" நீட்டிப்பை (எ.கா., \"PHP-LIBXML\" தொகுப்பை நிறுவவும்) இயக்க வேண்டும்.",
         "SystemCheckWarnOpensslHelp": "பாதுகாப்பான புதுப்பிப்புகளை அனுமதிக்க \"OpenSSL\" நீட்டிப்பை நீங்கள் இயக்க வேண்டும்.",
         "SystemCheckWarnSimpleXMLHelp": "நீங்கள் \"சிம்ப்ளெக்ச்எம்எல்\" நீட்டிப்பை இயக்க வேண்டும் (எ.கா., \"PHP-SIMPLEXML\" மற்றும்/அல்லது \"PHP-XML\" தொகுப்பை நிறுவவும்).",

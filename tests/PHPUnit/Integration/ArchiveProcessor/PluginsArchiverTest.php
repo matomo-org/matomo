@@ -9,8 +9,10 @@
 
 namespace Piwik\Tests\Integration\Archive;
 
+use Piwik\ArchiveProcessor;
 use Piwik\ArchiveProcessor\PluginsArchiver;
 use Piwik\Piwik;
+use Piwik\Plugins\Actions\RecordBuilders\Hits;
 use Piwik\Segment;
 use Piwik\Site;
 use Piwik\ArchiveProcessor\Parameters;
@@ -43,6 +45,31 @@ class CustomPluginsArchiver extends PluginsArchiver
     }
 }
 
+class CallbackRecordBuilder extends ArchiveProcessor\RecordBuilder
+{
+    /**
+     * @var callable
+     */
+    private $onAggregate;
+
+    public function __construct(callable $onAggregate)
+    {
+        parent::__construct();
+        $this->onAggregate = $onAggregate;
+    }
+
+    public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
+    {
+        return [];
+    }
+
+    protected function aggregate(ArchiveProcessor $archiveProcessor): array
+    {
+        ($this->onAggregate)($archiveProcessor);
+        return [];
+    }
+}
+
 /**
  * @group PluginsArchiver
  * @group PluginsArchiverTest
@@ -66,12 +93,12 @@ class PluginsArchiverTest extends IntegrationTestCase
         $this->pluginsArchiver = new CustomPluginsArchiver($this->createArchiveProcessorParameters());
     }
 
-    private function createArchiveProcessorParameters()
+    private function createArchiveProcessorParameters(int $idSite = 1)
     {
         $oPeriod = PeriodFactory::makePeriodFromQueryParams('UTC', 'day', '2015-01-01');
 
-        $segment = new Segment(false, array(1));
-        $params  = new Parameters(new Site(1), $oPeriod, $segment);
+        $segment = new Segment('', [$idSite]);
+        $params  = new Parameters(new Site($idSite), $oPeriod, $segment);
 
         return $params;
     }
@@ -105,5 +132,33 @@ class PluginsArchiverTest extends IntegrationTestCase
         $this->pluginsArchiver = new PluginsArchiver($this->createArchiveProcessorParameters());
         $this->pluginsArchiver->callAggregateCoreMetrics();
         $this->pluginsArchiver->callAggregateAllPlugins(1, 1, $forceArchivingWithoutVisits = true);
+    }
+
+    public function testFilterRecordBuildersReplacementOnlyAppliesToTheArchiveBeingBuilt()
+    {
+        $idSitesFilteredWithCoreBuilder = [];
+        $idSitesBuiltByStub = [];
+        Piwik::addAction('Archiver.filterRecordBuilders', function (&$recordBuilders, ArchiveProcessor $archiveProcessor) use (&$idSitesFilteredWithCoreBuilder, &$idSitesBuiltByStub) {
+            $idSite = (int) $archiveProcessor->getParams()->getSite()->getId();
+            foreach ($recordBuilders as $index => $recordBuilder) {
+                if ($recordBuilder instanceof Hits) {
+                    $idSitesFilteredWithCoreBuilder[] = $idSite;
+                    if ($idSite === 2) {
+                        $recordBuilders[$index] = new CallbackRecordBuilder(function (ArchiveProcessor $processor) use (&$idSitesBuiltByStub) {
+                            $idSitesBuiltByStub[] = (int) $processor->getParams()->getSite()->getId();
+                        });
+                    }
+                }
+            }
+        });
+
+        // no cache flush in between, so both archives read the same cached RecordBuilders
+        foreach ([2, 1] as $idSite) {
+            $pluginsArchiver = new PluginsArchiver($this->createArchiveProcessorParameters($idSite));
+            $pluginsArchiver->callAggregateAllPlugins(1, 1, $forceArchivingWithoutVisits = true);
+        }
+
+        $this->assertSame([2, 1], $idSitesFilteredWithCoreBuilder);
+        $this->assertSame([2], $idSitesBuiltByStub);
     }
 }

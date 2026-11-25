@@ -11,8 +11,11 @@ declare(strict_types=1);
 
 namespace Piwik\Plugins\Marketplace\Emails;
 
+use Piwik\Container\StaticContainer;
+use Piwik\Email\ContentGenerator;
 use Piwik\Mail;
 use Piwik\Piwik;
+use Piwik\Plugins\Marketplace\PluginTrial\UnsubscribeToken;
 use Piwik\SettingsPiwik;
 use Piwik\View;
 
@@ -22,15 +25,29 @@ class RequestTrialNotificationEmail extends Mail
 
     private string $login;
 
+    private ?string $unsubscribeToken;
+
     private string $pluginName;
     private string $pluginDisplayName;
 
-    public function __construct(string $login, string $emailAddress, string $pluginName, string $pluginDisplayName)
-    {
+    /**
+     * @param string|null $unsubscribeToken always passed by core; null is kept for backward compatibility
+     *                                      and signs one for `$login`, or leaves out the unsubscribe line if
+     *                                      there is no such user
+     */
+    public function __construct(
+        string $login,
+        string $emailAddress,
+        string $pluginName,
+        string $pluginDisplayName,
+        ?string $unsubscribeToken = null
+    ) {
         parent::__construct();
 
         $this->emailAddress = $emailAddress;
         $this->login = $login;
+        $this->unsubscribeToken = $unsubscribeToken
+            ?? StaticContainer::get(UnsubscribeToken::class)->generate($login);
         $this->pluginName = $pluginName;
         $this->pluginDisplayName = $pluginDisplayName;
 
@@ -70,6 +87,27 @@ class RequestTrialNotificationEmail extends Mail
         $this->addTo($this->emailAddress);
         $this->setSubject($this->getDefaultSubject());
         $this->addReplyTo($this->getFrom(), $this->getFromName());
-        $this->setWrappedHtmlBody($this->getDefaultBodyView());
+        $this->setBodyHtml(StaticContainer::get(ContentGenerator::class)->generateHtmlContent(
+            $this->getDefaultBodyView(),
+            $this->getUnsubscribeLink(),
+            'Marketplace_RequestTrialUnsubscribeFooter'
+        ));
+    }
+
+    /**
+     * @return string|null null when there is no user to sign a token for, so the footer leaves the line out
+     */
+    private function getUnsubscribeLink(): ?string
+    {
+        if ($this->unsubscribeToken === null) {
+            return null;
+        }
+
+        return SettingsPiwik::getPiwikUrl() . 'index.php?' . http_build_query([
+            'module' => 'Marketplace',
+            'action' => 'unsubscribeTrialRequestEmails',
+            'login' => $this->login,
+            'token' => $this->unsubscribeToken,
+        ]);
     }
 }
