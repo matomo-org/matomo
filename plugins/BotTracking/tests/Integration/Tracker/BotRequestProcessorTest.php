@@ -230,6 +230,7 @@ class BotRequestProcessorTest extends IntegrationTestCase
             ['Gemini-Deep-Research/1.0', 'Gemini-Deep-Research'],
             ['Claude-User/3.0', 'Claude-User'],
             ['Perplexity-User/1.0', 'Perplexity-User'],
+            ['DuckAssistBot/1.2', 'DuckAssistBot'],
             ['Google-NotebookLM/1.0', 'Google-NotebookLM'],
         ];
     }
