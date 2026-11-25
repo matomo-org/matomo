@@ -94,8 +94,21 @@ class LatestStableInstall extends Fixture
 
     protected function getDownloadUrl()
     {
+        // the latest stable release can be a newer major version, which might not run on the PHP version used here
         $latestStableChannel = new LatestStable();
-        return 'http' . $latestStableChannel->getDownloadUrlWithoutScheme(null);
+        return 'http' . $latestStableChannel->getDownloadUrlWithoutScheme($this->getLatestVersionOfCurrentMajor());
+    }
+
+    private function getLatestVersionOfCurrentMajor(): string
+    {
+        $url = 'https://builds.matomo.org/LATEST_' . Version::MAJOR_VERSION . 'X';
+        $version = trim((string) Http::sendHttpRequest($url, 30));
+
+        if (!preg_match('/^' . Version::MAJOR_VERSION . '\.\d+\.\d+$/', $version)) {
+            throw new \Exception("Failed to detect latest stable version from $url, response: $version");
+        }
+
+        return $version;
     }
 
     private function installSubdirectoryInstall()
