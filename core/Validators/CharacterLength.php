@@ -11,6 +11,11 @@ namespace Piwik\Validators;
 
 use Piwik\Piwik;
 
+/**
+ * Validator that fails when a string or number has fewer characters than the minimum or more than the maximum. Values of other types, including `null` and `false`, are accepted.
+ *
+ * @api
+ */
 class CharacterLength extends BaseValidator
 {
     /**
@@ -24,8 +29,8 @@ class CharacterLength extends BaseValidator
     private $max;
 
     /**
-     * @param null|int $min
-     * @param null|int $max
+     * @param null|int $min The minimum number of characters, or null for no minimum.
+     * @param null|int $max The maximum number of characters, or null for no maximum.
      */
     public function __construct($min = null, $max = null)
     {
@@ -37,6 +42,11 @@ class CharacterLength extends BaseValidator
         }
     }
 
+    /**
+     * Validates the given value and throws an exception if it is invalid.
+     *
+     * @param mixed $value The value to validate.
+     */
     public function validate($value)
     {
         if (!is_string($value) && !is_numeric($value)) {

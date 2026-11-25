@@ -11,12 +11,17 @@ namespace Piwik\Exception;
 
 use Piwik\Http\HttpCodeException;
 
+/**
+ * Exception for a website (idSite) that does not exist or was not expected. Its default code is 400.
+ *
+ * @api
+ */
 class UnexpectedWebsiteFoundException extends Exception implements HttpCodeException
 {
     /**
-     * @param string $message
-     * @param int $code
-     * @param \Throwable|null $previous
+     * @param string $message The error message.
+     * @param int $code The HTTP status code to respond with.
+     * @param \Throwable|null $previous The previous exception, if any.
      */
     public function __construct($message = '', $code = 400, $previous = null)
     {
