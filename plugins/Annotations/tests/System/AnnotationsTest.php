@@ -159,27 +159,28 @@ class AnnotationsTest extends SystemTestCase
      * @dataProvider getDateRangeForPeriodDisabledPeriodData
      * @param int|false $lastN
      */
-    public function testGetDateRangeForPeriodThrowsIfPeriodIsNotEnabledForApi(string $date, $lastN)
+    public function testGetDateRangeForPeriodThrowsIfPeriodIsNotEnabledForApi(string $date, string $period, $lastN)
     {
-        $general = &Config::getInstance()->General;
-        $enabledPeriods = $general['enabled_periods_API'];
-        $general['enabled_periods_API'] = 'day,week,month,range';
+        $config = Config::getInstance();
+        $enabledPeriods = $config->General['enabled_periods_API'];
+        $config->General['enabled_periods_API'] = 'day,week,month';
 
         $this->expectException(Exception::class);
-        $this->expectExceptionMessage("The period 'year' is not supported");
+        $this->expectExceptionMessage("The period '$period' is not supported");
 
         try {
-            Annotations::getDateRangeForPeriod($date, 'year', $lastN);
+            Annotations::getDateRangeForPeriod($date, $period, $lastN, self::$fixture->idSite1);
         } finally {
-            $general['enabled_periods_API'] = $enabledPeriods;
+            $config->General['enabled_periods_API'] = $enabledPeriods;
         }
     }
 
     public function getDateRangeForPeriodDisabledPeriodData(): iterable
     {
-        yield 'single date' => ['2012-01-01', false];
-        yield 'last N periods' => ['2012-03-01', 6];
-        yield 'date range' => ['2012-01-01,2012-01-31', false];
+        yield 'single date' => ['2012-01-01', 'year', false];
+        yield 'last N periods' => ['2012-03-01', 'year', 6];
+        yield 'date range' => ['2012-01-01,2012-01-31', 'year', false];
+        yield 'range period' => ['2012-01-01,2012-01-31', 'range', false];
     }
 
     /**
