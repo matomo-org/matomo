@@ -17,12 +17,16 @@ use Piwik\Db\Schema;
 use Piwik\Development;
 use Piwik\Exception\MissingFilePermissionException;
 use Piwik\Menu\MenuAdmin;
+use Piwik\Mail\OAuth\SmtpTokenProvider;
 use Piwik\Menu\MenuTop;
 use Piwik\Notification;
 use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Piwik;
+use Piwik\Plugins\CoreAdminHome\Controller as CoreAdminHomeController;
 use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
 use Piwik\Plugins\Marketplace\Marketplace;
+use Piwik\Request\AuthenticationToken;
+use Piwik\Session\SessionNamespace;
 use Piwik\Tracker\TrackerConfig;
 use Piwik\Url;
 use Piwik\Version;
@@ -41,6 +45,10 @@ abstract class ControllerAdmin extends Controller
     private const NEXT_REQUIRED_MINIMUM_PHP = '8.1';
     private const NEXT_REQUIRED_MINIMUM_MYSQL = '8.0';
     private const NEXT_REQUIRED_MINIMUM_MARIADB = '10.6';
+
+    private const SMTP_BASIC_AUTH_RETIREMENT_MICROSOFT_NOTIFICATION_ID = 'SmtpBasicAuthRetirementMicrosoft';
+
+    private const SMTP_BASIC_AUTH_RETIREMENT_MICROSOFT_ANNOUNCEMENT_URL = 'https://techcommunity.microsoft.com/blog/exchange/updated-exchange-online-smtp-auth-basic-authentication-deprecation-timeline/4489835';
 
     private static function notifyWhenTrackingStatisticsDisabled()
     {
@@ -427,6 +435,100 @@ abstract class ControllerAdmin extends Controller
         NotificationManager::notify('DatabaseVersionCheck', $notification);
     }
 
+    /**
+     * Microsoft 365 turns off password logins for SMTP by default from the end of December 2026. The warning goes
+     * to every super user who sends with a password login, as the host alone can't tell reliably whether the server
+     * is a Microsoft one.
+     */
+    private static function notifyWhenSmtpBasicAuthIsRetiredByMicrosoft(): void
+    {
+        // a token_auth request is likely an embedded page shown to the public, not a signed-in user
+        if (Piwik::isUserIsAnonymous() || StaticContainer::get(AuthenticationToken::class)->getAuthToken() !== '') {
+            return;
+        }
+
+        if (
+            !Piwik::hasUserSuperUserAccess()
+            || NotificationManager::isDisabled(self::SMTP_BASIC_AUTH_RETIREMENT_MICROSOFT_NOTIFICATION_ID)
+            || !self::areMailSettingsShownInUi()
+            || !self::isMailConfigUsingSmtpPasswordLogin(Config::getInstance()->mail)
+        ) {
+            // persistent notifications stay in the session, so drop it once the settings no longer match
+            NotificationManager::cancel(self::SMTP_BASIC_AUTH_RETIREMENT_MICROSOFT_NOTIFICATION_ID);
+            return;
+        }
+
+        // posted once per session, so a warning the user closed stays closed until they sign in again
+        $session = new SessionNamespace(self::SMTP_BASIC_AUTH_RETIREMENT_MICROSOFT_NOTIFICATION_ID);
+        if (!empty($session->shown)) {
+            return;
+        }
+
+        $settingsUrl = 'index.php' . Url::getCurrentQueryStringWithParametersModified([
+            'module' => 'CoreAdminHome',
+            'action' => 'generalSettings',
+        ]) . '#/mailSettings';
+
+        $message = Piwik::translate('General_SmtpBasicAuthRetirementMicrosoft', [
+            // the rest of the query string comes from the request and the message is not escaped
+            '<a href="' . htmlspecialchars($settingsUrl, ENT_QUOTES) . '">',
+            '</a>',
+            Url::getExternalLinkTag(self::SMTP_BASIC_AUTH_RETIREMENT_MICROSOFT_ANNOUNCEMENT_URL),
+            '</a>',
+        ]);
+
+        $notification = new Notification($message);
+        $notification->raw = true;
+        $notification->title = Piwik::translate('General_SmtpBasicAuthRetirementMicrosoftTitle');
+        $notification->priority = Notification::PRIORITY_HIGH;
+        $notification->context = Notification::CONTEXT_WARNING;
+        // persistent, so the reporting UI doesn't clear it before the user closes it
+        $notification->type = Notification::TYPE_PERSISTENT;
+        $notification->flags = Notification::FLAG_CLEAR;
+        NotificationManager::notify(self::SMTP_BASIC_AUTH_RETIREMENT_MICROSOFT_NOTIFICATION_ID, $notification);
+
+        $session->shown = true;
+    }
+
+    /**
+     * Follows the rules Transport::initSmtpTransport() uses to decide whether to send through SMTP with a login.
+     *
+     * @param array<string, mixed> $mail The [mail] config section.
+     */
+    private static function isMailConfigUsingSmtpPasswordLogin(array $mail): bool
+    {
+        if (($mail['transport'] ?? '') !== 'smtp' || trim((string) ($mail['host'] ?? '')) === '') {
+            return false;
+        }
+
+        $type = trim((string) ($mail['type'] ?? ''));
+
+        return $type !== '' && !SmtpTokenProvider::isOAuthType($type);
+    }
+
+    /**
+     * Removes the Microsoft 365 SMTP password login warning once the saved email settings no longer use a password
+     * login, so it doesn't keep showing on report pages until the next admin page.
+     *
+     * @param array<string, mixed> $mail The saved [mail] config section.
+     * @internal
+     */
+    public static function cancelSmtpBasicAuthRetirementWarningIfResolved(array $mail): void
+    {
+        if (!self::isMailConfigUsingSmtpPasswordLogin($mail)) {
+            NotificationManager::cancel(self::SMTP_BASIC_AUTH_RETIREMENT_MICROSOFT_NOTIFICATION_ID);
+        }
+    }
+
+    /**
+     * Whether the general settings page shows the email server settings, i.e. whether a super user can change the
+     * login method there. Matches the condition in CoreAdminHome's generalSettings.twig.
+     */
+    private static function areMailSettingsShownInUi(): bool
+    {
+        return CoreAdminHomeController::isGeneralSettingsAdminEnabled() && !SettingsPiwik::isMultiServerEnvironment();
+    }
+
     private static function notifyWhenDebugOnDemandIsEnabled($trackerSetting)
     {
         if (
@@ -499,6 +601,7 @@ abstract class ControllerAdmin extends Controller
         self::notifyWhenPhpVersionIsNotCompatibleWithNextMajorPiwik();
         self::notifyWhenDatabaseVersionIsNotCompatibleWithNextMajorPiwik();
         self::notifyWhenDatabaseVersionIsEOL();
+        self::notifyWhenSmtpBasicAuthIsRetiredByMicrosoft();
         self::notifyWhenDebugOnDemandIsEnabled('debug');
         self::notifyWhenDebugOnDemandIsEnabled('debug_on_demand');
 

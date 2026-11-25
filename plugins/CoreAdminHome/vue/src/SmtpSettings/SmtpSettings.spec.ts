@@ -7,8 +7,9 @@
 
 import { flushPromises, mount } from '@vue/test-utils';
 
-const { post } = vi.hoisted(() => ({
+const { post, removeNotification } = vi.hoisted(() => ({
   post: vi.fn(() => Promise.resolve({ hasClientSecret: true })),
+  removeNotification: vi.fn(),
 }));
 
 vi.mock('CoreHome', () => ({
@@ -16,7 +17,7 @@ vi.mock('CoreHome', () => ({
   AutoClearPassword: {},
   ContentBlock: { template: '<div><slot></slot></div>' },
   Matomo: { helper: { htmlEntities: (value: string) => value } },
-  NotificationsStore: { show: vi.fn(), scrollToNotification: vi.fn() },
+  NotificationsStore: { show: vi.fn(), scrollToNotification: vi.fn(), remove: removeNotification },
   translate: (key: string) => key,
 }));
 
@@ -72,6 +73,14 @@ async function save(wrapper: ReturnType<typeof mountWithStoredOAuthSettings>) {
 describe('CoreAdminHome/SmtpSettings.vue', () => {
   beforeEach(() => {
     post.mockClear();
+    removeNotification.mockClear();
+  });
+
+  it('removes the Microsoft 365 password login warning from the page once the settings are saved', async () => {
+    await save(mountWithStoredOAuthSettings());
+    await flushPromises();
+
+    expect(removeNotification).toHaveBeenCalledWith('SmtpBasicAuthRetirementMicrosoft');
   });
 
   it('does not send the stored client secret back when it was not changed', async () => {

@@ -336,6 +336,10 @@ export default defineComponent({
           this.passwordChanged = false;
         }
 
+        // the server drops the Microsoft 365 password login warning once it no longer applies, and shows it
+        // again on the next page if it still does
+        NotificationsStore.remove('SmtpBasicAuthRetirementMicrosoft');
+
         const notificationInstanceId = NotificationsStore.show({
           message: translate('CoreAdminHome_SettingsSaveSuccess'),
           type: 'transient',

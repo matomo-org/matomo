@@ -16,6 +16,8 @@ use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Mail\OAuth\SmtpTokenProvider;
+use Piwik\Notification;
+use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Plugins\CoreAdminHome\CoreAdminHome;
 use Piwik\Plugins\CoreAdminHome\Controller;
 use Piwik\Plugins\CoreAdminHome\OptOutManager;
@@ -352,6 +354,35 @@ class ControllerTest extends IntegrationTestCase
         $this->assertSame('success', $response['result']);
         $this->assertSame('Xoauth2', Config::getInstance()->mail['type']);
         $this->assertSame('', Config::getInstance()->mail['password']);
+    }
+
+    /**
+     * @dataProvider getSavedLoginsForTheSmtpPasswordLoginWarning
+     */
+    public function testSetMailSettingsRemovesTheSmtpPasswordLoginWarningOnceItNoLongerApplies(
+        bool $useOAuth,
+        array $changes,
+        bool $isWarningKept
+    ): void {
+        NotificationManager::notify('SmtpBasicAuthRetirementMicrosoft', new Notification('Switch to OAuth 2.0'));
+
+        $request = $useOAuth
+            ? $this->getOAuthMailSettingsRequest($changes)
+            : $changes + $this->getMailSettingsRequest('post.example.test');
+        $response = $this->postMailSettings($request);
+
+        $this->assertSame('success', $response['result']);
+        $this->assertSame(
+            $isWarningKept,
+            array_key_exists('SmtpBasicAuthRetirementMicrosoft', NotificationManager::getPendingInMemoryNotifications())
+        );
+    }
+
+    public function getSavedLoginsForTheSmtpPasswordLoginWarning(): iterable
+    {
+        yield 'switched to OAuth 2.0' => [true, [], false];
+        yield 'switched to mail() instead of SMTP' => [false, ['mailUseSmtp' => '0', 'mailType' => 'Login'], false];
+        yield 'still a password login' => [false, ['mailType' => 'Login'], true];
     }
 
     public function testSetMailSettingsRemovesTheClientSecretWhenTheCertificateIsUsed(): void
@@ -786,6 +817,7 @@ class ControllerTest extends IntegrationTestCase
     public function tearDown(): void
     {
         $this->deleteAllChanges();
+        NotificationManager::cancelAllNotifications();
         $_GET = $this->backupGet;
         $_POST = $this->backupPost;
         $_REQUEST = $this->backupRequest;

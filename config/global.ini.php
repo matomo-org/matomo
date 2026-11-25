@@ -740,6 +740,9 @@ show_update_notification_to_superusers_only = 0
 ;
 ; or the database EOL warning, when the Linux distribution continues providing security updates:
 ;disabled_notifications[] = DatabaseVersionCheck
+;
+; or the Microsoft 365 SMTP password login warning, when you don't send emails through Microsoft 365 with a password:
+;disabled_notifications[] = SmtpBasicAuthRetirementMicrosoft
 
 ; Set to 1 if you're using https on your Matomo server and Matomo can't detect it,
 ; e.g., a reverse proxy using https-to-http, or a web server that doesn't
