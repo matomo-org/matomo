@@ -454,17 +454,12 @@ class ArchiveInvalidator
             $this->model->updateArchiveAsInvalidated($table, $idSites, $ranges, $segment, false, $name);
         }
 
+        // only range archives are invalidated here, so the days remembered for invalidation are kept
         foreach ($idSites as $idSite) {
             foreach ($dates as $dateRange) {
-                // an invalidation of a single plugin or report doesn't archive the other plugins' reports again
-                if (empty($name)) {
-                    $this->forgetRememberedArchivedReportsToInvalidate($idSite, $dateRange[0]);
-                }
                 $invalidationInfo->processedDates[] = $dateRange[0];
             }
         }
-
-        Cache::clearCacheGeneral();
 
         return $invalidationInfo;
     }
