@@ -10,8 +10,12 @@
 namespace Piwik\Log;
 
 /**
- * Proxy interface for \Psr\Log\LoggerInterface
+ * Proxy interface for \Psr\Log\LoggerInterface.
+ *
+ * Get an instance via dependency injection or `StaticContainer::get(LoggerInterface::class)`.
+ *
  * @see \Psr\Log\LoggerInterface
+ * @api
  */
 interface LoggerInterface extends \Psr\Log\LoggerInterface
 {

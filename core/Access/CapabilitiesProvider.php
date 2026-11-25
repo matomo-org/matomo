@@ -30,17 +30,18 @@ class CapabilitiesProvider
             $capabilities = [];
 
             /**
-             * Triggered to add new capabilities.
+             * Triggered to add new capabilities. Plugins can use this event to register their own
+             * capabilities, which can then be granted to users per website.
              *
              * **Example**
              *
              *     public function addCapabilities(&$capabilities)
              *     {
-             *         $capabilities[] = new MyNewCapability();
+             *         $capabilities[] = new MyCapability();
              *     }
              *
-             * @param Capability[] $capabilities An array of capabilities
-             * @internal
+             * @param \Piwik\Access\Capability[] $capabilities An array of capabilities. Passed by reference, add
+             *                                                 new capability instances to it.
              */
             Piwik::postEvent('Access.Capability.addCapabilities', array(&$capabilities));
 

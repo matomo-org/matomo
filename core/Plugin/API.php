@@ -113,10 +113,13 @@ abstract class API
     }
 
     /**
-     * Verifies if the given password matches the current users password
+     * Verifies that the given password matches the current user's password, and throws if it is empty or wrong.
      *
-     * @param $passwordConfirmation
+     * Does nothing when the `Login.userRequiresPasswordConfirmation` event disables the confirmation for the user.
+     *
+     * @param string $passwordConfirmation The password entered by the user.
      * @throws Exception
+     * @api
      */
     protected function confirmCurrentUserPassword(
         #[\SensitiveParameter]

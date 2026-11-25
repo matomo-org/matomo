@@ -14,12 +14,10 @@ use Piwik\Exception\DI\DependencyException;
 use Piwik\Exception\DI\NotFoundException;
 
 /**
- * This class provides a static access to the container.
+ * Static access to the DI container.
  *
- * @internal
- * This class is introduced only to keep BC with the current static architecture. It might be removed in a future version.
- *     - it is global state (that class makes the container a global variable)
- *     - using the container directly is the "service locator" anti-pattern (which is not dependency injection)
+ * Prefer constructor injection where core creates the class through the container (controllers, API classes,
+ * Tasks, RecordBuilders).
  */
 class StaticContainer
 {
@@ -37,6 +35,7 @@ class StaticContainer
 
     /**
      * @return Container
+     * @internal
      */
     public static function getContainer()
     {
@@ -47,6 +46,9 @@ class StaticContainer
         return end(self::$containerStack);
     }
 
+    /**
+     * @internal
+     */
     public static function clearContainer()
     {
         self::pop();
@@ -54,29 +56,38 @@ class StaticContainer
 
     /**
      * Only use this in tests.
+     *
+     * @internal
      */
     public static function push(Container $container)
     {
         self::$containerStack[] = $container;
     }
 
+    /**
+     * @internal
+     */
     public static function pop()
     {
         array_pop(self::$containerStack);
     }
 
+    /**
+     * @internal
+     */
     public static function addDefinitions(array $definitions)
     {
         self::$definitions[] = $definitions;
     }
 
     /**
-     * Proxy to Container::get()
+     * Returns the container entry registered under the given name, such as a class or interface name.
      *
      * @template T of object
      * @param class-string<T>|string $name Container entry name.
-     * @return ($name is class-string<T> ? T : mixed)
+     * @return ($name is class-string<T> ? T : mixed) The resolved entry.
      * @throws NotFoundException|DependencyException
+     * @api
      */
     public static function get($name)
     {
@@ -89,6 +100,9 @@ class StaticContainer
         }
     }
 
+    /**
+     * @internal
+     */
     public static function getDefinitions()
     {
         return self::$definitions;

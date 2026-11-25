@@ -19,6 +19,8 @@ use Piwik\Settings\Setting;
  * but not for other users.
  *
  * See {@link \Piwik\Settings\Setting}.
+ *
+ * @api
  */
 class UserSetting extends Setting
 {
@@ -28,9 +30,11 @@ class UserSetting extends Setting
     private $userLogin = null;
 
     /**
+     * Creates a user setting for the given user. Plugins normally use `UserSettings::makeSetting()` instead.
+     *
      * @param string $name The setting's persisted name.
      * @param mixed $defaultValue  Default value for this setting if no value was specified.
-     * @param string $type Eg an array, int, ... see TYPE_* constants
+     * @param string $type One of the \Piwik\Settings\FieldConfig::TYPE_* constants.
      * @param string $pluginName The name of the plugin the setting belongs to
      * @param string $userLogin The name of the user the value should be set or get for
      * @throws Exception
@@ -52,7 +56,7 @@ class UserSetting extends Setting
     /**
      * Returns `true` if this setting can be displayed for the current user, `false` if otherwise.
      *
-     * @return bool
+     * @return bool True if the current user has some view access.
      */
     public function isWritableByCurrentUser()
     {

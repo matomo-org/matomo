@@ -48,7 +48,8 @@ abstract class UserSettings extends Settings
      *                             Use one of FieldConfig::TYPE_* constants
      * @param \Closure $configureCallback   A callback method to configure the field that shall be displayed in the
      *                                      UI to define the value for this setting
-     * @return UserSetting   Returns an instance of the created measurable setting.
+     * @return UserSetting   Returns an instance of the created user setting.
+     * @api
      */
     protected function makeSetting($name, $defaultValue, $type, $configureCallback)
     {
