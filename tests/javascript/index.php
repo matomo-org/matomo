@@ -5469,7 +5469,8 @@ if ($mysql) {
         tracker.hook.test._setCookie(visitorCookieName, existingCookieValue, 86400000);
 
         ok(tracker.requireCookieConsent(), 'requireCookieConsent disabled cookies');
-        strictEqual(tracker.hook.test._getCookie(visitorCookieName), existingCookieValue, 'existing visitor ID cookie is kept until the next request');
+        // read document.cookie directly, as the tracker reports no cookies at all while cookies are disabled
+        ok(document.cookie.indexOf(visitorCookieName + '=' + existingCookieValue) !== -1, 'existing visitor ID cookie is kept until the next request');
 
         tracker.trackRequest('myFoo=withoutCookieConsent');
         strictEqual(document.cookie.indexOf(visitorCookieName + '='), -1, 'the visitor ID cookie is deleted on the next request without cookie consent');
