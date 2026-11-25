@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\Annotations\tests\System;
 
 use Piwik\API\Request;
+use Piwik\Config;
 use Piwik\Date;
 use Piwik\Plugins\Annotations\Annotations;
 use Piwik\Plugins\Annotations\API;
@@ -152,6 +153,33 @@ class AnnotationsTest extends SystemTestCase
 
         // a regular multiple period range within the allowed window is left untouched
         yield 'regular range' => ['2012-01-26,2012-03-01', 'week', '2012-01-26', '2012-03-01'];
+    }
+
+    /**
+     * @dataProvider getDateRangeForPeriodDisabledPeriodData
+     * @param int|false $lastN
+     */
+    public function testGetDateRangeForPeriodThrowsIfPeriodIsNotEnabledForApi(string $date, $lastN)
+    {
+        $general = &Config::getInstance()->General;
+        $enabledPeriods = $general['enabled_periods_API'];
+        $general['enabled_periods_API'] = 'day,week,month,range';
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage("The period 'year' is not supported");
+
+        try {
+            Annotations::getDateRangeForPeriod($date, 'year', $lastN);
+        } finally {
+            $general['enabled_periods_API'] = $enabledPeriods;
+        }
+    }
+
+    public function getDateRangeForPeriodDisabledPeriodData(): iterable
+    {
+        yield 'single date' => ['2012-01-01', false];
+        yield 'last N periods' => ['2012-03-01', 6];
+        yield 'date range' => ['2012-01-01,2012-01-31', false];
     }
 
     /**
