@@ -42,11 +42,6 @@ parameters:
 			count: 1
 			path: core/API/DataTableManipulator/Flattener.php
 
-		-
-			message: '#^Parameter \#2 \$callback of function array_filter expects \(callable\(string\)\: bool\)\|null, ''strlen'' given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/API/DataTableManipulator/LabelFilter.php
 
 		-
 			message: '#^Call to an undefined method Piwik\\DataTable\\DataTableInterface\:\:getRows\(\)\.$#'
