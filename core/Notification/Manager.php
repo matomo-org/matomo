@@ -10,6 +10,7 @@
 namespace Piwik\Notification;
 
 use Piwik\Config\GeneralConfig;
+use Piwik\Date;
 use Piwik\Notification;
 use Piwik\Session;
 use Piwik\Session\SessionNamespace;
@@ -41,12 +42,16 @@ class Manager
      *                           be used).
      * @param Notification $notification The notification to post.
      * @return bool true if the notification was added, false if it was ignored because there were too many
-     *                   pending ones.
+     *                   pending ones or it has expired.
      * @api
      */
     public static function notify($id, Notification $notification): bool
     {
         self::checkId($id);
+
+        if (self::hasExpired($notification)) {
+            return false;
+        }
 
         self::removeOldestNotificationsIfThereAreTooMany();
         return self::addNotification($id, $notification);
@@ -102,6 +107,13 @@ class Manager
     {
         $notifications = self::getAllNotifications();
 
+        foreach ($notifications as $id => $notification) {
+            if (self::hasExpired($notification)) {
+                self::removeNotification($id);
+                unset($notifications[$id]);
+            }
+        }
+
         uasort($notifications, function ($n1, $n2) {
             /** @var Notification $n1 */ /** @var Notification $n2 */
             if ($n1->getPriority() == $n2->getPriority()) {
@@ -137,6 +149,11 @@ class Manager
     public static function isValidId(string $id): bool
     {
         return !empty($id) && preg_match('/^\w*$/', $id) === 1;
+    }
+
+    private static function hasExpired(Notification $notification): bool
+    {
+        return $notification->expiresAt !== null && Date::getNowTimestamp() >= $notification->expiresAt;
     }
 
     private static function addNotification($id, Notification $notification): bool

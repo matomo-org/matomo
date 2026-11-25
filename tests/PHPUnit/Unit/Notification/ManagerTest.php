@@ -11,6 +11,7 @@ namespace Piwik\Tests\Unit\Notification;
 
 use PHPUnit\Framework\TestCase;
 use Piwik\Config;
+use Piwik\Date;
 use Piwik\Notification;
 use Piwik\Notification\Manager;
 use Piwik\Session\SessionNamespace;
@@ -36,6 +37,7 @@ class ManagerTest extends TestCase
 
         Config::getInstance()->General = $this->originalGeneralConfig;
         Manager::cancelAllNotifications();
+        Date::$now = null;
     }
 
     /**
@@ -76,6 +78,55 @@ class ManagerTest extends TestCase
             'testid' => $notification,
         ];
         $this->assertEquals($expected, $notificationsInArray);
+    }
+
+    /**
+     * @dataProvider getExpiryTimes
+     */
+    public function testNotifyPostsANotificationOnlyBeforeItExpires(?int $expiresAt, bool $isPosted): void
+    {
+        Date::$now = 1000;
+        $notification = new Notification('abcdefg');
+        $notification->expiresAt = $expiresAt;
+
+        $this->assertSame($isPosted, Manager::notify('testid', $notification));
+        $this->assertSame($isPosted, array_key_exists('testid', Manager::getPendingInMemoryNotifications()));
+    }
+
+    public function getExpiryTimes(): iterable
+    {
+        yield 'no expiry' => [null, true];
+        yield 'expires later' => [1001, true];
+        yield 'expires now' => [1000, false];
+        yield 'expired before' => [999, false];
+    }
+
+    /**
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
+    public function testANotificationThatExpiresAfterItWasPostedIsNotShownAndIsRemovedFromTheSession(): void
+    {
+        $this->enableSession();
+
+        Date::$now = 1000;
+        $expiring = new Notification('expiring');
+        $expiring->expiresAt = 2000;
+        Manager::notify('expiring', $expiring);
+        Manager::notify('lasting', new Notification('lasting'));
+
+        // the next request, once the expiry time has passed
+        Manager::cancelAllNotifications();
+        Date::$now = 2000;
+
+        $this->assertSame(['lasting'], array_keys(Manager::getAllNotificationsToDisplay()));
+
+        Date::$now = 1000;
+        $this->assertSame(
+            ['lasting'],
+            array_keys(Manager::getAllNotificationsToDisplay()),
+            'the expired notification was not removed from the session'
+        );
     }
 
     /**

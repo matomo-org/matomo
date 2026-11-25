@@ -500,6 +500,8 @@ abstract class ControllerAdmin extends Controller
         // persistent, so the reporting UI doesn't clear it before the user closes it
         $notification->type = Notification::TYPE_PERSISTENT;
         $notification->flags = Notification::FLAG_CLEAR;
+        // shown until the end of December 2026, when Microsoft makes the change
+        $notification->expiresAt = Date::factory('2027-01-01')->getTimestamp();
         NotificationManager::notify(self::SMTP_BASIC_AUTH_RETIREMENT_NOTIFICATION_ID, $notification);
 
         if ($session !== null) {
