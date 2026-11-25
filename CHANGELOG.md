@@ -6,6 +6,9 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ## Matomo 6.1.0
 
+### Breaking Changes
+* An endpoint entered in the AIProviders settings, for the Custom Provider or for a plugin's provider with an endpoint field, is now requested over the SSRF-safe request path. It is refused when it resolves to a private, loopback, link-local or other reserved address, when the request would go through a configured `[proxy]`, or when the curl extension is not available. To keep using a model server on your own network, such as Ollama on localhost, set its endpoint in the config file instead: `[AIProviders] custom-providerEndpointUrl`. Endpoints set there and the hosted providers are not affected.
+
 ### New features
 * New setting `consent_aware_analytics` (PrivacyManager, off by default), turned on by a superuser on the *Privacy → Compliance* page for the whole instance or for a website. A website measures it when either is on. The page offers it while the `HybridTracking` feature flag is enabled. When it is on and a compliance policy is enforced, a visitor who has given consent is measured without the policy's restrictions: campaign values, the full referrer (up to the site's own anonymisation level) and the User ID. `ConsentAwareAnalytics::isEnabled()` and `ConsentAwareAnalytics::hasRelaxableRestriction()` read it from the tracker cache.
 * New event `PrivacyManager.consentAwareAnalyticsUpdated`, posted when consent-aware measurement is turned on or off. For a website, `enabled` is the website's own value and `enabledForAllWebsites` says whether it is on for the whole instance.
