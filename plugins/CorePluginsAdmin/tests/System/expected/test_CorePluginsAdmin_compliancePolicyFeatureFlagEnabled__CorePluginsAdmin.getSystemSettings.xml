@@ -1041,7 +1041,7 @@ Cloud Hosting Provider B</placeholder>
 				<uiControlAttributes>
 				</uiControlAttributes>
 				<availableValues />
-				<description>A default of &quot;0&quot; records all actions. Most sites usually have no more than 100 to 300. It might be safe to assume other activity is tracking spam, a bot or an attack. Matomo stops recording further actions and blocks their IP addresses for up to 24 hours to reduce server load and preserve data accuracy.</description>
+				<description>A default of &quot;0&quot; records all actions. Most sites usually have no more than 100 to 300. It might be safe to assume other activity is tracking spam, a bot or an attack. Matomo stops recording further actions and blocks their IP addresses for up to 24 hours to reduce server load and preserve data accuracy. An IP address set with the cip tracking parameter is only blocked when the token_auth of the request has Super User access.</description>
 				<inlineHelp />
 				<introduction />
 				<condition />
