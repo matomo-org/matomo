@@ -33,6 +33,10 @@
         "WidgetGraphAIAgents": "Gníomhairí AI le himeacht ama",
         "WidgetOverviewAIAgents": "Forbhreathnú ar Ghníomhairí AI",
         "AIAgentsOverview": "Forbhreathnú ar Ghníomhairí AI",
-        "AIAgentsOverviewSubcategoryDescription": "Athbhreithnigh go hachomair an chaoi a mbíonn gníomhairí AI agus cuairteoirí daonna ag idirghníomhú le do shuíomh. Tugann an forbhreathnú seo léargas ar mhéadrachtaí agus treochtaí comhcheangailte ionas gur féidir leat athruithe a fheiceáil go tapa sula ndéanann tú iniúchadh ar thuairiscí mionsonraithe."
+        "AIAgentsOverviewSubcategoryDescription": "Athbhreithnigh go hachomair an chaoi a mbíonn gníomhairí AI agus cuairteoirí daonna ag idirghníomhú le do shuíomh. Tugann an forbhreathnú seo léargas ar mhéadrachtaí agus treochtaí comhcheangailte ionas gur féidir leat athruithe a fheiceáil go tapa sula ndéanann tú iniúchadh ar thuairiscí mionsonraithe.",
+        "ColumnAIAgentUniqueVisitorsEstimated": "Cuairteoirí uathúla ó ghníomhairí AI (measta)",
+        "ColumnAIAgentUsersEstimated": "Úsáideoirí Gníomhairí AI (measta)",
+        "ColumnHumanUniqueVisitorsEstimated": "Cuairteoirí daonna uathúla (measta)",
+        "ColumnHumanUsersEstimated": "Úsáideoirí daonna (measta)"
     }
 }
