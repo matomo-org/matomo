@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\TrackingSpamPrevention\tests\Integration\Tracker;
 
+use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Plugins\TrackingSpamPrevention\BlockedIpRanges;
 use Piwik\Plugins\TrackingSpamPrevention\Configuration;
 use Piwik\Plugins\TrackingSpamPrevention\SystemSettings;
@@ -91,13 +92,20 @@ class RequestProcessorTest extends IntegrationTestCase
         $this->assertSame([], $this->ranges->getBlockedRanges());
     }
 
-    public function testUpdateBlockedIpRangesMaxActionsEnabledLimitReachedShouldStopRequestButNotBanCustomIpWithInvalidToken()
+    public function testUpdateBlockedIpRangesMaxActionsEnabledLimitReachedShouldRejectCustomIpWithInvalidToken()
     {
         $this->settings->max_actions->setValue(200);
 
         $request = new Request(['idsite' => 1, 'cip' => '11.12.13.14', 'token_auth' => 'invalidtokenauthinvalidtokenauth']);
 
-        $this->assertTrue($this->processor->afterRequestProcessed($this->makeVisit(200), $request));
+        try {
+            // the tracker rejects such a request before it gets here, when it reads the IP
+            $this->processor->afterRequestProcessed($this->makeVisit(200), $request);
+            $this->fail('Expected the request to be rejected');
+        } catch (InvalidRequestParameterException $e) {
+            $this->assertStringContainsString('requires valid token_auth', $e->getMessage());
+        }
+
         $this->assertSame([], $this->ranges->getBlockedRanges());
     }
 
@@ -146,6 +154,17 @@ class RequestProcessorTest extends IntegrationTestCase
         $this->settings->max_actions->setValue(200);
 
         $this->assertFalse($this->processor->afterRequestProcessed($this->makeVisit(800), $this->makeRequest()));
+        $this->assertSame([], $this->ranges->getBlockedRanges());
+    }
+
+    public function testUpdateBlockedIpRangesMaxActionsEnabledLimitReachedShouldIgnoreAllowedCustomIpOfWriteUser()
+    {
+        $this->settings->ipAllowList->setValue(['11.12.13.14/32']);
+        $this->settings->max_actions->setValue(200);
+
+        $request = new Request(['idsite' => 1, 'cip' => '11.12.13.14', 'token_auth' => $this->createWriteUserTokenForSite(1)]);
+
+        $this->assertFalse($this->processor->afterRequestProcessed($this->makeVisit(200), $request));
         $this->assertSame([], $this->ranges->getBlockedRanges());
     }
 

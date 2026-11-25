@@ -51,17 +51,17 @@ class RequestProcessor extends Tracker\RequestProcessor
             return false; // unlimited
         }
         if ((int)$actions >= $maxActions) {
+            $ipString = $request->getIpString();
+            if (StaticContainer::get(AllowListIpRange::class)->isAllowed($ipString)) {
+                Common::printDebug("Ignoring max visits as the visit matches an IP range that is always allowed");
+                return false;
+            }
+
             // The ban applies to the whole installation, so an IP set via cip is only banned when the token
             // has Super User access. Tokens scoped to some sites only stop tracking of this request.
             if (!empty($request->getParam('cip')) && !$this->isSuperUserTokenAuth($request)) {
                 Common::printDebug("Stop tracking as max number of actions reached, not banning IP set via cip without Super User token_auth");
                 return true; // abort
-            }
-
-            $ipString = $request->getIpString();
-            if (StaticContainer::get(AllowListIpRange::class)->isAllowed($ipString)) {
-                Common::printDebug("Ignoring max visits as the visit matches an IP range that is always allowed");
-                return false;
             }
 
             $this->blockedIpRanges->banIp($ipString);
