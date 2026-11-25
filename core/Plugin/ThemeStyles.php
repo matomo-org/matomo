@@ -25,6 +25,9 @@ class ThemeStyles
         'colorSuccess' => 'theme-color-success',
         'colorWarning' => 'theme-color-warning',
         'colorDanger' => 'theme-color-danger',
+        'colorPositive' => 'theme-color-positive',
+        'colorNegative' => 'theme-color-negative',
+        'colorNeutral' => 'theme-color-neutral',
         'colorFocusRing' => 'theme-color-focus-ring',
         'colorFocusRingAlternative' => 'theme-color-focus-ring-alternative',
         'colorTextHighContrast' => 'theme-color-text-highContrast',
@@ -126,6 +129,33 @@ class ThemeStyles
      * @since Matomo 6.0.0
      */
     public $colorDanger = ['#c0322e', '#ef7f7c'];
+
+    /**
+     * Something that reads as positive, such as a rising metric in an evolution, a trend or a
+     * sparkline maximum. Unlike $colorSuccess, it does not say that an operation succeeded.
+     *
+     * @var string|array<string>
+     * @since Matomo 6.0.0
+     */
+    public $colorPositive = ['#33B343', '#4dcc5d'];
+
+    /**
+     * Something that reads as negative, such as a falling metric in an evolution, a trend or a
+     * sparkline minimum. Unlike $colorDanger, it does not say that something failed.
+     *
+     * @var string|array<string>
+     * @since Matomo 6.0.0
+     */
+    public $colorNegative = '#ee3024';
+
+    /**
+     * Something that reads as neither positive nor negative, such as an unchanged metric in an
+     * evolution or a trend. Defaults to $colorTextLighter.
+     *
+     * @var string|array<string>
+     * @since Matomo 6.0.0
+     */
+    public $colorNeutral;
 
     /**
      * @var string|array<string>
@@ -433,6 +463,7 @@ class ThemeStyles
         $this->colorBorderAlternative = $this->colorBorder;
         $this->colorHeaderBackground = $this->colorBackgroundContrast;
         $this->colorHeaderText = $this->colorTextLighter;
+        $this->colorNeutral = $this->colorTextLighter;
     }
 
     /**

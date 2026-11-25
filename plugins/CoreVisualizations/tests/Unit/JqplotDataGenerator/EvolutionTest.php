@@ -55,10 +55,6 @@ class EvolutionTest extends TestCase
 
         $method = new ReflectionMethod(Evolution::class, 'hasColumnValue');
 
-        if (PHP_VERSION_ID < 80100) {
-            $method->setAccessible(true);
-        }
-
         self::assertSame($expected, $method->invoke($evolution, $value));
     }
 

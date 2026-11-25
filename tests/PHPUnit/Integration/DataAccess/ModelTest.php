@@ -12,6 +12,7 @@ namespace Piwik\Tests\Integration\DataAccess;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\CronArchive\ArchiveFilter;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\Date;
@@ -22,6 +23,7 @@ use Piwik\Period\Month;
 use Piwik\Period\Range;
 use Piwik\Period\Week;
 use Piwik\Period\Year;
+use Piwik\Segment;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\DataAccess\Model;
@@ -88,6 +90,59 @@ class ModelTest extends IntegrationTestCase
         $this->assertEquals($expected, $ids);
     }
 
+    public function testGetInvalidatedArchiveIdsSafeToDeletePurgesPartialArchivesOlderThanAUsableAllPluginsArchive(): void
+    {
+        $day = ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => Day::PERIOD_ID];
+        $this->insertArchiveData([
+            // 1: replaced by the all plugins archive 5
+            $day + ['name' => 'done', 'value' => ArchiveWriter::DONE_INVALIDATED, 'ts_archived' => '2020-02-04 00:00:00'],
+            // 2, 3: older than the usable all plugins archive 5
+            $day + ['name' => 'done.Plugin', 'value' => ArchiveWriter::DONE_PARTIAL, 'ts_archived' => '2020-02-04 01:00:00'],
+            $day + ['name' => 'done.OtherPlugin', 'value' => ArchiveWriter::DONE_PARTIAL, 'ts_archived' => '2020-02-04 02:00:00'],
+            // 4: another segment
+            $day + ['name' => 'done3736b708e4d20cfc10610e816a1b2341.Plugin', 'value' => ArchiveWriter::DONE_PARTIAL, 'ts_archived' => '2020-02-04 02:00:00'],
+            $day + ['name' => 'done', 'value' => ArchiveWriter::DONE_OK, 'ts_archived' => '2020-02-04 03:00:00'],
+            // 6: newer than the all plugins archive, so it is still read
+            $day + ['name' => 'done.Plugin', 'value' => ArchiveWriter::DONE_PARTIAL, 'ts_archived' => '2020-02-04 04:00:00'],
+            // 7, 8, 9: a failed all plugins archive does not replace the partial archive
+            ['date1' => '2020-02-04', 'date2' => '2020-02-04', 'period' => Day::PERIOD_ID, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK, 'ts_archived' => '2020-02-05 00:00:00'],
+            ['date1' => '2020-02-04', 'date2' => '2020-02-04', 'period' => Day::PERIOD_ID, 'name' => 'done.Plugin', 'value' => ArchiveWriter::DONE_PARTIAL, 'ts_archived' => '2020-02-05 01:00:00'],
+            ['date1' => '2020-02-04', 'date2' => '2020-02-04', 'period' => Day::PERIOD_ID, 'name' => 'done', 'value' => ArchiveWriter::DONE_ERROR, 'ts_archived' => '2020-02-05 02:00:00'],
+            // 10, 11, 12: an invalidated all plugins archive is still read instead of older archives
+            ['date1' => '2020-02-01', 'date2' => '2020-02-29', 'period' => Month::PERIOD_ID, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK, 'ts_archived' => '2020-03-01 00:00:00'],
+            ['date1' => '2020-02-01', 'date2' => '2020-02-29', 'period' => Month::PERIOD_ID, 'name' => 'done.Plugin', 'value' => ArchiveWriter::DONE_PARTIAL, 'ts_archived' => '2020-03-01 01:00:00'],
+            ['date1' => '2020-02-01', 'date2' => '2020-02-29', 'period' => Month::PERIOD_ID, 'name' => 'done', 'value' => ArchiveWriter::DONE_INVALIDATED, 'ts_archived' => '2020-03-01 02:00:00'],
+            // 13, 14: a complete archive of a single plugin doesn't replace the partial archive
+            ['date1' => '2020-02-05', 'date2' => '2020-02-05', 'period' => Day::PERIOD_ID, 'name' => 'done.Plugin', 'value' => ArchiveWriter::DONE_PARTIAL, 'ts_archived' => '2020-02-06 01:00:00'],
+            ['date1' => '2020-02-05', 'date2' => '2020-02-05', 'period' => Day::PERIOD_ID, 'name' => 'done.OtherPlugin', 'value' => ArchiveWriter::DONE_OK, 'ts_archived' => '2020-02-06 02:00:00'],
+            // 15, 16: also when the newer archive for all plugins is the only other archive
+            ['date1' => '2020-02-06', 'date2' => '2020-02-06', 'period' => Day::PERIOD_ID, 'name' => 'done.Plugin', 'value' => ArchiveWriter::DONE_PARTIAL, 'ts_archived' => '2020-02-07 01:00:00'],
+            ['date1' => '2020-02-06', 'date2' => '2020-02-06', 'period' => Day::PERIOD_ID, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK, 'ts_archived' => '2020-02-07 02:00:00'],
+            // 17, 18: not when both were archived in the same second, as readers comparing ts_archived still read it
+            ['date1' => '2020-02-07', 'date2' => '2020-02-07', 'period' => Day::PERIOD_ID, 'name' => 'done.Plugin', 'value' => ArchiveWriter::DONE_PARTIAL, 'ts_archived' => '2020-02-08 01:00:00'],
+            ['date1' => '2020-02-07', 'date2' => '2020-02-07', 'period' => Day::PERIOD_ID, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK, 'ts_archived' => '2020-02-08 01:00:00'],
+            // 19, 20: not when the partial archive has a higher idarchive, as readers ordering by idarchive still read it
+            ['date1' => '2020-02-08', 'date2' => '2020-02-08', 'period' => Day::PERIOD_ID, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK, 'ts_archived' => '2020-02-09 02:00:00'],
+            ['date1' => '2020-02-08', 'date2' => '2020-02-08', 'period' => Day::PERIOD_ID, 'name' => 'done.Plugin', 'value' => ArchiveWriter::DONE_PARTIAL, 'ts_archived' => '2020-02-09 01:00:00'],
+            // 21, 22: not when the partial archive was archived later, as readers ordering by ts_archived still read it
+            ['date1' => '2020-02-09', 'date2' => '2020-02-09', 'period' => Day::PERIOD_ID, 'name' => 'done.Plugin', 'value' => ArchiveWriter::DONE_PARTIAL, 'ts_archived' => '2020-02-10 03:00:00'],
+            ['date1' => '2020-02-09', 'date2' => '2020-02-09', 'period' => Day::PERIOD_ID, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK, 'ts_archived' => '2020-02-10 02:00:00'],
+            // 23, 24: a segment's partial archive older than the archive for all plugins of that segment
+            ['date1' => '2020-02-10', 'date2' => '2020-02-10', 'period' => Day::PERIOD_ID, 'name' => 'done3736b708e4d20cfc10610e816a1b2341.Plugin', 'value' => ArchiveWriter::DONE_PARTIAL, 'ts_archived' => '2020-02-11 01:00:00'],
+            ['date1' => '2020-02-10', 'date2' => '2020-02-10', 'period' => Day::PERIOD_ID, 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'value' => ArchiveWriter::DONE_OK, 'ts_archived' => '2020-02-11 02:00:00'],
+            // 25, 26: not a complete archive of a single plugin older than the archive for all plugins
+            ['date1' => '2020-02-11', 'date2' => '2020-02-11', 'period' => Day::PERIOD_ID, 'name' => 'done.Plugin', 'value' => ArchiveWriter::DONE_OK, 'ts_archived' => '2020-02-12 01:00:00'],
+            ['date1' => '2020-02-11', 'date2' => '2020-02-11', 'period' => Day::PERIOD_ID, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK, 'ts_archived' => '2020-02-12 02:00:00'],
+        ]);
+
+        $table = ArchiveTableCreator::getNumericTable(Date::factory('2020-02-03'), false);
+        $this->assertNotNull($table);
+        $ids = $this->model->getInvalidatedArchiveIdsSafeToDelete($table);
+        sort($ids);
+
+        $this->assertEquals(['1', '2', '3', '10', '11', '15', '23'], $ids);
+    }
+
     public function testResetFailedArchivingJobsUpdatesCorrectStatuses()
     {
         Date::$now = strtotime('2020-03-03 04:00:00');
@@ -106,7 +161,7 @@ class ModelTest extends IntegrationTestCase
 
         $this->model->resetFailedArchivingJobs();
 
-        $idinvalidationStatus = Db::fetchAll('SELECT idinvalidation, idsite, status FROM ' . Common::prefixTable('archive_invalidations'));
+        $idinvalidationStatus = Db::fetchAll('SELECT idinvalidation, idsite, status FROM ' . Common::prefixTable('archive_invalidations') . ' ORDER BY idinvalidation');
 
         $expected = [
             ['idinvalidation' => 1, 'idsite' => 1, 'status' => 0],
@@ -721,6 +776,64 @@ class ModelTest extends IntegrationTestCase
         }
 
         $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @dataProvider getTestDataForGetNextInvalidatedArchiveAppliesArchiveFilter
+     */
+    public function testGetNextInvalidatedArchiveAppliesArchiveFilter(array $filterOptions, array $expectedIdInvalidations)
+    {
+        Fixture::createWebsite('2014-01-01 00:00:00');
+
+        $ffHash = (new Segment('browserCode==ff', [1]))->getHash();
+        $ieHash = (new Segment('browserCode==ie', [1]))->getHash();
+
+        $this->insertInvalidations([
+            ['date1' => '2020-01-10', 'date2' => '2020-01-10', 'period' => Day::PERIOD_ID, 'name' => 'done'],
+            ['date1' => '2020-01-10', 'date2' => '2020-01-10', 'period' => Day::PERIOD_ID, 'name' => 'done' . $ffHash],
+            ['date1' => '2020-01-10', 'date2' => '2020-01-10', 'period' => Day::PERIOD_ID, 'name' => 'done' . $ieHash],
+            ['date1' => '2020-01-06', 'date2' => '2020-01-12', 'period' => Week::PERIOD_ID, 'name' => 'done'],
+            ['date1' => '2020-01-01', 'date2' => '2020-01-31', 'period' => Month::PERIOD_ID, 'name' => 'done'],
+            ['date1' => '2019-12-31', 'date2' => '2019-12-31', 'period' => Day::PERIOD_ID, 'name' => 'done'],
+            ['date1' => '2019-12-31', 'date2' => '2019-12-31', 'period' => Day::PERIOD_ID, 'name' => 'done' . $ffHash . '.Goals', 'report' => 'getMetrics'],
+            ['date1' => '2019-12-31', 'date2' => '2019-12-31', 'period' => Day::PERIOD_ID, 'name' => 'done.Goals', 'report' => 'getMetrics'],
+            ['date1' => '2019-12-31', 'date2' => '2019-12-31', 'period' => Day::PERIOD_ID, 'name' => 'done.Actions', 'report' => 'getPageUrls'],
+            ['date1' => '2019-01-01', 'date2' => '2019-12-31', 'period' => Year::PERIOD_ID, 'name' => 'done'],
+        ]);
+
+        $archiveFilter = new ArchiveFilter();
+        $archiveFilter->setRestrictToPeriods($filterOptions['periods'] ?? '');
+        $archiveFilter->setRestrictToDateRange($filterOptions['dateRange'] ?? false);
+        $archiveFilter->setDisableSegmentsArchiving($filterOptions['skipAllSegments'] ?? false);
+        $archiveFilter->setSegmentsToForce($filterOptions['segments'] ?? []);
+        $archiveFilter->setForceReport($filterOptions['forceReport'] ?? null);
+
+        $invalidations = $this->model->getNextInvalidatedArchive(1, '2030-01-01 00:00:00', null, false, $archiveFilter);
+        $this->assertEqualsCanonicalizing($expectedIdInvalidations, array_column($invalidations, 'idinvalidation'));
+
+        if (!empty($expectedIdInvalidations)) {
+            $next = $this->model->getNextInvalidatedArchive(1, '2030-01-01 00:00:00', null, true, $archiveFilter);
+            $this->assertSame($invalidations[0], $next);
+        }
+    }
+
+    public function getTestDataForGetNextInvalidatedArchiveAppliesArchiveFilter(): iterable
+    {
+        yield 'no restriction' => [[], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]];
+        yield 'periods' => [['periods' => 'week,month'], [4, 5]];
+        yield 'date range in the past' => [['dateRange' => '2019-12-01,2019-12-31'], [6, 7, 8, 9, 10]];
+        yield 'date range overlapping periods' => [['dateRange' => '2020-01-11,2020-01-31'], [4, 5]];
+        yield 'date range with time' => [['dateRange' => '2019-12-31 10:00:00,2019-12-31'], [6, 7, 8, 9, 10]];
+        yield 'skip all segments' => [['skipAllSegments' => true], [1, 4, 5, 6, 8, 9, 10]];
+        yield 'one segment' => [['segments' => ['browserCode==ff']], [2, 7]];
+        yield 'urlencoded segment' => [['segments' => ['browserCode%3D%3Dff']], [2, 7]];
+        yield 'two segments' => [['segments' => ['browserCode==ff', 'browserCode==ie']], [2, 3, 7]];
+        yield 'segment not available for site' => [['segments' => ['notASegment==1']], []];
+        yield 'report' => [['forceReport' => 'Goals.getMetrics'], [7, 8]];
+        yield 'combined' => [
+            ['periods' => 'day', 'dateRange' => '2019-12-31,2019-12-31', 'segments' => ['browserCode==ff']],
+            [7],
+        ];
     }
 
     public function testDeleteInvalidationsForDeletedSites()

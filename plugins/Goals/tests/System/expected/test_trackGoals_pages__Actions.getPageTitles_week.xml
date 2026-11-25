@@ -4,7 +4,7 @@
 		<label> Page A - index.html</label>
 		<nb_visits>7</nb_visits>
 		<nb_hits>9</nb_hits>
-		<sum_time_spent>2880</sum_time_spent>
+		<sum_time_spent>3240</sum_time_spent>
 		<sum_bandwidth>0</sum_bandwidth>
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<min_bandwidth />
@@ -53,7 +53,7 @@
 		<entry_nb_visits_percent_of_total>100%</entry_nb_visits_percent_of_total>
 		<entry_nb_actions_percent_of_total>100%</entry_nb_actions_percent_of_total>
 		<exit_nb_visits_percent_of_total>14.3%</exit_nb_visits_percent_of_total>
-		<avg_time_on_page>320</avg_time_on_page>
+		<avg_time_on_page>360</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>14%</exit_rate>
 		<segment>pageTitle==Page%2BA%2B-%2Bindex.html</segment>
@@ -101,7 +101,7 @@
 		<label> Page C</label>
 		<nb_visits>4</nb_visits>
 		<nb_hits>6</nb_hits>
-		<sum_time_spent>720</sum_time_spent>
+		<sum_time_spent>2880</sum_time_spent>
 		<sum_bandwidth>0</sum_bandwidth>
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<min_bandwidth />
@@ -134,7 +134,7 @@
 		<nb_visits_percent_of_total>19%</nb_visits_percent_of_total>
 		<nb_hits_percent_of_total>24%</nb_hits_percent_of_total>
 		<exit_nb_visits_percent_of_total>57.1%</exit_nb_visits_percent_of_total>
-		<avg_time_on_page>120</avg_time_on_page>
+		<avg_time_on_page>480</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<segment>pageTitle==Page%2BC</segment>
@@ -143,7 +143,7 @@
 		<label> Page A - Z</label>
 		<nb_visits>3</nb_visits>
 		<nb_hits>3</nb_hits>
-		<sum_time_spent>720</sum_time_spent>
+		<sum_time_spent>1080</sum_time_spent>
 		<sum_bandwidth>0</sum_bandwidth>
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<min_bandwidth />
@@ -176,7 +176,7 @@
 		<nb_visits_percent_of_total>14.3%</nb_visits_percent_of_total>
 		<nb_hits_percent_of_total>12%</nb_hits_percent_of_total>
 		<exit_nb_visits_percent_of_total>14.3%</exit_nb_visits_percent_of_total>
-		<avg_time_on_page>240</avg_time_on_page>
+		<avg_time_on_page>360</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>33%</exit_rate>
 		<segment>pageTitle==Page%2BA%2B-%2BZ</segment>

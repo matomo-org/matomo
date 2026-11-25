@@ -149,7 +149,7 @@ abstract class ViewDataTable implements ViewInterface
     /**
      * DataTable loaded from the API for this ViewDataTable.
      *
-     * @var DataTable|null
+     * @var DataTable|DataTable\Map|null
      */
     protected $dataTable = null;
 
@@ -173,6 +173,11 @@ abstract class ViewDataTable implements ViewInterface
     protected $request;
 
     private $isComparing = null;
+
+    /**
+     * @var array
+     */
+    private $overrideParams = [];
 
     /**
      * Constructor. Initializes display and request properties to their default values.
@@ -289,7 +294,8 @@ abstract class ViewDataTable implements ViewInterface
             $this->requestConfig->filter_excludelowpop_value = $function();
         }
 
-        $this->overrideViewPropertiesWithParams($overrideParams);
+        $this->overrideParams = $overrideParams ?: [];
+        $this->overrideViewPropertiesWithParams($this->overrideParams);
         $this->overrideViewPropertiesWithQueryParams();
 
         /**
@@ -549,6 +555,16 @@ abstract class ViewDataTable implements ViewInterface
     public static function canDisplayViewDataTable(ViewDataTable $view)
     {
         return $view->config->show_all_views_icons;
+    }
+
+    /**
+     * Returns the parameters this view was constructed with to override its default properties, eg. the
+     * parameters saved for the user when {@link Piwik\ViewDataTable\Factory::build()} loaded them.
+     * Request parameters are applied afterwards and are not included.
+     */
+    protected function getOverrideParams(): array
+    {
+        return $this->overrideParams;
     }
 
     private function overrideViewPropertiesWithParams($overrideParams)

@@ -81,7 +81,6 @@
         "NoDataCloudflareInstructions2": "部署 Worker（Node.js），並設定你的 Matomo 網址與網站 ID。",
         "NoDataCloudflareInstructions3": "將 Worker 掛到你的 zone 或 route 上，讓它隨請求一併執行。",
         "NoDataCloudflareInstructions4": "檢查追蹤報表中是否已出現 AI 聊天機器人的命中資料，以驗證設定是否成功。",
-        "NoDataHttpTrackingApiDescription": "當你需要自訂整合時，HTTP 追蹤 API 可讓你直接追蹤 AI 聊天機器人的請求。請先參閱 %1$s追蹤 API 知識庫%2$s，並使用 %3$sHTTP 追蹤 API 參考文件%4$s 查詢最新的機器人追蹤參數與行為。",
         "NoDataLinkKnowledgeBase": "說明文件：%1$sMatomo 知識庫%2$s",
         "NoDataLinkSourceCode": "原始碼：%1$sGitHub 儲存庫%2$s",
         "NoDataMissingOneContactUs": "少了你需要的方式？請與我們聯絡",
@@ -108,6 +107,10 @@
         "TopPageUrlsLast30MinutesDocumentation": "顯示最近 30 分鐘內 AI 聊天機器人請求過的網頁網址，並依機器人請求數排序。",
         "TopPageUrlsLast30MinutesTitle": "熱門網頁網址：最近 30 分鐘",
         "TopPageUrlsLast8HoursDocumentation": "顯示最近 8 小時內 AI 聊天機器人請求過的網頁網址，並依機器人請求數排序。",
-        "TopPageUrlsLast8HoursTitle": "熱門網頁網址：最近 8 小時"
+        "TopPageUrlsLast8HoursTitle": "熱門網頁網址：最近 8 小時",
+        "AIChatbotTrafficRatioBelowValue": "&lt;%1$s×",
+        "AIChatbotTrafficRatioValue": "%1$s×",
+        "ColumnAIChatbotTrafficRatio": "AI 聊天機器人流量比率",
+        "ColumnAIChatbotTrafficRatioDocumentation": "AI 聊天機器人請求數相對於真人（直接或透過 AI 代理）所產生瀏覽數的比率。數值為 2.0× 代表 AI 聊天機器人請求數是瀏覽數的兩倍。"
     }
 }

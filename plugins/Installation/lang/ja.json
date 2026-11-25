@@ -143,7 +143,6 @@
         "SystemCheckUpdateHttps": "HTTPS 経由で更新",
         "SystemCheckViewFullSystemCheck": "完全なシステム チェック レポートを表示する",
         "SystemCheckWarnDomHelp": "\"dom\" 拡張機能をオンにする必要があります (たとえば、\"php-dom\" および/または \"php-xml\" パッケージをインストールします)。",
-        "SystemCheckWarnJsonHelp": "\"JSON\" 拡張機能をオンにする必要があります (たとえば、\"php-json\" パッケージをインストールします)。",
         "SystemCheckWarnLibXmlHelp": "他のコア PHP エクステンションで必要となるため、\"libxml\" エクステンションを有効にする必要があります（例えば \"php-libxml\" パッケージをインストールする）。",
         "SystemCheckWarnOpensslHelp": "安全な更新を許可するには、\"OpenSSL\" 拡張機能を有効にする必要があります。",
         "SystemCheckWarnSimpleXMLHelp": "\"SimpleXML\" エクステンションを有効にする必要があります（例えば \"php-simplexml\" と \"php-xml\" パッケージのどちらか、あるいは両方をインストールする）。",

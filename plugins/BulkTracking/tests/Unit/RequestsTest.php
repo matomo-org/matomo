@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\BulkTracking\tests\Unit;
 
+use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Plugins\BulkTracking\Tracker\Requests;
 use Piwik\Tracker\Request;
 
@@ -156,6 +157,30 @@ class RequestsTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(array('idsite' => '3', 'rec' => '0'), $requests[1]->getParams());
         $this->assertEquals(array('idsite' => '2'), $requests[2]->getParams());
         $this->assertCount(3, $requests);
+    }
+
+    public function testInitRequestsAndTokenAuthShouldRejectInvalidJson()
+    {
+        $this->expectException(InvalidRequestParameterException::class);
+        $this->expectExceptionMessage("The bulk tracking request body must be a JSON object with a 'requests' array.");
+
+        $this->requests->initRequestsAndTokenAuth('{"requests":[');
+    }
+
+    public function testInitRequestsAndTokenAuthShouldRejectRequestsThatAreNotAnArray()
+    {
+        $this->expectException(InvalidRequestParameterException::class);
+        $this->expectExceptionMessage("The bulk tracking request body must be a JSON object with a 'requests' array.");
+
+        $this->requests->initRequestsAndTokenAuth($this->buildRequestRawData('idsite=1'));
+    }
+
+    public function testInitRequestsAndTokenAuthShouldRejectMissingRequests()
+    {
+        $this->expectException(InvalidRequestParameterException::class);
+        $this->expectExceptionMessage("The bulk tracking request body must be a JSON object with a 'requests' array.");
+
+        $this->requests->initRequestsAndTokenAuth('{"requests":null,"token_auth":"' . md5('2') . '"}');
     }
 
     private function buildRequestRawData($requests, $token = null)

@@ -8,7 +8,7 @@
         "ChangingYourTimezoneWillOnlyAffectDataForward": "變更時區只會影響往後的資料，不會溯及既往。",
         "ChooseMeasurableTypeHeadline": "你想要追蹤什麼？",
         "ChooseMeasurableTypeSubheader": "監測對象是指任何你想追蹤與分析的網站、應用程式或線上系統。監測對象是 Matomo 收集資料與產生報表的基礎。",
-        "ChooseMeasurableTypeSubheaderRollUp": "你也可以使用 Roll-Up 將多個監測對象合併成統一的檢視。",
+        "ChooseMeasurableTypeSubheaderRollUp": "你也可以使用彙總報表將多個監測對象合併成統一的檢視。",
         "CmsAndWebsiteBuilders": "CMS 與網站建置工具",
         "ConsentManagerConnected": "我們偵測到 %1$s 已在你的網站上正確設定，可與 Matomo 搭配運作。",
         "Currency": "貨幣",

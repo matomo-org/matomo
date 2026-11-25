@@ -29,7 +29,7 @@
         "EvolutionOverPeriod": "Sayfa başarımı ölçümlerinin gelişimi",
         "HelpNote": "Bu ölçümlerin hepsi her zaman kullanılamayabilir. Ayrıntılı bilgi almak için %1$sçevrim içi rehbere bakabilirsiniz%2$s.",
         "Overview": "Başarım özeti",
-        "OverviewDocumentation": "Bu rapor, site sayfalarının ziyaretçilere hangi hızda görüntülediği hakkında özet bilgiler içerir. Hem tarayıcıların sayfaları indirmesinin ne kadar sürdüğü, hem de tarayıcıların bunları görüntülemesinin ne kadar sürdüğü görüntülenir.",
+        "OverviewDocumentation": "Bu rapor, site sayfalarının ziyaretçilere hangi hızda görüntülediği ile ilgili özet bilgiler içerir. Hem tarayıcıların sayfaları indirmesinin ne kadar sürdüğü, hem de tarayıcıların bunları görüntülemesinin ne kadar sürdüğü görüntülenir.",
         "PageLoadTime": "Sayfa yükleme süresi",
         "PagePerformanceTitle": "Sayfanın %1$s \"%2$s\" ile sayfa başarımı raporu",
         "Performance": "Başarım",

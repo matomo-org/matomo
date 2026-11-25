@@ -82,8 +82,8 @@
                                 <td class="entityTable_Sparkline">
                                     {% if segment.sparklineUrl is defined %}
                                         <div class="sparkline" {% if sparklineTooltipKey -%} title="{{ sparklineTooltipKey|translate(segment.name) }}" {%- endif %}>
-                                            {# Request the compact 100x25 display size so this management-table sparkline stays small #}
-                                            {{ sparkline(segment.sparklineUrl, 100, 25) }}
+                                            {# Not the sparkline() helper: its inline initSparklines() script requests every row at once. manageSegmentsPage.js loads each sparkline after its row data. #}
+                                            <img alt="" width="100" height="25" data-segment-sparkline-src="{{ segment.sparklineUrl|e('html_attr') }}" />
                                         </div>
                                     {% endif %}
                                 </td>

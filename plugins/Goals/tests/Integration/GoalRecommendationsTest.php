@@ -28,6 +28,7 @@ use Piwik\Plugins\Goals\Recommendations\HomepageAnalyzer;
 use Piwik\Plugins\Goals\Recommendations\ManualSuggestionRecommender;
 use Piwik\Plugins\Goals\Recommendations\RecommendationStore;
 use Piwik\Plugins\Goals\Recommendations\ScanAlreadyRunningException;
+use Piwik\Request;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -207,6 +208,100 @@ class GoalRecommendationsTest extends IntegrationTestCase
         $this->saveScan([$this->makeRecommendation()]);
 
         $this->assertCount(1, $this->api->getSavedRecommendedGoals($this->idSite)['goals']);
+    }
+
+    public function testDismissingTheLastRecommendationRemovesSavedScan()
+    {
+        $this->saveScan([$this->makeRecommendation(), $this->makePricingRecommendation()]);
+
+        $this->api->dismissRecommendedGoal($this->idSite, 'url:contact');
+        $this->assertIsInt($this->api->getSavedRecommendedGoals($this->idSite)['generatedAt']);
+
+        $response = $this->api->dismissRecommendedGoal($this->idSite, 'url:pricing');
+
+        $this->assertSame(['success' => true], $response);
+        $this->assertNull($this->api->getSavedRecommendedGoals($this->idSite)['generatedAt']);
+    }
+
+    public function testAddRecommendedGoalsCreatesASingleGoalFromTheSavedScan()
+    {
+        $this->saveScan([$this->makeRecommendation(), $this->makePricingRecommendation()]);
+
+        $result = $this->api->addRecommendedGoals($this->idSite, ['url:contact']);
+
+        $goals = $this->api->getGoals($this->idSite);
+        $this->assertCount(1, $goals);
+        $goal = reset($goals);
+        $this->assertSame([
+            'mode' => 'ai',
+            'goals' => [['recommendationId' => 'url:contact', 'idGoal' => (int) $goal['idgoal']]],
+        ], $result);
+        $this->assertSame('Visited contact page', $goal['name']);
+        $this->assertSame('/contact', $goal['pattern']);
+        $this->assertSame('Contact page goal', $goal['description']);
+    }
+
+    public function testAddRecommendedGoalsCreatesAllRequestedAndSkipsDismissedAndUnknownIds()
+    {
+        $this->saveScan([
+            $this->makeRecommendation(),
+            $this->makePricingRecommendation(),
+            $this->makeRecommendation(['id' => 'url:jobs', 'name' => 'Visited jobs page', 'pattern' => '/jobs']),
+        ]);
+        $this->api->dismissRecommendedGoal($this->idSite, 'url:jobs');
+
+        $result = $this->api->addRecommendedGoals($this->idSite, ['url:contact', 'url:pricing', 'url:jobs', 'url:unknown']);
+
+        $this->assertSame(['url:contact', 'url:pricing'], array_column($result['goals'], 'recommendationId'));
+        $this->assertSame(
+            ['Visited contact page', 'Visited pricing page'],
+            array_column($this->api->getGoals($this->idSite), 'name')
+        );
+    }
+
+    public function testAddRecommendedGoalsRunsAddGoalListenersWithTheRecommendationFlag()
+    {
+        $this->saveScan([$this->makeRecommendation()]);
+        $flags = [];
+        Piwik::addAction('API.Goals.addGoal.end', function () use (&$flags) {
+            $flags[] = Request::fromRequest()->getIntegerParameter('createdFromRecommendedGoal', 0);
+        });
+
+        $this->api->addRecommendedGoals($this->idSite, ['url:contact']);
+
+        $this->assertSame([1], $flags);
+    }
+
+    public function testAddRecommendedGoalsContinuesAfterAGoalFailsValidation()
+    {
+        $this->saveScan([
+            $this->makeRecommendation(['id' => 'visit_duration:abc', 'matchAttribute' => 'visit_duration', 'pattern' => 'abc']),
+            $this->makePricingRecommendation(),
+        ]);
+
+        $result = $this->api->addRecommendedGoals($this->idSite, ['visit_duration:abc', 'url:pricing']);
+
+        $this->assertSame(['url:pricing'], array_column($result['goals'], 'recommendationId'));
+        $this->assertSame(['Visited pricing page'], array_column($this->api->getGoals($this->idSite), 'name'));
+    }
+
+    public function testAddRecommendedGoalsIgnoresNonScalarIds()
+    {
+        $this->saveScan([$this->makeRecommendation()]);
+
+        $result = $this->api->addRecommendedGoals($this->idSite, [['url:contact'], 'url:contact']);
+
+        $this->assertSame(['url:contact'], array_column($result['goals'], 'recommendationId'));
+    }
+
+    public function testAddRecommendedGoalsRequiresWriteAccess()
+    {
+        $this->saveScan([$this->makeRecommendation()]);
+        $this->setViewOnlyUser();
+
+        $this->expectException(\Exception::class);
+
+        $this->api->addRecommendedGoals($this->idSite, ['url:contact']);
     }
 
     public function testDismissRecommendedGoalRequiresWriteAccess()
@@ -595,6 +690,14 @@ class GoalRecommendationsTest extends IntegrationTestCase
             'description' => 'Contact page goal',
             'source' => 'ai',
         ], $overrides);
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function makePricingRecommendation(): array
+    {
+        return $this->makeRecommendation(['id' => 'url:pricing', 'name' => 'Visited pricing page', 'pattern' => '/pricing']);
     }
 
     /**

@@ -87,6 +87,7 @@ export interface PluginCard {
   isMissingLicense: boolean;
   isEligibleForFreeTrial: boolean;
   isTrialRequested: boolean;
+  isTrialPending: boolean;
   canTrialBeRequested: boolean;
   missingRequirements: TObjectArray;
   numDownloads: number | null;

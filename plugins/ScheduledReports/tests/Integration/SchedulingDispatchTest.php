@@ -11,6 +11,7 @@ namespace Piwik\Plugins\ScheduledReports\tests\Integration;
 
 use PHPMailer\PHPMailer\PHPMailer;
 use Piwik\Date;
+use Piwik\Period;
 use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
 use Piwik\Plugins\ScheduledReports\ScheduledReports;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
@@ -38,6 +39,9 @@ class SchedulingDispatchTest extends IntegrationTestCase
     /** @var PHPMailer[] */
     public $mailsSent = [];
 
+    /** @var string[] */
+    public $sentDataPeriods = [];
+
     public function setUp(): void
     {
         parent::setUp();
@@ -62,6 +66,7 @@ class SchedulingDispatchTest extends IntegrationTestCase
         APIScheduledReports::$cache = [];
 
         $this->mailsSent = [];
+        $this->sentDataPeriods = [];
     }
 
     public function tearDown(): void
@@ -80,6 +85,9 @@ class SchedulingDispatchTest extends IntegrationTestCase
                 ['Test.Mail.send', \Piwik\DI::value(function (PHPMailer $mail) {
                     $this->mailsSent[] = clone $mail;
                     $mail->preSend();
+                })],
+                ['ScheduledReports.sendReport', \Piwik\DI::value(function ($reportType, $report, $contents, $filename, $prettyDate, $reportSubject, $reportTitle, $additionalFiles, Period $period) {
+                    $this->sentDataPeriods[] = $period->getRangeString();
                 })],
             ]),
         ];
@@ -172,6 +180,64 @@ class SchedulingDispatchTest extends IntegrationTestCase
         $this->assertCount(1, $this->mailsSent);
     }
 
+    /**
+     * Local Monday 05:00 in Asia/Shanghai is Sunday 21:00 UTC. The report sent then must cover the
+     * local week that just ended, not the week before it.
+     */
+    public function testWeeklyReportSentBeforeUtcMondayCoversThePreviousLocalWeek(): void
+    {
+        $idSite = $this->addShanghaiSite();
+        $idReport = $this->createReport(Schedule::PERIOD_WEEK, $periodParam = 'week', $hour = 21, $idSite);
+
+        Date::$now = strtotime('2026-10-04 21:00:00 UTC');
+        APIScheduledReports::getInstance()->sendReport($idReport);
+
+        $this->assertCount(1, $this->mailsSent);
+        $this->assertSame(['2026-09-28,2026-10-04'], $this->sentDataPeriods);
+    }
+
+    /**
+     * The first day of the month 05:00 in Asia/Shanghai is the last day of the previous month 21:00 UTC.
+     */
+    public function testMonthlyReportSentBeforeUtcFirstDayCoversThePreviousLocalMonth(): void
+    {
+        $idSite = $this->addShanghaiSite();
+        $idReport = $this->createReport(Schedule::PERIOD_MONTH, $periodParam = 'month', $hour = 21, $idSite);
+
+        Date::$now = strtotime('2026-09-30 21:00:00 UTC');
+        APIScheduledReports::getInstance()->sendReport($idReport);
+
+        $this->assertCount(1, $this->mailsSent);
+        $this->assertSame(['2026-09-01,2026-09-30'], $this->sentDataPeriods);
+    }
+
+    /**
+     * A report still scheduled on the previous UTC Monday sends on local Tuesday once more, the next
+     * send on local Monday falls into the same UTC week but must not be suppressed as a duplicate.
+     */
+    public function testWeeklyReportIsNotSuppressedWhenTwoLocalWeeksShareAUtcWeek(): void
+    {
+        $idSite = $this->addShanghaiSite();
+        $idReport = $this->createReport(Schedule::PERIOD_WEEK, $periodParam = 'week', $hour = 21, $idSite);
+
+        Date::$now = strtotime('2026-10-05 21:00:00 UTC');
+        APIScheduledReports::getInstance()->sendReport($idReport);
+        Date::$now = strtotime('2026-10-11 21:00:00 UTC');
+        APIScheduledReports::getInstance()->sendReport($idReport);
+
+        $this->assertCount(2, $this->mailsSent);
+        $this->assertSame(['2026-09-28,2026-10-04', '2026-10-05,2026-10-11'], $this->sentDataPeriods);
+    }
+
+    private function addShanghaiSite(): int
+    {
+        FakeAccess::$superUser = true;
+        $idSite = APISitesManager::getInstance()->addSite('Shanghai', ['http://example.org'], timezone: 'Asia/Shanghai');
+        FakeAccess::setIdSitesView([$this->idSite, $idSite]);
+
+        return $idSite;
+    }
+
     private function dispatchOnConsecutiveDays(int $idReport, string $startUtc, int $dayCount): void
     {
         $startTs = strtotime($startUtc);
@@ -181,12 +247,12 @@ class SchedulingDispatchTest extends IntegrationTestCase
         }
     }
 
-    private function createReport(string $schedulePeriod, string $periodParam, int $hour = 0): int
+    private function createReport(string $schedulePeriod, string $periodParam, int $hour = 0, ?int $idSite = null): int
     {
         APIScheduledReports::$cache = [];
 
         return APIScheduledReports::getInstance()->addReport(
-            $this->idSite,
+            $idSite ?? $this->idSite,
             'test report',
             $schedulePeriod,
             $hour,

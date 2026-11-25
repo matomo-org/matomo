@@ -12,7 +12,6 @@
         "LoadingWebsites": "Webguneak kargatzen",
         "PluginDescription": "Ikusi eta konparatu zure webgune eta aplikazio guztiak 'Webgune guztiak' panel erabilgarri honetan.",
         "SingleWebsitesDashboardDocumentation": "Txosten honek webgune zehatz baten informazioaren ikuspegi orokorra ematen dizu. Zure bisitariei buruzko metrika orokorrenak ditu.",
-        "TopLinkTooltip": "Konparatu zure webgune guztien web-analitikak.",
-        "TotalPageviews": "Orrialde-ikustaldiak denetara"
+        "TopLinkTooltip": "Konparatu zure webgune guztien web-analitikak."
     }
 }

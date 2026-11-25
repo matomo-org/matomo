@@ -277,36 +277,27 @@ class Common
      */
     public static function hashEquals(string $stringA, string $stringB)
     {
-        if (function_exists('hash_equals')) {
-            return hash_equals($stringA, $stringB);
-        }
-
-        if (strlen($stringA) !== strlen($stringB)) {
-            return false;
-        }
-
-        $result = "\0";
-        $stringA ^= $stringB;
-        for ($i = 0; $i < strlen($stringA); $i++) {
-            $result |= $stringA[$i];
-        }
-
-        return $result === "\0";
+        return hash_equals($stringA, $stringB);
     }
 
     /**
      * Secure wrapper for unserialize, which by default disallows unserializing classes
      *
-     * @param string|null $string String to unserialize
+     * @param string|false|null $string String to unserialize
      * @param array $allowedClasses Class names that should be allowed to unserialize
      * @param bool $rethrow Whether to rethrow exceptions or not.
      * @return mixed
      */
     public static function safe_unserialize($string, $allowedClasses = [], $rethrow = false)  // phpcs:ignore PSR1.Methods.CamelCapsMethodName.NotCamelCaps
     {
+        // PHP 8.6 warns about an empty string, earlier versions silently returned false
+        if ($string === null || $string === false || $string === '') {
+            return false;
+        }
+
         try {
             // phpcs:ignore Generic.PHP.ForbiddenFunctions
-            return unserialize($string ?? '', ['allowed_classes' => empty($allowedClasses) ? false : $allowedClasses]);
+            return unserialize($string, ['allowed_classes' => empty($allowedClasses) ? false : $allowedClasses]);
         } catch (\Throwable $e) {
             if ($rethrow) {
                 throw $e;
@@ -402,7 +393,6 @@ class Common
     {
         // $_GET and $_REQUEST already urldecode()'d
         // decode
-        // note: before php 5.2.7, htmlspecialchars() double encodes &#x hex items
         $value = html_entity_decode($value, self::HTML_ENCODING_QUOTE_STYLE, 'UTF-8');
 
         $value = self::sanitizeNullBytes($value);
@@ -566,7 +556,7 @@ class Common
                     $ok = true;
                 }
             } elseif ($varType === 'float') {
-                $valueToCompare = Common::forceDotAsSeparatorForDecimalPoint($value);
+                $valueToCompare = is_array($value) ? '' : Common::forceDotAsSeparatorForDecimalPoint($value);
 
                 // Simplified regex for float without support for underscore notation
                 // will match:  1.234, 1.2e3, 7E-10

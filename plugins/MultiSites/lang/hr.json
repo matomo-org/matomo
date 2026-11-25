@@ -29,11 +29,6 @@
         "PluginDescription": "Pogledaj i usporedi sve svoje web-stranice i aplikacije u ovoj korisnoj nadzornoj ploči „Sve web stranice”.",
         "SegmentationNotSupported": "Segmentacija nije podržana",
         "SingleWebsitesDashboardDocumentation": "Ovaj izvještaj pruža informativni pregled za određenu web-stranicu, s najopćenitijim mjernim podacima o tvojim posjetiteljima.",
-        "TopLinkTooltip": "Usporedi statistike web analitike za sve tvoje web-stranice.",
-        "TotalAiChatbotsRequests": "Ukupni broj zahtjeva UI-chatbotova",
-        "TotalHits": "Ukupni broj zahtjeva za datotekama",
-        "TotalHitsIncludingAiTooltip": "Ukupni broj učitanih datoteka web-stranice: uključujući sve ljudske posjete i zahtjeve UI-chatbotova",
-        "TotalPageviews": "Ukupni broj prikaza stranice",
-        "TotalVisits": "Ukupni broj posjeta"
+        "TopLinkTooltip": "Usporedi statistike web analitike za sve tvoje web-stranice."
     }
 }

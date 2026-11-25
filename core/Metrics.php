@@ -367,6 +367,43 @@ class Metrics
     }
 
     /**
+     * Returns the text row evolution shows for a metric value as a plugin formats it, or null when
+     * no plugin does and row evolution formats the value itself.
+     *
+     * @param int|float $value
+     * @ignore
+     */
+    public static function getFormattedEvolutionValue($value, string $column, int $idSite): ?string
+    {
+        /** @var string|null $formatted */
+        $formatted = null;
+
+        /**
+         * Use this event to format a custom metric's values in the row evolution popover, for example
+         * to apply the metric's own number of decimals. The text is shown as it is, without the unit from
+         * `Metrics.getEvolutionUnit`. Metrics no plugin formats keep row evolution's default formatting.
+         *
+         * **Example**
+         *
+         *     public function formatEvolutionValue(&$formatted, $value, $column, $idSite)
+         *     {
+         *         if ($column === 'my_metric') {
+         *             $formatted = NumberFormatter::getInstance()->formatPercent($value * 100, 1, 1);
+         *         }
+         *     }
+         *
+         * @param string|null &$formatted set it to the formatted value including any unit, e.g. `6.00 €`;
+         *                                leave it null for metrics the plugin does not format
+         * @param int|float $value the raw value, e.g. a ratio for a percentage metric
+         * @param string $column name of the column the value belongs to
+         * @param int $idSite id of the current site
+         */
+        Piwik::postEvent('Metrics.formatEvolutionValue', [&$formatted, $value, $column, $idSite]);
+
+        return is_string($formatted) ? $formatted : null;
+    }
+
+    /**
      * @return array<string, string>
      */
     public static function getDefaultMetricSemanticTypes(): array

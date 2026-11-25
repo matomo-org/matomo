@@ -1,1 +1,8 @@
-{}
+{
+    "IntranetMeasurable": {
+        "Intranet": "Site intranet",
+        "IntranetDescription": "Un element măsurabil intranet este la fel ca un site, dar este găzduit într-o rețea internă.",
+        "IntranetLongDescription": "Urmăriți site-urile interne accesibile doar din rețeaua organizației dumneavoastră. Matomo folosește cookie-uri primare pentru a identifica mai precis vizitatorii unici în mediile intranet.",
+        "Intranets": "Site-uri intranet"
+    }
+}

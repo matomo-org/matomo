@@ -184,8 +184,11 @@ class Controller extends \Piwik\Plugin\Controller
         Piwik::checkUserHasSomeViewAccess();
         $this->checkTokenInUrl();
 
-        $notificationId = Common::getRequestVar('notificationId');
-        NotificationManager::cancel($notificationId);
+        $notificationId = \Piwik\Request::fromRequest()->getStringParameter('notificationId', '');
+        // client-side notifications can use IDs no stored notification has, so there is nothing to remove
+        if (NotificationManager::isValidId($notificationId)) {
+            NotificationManager::cancel($notificationId);
+        }
 
         return json_encode(true);
     }
@@ -280,6 +283,8 @@ class Controller extends \Piwik\Plugin\Controller
     /** Utility function. Creates a RowEvolution instance. */
     private function makeRowEvolution($isMultiRowEvolution, $graphType = null)
     {
+        $this->checkSitePermission();
+
         if ($isMultiRowEvolution) {
             return new MultiRowEvolution($this->idSite, $this->date, $graphType);
         } else {

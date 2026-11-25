@@ -16,6 +16,10 @@
  * Same identity notifyWidgetParametersChange() already saves parameters under: the widget id where
  * there is one, the container and report otherwise. A dialog marker is always prefixed, because a
  * popover renders a report that may also be on the page behind it.
+ *
+ * A by-dimension container is the exception: it shows its reports one at a time in a single pane
+ * inside its own widget, so the widget id alone would give every report there the same key, and a
+ * report would read the settings of the one shown before it. The report id is added there.
  */
 export default function reportIdentity(
   element?: HTMLElement | null,
@@ -32,13 +36,19 @@ export default function reportIdentity(
     return `${dialog}widget:${widget.getAttribute('widgetId')}`;
   }
 
-  // Widget.vue puts the unique id here, including on each child of a container
+  const id = reportId || element.closest('[data-report]')?.getAttribute('data-report') || '';
+
+  // Widget.vue puts the unique id here, including on each child of a regular container
   const matomoWidget = element.closest('.matomo-widget');
   if (matomoWidget?.id) {
+    const byDimension = element.closest('.reportsByDimensionView');
+    if (id && byDimension && matomoWidget.contains(byDimension)) {
+      return `${dialog}widget:${matomoWidget.id}:${id}`;
+    }
+
     return `${dialog}widget:${matomoWidget.id}`;
   }
 
-  const id = reportId || element.closest('[data-report]')?.getAttribute('data-report') || '';
   if (!id) {
     return '';
   }

@@ -9,6 +9,8 @@
 
 namespace Piwik\Tests\System;
 
+use Piwik\Common;
+use Piwik\Db;
 use Piwik\Http;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
@@ -86,6 +88,70 @@ class TrackerResponseTest extends SystemTestCase
 
         $response = $this->sendHttpRequest($url);
         $this->assertEquals(400, $response['status']);
+    }
+
+    public function testResponseShouldOnlyContainTheImageIfSiteIdIsInvalid()
+    {
+        $url = $this->tracker->getUrlTrackPageView('Test');
+        $url .= '&idsite=100';
+
+        $response = $this->sendHttpRequest($url);
+        $this->assertEquals(400, $response['status']);
+        Fixture::checkResponse($response['data']);
+    }
+
+    public function testResponseShouldSend400ResponseCodeIfSiteIdIsInvalidAndImageIsDisabled()
+    {
+        $url = $this->tracker->getUrlTrackPageView('Test');
+        $url .= '&idsite=100&send_image=0';
+
+        $response = $this->sendHttpRequest($url);
+        $this->assertEquals(400, $response['status']);
+        $this->assertSame('', $response['data']);
+    }
+
+    public function testResponseShouldSend400ResponseCodeIfCustomActionIsNotHandledByAnyPlugin()
+    {
+        $url = $this->tracker->getUrlTrackPageView('Test');
+        $url .= '&token_auth=' . Fixture::getTokenAuth();
+        $url .= '&ua=' . urlencode('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36');
+        $url .= '&ca=1';
+
+        $response = $this->sendHttpRequest($url);
+        $this->assertEquals(400, $response['status']);
+    }
+
+    /**
+     * @dataProvider getCustomTimestampsOutOfRange
+     */
+    public function testResponseShouldSend400ResponseCodeIfCustomTimestampIsOutOfRange($cdt)
+    {
+        $url = $this->tracker->getUrlTrackPageView('Test');
+        $url .= '&token_auth=' . Fixture::getTokenAuth();
+        $url .= '&cdt=' . urlencode($cdt);
+
+        $response = $this->sendHttpRequest($url);
+        $this->assertEquals(400, $response['status']);
+    }
+
+    public function getCustomTimestampsOutOfRange(): iterable
+    {
+        yield 'more than a day in future' => ['' . (time() + 2 * 86400)];
+        yield 'beyond the integer range' => ['99999999999999999999'];
+    }
+
+    public function testResponseShouldTrackEventWithANameLongerThanTheActionNameColumn()
+    {
+        $url = $this->tracker->getUrlTrackEvent(str_repeat('a', 5000), 'Action');
+        $url .= '&token_auth=' . Fixture::getTokenAuth();
+        $url .= '&ua=' . urlencode('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36');
+
+        $response = $this->sendHttpRequest($url);
+        $this->assertEquals(200, $response['status']);
+        Fixture::checkResponse($response['data']);
+
+        $storedNames = Db::fetchOne('SELECT COUNT(*) FROM ' . Common::prefixTable('log_action') . ' WHERE name = ?', [str_repeat('a', 4096)]);
+        $this->assertEquals(1, $storedNames);
     }
 
     public function testResponseShouldSend400ResponseCodeIfIdGoalIsInvalid()

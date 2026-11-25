@@ -34,7 +34,13 @@
             urlParam = legacyUrlMatch[1];
         }
         if (urlParam.match(/^[a-f0-9]{16}$/i)) {
-            Piwik_Popover.createPopupAndLoadUrl('module=Live&action=getVisitorProfilePopup&visitorId=' + urlParam, _pk_translate('Live_VisitorProfile'), 'visitor-profile-popup');
+            var ajaxRequest = new ajaxHelper();
+            var VisitorProfileControl = require('piwik/UI').VisitorProfileControl;
+            if (VisitorProfileControl && VisitorProfileControl.showPopoverLoadError) {
+                ajaxRequest.setErrorCallback(VisitorProfileControl.showPopoverLoadError);
+            }
+
+            Piwik_Popover.createPopupAndLoadUrl('module=Live&action=getVisitorProfilePopup&visitorId=' + urlParam, _pk_translate('Live_VisitorProfile'), 'visitor-profile-popup', ajaxRequest);
         }
     };
 

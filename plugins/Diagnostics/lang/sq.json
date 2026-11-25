@@ -1,6 +1,8 @@
 {
     "Diagnostics": {
         "AllPrivateDirectoriesAreInaccessible": "Krejt drejtoritë private s’mund të hapen që nga interneti.",
+        "ArchivingFailuresCheck": "Arkiva Me Dështim",
+        "ArchivingFailuresComment": "%1$s arkiva s’u përpunuan dot dhe po presin të riprovohet, ndërsa për %2$s arkiva u hoq dorë pasi u mbërrit në numrin maksimum të përpjekjeve. Raportet për arkivat për të cilat u hoq dorë dhe për periudhat që i përmbajnë, s’janë përditësuar, deri sa të riprovohet. Dështimi më i vjetër ndodhi më %3$s. Që të shihni gabimet dhe të riprovoni, përdorni urdhër konsole %4$s.",
         "BrowserAndAutoArchivingEnabledComment": "Duket se shfletuesi dhe vetëarkivimi janë aktivizuar. Vetëarkivimi së fundi filloi %3$s më parë. Nëse %1$svetëarkivimi%2$s është i aktivizuar, duhet të çaktivizoni arkivimin nga shfletuesi, te “Rregullime të Përgjithshme”.",
         "BrowserAndAutoArchivingEnabledLabel": "Shfletim dhe Vetëarkivim të aktivizuar",
         "BrowserTriggeredArchivingEnabled": "Për funksionimin më të mirë dhe një Matomo të shpejtë, këshillohet me forcë të ujdisni një akt crontab për arkivim automatik të raporteve tuaja dhe të çaktivizoni që nga rregullimet e Matomo-s ngacmimin e shfletuesit. %1$sMësoni më tepër.%2$s",
@@ -18,7 +20,6 @@
         "DatabaseReaderConnection": "Lidhje Leximi Baze të Dhënash",
         "DatabaseUtf8Requirement": "Kjo është e domosdoshme për të qenë në gjendje të depozitohen shenja UTF8 4-bajtshe. Po qe se utf8mb4 s’është e përdorshme, shenja speciale, bie fjala, emotikone, shenja më pak të rëndomta gjuhësh aziatike, skripte të ndryshëm historikë apo simbole matematike do të zëvendësohen me %1$s. Te %2$skëto PBR%3$s mund të lexoni më tepër hollësi rreth këtij subjekti.",
         "DatabaseUtf8mb4CharsetAvailableButNotUsed": "Baza juaj e të dhënave e mbulon kodimin utf8mb4, por tabelat e bazës tuaj të të dhënave ende s’janë shndërruar. Këtë mund ta bëni duke ekzekutuar urdhrin %1$s, ose aktivizuar shndërrimin e automatizuar që nga Rregullimet e Përgjithshme.",
-        "DatabaseUtf8mb4CharsetRecommended": "Baza juaj e të dhënave s’e mbulon ende kodimin utf8mb4.",
         "EnableRequiredDirectoriesDiagnostic": "Ky kontroll u anashkalua, ngaqë ky kontroll është çaktivizuar te formësimi. Që ta aktivizoni këtë kontroll, vini [General] enable_required_directories_diagnostic = 1 te kartela “config/config.ini.php”.",
         "HideUnchanged": "Nëse dëshironi të shihni vetëm vlerat e ndryshuara, mund të %1$sfshihni krejt vlerat e pandryshuara%2$s.",
         "HtaccessWarningNginx": "Që të garantohet se kartela rezervat s’mund të përdoren drejtpërsëdrejti, rekomandohet ta formësoni shërbyesin tuaj të kufizojë hyrjen në disa drejtori. Për më tepër hollësi, ju lutemi, shihni %1$s formësimin zyrtar të shërbyesit nginx %2$s",
@@ -38,6 +39,8 @@
         "RecommendedPrivateDirectories": "Drejtori Private të Rekomanduara",
         "RequiredPrivateDirectories": "Drejtori Private të Domosdoshme",
         "Sections": "Ndarje",
+        "SessionStorageFormat": "Format Depozite Sesioni",
+        "SessionStorageFormatWarning": "Sesionet depozitohen si %1$s ngaqë session.serialize_handler s’u vu dot si php_serialize, ndaj ndryshimet që bëjnë dy kërkesa në të njëjtën kohë mund të humbasin. Vëreni si php_serialize te php.ini juaj.",
         "UrlsAccessibleViaBrowser": "Gjetëm se URL-të më sipër janë të përdorshme që nga shfletuesi, por rekomandojmë të mos jenë. Nëse mundet, ju lutemi, kufizoni hyrjen në to."
     }
 }

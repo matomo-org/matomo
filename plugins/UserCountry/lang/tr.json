@@ -11,7 +11,7 @@
         "CurrentLocationIntro": "Bu hizmet sağlayıcı geçerli konumunuzu şu şekilde belirler",
         "DefaultLocationProviderDesc1": "Varsayılan konum hizmeti sağlayıcısı bir ziyaretçinin bağlandığı ülkeyi kullandığı dile göre belirler.",
         "DefaultLocationProviderDesc2": "Bu yöntem çok güvenilir değildir. %1$sBu nedenle %2$scoğrafi konum veri tabanı%3$s özelliğini kurup kullanın%4$s.",
-        "DefaultLocationProviderExplanation": "Varsayılan konum hizmeti sağlayıcısını kullanıyorsunuz. Bu yöntemde bir ziyaretçinin ülkesi kullandığı dile göre belirlenir. %1$sDaha doğru coğrafi konumlama kurulumu hakkında ayrıntılı bilgi alın%2$s.",
+        "DefaultLocationProviderExplanation": "Varsayılan konum hizmeti sağlayıcısını kullanıyorsunuz. Bu yöntemde bir ziyaretçinin ülkesi kullandığı dile göre belirlenir. %1$sDaha doğru coğrafi konumlama kurulumu ile ilgili ayrıntılı bilgi alın%2$s.",
         "DisabledLocationProvider": "Coğrafi konumu kapatır.",
         "DistinctCountries": "%s ayrı ülke",
         "FromDifferentCities": "ayrı iller",

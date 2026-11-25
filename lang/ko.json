@@ -191,7 +191,6 @@
         "ExceptionFileIntegrity": "무결성 검사 실패: %s",
         "ExceptionFileToDelete": "삭제할 파일: %s",
         "ExceptionFilesizeMismatch": "파일 크기 불일치: %1$s (예상 크기: %2$s, 실제 크기: %3$s)",
-        "ExceptionIncompatibleClientServerVersions": "%1$s 클라이언트 버전 %2$s이며, 서버 버전 %3$s와 호환성이 없습니다.",
         "ExceptionInvalidAggregateReportsFormat": "집계 보고서 형식 '%1$s'가 유효하지 않습니다. 대신 다음 중 하나를 시도하십시오: %2$s.",
         "ExceptionInvalidArchiveTimeToLive": "오늘의 아카이브 시간은 기간은 0보다 더 큰 초이어야합니다",
         "ExceptionInvalidDateFormat": "유효한 날짜 형식: %1$s 또는 %2$s 함수에서 지원되는 모든 키워드 (자세한 내용은 %3$s 참조)",

@@ -18,6 +18,24 @@
         return $(tr).attr('data-segment-filter');
     }
 
+    /**
+     * Whether the row segment uses a segment the visits log cannot filter by, such as userId when only the visits of
+     * visitors who gave consent are listed
+     */
+    function usesUnavailableSegment(rawSegment)
+    {
+        var unavailableSegments = piwik.visitorLogUnavailableSegments || [];
+        if (!unavailableSegments.length) {
+            return false;
+        }
+
+        return rawSegment.split(/[;,]/).some(function (condition) {
+            // segment names are never encoded, unlike their values
+            var match = condition.match(/^([a-zA-Z0-9_.]+)(==|!=|<=|>=|=@|!@|=\^|=\$|<|>)/);
+            return !!match && unavailableSegments.indexOf(match[1]) !== -1;
+        });
+    }
+
     function getDataTableFromApiMethod(apiMethod)
     {
         var div = $(require('piwik/UI').DataTable.getDataTableByReport(apiMethod));
@@ -105,10 +123,12 @@
             ? (paramOverride.segment || '')
             : decodeURIComponent(this.dataTable.param.segment || '');
 
-        // The row filter of a comparison row already starts with its series' segment
-        // (see ComparisonRowGenerator), which would make one action match both conditions
-        if (isComparisonRow && contextSegment && clickedSegment.indexOf(contextSegment + ';') === 0) {
-            clickedSegment = clickedSegment.substring(contextSegment.length + 1);
+        // The report adds conditions to its rows after the comparison rows are built (e.g. the
+        // referrerType==campaign prefix on Campaigns), so the row the comparison belongs to carries
+        // the complete filter for the clicked value
+        if (isComparisonRow) {
+            var reportRow = $(tr).prevAll('tr.parentComparisonRow').first();
+            clickedSegment = getRawSegmentValueFromRow(reportRow) || clickedSegment;
         }
 
         // The main segment is the context plus any report-defined suffix, ANDed together at the
@@ -199,7 +219,7 @@
 
         isAvailableOnRow: function (dataTableParams, tr) {
             var value = getRawSegmentValueFromRow(tr);
-            if ('undefined' === (typeof value)) {
+            if ('undefined' === (typeof value) || usesUnavailableSegment(value)) {
                 return false;
             }
 

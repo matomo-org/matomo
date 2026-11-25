@@ -36,6 +36,7 @@
             :class="`menu-icon ${category.icon ? category.icon :
               (category.subcategories && category.id === activeCategory ?
                 'icon-chevron-down' : 'icon-chevron-right')}`"
+            aria-hidden="true"
           />{{ category.name }}
           <span class="hidden">
             {{ translate('CoreHome_Menu') }}
@@ -122,7 +123,7 @@
         >
           <li>
             <a class="collapsible-header">
-              <i :class="category.icon ? category.icon : 'icon-chevron-down'" />{{ category.name }}
+              <i :class="category.icon ? category.icon : 'icon-chevron-down'" aria-hidden="true" />{{ category.name }}
             </a>
             <div class="collapsible-body">
               <ul>

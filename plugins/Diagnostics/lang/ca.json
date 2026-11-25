@@ -18,7 +18,6 @@
         "DatabaseReaderConnection": "Connexió del lector de bases de dades",
         "DatabaseUtf8Requirement": "Això és necessari per poder emmagatzemar caràcters UTF8 de 4 bytes. A menys que utf8mb4 estigui disponible els caràcters especials, com ara emojis, caràcters menys comuns d'idiomes asiàtics, diversos scripts històrics o símbols matemàtics es substituiran per %1$s. Podeu llegir més detalls sobre aquest tema a %2$saquest FAQ%3$s.",
         "DatabaseUtf8mb4CharsetAvailableButNotUsed": "La vostra base de dades admet el conjunt de caràcters utf8mb4, però les taules de la vostra base de dades encara no s'han convertit. Podeu fer-ho executant l'ordre %1$s o activant la conversió automàtica a la configuració general.",
-        "DatabaseUtf8mb4CharsetRecommended": "La vostra base de dades encara no és compatible amb el conjunt de caràcters utf8mb4.",
         "EnableRequiredDirectoriesDiagnostic": "Aquesta comprovació s'ha omès perquè aquesta comprovació està desactivada a la configuració. Per habilitar aquesta comprovació, establiu [General] enable_required_directories_diagnostic = 1 al fitxer \"config/config.ini.php\".",
         "HideUnchanged": "Si voleu veure només els valors canviats, podeu %1$samagar tots els valors sense canvis%2$s.",
         "HtaccessWarningNginx": "Per garantir que no es pot accedir directament als fitxers sensibles, es recomana configurar el servidor web per restringir l'accés a determinats directoris. Per obtenir més informació, consulteu %1$sla configuració oficial del servidor nginx%2$s",

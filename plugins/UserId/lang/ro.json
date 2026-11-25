@@ -1,5 +1,15 @@
 {
     "UserId": {
-        "UserReportTitle": "ID Utilizator"
+        "PluginDescription": "Afișează rapoarte despre utilizatori",
+        "ThereIsNoDataForThisReportHelp": "%1$sCitiți ghidul de utilizare pentru a afla cum să generați date pentru acest raport.%2$s",
+        "UserId": "UserId",
+        "UserIdDisabledSettingImpact": "Valorile User ID nu sunt colectate. Rapoartele User ID, segmentele și analizele între vizite bazate pe User ID nu sunt disponibile.",
+        "UserIdDisabledSettingRequirementNote": "Colectarea User ID în timpul urmăririi trebuie să fie dezactivată.",
+        "UserIdDisabledSettingTitle": "Urmărirea User ID dezactivată",
+        "UserIdDisabledSettingWhatItDoes": "Urmărirea User ID este dezactivată. Implementările de urmărire nu trebuie să trimită User ID-uri folosind setUserId sau metode echivalente.<br><br>Astfel se împiedică identificarea directă a vizitatorilor și asocierea lor între vizite sau dispozitive.",
+        "UserIdSegmentHelp": "orice șir unic nevid care identifică utilizatorul (cum ar fi o adresă de e-mail sau un nume de utilizator).",
+        "UserReportDocumentation": "Afișează vizitele și alte metrici generale pentru fiecare User ID individual.",
+        "UserReportTitle": "ID Utilizator",
+        "VisitorsUserSubcategoryHelp": "Raportul User ID afișează vizitele asociate tuturor utilizatorilor dumneavoastră înregistrați și autentificați. Înțelegeți cum este utilizat site-ul de anumiți utilizatori și aflați care sunt utilizatorii cei mai activi și cei mai puțin activi."
     }
 }

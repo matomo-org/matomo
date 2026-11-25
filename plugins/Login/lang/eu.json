@@ -51,6 +51,7 @@
         "PasswordsDoNotMatch": "Pasahitzak ez datoz bat.",
         "PluginDescription": "Erabiltzaile-izen eta pasahitza erabiliz saioa hasteko aukera ematen du, baita pasahitza berrezartzeko funtzionalitatea ere. Saioa hasteko metodoa aldatu dezakezu nahi izanez gero, Merkatuan eskuragarri dagoen LoginLdap bezalako beste saioa hasteko plugin bat erabiliz.",
         "RememberMe": "Gogora nazazu",
+        "SecondFactorCode": "Autentifikazio-kodea",
         "SettingBruteForceBlacklistIp": "Beti blokeatu IP hauetatik saioa hastea",
         "SettingBruteForceEnable": "Gaitu indar gordineko erasoen detekzioa",
         "SettingBruteForceEnableHelp": "Denbora batez saioa hasten saiatzea galarazten die pasahitza asmatzeko saiakera gehiegi egiten dituzten erabiltzaileei. Honek konbinazio posible guztiak probatzea eragozten du. Partekatutako IP bat blokeatuz gero, sare horretako gainerako erabiltzaileak ere kanpo uzten ditu.",

@@ -77,7 +77,7 @@ use ReflectionClass;
 class Fixture extends \PHPUnit\Framework\Assert
 {
     public const IMAGES_GENERATED_ONLY_FOR_OS = 'linux';
-    public const IMAGES_GENERATED_FOR_PHP = '7.2';
+    public const IMAGES_GENERATED_FOR_PHP = '8.1';
     public const IMAGES_GENERATED_FOR_GD = '2.3.3';
     public const DEFAULT_SITE_NAME = 'Piwik test';
 
@@ -733,10 +733,8 @@ class Fixture extends \PHPUnit\Framework\Assert
         $trans_gif_64 = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
         $expectedResponse = base64_decode($trans_gif_64);
 
-        self::assertStringContainsString($expectedResponse, $response);
-        self::assertStringContainsString('This resource is part of Matomo.', $response);
-        self::assertStringNotContainsString('Error', $response);
-        self::assertStringNotContainsString('Fatal', $response);
+        // a failed request is only told apart by its status code, the body is the plain tracking image
+        self::assertEquals($expectedResponse, $response);
     }
 
     /**
@@ -956,7 +954,7 @@ class Fixture extends \PHPUnit\Framework\Assert
         $gdInfo = gd_info();
         return
             stristr(php_uname(), self::IMAGES_GENERATED_ONLY_FOR_OS) &&
-            str_contains(phpversion(), self::IMAGES_GENERATED_FOR_PHP) &&
+            str_starts_with(phpversion(), self::IMAGES_GENERATED_FOR_PHP . '.') &&
             str_contains($gdInfo['GD Version'], self::IMAGES_GENERATED_FOR_GD);
     }
 

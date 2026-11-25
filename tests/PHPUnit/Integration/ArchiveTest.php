@@ -147,6 +147,40 @@ class ArchiveTest extends IntegrationTestCase
         $this->assertEquals($expected, $metrics);
     }
 
+    public function testPluginSpecificArchiveUsedWhenAnotherPluginWasQueriedFirstFromTheSameArchive(): void
+    {
+        $idSite = 1;
+
+        $params = new Parameters(new Site($idSite), Factory::build('day', '2014-05-07'), new Segment('', [$idSite]));
+        $archiveWriter = new ArchiveWriter($params);
+        $archiveWriter->initNewArchive();
+        $archiveWriter->insertRecord('nb_visits', 1);
+        $archiveWriter->insertRecord('ExamplePlugin_archive1metric', 1);
+        $archiveWriter->finalizeArchive();
+
+        sleep(1);
+
+        $_GET['pluginOnly'] = 1;
+        $_GET['trigger'] = 'archivephp';
+
+        $params = new Parameters(new Site($idSite), Factory::build('day', '2014-05-07'), new Segment('', [$idSite]));
+        $params->setRequestedPlugin('ExamplePlugin');
+        $params->onlyArchiveRequestedPlugin();
+        $params->setArchiveOnlyReport('ExamplePlugin_archive1metric');
+        $archiveWriter = new ArchiveWriter($params);
+        $archiveWriter->initNewArchive();
+        $archiveWriter->insertRecord('ExamplePlugin_archive1metric', 4);
+        $archiveWriter->finalizeArchive();
+
+        unset($_GET['trigger']);
+        unset($_GET['pluginOnly']);
+
+        // both plugins share the all plugins done flag, as they do while a parent period is aggregated
+        $archive = Archive::build($idSite, 'day', '2014-05-07');
+        $this->assertEquals(1, $archive->getNumeric(['nb_visits'])['nb_visits']);
+        $this->assertEquals(4, $archive->getNumeric(['ExamplePlugin_archive1metric'])['ExamplePlugin_archive1metric']);
+    }
+
     public function testStaleCachedArchiveIdsAreRefreshedWhenArchiveRowsAreMissing(): void
     {
         $idSite = 1;
@@ -251,6 +285,20 @@ class ArchiveTest extends IntegrationTestCase
         $this->testPluginSpecificArchiveUsedEvenIfAllArchiveExistsIfThereAreNoDataInAllArchive();
     }
 
+    public function testPluginSpecificArchiveUsedWhenAnotherPluginWasQueriedFirstFromTheSameArchiveWithBrowserArchivingDisabled(): void
+    {
+        self::$fixture->getTestEnvironment()->overrideConfig('General', 'enable_browser_archiving_triggering', 0);
+        self::$fixture->getTestEnvironment()->overrideConfig('General', 'archiving_range_force_on_browser_request', 0);
+        self::$fixture->getTestEnvironment()->save();
+
+        Config::getInstance()->General['enable_browser_archiving_triggering'] = 0;
+        Config::getInstance()->General['archiving_range_force_on_browser_request'] = 0;
+
+        $this->assertTrue(Rules::isArchivingDisabledFor([1], new Segment('', [1]), 'day'));
+
+        $this->testPluginSpecificArchiveUsedWhenAnotherPluginWasQueriedFirstFromTheSameArchive();
+    }
+
     public function testArchivingInvalidRangeDoesNotReprocessInvalidDay()
     {
         $idSite = 1;
@@ -307,13 +355,13 @@ class ArchiveTest extends IntegrationTestCase
         $archives = Db::fetchAll("SELECT date1, date2, name, value FROM " . Common::prefixTable('archive_numeric_2020_03')
             . " WHERE `name` IN ('done', 'done.VisitsSummary')");
         $expected = [
-            ['date1' => '2020-03-04', 'date2' => '2020-03-05', 'name' => 'done.VisitsSummary', 'value' => ArchiveWriter::DONE_INVALIDATED],
+            ['date1' => '2020-03-04', 'date2' => '2020-03-05', 'name' => 'done.VisitsSummary', 'value' => ArchiveWriter::DONE_PARTIAL],
             ['date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
             ['date1' => '2020-03-05', 'date2' => '2020-03-05', 'name' => 'done', 'value' => ArchiveWriter::DONE_INVALIDATED],
         ];
         $this->assertEquals($expected, $archives);
 
-        // archive range again since it is invalid and we updated the ts_archived to a older time
+        // archive range again since we updated the ts_archived to a time older than the range TTL
         Rules::setBrowserTriggerArchiving(false);
         API::getInstance()->get(1, 'range', '2020-03-04,2020-03-05');
 
@@ -321,7 +369,7 @@ class ArchiveTest extends IntegrationTestCase
         $archives = Db::fetchAll("SELECT idarchive, date1, date2, name, value FROM " . Common::prefixTable('archive_numeric_2020_03')
             . " WHERE `name` IN ('done', 'done.VisitsSummary')");
         $expected = [
-            ['idarchive' => '1', 'date1' => '2020-03-04', 'date2' => '2020-03-05', 'name' => 'done.VisitsSummary', 'value' => ArchiveWriter::DONE_INVALIDATED],
+            ['idarchive' => '1', 'date1' => '2020-03-04', 'date2' => '2020-03-05', 'name' => 'done.VisitsSummary', 'value' => ArchiveWriter::DONE_PARTIAL],
             ['idarchive' => '2', 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
             ['idarchive' => '7', 'date1' => '2020-03-05', 'date2' => '2020-03-05', 'name' => 'done', 'value' => ArchiveWriter::DONE_INVALIDATED],
             ['idarchive' => '12', 'date1' => '2020-03-04', 'date2' => '2020-03-05', 'name' => 'done.VisitsSummary', 'value' => ArchiveWriter::DONE_PARTIAL],
@@ -337,7 +385,7 @@ class ArchiveTest extends IntegrationTestCase
         $archives = Db::fetchAll("SELECT idarchive, date1, date2, name, value FROM " . Common::prefixTable('archive_numeric_2020_03')
             . " WHERE `name` IN ('done', 'done.VisitsSummary')");
         $expected = [
-            ['idarchive' => '1', 'date1' => '2020-03-04', 'date2' => '2020-03-05', 'name' => 'done.VisitsSummary', 'value' => ArchiveWriter::DONE_INVALIDATED],
+            ['idarchive' => '1', 'date1' => '2020-03-04', 'date2' => '2020-03-05', 'name' => 'done.VisitsSummary', 'value' => ArchiveWriter::DONE_PARTIAL],
             ['idarchive' => '2', 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
             ['idarchive' => '12', 'date1' => '2020-03-04', 'date2' => '2020-03-05', 'name' => 'done.VisitsSummary', 'value' => ArchiveWriter::DONE_PARTIAL],
             ['idarchive' => '13', 'date1' => '2020-03-05', 'date2' => '2020-03-05', 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
@@ -351,7 +399,7 @@ class ArchiveTest extends IntegrationTestCase
         $archives = Db::fetchAll("SELECT idarchive, date1, date2, name, value FROM " . Common::prefixTable('archive_numeric_2020_03')
             . " WHERE `name` IN ('done', 'done.VisitsSummary')");
         $expected = [
-            ['idarchive' => '1', 'date1' => '2020-03-04', 'date2' => '2020-03-05', 'name' => 'done.VisitsSummary', 'value' => ArchiveWriter::DONE_INVALIDATED],
+            ['idarchive' => '1', 'date1' => '2020-03-04', 'date2' => '2020-03-05', 'name' => 'done.VisitsSummary', 'value' => ArchiveWriter::DONE_PARTIAL],
             ['idarchive' => '2', 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
             ['idarchive' => '12', 'date1' => '2020-03-04', 'date2' => '2020-03-05', 'name' => 'done.VisitsSummary', 'value' => ArchiveWriter::DONE_PARTIAL],
             ['idarchive' => '13', 'date1' => '2020-03-05', 'date2' => '2020-03-05', 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],

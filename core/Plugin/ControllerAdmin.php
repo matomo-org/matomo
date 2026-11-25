@@ -404,6 +404,10 @@ abstract class ControllerAdmin extends Controller
             return;
         }
 
+        if (NotificationManager::isDisabled('DatabaseVersionCheck')) {
+            return;
+        }
+
         $isEOL = Piwik::hasUserSuperUserAccess() && Schema::getInstance()->hasReachedEOL();
         if (!$isEOL) {
             return;
@@ -490,6 +494,7 @@ abstract class ControllerAdmin extends Controller
 
         self::notifyAnyInvalidLicense();
         self::notifyAnyInvalidPlugin();
+        self::notifyWhenPhpIsAffectedBySecurityAdvisory20261021();
         self::notifyWhenPhpVersionIsEOL();
         self::notifyWhenPhpVersionIsNotCompatibleWithNextMajorPiwik();
         self::notifyWhenDatabaseVersionIsNotCompatibleWithNextMajorPiwik();

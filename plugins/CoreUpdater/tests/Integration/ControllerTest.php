@@ -11,12 +11,15 @@ namespace Piwik\Plugins\CoreUpdater\tests\Integration;
 
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\Exception\NoPrivilegesException;
 use Piwik\Nonce;
+use Piwik\Option;
 use Piwik\Plugins\CoreUpdater\ArchiveDownloadException;
 use Piwik\Plugins\CoreUpdater\Controller;
 use Piwik\Plugins\CoreUpdater\Updater;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Updater as DbUpdater;
 
 /**
  * @group Plugins
@@ -237,6 +240,61 @@ class ControllerTest extends IntegrationTestCase
         return array(
             'Piwik\Access' => new FakeAccess(),
         );
+    }
+
+    public function testRunUpdaterAndExitIsForbiddenWithoutPendingUpdatesWhenAutoUpdateIsDisabled()
+    {
+        Config::getInstance()->General['enable_auto_update'] = 0;
+
+        $this->expectException(NoPrivilegesException::class);
+        $this->expectExceptionCode(403);
+        $this->expectExceptionMessage('Auto updater is disabled');
+
+        $this->buildController()->runUpdaterAndExit();
+    }
+
+    public function testRunUpdaterAndExitIsForbiddenWithPendingUpdatesWhenAutoUpdateIsDisabled()
+    {
+        Config::getInstance()->General['enable_auto_update'] = 0;
+        $installedCoreVersion = Option::get('version_core');
+        Option::set('version_core', '6.0.0-b6');
+
+        try {
+            self::assertNotEmpty((new DbUpdater())->getComponentUpdates());
+
+            $this->buildController()->runUpdaterAndExit();
+            $this->fail('expected the auto updater guard to throw');
+        } catch (NoPrivilegesException $e) {
+            self::assertSame(403, $e->getCode());
+            self::assertSame('Auto updater is disabled', $e->getMessage());
+        } finally {
+            Option::set('version_core', $installedCoreVersion);
+        }
+    }
+
+    /**
+     * @dataProvider getActionsGuardedByTheAutoUpdater
+     */
+    public function testActionIsForbiddenWhenAutoUpdateIsDisabled(string $action)
+    {
+        FakeAccess::clearAccess(true);
+        Config::getInstance()->General['enable_auto_update'] = 0;
+
+        $this->expectException(NoPrivilegesException::class);
+        $this->expectExceptionCode(403);
+        $this->expectExceptionMessage('Auto updater is disabled');
+
+        $this->buildController()->$action();
+    }
+
+    public function getActionsGuardedByTheAutoUpdater(): array
+    {
+        return [
+            ['newVersionAvailable'],
+            ['oneClickUpdate'],
+            ['oneClickUpdatePartTwo'],
+            ['oneClickResults'],
+        ];
     }
 
     private function buildController(?Updater $updater = null): Controller

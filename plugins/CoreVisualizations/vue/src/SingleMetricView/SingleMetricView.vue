@@ -28,7 +28,7 @@
         </span>
         <span
           class="metricEvolution"
-          v-if="pastValue !== null"
+          v-if="metricChangePercent !== null"
           :title="translate(
             'General_EvolutionSummaryGeneric', metricValue ?? '', currentPeriod ?? '',
             pastValue ?? '', pastPeriod ?? '', metricChangePercent ?? '')"
@@ -121,8 +121,14 @@ export default defineComponent({
       actualIdGoal.value ? `goal${actualIdGoal.value}_${actualMetric.value}` : actualMetric.value,
     ]);
 
+    // API.get leaves out a non-goal metric it could not compute for the period (eg. a ratio
+    // without a denominator): that value is unavailable, not a real zero
+    function isValueUnavailable(response: MetricValues) {
+      return !isIdGoalSet() && !(actualMetric.value in response);
+    }
+
     const metricValueUnformatted = computed(() => {
-      if (!responses.value?.[1]) {
+      if (!responses.value?.[1] || isValueUnavailable(responses.value[1])) {
         return null;
       }
 
@@ -132,7 +138,7 @@ export default defineComponent({
     });
 
     const pastValueUnformatted = computed(() => {
-      if (!responses.value?.[2]) {
+      if (!responses.value?.[2] || isValueUnavailable(responses.value[2])) {
         return null;
       }
 
@@ -143,27 +149,8 @@ export default defineComponent({
       () => (props.lowerIsBetterMetrics as string[]).indexOf(actualMetric.value) !== -1,
     );
 
-    const evolutionClass = computed(() => {
-      if (
-        metricValueUnformatted.value === null
-        || pastValueUnformatted.value === null
-        || metricValueUnformatted.value === pastValueUnformatted.value
-      ) {
-        return [];
-      }
-
-      // arrow direction always reflects the actual value change, while the colour
-      // (positive/negative) reflects whether that change is good or bad for the metric
-      const increased = metricValueUnformatted.value > pastValueUnformatted.value;
-      const isPositive = isLowerValueBetter.value ? !increased : increased;
-
-      return [
-        increased ? 'evolution-up' : 'evolution-down',
-        isPositive ? 'positive-evolution' : 'negative-evolution',
-      ];
-    });
-
-    const metricChangePercent = computed(() => {
+    // the API can return the values as strings, which compare as text, eg '8' > '11'
+    const numericValues = computed(() => {
       if (
         metricValueUnformatted.value === null
         || metricValueUnformatted.value === undefined
@@ -173,21 +160,47 @@ export default defineComponent({
         return null;
       }
 
-      const currentValue: number = typeof metricValueUnformatted.value === 'string'
-        ? parseFloat(metricValueUnformatted.value)
-        : metricValueUnformatted.value as number;
+      return {
+        current: parseFloat(metricValueUnformatted.value as string),
+        past: parseFloat(pastValueUnformatted.value as string),
+      };
+    });
 
-      const pastValue: number = typeof pastValueUnformatted.value === 'string'
-        ? parseFloat(pastValueUnformatted.value)
-        : pastValueUnformatted.value as number;
+    const evolutionClass = computed(() => {
+      if (!numericValues.value || numericValues.value.current === numericValues.value.past) {
+        return [];
+      }
 
-      const evolution = Matomo.helper.calculateEvolution(currentValue, pastValue);
+      // arrow direction always reflects the actual value change, while the colour
+      // (positive/negative) reflects whether that change is good or bad for the metric
+      const increased = numericValues.value.current > numericValues.value.past;
+      const isPositive = isLowerValueBetter.value ? !increased : increased;
 
-      return `${(evolution * 100).toFixed(2)} %`;
+      return [
+        increased ? 'evolution-up' : 'evolution-down',
+        isPositive ? 'positive-evolution' : 'negative-evolution',
+      ];
+    });
+
+    const metricChangePercent = computed(() => {
+      if (!numericValues.value) {
+        return null;
+      }
+
+      const { current: currentValue, past: pastValue } = numericValues.value;
+
+      // the helper rounds to one decimal of a percent, which toFixed(2) would show as 38.20 %
+      const evolution = pastValue === 0
+        ? Matomo.helper.calculateEvolution(currentValue, pastValue)
+        : (currentValue - pastValue) / pastValue;
+
+      const percent = evolution * 100;
+      // toFixed keeps the sign of a negative number that rounds to zero, eg "-0.00"
+      return `${(Math.abs(percent) < 0.005 ? 0 : percent).toFixed(2)} %`;
     });
 
     const pastValue = computed(() => {
-      if (!responses.value?.[3]) {
+      if (!responses.value?.[3] || isValueUnavailable(responses.value[3])) {
         return null;
       }
 
@@ -201,6 +214,10 @@ export default defineComponent({
       }
 
       const currentData = responses.value[0];
+      if (isValueUnavailable(currentData)) {
+        return '-';
+      }
+
       return currentData[actualMetric.value] || 0;
     });
 

@@ -31,6 +31,8 @@ use Piwik\Segment\SegmentExpression;
 use Piwik\Tracker;
 use Piwik\Cache as PiwikCache;
 use Piwik\Tracker\Cache as TrackerCache;
+use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
+use Piwik\Plugins\PrivacyManager\Settings\ConsentAwareAnalytics;
 use Piwik\Plugins\UserId\Settings\UserIdDisabled;
 
 /**
@@ -40,6 +42,8 @@ use Piwik\Plugins\UserId\Settings\UserIdDisabled;
 class Request
 {
     private $cdtCache;
+    private ?bool $hasConsentCache = null;
+    private ?bool $measuresConsentCache = null;
     private $idSiteCache;
     private $paramsCache = array();
 
@@ -66,6 +70,8 @@ class Request
     private $requestMetadata = array();
 
     public const UNKNOWN_RESOLUTION = 'unknown';
+
+    private const CUSTOM_TIMESTAMP_MAX_SECONDS_IN_FUTURE = 86400;
 
     private $customTimestampDoesNotRequireTokenauthWhenNewerThan;
 
@@ -438,6 +444,7 @@ class Request
             'ping'         => array(0, 'int'),
 
             // other
+            'consent'      => array('', 'string'),
             'bots'         => array(0, 'int'),
             'dp'           => array(0, 'int'),
             'rec'          => array(0, 'int'),
@@ -478,6 +485,7 @@ class Request
             'search'       => array('', 'string'),
             'search_cat'   => array('', 'string'),
             'pv_id'        => array('', 'string'),
+            'pv_time'      => array(-1, 'int'),
             'search_count' => array(-1, 'int'),
             'pf_net'       => array(-1, 'int'),
             'pf_srv'       => array(-1, 'int'),
@@ -524,6 +532,10 @@ class Request
 
         if ($name === 'cdt') {
             $this->cdtCache = null;
+        }
+
+        if ($name === 'consent') {
+            $this->hasConsentCache = null;
         }
     }
 
@@ -577,14 +589,26 @@ class Request
 
         if (!is_numeric($cdt)) {
             $cdt = strtotime($cdt, $this->timestamp);
+
+            if ($cdt === false) {
+                throw new InvalidRequestParameterException("Custom timestamp 'cdt' could not be parsed");
+            }
         }
 
         if (!empty($cdo)) {
             $cdt = $cdt - abs($cdo);
         }
 
+        if (
+            $cdt > $this->timestamp + self::CUSTOM_TIMESTAMP_MAX_SECONDS_IN_FUTURE
+            || $cdt <= $this->timestamp - 20 * 365 * 86400
+        ) {
+            throw new InvalidRequestParameterException('Custom timestamp is more than a day in the future or more than 20 years in the past');
+        }
+
         if (!$this->isTimestampValid($cdt, $this->timestamp)) {
-            Common::printDebug(sprintf("Datetime %s is not valid", date("Y-m-d H:i:m", $cdt)));
+            // slightly in the future, e.g. a client clock running fast
+            Common::printDebug('Custom timestamp is in the future, using the current time');
             return false;
         }
 
@@ -813,8 +837,13 @@ class Request
         $found = false;
 
         if (TrackerConfig::getConfigValue('enable_userid_overwrites_visitorid', $this->getIdSiteIfExists())) {
-            // If User ID is set it takes precedence
-            $userId = $this->getForcedUserId();
+            // If User ID is set it takes precedence. The consent a request reports is
+            // deliberately not considered here: a visitor's identifier may not change with it,
+            // or the same person in the same browser is one visitor on a request that reports
+            // consent and another on a request that does not, and a visit is split, merged or
+            // missed accordingly. Where a policy withholds the User ID it is withheld here
+            // too, whatever the request says.
+            $userId = $this->getForcedUserIdForConsent(false);
             if ($userId) {
                 $userIdHashed = $this->getUserIdHashed($userId);
                 $idVisitor = $this->truncateIdAsVisitorId($userIdHashed);
@@ -907,6 +936,20 @@ class Request
 
     public function getForcedUserId()
     {
+        return $this->getForcedUserIdForConsent($this->hasConsent());
+    }
+
+    /**
+     * As getForcedUserId(), for a caller that knows whether the consent applies to the visit being
+     * recorded rather than taking it from this request.
+     *
+     * This is a method of its own so that getForcedUserId() keeps the signature a plugin replacing
+     * or extending this class may already be overriding.
+     *
+     * @return string|false
+     */
+    public function getForcedUserIdForConsent(bool $hasConsent)
+    {
         $userId = $this->getParam('uid');
         if (strlen($userId) === 0) {
             return false;
@@ -915,9 +958,8 @@ class Request
         try {
             $idSite = $this->getIdSite();
             if (!empty($idSite) && $idSite > 0) {
-                $cache    = TrackerCache::getCacheWebsiteAttributes($idSite);
-                $cacheKey = UserIdDisabled::class;
-                if (($cache[$cacheKey] ?? false) === true) {
+                $cache = TrackerCache::getCacheWebsiteAttributes($idSite);
+                if (UserIdDisabled::shouldDiscardUserId($cache, $hasConsent)) {
                     return false;
                 }
             }
@@ -931,6 +973,65 @@ class Request
     public function getForcedVisitorId()
     {
         return $this->getParam('cid');
+    }
+
+    /**
+     * Whether this request may be measured as one from a visitor who has given their consent.
+     *
+     * Consent-aware measurement is opt-in per site, so this is false for every site that has not
+     * been opted in, whatever the request reports.
+     *
+     * The JavaScript tracker reports consent to being tracked (`setConsentGiven()`,
+     * `rememberConsentGiven()`), never consent to cookies alone. A request without the parameter
+     * is not a refusal, it only means the site is not signalling consent, so nothing may be
+     * relaxed on the strength of its absence.
+     */
+    public function hasConsent(): bool
+    {
+        if (null !== $this->hasConsentCache) {
+            return $this->hasConsentCache;
+        }
+
+        if ('1' !== $this->getParam('consent')) {
+            return $this->hasConsentCache = false;
+        }
+
+        $idSite = $this->getIdSiteIfExists();
+
+        if (!is_numeric($idSite) || !$idSite) {
+            return $this->hasConsentCache = false;
+        }
+
+        return $this->hasConsentCache = $this->measuresConsentAwareAnalytics();
+    }
+
+    /**
+     * Whether the site this request belongs to measures consent-aware analytics at all.
+     *
+     * Consent only means anything where it does. A site that has not opted in, or that forces
+     * cookieless tracking - the strictest consent-exempt posture it can choose - measures every
+     * visitor the same way, so consent reported for this request, or recorded against the visit
+     * it belongs to before the site changed its mind, must not relax anything.
+     */
+    public function measuresConsentAwareAnalytics(): bool
+    {
+        if (null !== $this->measuresConsentCache) {
+            return $this->measuresConsentCache;
+        }
+
+        $idSite = $this->getIdSiteIfExists();
+
+        if (!is_numeric($idSite) || !$idSite) {
+            return $this->measuresConsentCache = false;
+        }
+
+        if (!ConsentAwareAnalytics::isEnabled((int) $idSite)) {
+            return $this->measuresConsentCache = false;
+        }
+
+        $privacyConfig = new PrivacyManagerConfig((int) $idSite);
+
+        return $this->measuresConsentCache = !$privacyConfig->forceCookielessTracking;
     }
 
     public function getPlugins()

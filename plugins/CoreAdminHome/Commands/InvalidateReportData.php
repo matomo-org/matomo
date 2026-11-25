@@ -12,6 +12,7 @@ namespace Piwik\Plugins\CoreAdminHome\Commands;
 use Exception;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\DataAccess\ArchiveFailures;
 use Piwik\Container\StaticContainer;
 use Piwik\Period;
 use Piwik\Period\Range;
@@ -130,7 +131,39 @@ class InvalidateReportData extends ConsoleCommand
             }
         }
 
+        $this->warnAboutGivenUpArchives($sites, $periodTypes, $dateRanges);
+
         return self::SUCCESS;
+    }
+
+    /**
+     * @param int[] $sites
+     * @param string[] $periodTypes
+     * @param string[] $dateRanges
+     */
+    private function warnAboutGivenUpArchives(array $sites, array $periodTypes, array $dateRanges): void
+    {
+        $dates = [];
+        $ranges = [];
+        foreach ($periodTypes as $periodType) {
+            foreach ($dateRanges as $dateRange) {
+                if ($periodType !== 'range') {
+                    array_push($dates, ...$this->getPeriodDates($periodType, $dateRange));
+                } elseif (Period::isMultiplePeriod($dateRange, 'day')) { // others are skipped, see invalidateRangePeriods()
+                    [$startDate, $endDate] = $this->getPeriodDates('range', $dateRange);
+                    $ranges[] = $startDate->toString() . ',' . $endDate->toString();
+                }
+            }
+        }
+
+        // the years around other periods include the ranges of the same dates
+        $warning = empty($dates)
+            ? (new ArchiveFailures())->getGivenUpWarning($sites, $ranges, 'range')
+            : (new ArchiveFailures())->getGivenUpWarning($sites, $dates, 'day');
+        if (null !== $warning) {
+            // a warning would make the command exit with an error, though the invalidation succeeded
+            $this->logger->notice($warning);
+        }
     }
 
     private function getSegmentsWithSitesToProcess(

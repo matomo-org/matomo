@@ -33,6 +33,10 @@
         "SparklineHumanBounceRate": "návštěv lidí skončilo opuštěním (po zobrazení jediné stránky)",
         "SparklineHumanVisits": "návštěv lidí",
         "WidgetGraphAIAgents": "AI agenti v průběhu času",
-        "WidgetOverviewAIAgents": "Přehled AI agentů"
+        "WidgetOverviewAIAgents": "Přehled AI agentů",
+        "ColumnAIAgentUniqueVisitorsEstimated": "Unikátní návštěvníci z řad AI agentů (odhad)",
+        "ColumnAIAgentUsersEstimated": "Uživatelé AI agentů (odhad)",
+        "ColumnHumanUniqueVisitorsEstimated": "Unikátní lidští návštěvníci (odhad)",
+        "ColumnHumanUsersEstimated": "Lidští uživatelé (odhad)"
     }
 }

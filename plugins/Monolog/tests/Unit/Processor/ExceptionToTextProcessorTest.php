@@ -15,6 +15,7 @@ use Monolog\LogRecord;
 use PHPUnit\Runner\Version;
 use Piwik\Access;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Log;
 use Piwik\Plugins\Monolog\Processor\ExceptionToTextProcessor;
 
@@ -88,6 +89,55 @@ class ExceptionToTextProcessorTest extends \PHPUnit\Framework\TestCase
 
         $this->assertStringMatchesFormat($expected['message'], $result['message']);
         $this->assertEquals($expected['context'], $result['context']);
+    }
+
+    public function testItShouldFormatPhpErrorsLikeExceptions()
+    {
+        $processor = new ExceptionToTextProcessor();
+        Log::$debugBacktraceForTests = '[message and stack trace]';
+
+        $error = new \TypeError('Hello world');
+        $record = new LogRecord(
+            new DateTimeImmutable(),
+            'logger',
+            Level::Error,
+            'Uncaught exception: {exception}',
+            ['exception' => $error],
+            []
+        );
+
+        $result = $processor($record);
+
+        $this->assertStringMatchesFormat(
+            'Uncaught exception: ' . str_replace(PIWIK_INCLUDE_PATH, '', __FILE__) . '(%d): [message and stack trace] [Query: , CLI mode: 1]',
+            $result['message']
+        );
+        $this->assertSame(['exception' => $error], $result['context']);
+    }
+
+    public function testItShouldReplaceSensitiveValuesInPhpErrors()
+    {
+        $processor = new ExceptionToTextProcessor();
+        Log::$debugBacktraceForTests = '';
+
+        $database = Config::getInstance()->database;
+        Config::getInstance()->database['password'] = 'myTestDbPass';
+
+        try {
+            $result = $processor(new LogRecord(
+                new DateTimeImmutable(),
+                'logger',
+                Level::Error,
+                'Uncaught exception: {exception}',
+                ['exception' => new \TypeError('Value myTestDbPass given')],
+                []
+            ));
+        } finally {
+            Config::getInstance()->database = $database;
+        }
+
+        $this->assertStringContainsString('Value dbpass given', $result['message']);
+        $this->assertStringNotContainsString('myTestDbPass', $result['message']);
     }
 
     public function testItShouldAddSeverityForErrors()

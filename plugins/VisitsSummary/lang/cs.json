@@ -2,6 +2,8 @@
     "VisitsSummary": {
         "AverageGenerationTime": "průměrný čas generování",
         "AverageVisitDuration": "průměrný čas návštěvy",
+        "ColumnNbUniqVisitorsEstimated": "Jedineční návštěvníci (odhad)",
+        "ColumnNbUsersEstimated": "Uživatelé (odhad)",
         "GenerateQueries": "%s provedeno dotazů",
         "GenerateTime": "%s sekund k vygenerování stránky",
         "MaxNbActions": "maximální počet akcí na návštěvu",
@@ -16,7 +18,9 @@
         "NbUniqueOutlinksDescription": "jedinečných externích odkazů",
         "NbUniquePageviewsDescription": "jedinečných zobrazení",
         "NbUniqueVisitors": "jedineční návštěvníci",
+        "NbUniqueVisitorsEstimated": "jedineční návštěvníci (odhad)",
         "NbUsersDescription": "uživatelů",
+        "NbUsersEstimatedDescription": "uživatelů (odhad)",
         "NbVisitsBounced": "návštěvníků odešlo (opustilo web po jedné stránce)",
         "NbVisitsDescription": "návštěv",
         "PluginDescription": "Hlásí základní analytická měření: počet návštěv a jedinečných návštěvníků, počet akcí, frekvenci odrazu atd.",

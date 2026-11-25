@@ -1,5 +1,8 @@
 {
     "MobileAppMeasurable": {
-        "MobileApp": "Aplicație mobilă"
+        "MobileApp": "Aplicație mobilă",
+        "MobileAppDescription": "O aplicație mobilă nativă pentru iOS, Android sau orice alt sistem de operare mobil.",
+        "MobileAppLongDescription": "Urmăriți activitatea utilizatorilor în aplicațiile native iOS și Android. Datele colectate pot include vizualizări de ecran, evenimente din aplicație, detalii despre dispozitiv și sesiuni ale utilizatorilor. Acest element măsurabil este conceput pentru aplicațiile care folosesc SDK-urile mobile Matomo.",
+        "MobileApps": "Aplicații mobile"
     }
 }

@@ -362,12 +362,24 @@ class PluginSettingsTableTest extends IntegrationTestCase
         }
     }
 
-    public function testRemoveAllUserSettingsForUserShouldThrowAnExceptionIfLoginIsEmpty()
+    /**
+     * @dataProvider getEmptyLogins
+     */
+    public function testRemoveAllUserSettingsForUserShouldThrowAnExceptionIfLoginIsEmpty($userLogin)
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('No userLogin specified');
 
-        PluginSettingsTable::removeAllUserSettingsForUser('');
+        PluginSettingsTable::removeAllUserSettingsForUser($userLogin);
+    }
+
+    public function getEmptyLogins()
+    {
+        return array(
+            array(''),
+            array(' '),
+            array("  \t"),
+        );
     }
 
     public function testRemoveAllSettingsForPluginShouldOnlyRemoveSettingsForThatPlugin()

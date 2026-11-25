@@ -773,6 +773,34 @@ class Access
     }
 
     /**
+     * Whether super user access was granted by code (eg doAsSuperUser(), CLI, installer) rather than by
+     * authenticating a super user.
+     *
+     * @internal
+     */
+    public function isSuperUserAccessGrantedByCode(): bool
+    {
+        return $this->hasSuperUserAccess()
+            && !($this->isCurrentAuthSuperUser && !$this->isSuperUserRestrictedByTokenAccessLevel());
+    }
+
+    /**
+     * Authenticates the current Auth again, so access reflects the stored user instead of what was
+     * loaded earlier in the request. Super user access granted by code is dropped as well.
+     *
+     * @internal
+     * @return bool false if the authentication no longer succeeds for the same user
+     */
+    public function reauthenticate(): bool
+    {
+        $login = $this->login;
+        $this->setSuperUserAccess(false);
+
+        // a failed session falls back to the anonymous user
+        return $this->reloadAccess() && $this->login === $login;
+    }
+
+    /**
      * Puts back the identity a caller arrived with, which {@see reloadAccess()} clears before authenticating
      * and does not restore on failure.
      *

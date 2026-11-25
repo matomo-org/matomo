@@ -22,6 +22,7 @@ use Piwik\Plugins\API\Filter\DataComparisonFilter;
 use Piwik\Piwik;
 use Piwik\SettingsPiwik;
 use Piwik\View;
+use Piwik\ViewDataTable\EstimatedUniques;
 
 /**
  * Reads the requested DataTable from the API and prepares data for the Sparklines view. It can display any amount
@@ -315,7 +316,8 @@ class Sparklines extends ViewDataTable
                             if (!isset($column[$i])) {
                                 continue;
                             }
-                            $formattedValue = $this->formatSparklineMetricValue(
+                            $isUnavailable = $this->isUnavailableMetricValue($compareRow, $columnToUse[$i], $columnMetrics);
+                            $formattedValue = $isUnavailable ? '-' : $this->formatSparklineMetricValue(
                                 $value,
                                 $columnToUse[$i],
                                 $columnMetrics,
@@ -330,13 +332,20 @@ class Sparklines extends ViewDataTable
                                 'group' => $periodPretty,
                             ];
 
-                            if (isset($evolutions[$i])) {
+                            // A change from or to an unavailable value would be computed against a 0
+                            // that was never measured
+                            if (isset($evolutions[$i]) && !$isUnavailable) {
                                 $comparisonIndex = $periodIndex === 0 ? 1 : 0;
                                 $comparisonRow = $comparePeriods[$comparisonIndex] ?? false;
                                 $comparisonDate = $compareDates[$comparisonIndex] ?? false;
                                 $originalCompareRow = ($comparisonRow && $comparisonDate)
                                     ? $this->findComparisonRow($comparisonRows, $segment, $comparisonRow, $comparisonDate)
                                     : false;
+                                if ($this->isUnavailableMetricValue($originalCompareRow, $columnToUse[$i], $columnMetrics)) {
+                                    $metrics[] = $metricInfo;
+                                    continue;
+                                }
+
                                 $originalValue = $originalCompareRow ? $originalCompareRow->getColumn($columnToUse[$i]) : 0;
                                 if ($originalValue === false) {
                                     $originalValue = 0;
@@ -385,7 +394,7 @@ class Sparklines extends ViewDataTable
                         continue;
                     }
                     $newMetric = [
-                        'value' => $this->formatSparklineMetricValue(
+                        'value' => $this->isUnavailableMetricValue($firstRow, $column[$i], $columnMetrics) ? '-' : $this->formatSparklineMetricValue(
                             $value,
                             $column[$i],
                             $columnMetrics,
@@ -484,6 +493,10 @@ class Sparklines extends ViewDataTable
      */
     private function resolveMetricTitle($column, $description, array $metricTranslations)
     {
+        if (isset($this->config->metric_titles[$column])) {
+            return $this->config->metric_titles[$column];
+        }
+
         if ($this->config->use_metric_labels_as_titles) {
             return $this->config->translations[$column] ?? $metricTranslations[$column] ?? $description;
         }
@@ -493,7 +506,7 @@ class Sparklines extends ViewDataTable
 
     private function removeUniqueVisitorsIfNotEnabledForPeriod($columns, $period)
     {
-        if (SettingsPiwik::isUniqueVisitorsEnabled($period)) {
+        if (SettingsPiwik::isUniqueVisitorsTotalAvailable($period)) {
             return $columns;
         }
 
@@ -502,6 +515,17 @@ class Sparklines extends ViewDataTable
         }
 
         return array_diff($columns, ['nb_users', 'nb_uniq_visitors']);
+    }
+
+    /**
+     * A processed metric that could not be computed (eg. a ratio without a denominator) is
+     * unavailable, not zero. So are unique visitors and users missing from a period that couldn't be estimated.
+     */
+    private function isUnavailableMetricValue(DataTable\Row|false|null $row, string $columnName, array $columnMetrics): bool
+    {
+        return $row instanceof DataTable\Row
+            && (isset($columnMetrics[$columnName]) || EstimatedUniques::getColumnSuffix($columnName) !== null)
+            && $row->getColumn($columnName) === false;
     }
 
     private function formatSparklineMetricValue($value, string $columnName, array $columnMetrics, MetricFormatter $metricFormatter, int $idSite)

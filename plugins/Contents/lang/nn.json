@@ -1,1 +1,28 @@
-{}
+{
+    "Contents": {
+        "ContentImpression": "Innhaldsvising",
+        "ContentInteraction": "Innhaldsinteraksjon",
+        "ContentInteractionSegmentHelp": "Typen interaksjon med innhaldet, til dømes «click» eller «submit».",
+        "ContentInteractions": "Innhaldsinteraksjonar",
+        "ContentName": "Innhaldsnamn",
+        "ContentNameReportDocumentation": "Denne rapporten viser namna på innhaldet dei besøkande såg og samhandla med.",
+        "ContentNameSegmentHelp": "Namnet på ei innhaldsblokk, til dømes «Ad Sale»",
+        "ContentNames": "Innhaldsnamn",
+        "ContentPiece": "Innhaldselement",
+        "ContentPieceReportDocumentation": "Denne rapporten viser innhaldselementa dei besøkande såg og samhandla med.",
+        "ContentPieceSegmentHelp": "Sjølve innhaldet, til dømes «ad.jpg» eller «Min tekstannonse»",
+        "ContentPieces": "Innhaldselement",
+        "ContentTarget": "Innhaldsmål",
+        "ContentTargetSegmentHelp": "Til dømes URL-en til ei landingsside: «http://landingpage.example.com»",
+        "ContentTargets": "Innhaldsmål",
+        "Contents": "Innhald",
+        "ContentsSubcategoryHelp1": "Innhaldssporing hjelper deg å finne ut kor populære bestemte innhaldselement er på kva som helst side på nettstaden eller i appen din. Denne delen rapporterer kor mange visingar og interaksjonar dei ulike innhaldselementa på nettstaden får.",
+        "ContentsSubcategoryHelp2": "Lær meir i rettleiinga for innhaldssporing.",
+        "Impressions": "Visingar",
+        "ImpressionsMetricDocumentation": "Kor mange gonger ei innhaldsblokk, til dømes eit banner eller ein annonse, vart vist på ei side.",
+        "InteractionRate": "Interaksjonsfrekvens",
+        "InteractionRateMetricDocumentation": "Forholdet mellom innhaldsvisingar og interaksjonar.",
+        "InteractionsMetricDocumentation": "Kor mange gonger nokon samhandla med ei innhaldsblokk (t.d. eit «klikk» på eit banner eller ein annonse).",
+        "PluginDescription": "Med sporing av innhald og bannerar kan du måle ytinga (visingar, klikk, klikkfrekvens) for kva som helst innhald på sidene dine (bannerannonse, bilete, kva som helst element)."
+    }
+}

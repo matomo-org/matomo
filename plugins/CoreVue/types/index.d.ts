@@ -171,6 +171,7 @@ declare global {
     cacheBuster: string;
     numbers: Record<string, any>;
     visitorProfileEnabled: boolean;
+    visitorProfileAvailable: boolean;
     languageName: string;
     isPagesComparisonApiDisabled: boolean; // can be set to avoid checks on Api.getPagesComparisonsDisabledFor
     userLogin?: string;
@@ -182,6 +183,7 @@ declare global {
     apiBulkRequestLimit: number;
 
     visitorLogEnabled: boolean;
+    visitorLogUnavailableSegments: string[];
     updatePeriodParamsFromUrl(): void;
     updateTitle(date: string, period: string, c: string, s: string, segment?: string): void;
     hasUserCapability(capability: string): boolean;
@@ -239,6 +241,14 @@ declare global {
       overrideParams: Record<string, string>|null,
       callback: () => void,
     ): void;
+    /** Loads one part of the report into the model; exits are derived once both page parts are in. */
+    loadPart(
+      part: 'internalReferrers'|'followingActions'|'externalReferrers',
+      actionType: string,
+      actionName: string,
+      overrideParams: Record<string, string>|null,
+      callback: () => void,
+    ): void;
     getTotalNbPageviews(): number|false;
     /** Calls back with the site's total pageviews, now or once it arrives. `false` when there is none. */
     whenTotalNbPageviewsLoaded(callback: (nbPageviews: number|false) => void): void;
@@ -254,6 +264,8 @@ declare global {
   }
 
   interface TransitionsAjax {
+    /** Aborts the report requests still in flight; the site total request is left to finish. */
+    abort(): void;
     /** Diverts API errors to a callback, so a caller can display them itself. */
     setErrorCallback(
       callback: (errorName: string, params: Record<string, unknown>) => void,

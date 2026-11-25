@@ -19,6 +19,7 @@ use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugin\Visualization;
 use Piwik\Plugins\Live\Live;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
+use Piwik\Request;
 use Piwik\Tracker\Action;
 
 /**
@@ -122,7 +123,7 @@ class VisitorLog extends Visualization
         $this->config->custom_parameters['hideProfileLink'] = (int)(1 == Common::getRequestVar('hideProfileLink', 0, 'int'));
         $this->config->custom_parameters['pageUrlNotDefined'] = Piwik::translate('General_NotDefined', Piwik::translate('Actions_ColumnPageURL'));
 
-        if (!Live::isVisitorProfileEnabled()) {
+        if (!Live::isVisitorProfileAvailable()) {
             $this->config->custom_parameters['hideProfileLink'] = 1;
         }
 
@@ -151,7 +152,25 @@ class VisitorLog extends Visualization
             // subtable from claiming a header of its own.
             $this->config->show_footer_icons = false;
         }
+
+        // The segmented visits log narrows the visits to the clicked row with intersectSegment, so the
+        // export has to send it as well to contain the same visits.
+        $intersectSegment = Request::fromRequest()->getStringParameter('intersectSegment', '');
+        if ($intersectSegment !== '') {
+            $this->config->export_parameters_to_modify['intersectSegment'] = $intersectSegment;
+        }
+
         $this->assignTemplateVar('actionsToDisplayCollapsed', StaticContainer::get('Live.pageViewActionsToDisplayCollapsed'));
+
+        $idSite = (int) Common::getRequestVar('idSite', 0, 'int');
+        if ($idSite > 0 && Live::isVisitorLogLimitedToConsentedVisits($idSite)) {
+            // a header message, as it is shown even when the visits log has no visit to list, after any message
+            // already set for this visits log
+            $this->config->show_header_message = $this->config->show_header_message
+                . '<div vue-entry="CoreHome.Alert" severity="info">'
+                . Common::sanitizeInputValue(Piwik::translate('Live_OnlyConsentedVisitsShown'))
+                . '</div>';
+        }
 
         $enableAddNewSegment = Common::getRequestVar('enableAddNewSegment', false);
         if ($enableAddNewSegment) {

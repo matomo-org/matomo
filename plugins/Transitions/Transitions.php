@@ -60,6 +60,7 @@ class Transitions extends \Piwik\Plugin
         $translationKeys[] = 'Transitions_Transitions';
         $translationKeys[] = 'CoreHome_ThereIsNoDataForThisReport';
         $translationKeys[] = 'General_Others';
+        $translationKeys[] = 'General_ErrorRequest';
         $translationKeys[] = 'Actions_ActionType';
         $translationKeys[] = 'Transitions_TopX';
         $translationKeys[] = 'Transitions_AvailableInOtherReports';
@@ -108,10 +109,6 @@ class Transitions extends \Piwik\Plugin
         $translationKeys[] = 'Transitions_XOfAllPageviews';
         $translationKeys[] = 'Transitions_ShareOfAllPageviews';
         $translationKeys[] = 'General_DateRange';
-
-        // Loading state of the popover, which names the action being fetched. One key rather than
-        // a generic fragment plus the name, so a locale can order the two around each other.
-        $translationKeys[] = 'Transitions_LoadingTransitionsFor';
 
         // Error contract. The API throws these exception names for
         // Transitions.getTransitionsForAction; each has a matching Details variant, and both

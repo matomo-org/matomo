@@ -18,6 +18,7 @@ use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\Context;
 use Piwik\DataTable;
+use Piwik\Exception\NoPrivilegesException;
 use Piwik\Exception\PluginDeactivatedException;
 use Piwik\IP;
 use Piwik\Piwik;
@@ -495,6 +496,7 @@ class Request
         // Empty and anonymous tokens are skipped: neither can grant superuser, and resetting would clobber
         // deliberate caller state such as CliMulti's --superuser observer.
         $hadAmbientSuperUserAccess = Access::getInstance()->hasSuperUserAccess();
+        $wasAmbientAuthSuperUser = $hadAmbientSuperUserAccess && !Access::getInstance()->isSuperUserAccessGrantedByCode();
         $ambientLogin = Access::getInstance()->getLogin();
         $ambientTokenAuth = Access::getInstance()->getTokenAuth();
         $ambientAuth = Access::getInstance()->getAuth();
@@ -543,7 +545,7 @@ class Request
                     Access::getInstance()->restoreAmbientIdentity(
                         $ambientLogin,
                         $ambientTokenAuth,
-                        $hadAmbientSuperUserAccess
+                        $wasAmbientAuthSuperUser
                     );
                     Access::getInstance()->setSuperUserAccess(true);
                 }
@@ -578,10 +580,10 @@ class Request
         }
 
         if (Access::getInstance()->hasSuperUserAccess()) {
-            $ex = new \Piwik\Exception\Exception(Piwik::translate(
+            $ex = new NoPrivilegesException(Piwik::translate(
                 'Widgetize_TooHighAccessLevel',
                 [Url::getExternalLinkTag('https://matomo.org/faq/troubleshooting/faq_147/'), '</a>']
-            ));
+            ), 403);
             $ex->setIsHtmlMessage();
             throw $ex;
         }
@@ -608,10 +610,10 @@ class Request
             // NOTE: this does not apply if the [General] enable_framed_allow_write_admin_token_auth INI
             // option is set, or if the current module/action is allowlisted in the
             // token_auth.write_admin_allowed_module_actions DI entry.
-            $ex = new \Piwik\Exception\Exception(Piwik::translate(
+            $ex = new NoPrivilegesException(Piwik::translate(
                 'Widgetize_ViewAccessRequired',
                 [Url::getExternalLinkTag('https://matomo.org/faq/troubleshooting/faq_147/') . 'https://matomo.org/faq/troubleshooting/faq_147/</a>']
-            ));
+            ), 403);
             $ex->setIsHtmlMessage();
             throw $ex;
         }

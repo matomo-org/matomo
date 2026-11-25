@@ -46,6 +46,7 @@ class SiteTest extends IntegrationTestCase
     {
         $this->expectException(\Piwik\Exception\UnexpectedWebsiteFoundException::class);
         $this->expectExceptionMessage('An unexpected website was found in the request');
+        $this->expectExceptionCode(400);
 
         $this->makeSite(9999);
     }

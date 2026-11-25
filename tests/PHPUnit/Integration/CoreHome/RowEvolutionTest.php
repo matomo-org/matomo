@@ -9,10 +9,18 @@
 
 namespace Piwik\Tests\Integration\CoreHome;
 
+use Piwik\Container\StaticContainer;
+use Piwik\DataTable;
 use Piwik\DataTable\Map;
+use Piwik\Http\BadRequestException;
+use Piwik\NoAccessException;
+use Piwik\Piwik;
+use Piwik\Plugins\CoreHome\Controller;
+use Piwik\Plugins\CoreHome\DataTableRowAction\MultiRowEvolution;
 use Piwik\Plugins\CoreHome\DataTableRowAction\RowEvolution;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution\Config as EvolutionVizConfig;
 use Piwik\Tests\Framework\Fixture;
+use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\View;
 
@@ -26,6 +34,7 @@ class RowEvolutionTest extends IntegrationTestCase
     {
         parent::setUp();
 
+        FakeAccess::clearAccess($superUser = true);
         Fixture::createWebsite('2014-01-01 00:00:00');
         $_GET['idSite'] = 1;
         $_GET['date'] = '2014-01-01';
@@ -34,7 +43,8 @@ class RowEvolutionTest extends IntegrationTestCase
 
     public function tearDown(): void
     {
-        unset($_GET['idSite'], $_GET['date'], $_GET['period']);
+        unset($_GET['idSite'], $_GET['date'], $_GET['period'], $_GET['apiMethod'], $_GET['label']);
+        Fixture::resetTranslations();
         parent::tearDown();
     }
 
@@ -53,6 +63,109 @@ class RowEvolutionTest extends IntegrationTestCase
         $this->assertSame('', $view->requestConfig->request_parameters_to_modify['label']);
         $this->assertSame('@referrer.com', $view->config->export_parameters_to_modify['label']);
         $this->assertFalse($view->config->show_flatten_table_export);
+    }
+
+    /**
+     * @dataProvider getFractionDigitsData
+     */
+    public function testGetFractionDigitsShortensLongFloatsButKeepsSmallValuesVisible($value, int $expected): void
+    {
+        $rowEvolution = (new \ReflectionClass(RowEvolution::class))->newInstanceWithoutConstructor();
+        $method = new \ReflectionMethod(RowEvolution::class, 'getFractionDigits');
+
+        $this->assertSame($expected, $method->invoke($rowEvolution, $value));
+    }
+
+    public function getFractionDigitsData(): array
+    {
+        return [
+            [42, 0],
+            ['7.5', 1],
+            [7.66, 2],
+            [1.234, 3],
+            [7.664999999991, 2],
+            [0.33333333333333, 2],
+            [0.004, 3],
+            [0.0043333333333, 4],
+            [-0.0043333333333, 4],
+            [0.00005, 5],
+            [0.0000123456789, 6],
+        ];
+    }
+
+    public function testFormatMetricValueKeepsTheDefaultFormattingWhenNoPluginFormatsTheMetric(): void
+    {
+        $this->assertSame('7.66%', $this->formatMetricValue(7.664999, 'bounce_rate', '%', 2, false));
+        $this->assertSame('6.00€', $this->formatMetricValue(6, 'revenue', '€', 2, true));
+        $this->assertSame('6€', $this->formatMetricValue(6, 'revenue', '€', 2, false));
+    }
+
+    public function testFormatMetricValueUsesThePluginFormattingWithoutTheUnit(): void
+    {
+        Piwik::addAction('Metrics.formatEvolutionValue', function (&$formatted, $value, $column, $idSite) {
+            if ($column === 'custom_metric_1' && $idSite === 1) {
+                $formatted = number_format($value * 100) . ' %';
+            }
+        });
+
+        $this->assertSame('80 %', $this->formatMetricValue(0.8, 'custom_metric_1', '%', 2, false));
+        $this->assertSame('0.80%', $this->formatMetricValue(0.8, 'custom_metric_2', '%', 2, true));
+    }
+
+    public function testMultiRowEvolutionEscapesThePluginFormattingAndPassesTheRequestedColumn(): void
+    {
+        Fixture::loadAllTranslations();
+        Piwik::addAction('Metrics.formatEvolutionValue', function (&$formatted, $value, $column) {
+            if ($column === 'custom_metric_1') {
+                $formatted = '<b>' . $value . '</b> &';
+            }
+        });
+
+        $rowEvolution = new class extends MultiRowEvolution {
+            public function __construct()
+            {
+            }
+
+            protected function getSparkline($metric)
+            {
+                return '';
+            }
+        };
+        $this->setProperty($rowEvolution, 'idSite', 1);
+        $this->setProperty($rowEvolution, 'metric', 'custom_metric_1');
+        $this->setProperty($rowEvolution, 'availableMetrics', [
+            'custom_metric_1_0' => ['name' => 'Row A', 'min' => 1, 'max' => 2],
+        ]);
+        $this->setProperty($rowEvolution, 'dataTable', $this->makeEvolutionMap('custom_metric_1_0', 1, 2));
+
+        $method = new \ReflectionMethod(RowEvolution::class, 'getMetricsToggles');
+        $toggle = $method->invoke($rowEvolution)[0];
+
+        $this->assertStringContainsString('&lt;b&gt;1&lt;/b&gt; &amp;', $toggle['details']);
+        $this->assertStringContainsString('&lt;b&gt;2&lt;/b&gt; &amp;', $toggle['details']);
+        $this->assertStringContainsString('<b>1</b> &', $toggle['minmax']);
+    }
+
+    private function makeEvolutionMap(string $metric, int $first, int $last): Map
+    {
+        $map = new Map();
+        foreach (['2014-01-01' => $first, '2014-01-02' => $last] as $date => $value) {
+            $table = new DataTable();
+            $table->addRowFromSimpleArray(['label' => 'Row A', $metric => $value]);
+            $map->addTable($table, $date);
+        }
+
+        return $map;
+    }
+
+    private function formatMetricValue($value, string $metric, string $unit, int $fractionDigits, bool $keepTrailingZeros): string
+    {
+        Fixture::loadAllTranslations();
+        $rowEvolution = (new \ReflectionClass(RowEvolution::class))->newInstanceWithoutConstructor();
+        $this->setProperty($rowEvolution, 'idSite', 1);
+        $method = new \ReflectionMethod(RowEvolution::class, 'formatMetricValue');
+
+        return $method->invoke($rowEvolution, $value, $metric, $unit, $fractionDigits, $keepTrailingZeros);
     }
 
     /**
@@ -123,6 +236,66 @@ class RowEvolutionTest extends IntegrationTestCase
         $this->assertInstanceOf(EvolutionVizConfig::class, $view->config);
         $this->assertFalse($view->config->show_forecast);
         $this->assertTrue($view->config->disable_forecast);
+    }
+
+    public function testRowEvolutionPopoverRequiresViewAccessForTheSite(): void
+    {
+        FakeAccess::clearAccess($superUser = false, $idSitesAdmin = [], $idSitesView = [], $identity = 'aUser');
+        $_GET['apiMethod'] = 'Actions.getPageUrls';
+        $_GET['label'] = 'index';
+
+        $this->expectException(NoAccessException::class);
+
+        $this->makeController()->getRowEvolutionPopover();
+    }
+
+    public function testRowEvolutionPopoverLetsAUserWithViewAccessPassTheAccessCheck(): void
+    {
+        FakeAccess::clearAccess($superUser = false, $idSitesAdmin = [], $idSitesView = [1], $identity = 'aUser');
+        $_GET['label'] = 'index';
+
+        // the missing apiMethod is only reported once the access check passed
+        $this->expectException(BadRequestException::class);
+        $this->expectExceptionMessage('Parameter apiMethod not set.');
+
+        $this->makeController()->getRowEvolutionPopover();
+    }
+
+    /**
+     * @dataProvider getMalformedRowEvolutionRequests
+     *
+     * @param array<string, mixed> $params
+     */
+    public function testRowEvolutionPopoverAnswersWithBadRequestForAMalformedRequest(array $params, string $message): void
+    {
+        $_GET = array_merge($_GET, ['apiMethod' => 'Actions.getPageUrls', 'label' => 'index'], $params);
+
+        $this->expectException(BadRequestException::class);
+        $this->expectExceptionCode(400);
+        $this->expectExceptionMessage($message);
+
+        $this->makeController()->getRowEvolutionPopover();
+    }
+
+    public static function getMalformedRowEvolutionRequests(): iterable
+    {
+        yield 'missing apiMethod' => [['apiMethod' => ''], 'Parameter apiMethod not set.'];
+        yield 'missing label' => [['label' => ''], 'Expected label to be an array'];
+        yield 'empty label' => [['label' => ['']], 'Parameter label not set.'];
+        yield 'invalid date' => [['date' => 'garbage'], 'Expected date to be an instance of \\Piwik\\Date'];
+    }
+
+    public function provideContainerConfig()
+    {
+        return [
+            'Piwik\Access' => new FakeAccess(),
+        ];
+    }
+
+    private function makeController(): Controller
+    {
+        // the controller reads idSite and date from the request when it is created
+        return StaticContainer::getContainer()->make(Controller::class);
     }
 
     private function setProperty(object $instance, string $propertyName, $value): void

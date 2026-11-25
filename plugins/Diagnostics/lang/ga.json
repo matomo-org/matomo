@@ -1,6 +1,8 @@
 {
     "Diagnostics": {
         "AllPrivateDirectoriesAreInaccessible": "Tá gach eolaire príobháideach dorochtana ón idirlíon.",
+        "ArchivingFailuresCheck": "Cartlanna Teipthe",
+        "ArchivingFailuresComment": "Níorbh fhéidir cartlanna %1$s a phróiseáil agus tá siad ag fanacht go ndéanfaí iarracht eile orthu; maidir le cartlanna %2$s, tréigeadh iad tar éis an líon uasta iarrachtaí a bhaint amach. Ní dhéantar tuairiscí a nuashonrú i gcás na gcartlanna a tréigeadh — ná i gcás na dtréimhsí ina bhfuil siad — go dtí go ndéantar iarracht eile orthu. Tharla an teip is sine ar %3$s. Bain úsáid as an ordú consóil %4$s chun na hearráidí a fheiceáil agus chun iarracht eile a dhéanamh orthu.",
         "BrowserAndAutoArchivingEnabledComment": "Tá an chuma ar an scéal go bhfuil an brabhsálaí agus an chartlannú uathoibríoch cumasaithe. Cuireadh tús le cartlannú uathoibríoch %3$s ó shin. Má tá %1$sauto cartlannú%2$s cumasaithe, ba cheart duit cartlannú brabhsálaí a dhíchumasú i \"Socruithe Ginearálta\".",
         "BrowserAndAutoArchivingEnabledLabel": "Brabhsálaí agus cartlannú Uathoibríoch cumasaithe",
         "BrowserTriggeredArchivingEnabled": "Ar mhaithe le feidhmíocht optamach agus Matomo gasta, moltar go mór crontab a bhunú chun do thuairiscí a chartlannú go huathoibríoch, agus chun truicear brabhsálaí i socruithe Matomo a dhíchumasú. %1$sFoghlaim tuilleadh.%2$s",
@@ -18,7 +20,6 @@
         "DatabaseReaderConnection": "Nasc Léitheoir Bunachar Sonraí",
         "DatabaseUtf8Requirement": "Ní mór é seo a bheith in ann carachtair 4-bheart UTF8 a stóráil. Mura bhfuil utf8mb4 ar fáil cuirfear %1$s in ionad carachtair speisialta ar nós emojis, carachtair as teangacha Áiseacha nach bhfuil chomh coitianta, scripteanna stairiúla éagsúla nó siombailí matamaitice. Is féidir leat tuilleadh sonraí a léamh faoin ábhar seo i %2$s na Ceisteanna Coitianta seo%3$s.",
         "DatabaseUtf8mb4CharsetAvailableButNotUsed": "Tacaíonn do bhunachar sonraí le tacar charn utf8mb4, ach níor tiontaíodh táblaí do bhunachar sonraí fós. Is féidir leat é seo a dhéanamh tríd an ordú %1$s a rith nó an tiontú uathoibríoch sna Socruithe Ginearálta a ghníomhachtú.",
-        "DatabaseUtf8mb4CharsetRecommended": "Ní thacaíonn do bhunachar sonraí le tacar carachtair utf8mb4 fós.",
         "EnableRequiredDirectoriesDiagnostic": "Léiríodh an tseiceáil seo toisc go bhfuil an tseiceáil seo díchumasaithe sa chumraíocht. Chun an tseiceáil seo a chumasú, leag [Ginearálta] enable_required_directories_diagnostic = 1 sa chomhad \"config/config.ini.php\".",
         "HideUnchanged": "Mura dteastaíonn uait ach luachanna athraithe a fheiceáil is féidir leat %1$s gach luach gan athrú %2$s a cheilt.",
         "HtaccessWarningNginx": "Chun a chinntiú nach féidir teacht ar chomhaid íogair go díreach, moltar do fhreastalaí gréasáin a chumrú chun rochtain ar eolairí áirithe a shrianadh. Le haghaidh tuilleadh eolais, féach cumraíocht oifigiúil freastalaí nginx %1$s %2$s",

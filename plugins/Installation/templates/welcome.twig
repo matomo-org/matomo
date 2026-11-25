@@ -18,7 +18,10 @@
                     $('.next-step').show();
                 },
                 error: function (req) {
-                    $('.next-step a').attr('href', $('.next-step a').attr('href') + '&trackerStatus=' + req.status);
+                    // until Matomo is installed, the tracker itself answers with 503
+                    if (req.status !== 503) {
+                        $('.next-step a').attr('href', $('.next-step a').attr('href') + '&trackerStatus=' + req.status);
+                    }
                 }
             });
         });

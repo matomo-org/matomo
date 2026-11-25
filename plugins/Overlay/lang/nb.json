@@ -14,7 +14,7 @@
         "OneClick": "1 klikk",
         "OpenFullScreen": "Gå til fullskjermsvisning (uten sidefelt)",
         "Overlay": "Side-overlegg",
-        "PluginDescription": "Vis din analysedata som et overlegg på nettsiden. Vis hvor mange ganger dine brukere har klikket på hver lenke. Merk: Krever at overgangsprogramtillegget er påskrudd.",
+        "PluginDescription": "Vis din analysedata som et overlegg på nettsiden. Vis hvor mange ganger dine brukere har klikket på hver lenke. Merk: Krever at overgangstillegget er påskrudd.",
         "RedirectUrlError": "Du prøver å åpne side-overlegg for nettadressen «%1$s». %2$s Ingen av domenene fra Matomo-innstillingene samsvarer med lenken.",
         "RedirectUrlErrorAdmin": "Du kan legge til domenet som en ytterligere nettadresse %1$si innstillingene%2$s.",
         "RedirectUrlErrorUser": "Spør administratoren din om å legge til domenet som en ekstra nettadresse."

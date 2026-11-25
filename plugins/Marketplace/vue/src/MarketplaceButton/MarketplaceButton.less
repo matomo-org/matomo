@@ -1,0 +1,56 @@
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+// The height of a Materialize .btn, so it lines up with the buttons around it; the type and colours
+// are the plugin card's.
+.marketplaceButton {
+  display: inline-block;
+  box-sizing: border-box;
+  height: 36px;
+  padding: 0 16px;
+  border: 1px solid @theme-color-brand;
+  border-radius: 4px;
+  background: @theme-color-brand;
+  color: @theme-color-brand-contrast;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 34px; // 36px, less the border
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+
+  // Two classes, so these outrank the bundled Bootstrap reset's `a:hover, a:focus` underline and
+  // link colour.
+  &:hover,
+  &:focus {
+    color: @theme-color-brand-contrast;
+    text-decoration: none;
+    filter: brightness(0.94);
+  }
+
+  &:focus-visible {
+    outline: 2px solid @theme-color-focus-ring;
+    outline-offset: -2px;
+  }
+}
+
+.marketplaceButton--outline {
+  background: @theme-color-background-contrast;
+  color: @theme-color-text-brand;
+
+  &:hover,
+  &:focus {
+    background: @theme-color-background-brand-lowContrast;
+    color: @theme-color-text-brand;
+    filter: none;
+  }
+}
+
+.marketplaceButton--fullWidth {
+  display: block;
+  width: 100%;
+}

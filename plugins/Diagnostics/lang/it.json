@@ -15,7 +15,6 @@
         "DatabaseReaderConnection": "Connessione al Lettore del Database",
         "DatabaseUtf8Requirement": "Ciò è richiesto per conservare i caratteri UTF8 a 4-byte. Se il charset utf8mb4 non è disponibile, caratteri speciali come le emoji, i caratteri meno comuni delle lingue asiatiche, vari glifi antichi o i simboli matematici verranno sostituiti con %1$s. Puoi leggere più dettagli su questo argomento in %2$squeste FAQ%3$s.",
         "DatabaseUtf8mb4CharsetAvailableButNotUsed": "Il tuo database supporta il charset utf8mb4, ma le tabelle del tuo database non sono ancora state convertite. Puoi farlo eseguendo il comando %1$s o attivando la conversione automatica nelle Impostazioni Generali.",
-        "DatabaseUtf8mb4CharsetRecommended": "Il tuo database non supporta ancora il charset UTF8mb4.",
         "EnableRequiredDirectoriesDiagnostic": "Questo controllo è stato saltato perchè è disabilitato nelle configurazioni. Per abilitare questo controllo imposta [General] enable_required_directories_diagnostic = 1 nel file \"config/config.ini.php\".",
         "HideUnchanged": "Se vuoi vedere soltanto i valori cambiati, puoi %1$snascondere tutti quelli che non sono cambiati%2$s.",
         "HtaccessWarningNginx": "Per garantire che i file sensibili non siano accessibili direttamente, si consiglia di configurare il server web per limitare l'accesso a determinate directory. Per maggiori informazioni, consultare la %1$s configurazione ufficiale del server nginx %2$s",

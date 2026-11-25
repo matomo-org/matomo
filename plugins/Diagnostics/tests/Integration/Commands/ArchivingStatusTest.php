@@ -66,6 +66,7 @@ Archiving Metrics
 | Total Invalidation Count             | 4                   |
 | In Progress Invalidation Count       | 0                   |
 | Scheduled Invalidation Count         | 4                   |
+| On Hold Invalidation Count           | 0                   |
 | Earliest invalidation ts_started     |                     |
 | Latest invalidation ts_started       |                     |
 | Earliest invalidation ts_invalidated | 2010-03-07 01:00:00 |
@@ -88,6 +89,11 @@ Archiving Configuration Settings
 | general  | enable_processing_unique_visitors_year                      | 0                 |
 | general  | enable_processing_unique_visitors_range                     | 0                 |
 | general  | enable_processing_unique_visitors_multiple_sites            | 0                 |
+| general  | enable_processing_estimated_unique_visitors_week            | 0                 |
+| general  | enable_processing_estimated_unique_visitors_month           | 0                 |
+| general  | enable_processing_estimated_unique_visitors_year            | 0                 |
+| general  | enable_processing_estimated_unique_visitors_range           | 0                 |
+| general  | unique_visitors_estimate_precision                          | 14                |
 | general  | process_new_segments_from                                   | beginning_of_time |
 | general  | time_before_today_archive_considered_outdated               | 900               |
 | general  | time_before_week_archive_considered_outdated                | -1                |
@@ -146,6 +152,7 @@ Archiving Metrics
 | Total Invalidation Count             | 4                   |
 | In Progress Invalidation Count       | 0                   |
 | Scheduled Invalidation Count         | 4                   |
+| On Hold Invalidation Count           | 0                   |
 | Earliest invalidation ts_started     |                     |
 | Latest invalidation ts_started       |                     |
 | Earliest invalidation ts_invalidated | 2010-03-07 01:00:00 |
@@ -179,6 +186,11 @@ Archiving Configuration Settings
 | general  | enable_processing_unique_visitors_year                      | 0                 |
 | general  | enable_processing_unique_visitors_range                     | 0                 |
 | general  | enable_processing_unique_visitors_multiple_sites            | 0                 |
+| general  | enable_processing_estimated_unique_visitors_week            | 0                 |
+| general  | enable_processing_estimated_unique_visitors_month           | 0                 |
+| general  | enable_processing_estimated_unique_visitors_year            | 0                 |
+| general  | enable_processing_estimated_unique_visitors_range           | 0                 |
+| general  | unique_visitors_estimate_precision                          | 14                |
 | general  | process_new_segments_from                                   | beginning_of_time |
 | general  | time_before_today_archive_considered_outdated               | 900               |
 | general  | time_before_week_archive_considered_outdated                | -1                |

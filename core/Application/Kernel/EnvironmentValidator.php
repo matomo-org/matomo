@@ -51,8 +51,8 @@ class EnvironmentValidator
         $startInstaller = true;
 
         if (SettingsServer::isTrackerApiRequest()) {
-            // if Piwik is not installed yet, the piwik.php should do nothing and not return an error
-            throw new NotYetInstalledException("As Matomo is not installed yet, the Tracking API cannot proceed and will exit without error.");
+            // nothing can be tracked before installation, piwik.php answers with 503 so clients can retry later
+            throw new NotYetInstalledException("As Matomo is not installed yet, the Tracking API cannot proceed.");
         }
 
         if (Common::isPhpCliMode()) {

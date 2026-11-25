@@ -205,13 +205,13 @@ class Auth implements \Piwik\Auth
     /**
      * Sets the password to authenticate with.
      *
-     * @param string $password
+     * @param string|null $password
      */
     public function setPassword(
         #[\SensitiveParameter]
         $password
     ) {
-        if (empty($password)) {
+        if ($password === null || $password === '') {
             $this->hashedPassword = null;
         } else {
             $this->hashedPassword = UsersManager::getPasswordHash($password);

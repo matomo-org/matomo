@@ -14,6 +14,7 @@ use Piwik\AssetManager;
 use Piwik\AssetManager\UIAssetFetcher\PluginUmdAssetFetcher;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Exception\NoPrivilegesException;
 use Piwik\Http\JsonResponse;
 use Piwik\DbHelper;
 use Piwik\Filechecks;
@@ -122,7 +123,7 @@ class Controller extends \Piwik\Plugin\Controller
         Piwik::checkUserHasSuperUserAccess();
 
         if (!SettingsPiwik::isAutoUpdateEnabled()) {
-            throw new Exception('Auto updater is disabled');
+            throw new NoPrivilegesException('Auto updater is disabled', 403);
         }
 
         $this->checkNewVersionIsAvailableOrDie();
@@ -161,7 +162,7 @@ class Controller extends \Piwik\Plugin\Controller
         Piwik::checkUserHasSuperUserAccess();
 
         if (!SettingsPiwik::isAutoUpdateEnabled()) {
-            throw new Exception('Auto updater is disabled');
+            throw new NoPrivilegesException('Auto updater is disabled', 403);
         }
 
         Nonce::checkNonce('oneClickUpdate');
@@ -193,7 +194,7 @@ class Controller extends \Piwik\Plugin\Controller
     public function oneClickUpdatePartTwo(): string
     {
         if (!SettingsPiwik::isAutoUpdateEnabled()) {
-            throw new Exception('Auto updater is disabled');
+            throw new NoPrivilegesException('Auto updater is disabled', 403);
         }
 
         $task = Updater::MESSAGE_FAILED_PREFIX . "Couldn't update Marketplace plugins.";
@@ -232,7 +233,7 @@ class Controller extends \Piwik\Plugin\Controller
     public function oneClickResults()
     {
         if (!SettingsPiwik::isAutoUpdateEnabled()) {
-            throw new Exception('Auto updater is disabled');
+            throw new NoPrivilegesException('Auto updater is disabled', 403);
         }
 
         $httpsFail = (bool) Common::getRequestVar('httpsFail', 0, 'int', $_POST);
@@ -305,7 +306,7 @@ class Controller extends \Piwik\Plugin\Controller
     public function runUpdaterAndExit($doDryRun = null)
     {
         if (!SettingsPiwik::isAutoUpdateEnabled()) {
-            throw new Exception('Auto updater is disabled');
+            throw new NoPrivilegesException('Auto updater is disabled', 403);
         }
 
         $updater = new DbUpdater();

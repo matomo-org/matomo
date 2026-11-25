@@ -15,6 +15,8 @@ use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\MissingFilePermissionException;
+use Piwik\Exception\NoPrivilegesException;
+use Piwik\Exception\ThingNotFoundException;
 use Piwik\ExceptionHandler;
 use Piwik\Filechecks;
 use Piwik\Filesystem;
@@ -117,17 +119,49 @@ class Controller extends Plugin\ControllerAdmin
             throw new \Exception('Something went wrong during the plugin file upload. Please try again.');
         }
 
-        $view = $this->configureView('@CorePluginsAdmin/uploadPlugin');
-
         $pluginMetadata = $this->pluginInstaller->installOrUpdatePluginFromFile($file);
 
-        $view->nonce = Nonce::getNonce(static::ACTIVATE_NONCE);
-        $view->plugin = array(
-            'name'        => $pluginMetadata->name,
-            'version'     => $pluginMetadata->version,
-            'isTheme'     => !empty($pluginMetadata->theme),
-            'isActivated' => $this->pluginManager->isPluginActivated($pluginMetadata->name),
+        // see PluginInstallResults for why the result is rendered by a new request
+        $metadata = (new Plugin\MetadataLoader($pluginMetadata->name))->load();
+        $token = PluginInstallResults::store(
+            ['plugins' => [$pluginMetadata->name]],
+            $this->translator->translate(
+                empty($metadata['theme']) ? 'Marketplace_StepPluginSuccessfullyInstalled' : 'Marketplace_StepThemeSuccessfullyInstalled',
+                [$pluginMetadata->name, $metadata['version']]
+            )
         );
+
+        Piwik::redirectToModule('CorePluginsAdmin', 'uploadPluginResult', [
+            'nonce' => null,
+            PluginInstallResults::TOKEN_PARAMETER => $token,
+        ]);
+    }
+
+    public function uploadPluginResult()
+    {
+        $this->dieIfPluginsAdminIsDisabled();
+        Piwik::checkUserHasSuperUserAccess();
+
+        $token = \Piwik\Request::fromRequest()->getStringParameter(PluginInstallResults::TOKEN_PARAMETER, '');
+        $result = PluginInstallResults::get($token);
+        $pluginInfo = PluginInstallResults::getInstalledPluginInfos($result['plugins'] ?? [])[0] ?? null;
+
+        if ($pluginInfo === null) {
+            // expired, or recorded in another session
+            Piwik::redirectToModule('CorePluginsAdmin', 'plugins', [PluginInstallResults::TOKEN_PARAMETER => null]);
+            return;
+        }
+
+        PluginInstallResults::cancelSummary();
+
+        $view = $this->configureView('@CorePluginsAdmin/uploadPlugin');
+        $view->nonce = Nonce::getNonce(static::ACTIVATE_NONCE);
+        $view->plugin = [
+            'name'        => $pluginInfo['name'],
+            'version'     => $pluginInfo['latestVersion'],
+            'isTheme'     => $pluginInfo['isTheme'],
+            'isActivated' => $this->pluginManager->isPluginActivated($pluginInfo['name']),
+        ];
 
         return $view->render();
     }
@@ -177,8 +211,8 @@ class Controller extends Plugin\ControllerAdmin
     {
         Piwik::checkUserIsNotAnonymous();
         if (!CorePluginsAdmin::isPluginsAdminEnabled()) {
-            throw new \Exception('Enabling, disabling and uninstalling plugins has been disabled by Piwik admins.
-            Please contact your Piwik admins with your request so they can assist you.');
+            throw new NoPrivilegesException('Enabling, disabling and uninstalling plugins has been disabled by Piwik admins.
+            Please contact your Piwik admins with your request so they can assist you.', 403);
         }
     }
 
@@ -539,7 +573,7 @@ class Controller extends Plugin\ControllerAdmin
         $pluginName = Common::getRequestVar('pluginName', null, 'string');
 
         if (!Plugin\Manager::getInstance()->isPluginInFilesystem($pluginName)) {
-            throw new Exception('Invalid plugin');
+            throw new ThingNotFoundException('Invalid plugin');
         }
 
         $metadata = new Plugin\MetadataLoader($pluginName);

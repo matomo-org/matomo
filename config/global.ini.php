@@ -125,8 +125,20 @@ log_level = WARN
 ; this allows you to log more information to one backend vs another.
 ; log_level_screen =
 ; log_level_file =
+; log_level_database =
 ; log_level_errorlog =
 ; log_level_syslog =
+
+; format of the log entries written by the file, database, errorlog and syslog writers.
+; possible values are: text, json, loggly, logstash
+; the screen writer always uses text.
+log_format = text
+
+; you can also set specific log formats for different writers, by appending the writer name to log_format_, like so:
+; log_format_file =
+; log_format_database =
+; log_format_errorlog =
+; log_format_syslog =
 
 ; if configured to log in a file, log entries will be made to this file
 logger_file_path = tmp/logs/matomo.log
@@ -234,6 +246,18 @@ enable_processing_unique_visitors_range = 0
 ; of unique visitors across the entire set of websites, so if a visitor visited two websites in the group, she
 ; would still only be counted as one. only relevant when using plugins that group sites together
 enable_processing_unique_visitors_multiple_sites = 0
+
+; set to 1 to estimate a website's Unique Visitors and Users for that period type instead of counting them exactly.
+; this is much faster for long periods and segments, and the estimate is usually within 2%. day periods are always counted.
+; to estimate periods archived before, invalidate their days (core:invalidate-report-data --periods=day) while the raw logs
+; still exist. until then they are counted exactly if enable_processing_unique_visitors_* is 1, and have no Unique Visitors otherwise
+enable_processing_estimated_unique_visitors_week = 0
+enable_processing_estimated_unique_visitors_month = 0
+enable_processing_estimated_unique_visitors_year = 0
+enable_processing_estimated_unique_visitors_range = 0
+
+; precision of the estimate, from 4 to 18. higher values are more accurate but use more storage (up to about 14 KB per archive at 14)
+unique_visitors_estimate_precision = 14
 
 ; The list of periods that are available in the Matomo calendar
 ; Example use case: custom date range requests are processed in real time,
@@ -392,6 +416,15 @@ time_before_range_archive_considered_outdated = -1
 ; Do not configure this value lower than the maximum time it can take for the longest running archiving job to finish
 archive_failure_recovery_timeout = 86400
 
+; core:archive skips an archive that failed, and the periods built from it, until this many seconds have passed.
+; One comma separated value per failed attempt, the last one is used for any further attempt. Each value is capped at
+; one year, an invalid list is ignored in favour of the default.
+archive_failure_retry_delays = "3600,21600,86400"
+
+; After this many failed attempts core:archive stops retrying an archive (minimum 1).
+; Use ./console core:archive-failures to list failed archives and retry them.
+archive_failure_max_attempts = 5
+
 ; This setting is overridden in the UI, under "General Settings".
 ; The default value is to allow browsers to trigger the Matomo archiving process.
 ; This setting is only used if it hasn't been overridden via the UI yet, or if enable_general_settings_admin=0
@@ -410,9 +443,9 @@ archiving_range_force_on_browser_request = 1
 archiving_custom_ranges[] =
 
 ; If configured, archiving queries will be aborted after the configured amount of seconds. Set it to -1 if the query time
-; should not be limited. Note: This feature requires a recent database version and the PDO\MYSQL extension
-; must be used. Some MySQL forks like MariaDB might not support this feature which uses the MAX_EXECUTION_TIME hint.
-; This feature will not work with the MYSQLI extension.
+; should not be limited. Note: the PDO\MYSQL extension must be used. The limit is applied through the MAX_EXECUTION_TIME
+; hint on MySQL and through SET STATEMENT max_statement_time on MariaDB. This feature will not work with the MYSQLI
+; extension.
 archiving_query_max_execution_time = 7200
 
 ; Allows you to disable archiving segments for selected plugins. For more details please see https://matomo.org/faq/how-to-disable-archiving-the-segment-reports-for-specific-plugins
@@ -452,7 +485,7 @@ hash_algorithm = whirlpool
 
 ; set the algorithm used by password_hash()
 ; "default" for the algorithm used by the PHP version or one of ["bcrypt", "argon2i", "argon2id"]
-; "argon2id" requires at least PHP 7.3.0
+; the argon2 algorithms require PHP to be built with Argon2 support
 ; for all argon2 algorithms, additional parameters can be changed below
 ; any changes are applied to the stored hash on the next login of a user
 ; see https://www.php.net/manual/en/function.password-hash.php and https://wiki.php.net/rfc/argon2_password_hash
@@ -689,9 +722,8 @@ live_ai_chatbots_top_page_urls_maximum_rows = 100
 
 ; If configured, will abort a MySQL query after the configured amount of seconds and show an error in the UI to for
 ; example lower the date range or tweak the segment (if one is applied). Set it to -1 if the query time should not be
-; limited. Note: This feature requires a recent database version and the PDO\MYSQL extension must be used.
-; Some MySQL forks like MariaDB might not support this feature which uses the MAX_EXECUTION_TIME hint. This feature will
-; not work with the MYSQLI extension.
+; limited. Note: the PDO\MYSQL extension must be used. The limit is applied through the MAX_EXECUTION_TIME hint on MySQL
+; and through SET STATEMENT max_statement_time on MariaDB. This feature will not work with the MYSQLI extension.
 live_query_max_execution_time = -1
 
 ; In "All Websites" dashboard, when looking at today's reports (or a date range including today),
@@ -701,6 +733,13 @@ multisites_refresh_after_seconds = 300
 ; by default, an update notification for a new version of Matomo is shown to every user. Set to 1 if only
 ; the superusers should see the notification.
 show_update_notification_to_superusers_only = 0
+
+; notifications to hide, by ID. Only some notifications can be hidden, e.g. the warning about the PHP security
+; advisory of 2026-10-21, when your Linux distribution has backported the fix without changing the PHP version number:
+;disabled_notifications[] = PhpSecurityAdvisory_2026_10_21
+;
+; or the database EOL warning, when the Linux distribution continues providing security updates:
+;disabled_notifications[] = DatabaseVersionCheck
 
 ; Set to 1 if you're using https on your Matomo server and Matomo can't detect it,
 ; e.g., a reverse proxy using https-to-http, or a web server that doesn't
@@ -846,8 +885,8 @@ enable_load_data_infile = 1
 ; - links to Uninstall themes will be disabled (but user can still enable/disable themes)
 enable_plugins_admin = 1
 
-; Defines when a plugin trial request expires and a new one can be requested
-; By settings this value to -1 plugin trial requests will be disabled
+; Setting this value to -1 disables plugin trial requests. Any other value enables them: trial requests no longer
+; expire, so the number of days is not used
 plugin_trial_request_expiration_in_days = 28
 
 ; By setting this option to 0 the users management will be disabled
@@ -1022,6 +1061,14 @@ cookie_domain =
 
 ; set to 0 if you want to stop tracking the visitors. Useful if you need to stop all the connections on the DB.
 record_statistics = 1
+
+; Set to 0 to stop recording accurate per-pageview time-spent rows into the log_page_view_time table.
+; Can be overridden for a single site via a [Tracker_N] section, where N is the idSite.
+; Only affects data collected while disabled: those pageviews fall back to the legacy
+; time_spent_ref_action metric at archive time, while rows recorded before disabling keep being used.
+; This is a temporary safety control (introduced in 6.0.0), scheduled for removal in a future major
+; version once the new metric has been validated in production.
+record_accurate_page_view_time = 1
 
 ; length of a visit in seconds. If a visitor comes back on the website visit_standard_length seconds
 ; after their last page view, it will be recorded as a new visit. In case you are using the Matomo JavaScript tracker to
@@ -1209,9 +1256,25 @@ defaultHostnameIfEmpty = defaultHostnameIfEmpty.example.org ; default Email @hos
 transport = ; smtp (using the configuration below) or empty (using built-in mail() function)
 port = ; optional; defaults to 25 when security is none or tls; 465 for ssl
 host = ; SMTP server address
-type = ; SMTP Auth type. By default: NONE. For example: LOGIN
-username = ; SMTP username
-password = ; SMTP password
+type = ; SMTP Auth type. By default: NONE. For example: LOGIN. Use Xoauth2 to authenticate with OAuth 2.0 (see the oauth_ settings below)
+username = ; SMTP username. When type is Xoauth2: the address of the mailbox that sends the emails
+password = ; SMTP password. Not used when type is Xoauth2
+; Used when type is Xoauth2: the https:// URL Matomo requests access tokens from
+oauth_token_url = ""
+; Used when type is Xoauth2: the client ID (application ID) of the app registered with your email provider
+oauth_client_id = ""
+; Used when type is Xoauth2: the scope the access token is requested for
+oauth_scope = ""
+; Used when type is Xoauth2: "secret" to sign in with oauth_client_secret, or "certificate" to sign in with the certificate in oauth_certificate_path
+oauth_credential_type = "secret"
+; The client secret of the registered app. Only used when oauth_credential_type is "secret"
+oauth_client_secret = ""
+; Absolute path to the PEM certificate uploaded to the registered app. Only used when oauth_credential_type is "certificate"
+oauth_certificate_path = ""
+; Absolute path to the PEM private key of the certificate. Leave empty when the key is in the certificate file
+oauth_private_key_path = ""
+; Passphrase of the private key. Leave empty when the key has none
+oauth_private_key_password = ""
 encryption = ; SMTP transport-layer encryption, either 'none', 'ssl', 'tls', or empty (i.e., auto).
 ssl_disallow_self_signed = 1 ; set to 0 to allow email server with self signed cert (not recommended)
 ssl_verify_peer = 1 ; set to 0 to disable verifying the authenticity of the peer's certificate (not recommended)
