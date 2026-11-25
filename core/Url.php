@@ -508,6 +508,17 @@ class Url
     public static function getCurrentQueryStringWithParametersModified($params)
     {
         $urlValues = self::getArrayFromCurrentQueryString();
+        foreach ($urlValues as $name => $value) {
+            $name = (string) $name;
+            $queryName = is_array($value) ? $name . '[]' : $name;
+            foreach (array_keys($params) as $key) {
+                $key = (string) $key;
+                if ($key !== $name && self::isReadAsParameter($queryName, $key)) {
+                    unset($urlValues[$name]);
+                    break;
+                }
+            }
+        }
         foreach ($params as $key => $value) {
             $urlValues[$key] = $value;
         }
@@ -516,6 +527,21 @@ class Url
             return '?' . $query;
         }
         return '';
+    }
+
+    private static function isReadAsParameter(string $queryName, string $parameter): bool
+    {
+        parse_str($parameter . '=1', $own);
+        @parse_str($parameter . '=1&' . $queryName . '=', $parsed);
+        if (($own[$parameter] ?? null) === '1' && ($parsed[$parameter] ?? null) !== '1') {
+            return true;
+        }
+        foreach (explode('&', str_replace('%5B%5D', '[]', $queryName)) as $name) {
+            if (preg_replace('/\[.*?]$/', '', $name) === $parameter) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
