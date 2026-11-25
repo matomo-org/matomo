@@ -94,7 +94,6 @@ class LogTablesProvider
             /**
              * Only used for tests. Triggered to add custom log tables which are not automatically picked up.
              * In case you need to define a log table, please put them inside the "Tracker" directory of your plugin.
-             * Please note custom log tables are currently not an official API.
              *
              * **Example**
              *

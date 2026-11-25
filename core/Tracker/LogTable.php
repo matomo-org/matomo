@@ -12,19 +12,25 @@ namespace Piwik\Tracker;
 /**
  * Base class for LogTables. You need to create a log table eg if you want to be able to create a segment for a custom
  * log table.
+ *
+ * Put the class in the `Tracker` directory of your plugin so it is found automatically.
+ *
+ * @api
  */
 abstract class LogTable
 {
     /**
      * Get the unprefixed database table name. For example 'log_visit' or 'log_action'.
-     * @return string
+     *
+     * @return string The unprefixed table name.
      */
     abstract public function getName();
 
     /**
      * Get the name of the column that represents the primary key. For example "idvisit" or "idlink_va". If the table
      * does not have a unique ID for each row, you may choose a column that comes closest to it, for example "idvisit".
-     * @return string
+     *
+     * @return string The column name, or an empty string if there is none.
      */
     public function getIdColumn()
     {
@@ -34,7 +40,8 @@ abstract class LogTable
     /**
      * Get the name of the column that can be used to join a visit with another table. This is the name of the column
      * that represents the "idvisit".
-     * @return string
+     *
+     * @return string The column name, or an empty string if the table cannot be joined on idvisit.
      */
     public function getColumnToJoinOnIdVisit()
     {
@@ -45,11 +52,7 @@ abstract class LogTable
      * Get the name of the column that can be used to join an action with another table. This is the name of the column
      * that represents the "idaction".
      *
-     * This could be more generic eg by specifying "$this->joinableOn = array('action' => 'idaction') and this
-     * would allow to also add more complex structures in the future but not needed for now I'd say. Let's go with
-     * simpler, more clean and expressive solution for now until needed.
-     *
-     * @return string
+     * @return string The column name, or an empty string if the table cannot be joined on idaction.
      */
     public function getColumnToJoinOnIdAction()
     {
@@ -78,7 +81,8 @@ abstract class LogTable
      * since that wrapping belongs to the generic join. Declaring a join to a partner that asks for it,
      * `log_visit` being the only one in core, therefore drops the sub-select that partner would have
      * requested, which can change what a segmented query aggregates.
-     * @return array
+     *
+     * @return array<string, string> Maps the name of another log table to the column used to join with it.
      */
     public function getWaysToJoinToOtherLogTables()
     {
@@ -91,7 +95,8 @@ abstract class LogTable
      *
      * Only consulted for the generic idvisit join: a partner reached through a join declared in
      * {@see getWaysToJoinToOtherLogTables()} is joined directly, whatever this returns.
-     * @return bool
+     *
+     * @return bool True if the table has to be joined via a sub-select.
      */
     public function shouldJoinWithSubSelect()
     {
@@ -101,8 +106,9 @@ abstract class LogTable
     /**
      * Defines a column that stores the date/time at which time an entry was written or updated. Setting this
      * can help improve the performance of some archive queries. For example the log_link_visit_action table would define
-     * server_time while log_visit would define visit_last_action_time
-     * @return string
+     * server_time while log_visit would define visit_last_action_time.
+     *
+     * @return string The column name, or an empty string if there is none.
      */
     public function getDateTimeColumn()
     {
@@ -114,12 +120,7 @@ abstract class LogTable
      * joinable with "visit" table, it can return "log_link_visit_action" to be able to join the action table on visit
      * via this link table.
      *
-     * In theory there could be case where it may be needed to join via two tables, so it could be needed at some
-     * point to return an array of tables here. not sure if we should handle this case just yet. Alternatively,
-     * once needed eg in LogQueryBuilder, we should maybe better call instead ->getLinkTableToBeAbleToJoinOnVisit()
-     * again on the returned table until we have found a table that can be joined with visit.
-     *
-     * @return string
+     * @return string|null The unprefixed name of the link table, or null if none is needed.
      */
     public function getLinkTableToBeAbleToJoinOnVisit()
     {
@@ -131,7 +132,7 @@ abstract class LogTable
      * defines the primary key based on multiple columns, you must specify them all
      * (eg array('idvisit', 'idgoal', 'buster')).
      *
-     * @return array
+     * @return string[] The column names.
      */
     public function getPrimaryKey()
     {
@@ -140,8 +141,7 @@ abstract class LogTable
 
     /**
      * Defines if the log table holds an `idvisitor` column.
-     * If set to yes, existing records are automatically updated when the visitor id changes during a visit
-     *
+     * If set to yes, existing records are automatically updated when the visitor id changes during a visit.
      */
     public function hasIdVisitorColumn(): bool
     {

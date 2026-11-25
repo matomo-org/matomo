@@ -38,7 +38,8 @@ class VisitProperties
      *
      * @param string $name The property name.
      *
-     * @return mixed
+     * @return mixed The property value, or null if none is set.
+     * @api
      */
     public function getProperty($name)
     {
@@ -60,6 +61,7 @@ class VisitProperties
      *
      * @param string $name The property name.
      * @param mixed $value The property value.
+     * @api
      */
     public function setProperty($name, $value): void
     {

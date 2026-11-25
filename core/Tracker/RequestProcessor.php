@@ -36,15 +36,15 @@ use Piwik\Tracker\Visit\VisitProperties;
  * When Piwik handles a single tracking request, it gathers all available RequestProcessors and
  * invokes their methods in sequence.
  *
- * The first method called is {@link self::manipulateRequest()}. By default this is a no-op, but
+ * The first method called is {@link manipulateRequest()}. By default this is a no-op, but
  * RequestProcessors can use it to manipulate tracker requests before they are processed.
  *
- * The second method called is {@link self::processRequestParams()}. RequestProcessors should use
+ * The second method called is {@link processRequestParams()}. RequestProcessors should use
  * this method to compute request metadata and set visit properties using the tracking request.
  * An example includes the ActionRequestProcessor, which uses this method to determine the action
  * being tracked.
  *
- * The third method called is {@link self::afterRequestProcessed()}. RequestProcessors should
+ * The third method called is {@link afterRequestProcessed()}. RequestProcessors should
  * use this method to either compute request metadata/visit properties using other plugins'
  * request metadata, OR override other plugins' request metadata to tweak tracker behavior.
  * An example of the former can be seen in the GoalsRequestProcessor which uses the action
@@ -52,11 +52,11 @@ use Piwik\Tracker\Visit\VisitProperties;
  * conversions. An example of the latter can be seen in the PingRequestProcessor, which on
  * ping requests, aborts conversion recording and new visit recording.
  *
- * After these methods are called, either {@link self::onNewVisit()} or {@link self::onExistingVisit()}
+ * After these methods are called, either {@link onNewVisit()} or {@link onExistingVisit()}
  * is called. Generally, plugins should favor defining Dimension classes instead of using these methods,
  * however sometimes it is not possible (as is the case with the CustomVariables plugin).
  *
- * Finally, the {@link self::recordLogs()} method is called. In this method, RequestProcessors
+ * Finally, the {@link recordLogs()} method is called. In this method, RequestProcessors
  * should use the request metadata that was set (and maybe overridden) to insert whatever log data
  * they want.
  *
@@ -66,7 +66,7 @@ use Piwik\Tracker\Visit\VisitProperties;
  * existing data is tracked can create RequestProcessors to accomplish.
  *
  * _Note: If you only want to add tracked data to visits, actions or conversions, you should create
- * a {@link Dimension} class._
+ * a {@link \Piwik\Columns\Dimension} class._
  *
  * To create a new RequestProcessor, create a new class that derives from this one, and implement the
  * methods you need. Then put this class inside the `Tracker` directory of your plugin.
@@ -74,6 +74,8 @@ use Piwik\Tracker\Visit\VisitProperties;
  * Final note: RequestProcessors are shared between tracking requests, and so, should ideally be
  * stateless. They are stored in DI, so they can contain references to other objects in DI, but
  * they shouldn't contain data that might change between tracking requests.
+ *
+ * @api
  */
 abstract class RequestProcessor
 {
@@ -82,6 +84,8 @@ abstract class RequestProcessor
      *
      * Derived classes can use this method to manipulate a tracker request before the request
      * is handled. Plugins could change the URL, add custom variables, etc.
+     *
+     * @param Request $request The tracking request. Use {@link Request::setParam()} to change its parameters.
      */
     public function manipulateRequest(Request $request)
     {
@@ -95,8 +99,10 @@ abstract class RequestProcessor
      * request alone. They should not try to access request metadata from other plugins,
      * since they may not be set yet.
      *
-     * When this method is called, `$visitProperties->visitorInfo` will be empty.
+     * When this method is called, no visit properties are set yet.
      *
+     * @param VisitProperties $visitProperties The properties of the current visit.
+     * @param Request $request The tracking request.
      * @return bool If `true` the tracking request will be aborted.
      */
     public function processRequestParams(VisitProperties $visitProperties, Request $request)
@@ -112,9 +118,11 @@ abstract class RequestProcessor
      * tracking behavior.
      *
      * When this method is called, you can assume all available request metadata from all plugins
-     * will be initialized (but not at their final value). Also, `$visitProperties->visitorInfo`
-     * will contain the values of the visitor's last known visit (if any).
+     * will be initialized (but not at their final value). Also, the visit properties
+     * ({@link Piwik\Tracker\Visit\VisitProperties::getProperty()}) will contain the values of the visitor's last known visit (if any).
      *
+     * @param VisitProperties $visitProperties The properties of the current visit.
+     * @param Request $request The tracking request.
      * @return bool If `true` the tracking request will be aborted.
      */
     public function afterRequestProcessed(VisitProperties $visitProperties, Request $request)
@@ -129,6 +137,9 @@ abstract class RequestProcessor
      * Only implement this method if you cannot use a Dimension for the same thing.
      *
      * Please note that the `onNewAction` hook in an action dimension is executed after this method.
+     *
+     * @param VisitProperties $visitProperties The properties of the visit that is about to be recorded.
+     * @param Request $request The tracking request.
      */
     public function onNewVisit(VisitProperties $visitProperties, Request $request)
     {
@@ -143,7 +154,9 @@ abstract class RequestProcessor
      *
      * Please note that the `onNewAction` hook in an action dimension is executed before this method.
      *
-     * @param array &$valuesToUpdate
+     * @param array &$valuesToUpdate The `log_visit` column values that will be updated.
+     * @param VisitProperties $visitProperties The properties of the existing visit.
+     * @param Request $request The tracking request.
      */
     public function onExistingVisit(&$valuesToUpdate, VisitProperties $visitProperties, Request $request)
     {
@@ -155,8 +168,11 @@ abstract class RequestProcessor
      * should also only read request metadata, and not set it.
      *
      * When this method is called, you can assume all request metadata have their final values. Also,
-     * `$visitProperties->visitorInfo` will contain the properties of the visitor's current visit (in
-     * other words, the values in the array were persisted to the DB before this method was called).
+     * the visit properties will contain the values of the visitor's current visit (in other words, they
+     * were persisted to the DB before this method was called).
+     *
+     * @param VisitProperties $visitProperties The properties of the current visit.
+     * @param Request $request The tracking request.
      */
     public function recordLogs(VisitProperties $visitProperties, Request $request)
     {
