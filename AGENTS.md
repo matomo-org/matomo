@@ -78,11 +78,16 @@ For exact Matomo command selection, use `matomo-code-quality` and `matomo-test-r
 
 Matomo has a large plugin ecosystem. Assume the following are public and relied upon unless clearly marked otherwise:
 
-- Public PHP APIs
-- Public methods, even if not marked `@internal`
+- PHP code tagged `@api` (see the contract below)
+- Untagged public methods: plugins may still use them, so avoid breaking them needlessly, even though they are not part of the contract below
 - Database schemas, especially log tables
 - HTTP and JavaScript tracker APIs
 - Posted events and their parameter contracts
+- Config and option keys, segment, metric and dimension names, and exported Vue components, props and helpers
+
+The contract that must stay stable until the next major release is narrower. For plugins not shipped with core, it includes code tagged `@api`, the DI entries of `@api` classes and interfaces (to resolve, replace or decorate as their docblocks describe), the HTTP reporting and tracking APIs, posted events, INI config and option keys, segment, metric and dimension names, the `log_*` table schema, the JavaScript tracker, and exported Vue components, props and helpers. A class-level `@api` covers the public members; otherwise only members tagged `@api` count. Members marked `@internal` or `@ignore` are excluded, and protected members count only with their own `@api`. An `@api` interface also binds implementers, so it gets no new methods before the next major release, unless its docblock says it is not meant to be implemented.
+
+Tag `@api` only what plugins need and what can be kept stable until the next major release. Do not tag static accessors (`getInstance()`) of injectable services `@api`; point to constructor injection, or to `StaticContainer::get()` where injection is not available.
 
 Do not silently break plugin-facing behavior. Compatibility transitions, removals, renames, dependency updates, and public API documentation should be routed through the relevant skills.
 
