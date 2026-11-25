@@ -2214,19 +2214,23 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
                         continue;
                     }
 
-                    const markerOptions = $.extend(true, {}, opts.markerOptions || {});
+                    const markerOptions = opts.markerOptions || {};
                     const isIncomplete = opts.dataStates[i] && opts.dataStates[i] !== 'complete';
-
-                    if (isIncomplete) {
-                        const markerStyle = markerOptions.style || this.markerRenderer.style || 'filledCircle';
-                        const unfilledStyle = markerStyle.replace(/^filled/, '');
-                        markerOptions.style = unfilledStyle
-                            ? unfilledStyle.charAt(0).toLowerCase() + unfilledStyle.slice(1)
-                            : 'circle';
-                        markerOptions.lineWidth = 1;
-                    }
+                    const markerStyle = markerOptions.style || this.markerRenderer.style;
 
                     this.markerRenderer.draw(gd[i][0], gd[i][1], ctx, markerOptions);
+
+                    if (isIncomplete && markerStyle.indexOf('ircle') !== -1) {
+                        // cover the graph lines reaching into the point with the background color
+                        ctx.save();
+                        ctx.beginPath();
+                        ctx.arc(gd[i][0], gd[i][1], this.markerRenderer.size / 16, 0, 2 * Math.PI, true);
+                        ctx.lineWidth = markerOptions.lineWidth || this.markerRenderer.lineWidth;
+                        ctx.lineCap = this.markerRenderer.shapeRenderer.lineCap;
+                        ctx.strokeStyle = plot.grid.background;
+                        ctx.stroke();
+                        ctx.restore();
+                    }
                 }
             }
 
