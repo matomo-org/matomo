@@ -33,7 +33,7 @@ class DataTableGenericFilter
     private $disabledFilters = array();
 
     /**
-     * @var Report
+     * @var Report|null
      */
     private $report;
 
@@ -49,7 +49,7 @@ class DataTableGenericFilter
 
     /**
      * @param array $request
-     * @param Report $report
+     * @param Report|null $report
      */
     public function __construct($request, $report)
     {
@@ -78,7 +78,7 @@ class DataTableGenericFilter
     /**
      * Filters the given data table
      *
-     * @param DataTable $table
+     * @param DataTable|DataTable\Map $table
      */
     public function filter($table)
     {
@@ -172,7 +172,7 @@ class DataTableGenericFilter
      * Apply generic filters to the DataTable object resulting from the API Call.
      * Disable this feature by setting the parameter disable_generic_filters to 1 in the API call request.
      *
-     * @param DataTable $datatable
+     * @param DataTable|DataTable\Map $datatable
      * @return bool|null
      */
     protected function applyGenericFilters($datatable)
@@ -306,7 +306,7 @@ class DataTableGenericFilter
     }
 
     /**
-     * @param ProcessedMetric[] $metrics
+     * @param array $metrics
      * @param string $name
      * @return bool
      */

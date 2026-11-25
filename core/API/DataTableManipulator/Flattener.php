@@ -47,9 +47,9 @@ class Flattener extends DataTableManipulator
     public $showDimensions = false;
 
     /**
-     * @param  DataTable $dataTable
+     * @param DataTable\DataTableInterface $dataTable
      * @param string $recursiveLabelSeparator
-     * @return DataTable|DataTable\Map
+     * @return DataTable\DataTableInterface
      */
     public function flatten($dataTable, $recursiveLabelSeparator, bool $showDimensions)
     {

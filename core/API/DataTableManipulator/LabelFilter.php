@@ -60,10 +60,10 @@ class LabelFilter extends DataTableManipulator
      * are not needed.
      *
      * @param string|array $labels the label(s) to search for
-     * @param DataTable $dataTable the data table to be filtered
+     * @param DataTable\DataTableInterface $dataTable the data table to be filtered
      * @param bool $addLabelIndex Whether to add label_index metadata describing which
      *                            label a row corresponds to.
-     * @return DataTable\Map|DataTable
+     * @return DataTable\DataTableInterface
      */
     public function filter($labels, $dataTable, $addLabelIndex = false)
     {

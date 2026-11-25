@@ -10,6 +10,7 @@
 namespace Piwik\Tests\Unit\API;
 
 use Piwik\API\DataTableGenericFilter;
+use Piwik\API\DataTablePostProcessor;
 use Piwik\DataTable;
 
 class DataTableGenericFilterTest extends \PHPUnit\Framework\TestCase
@@ -73,6 +74,36 @@ class DataTableGenericFilterTest extends \PHPUnit\Framework\TestCase
         $genericFilter->filter($map);
 
         $this->assertSame(2, $callCount);
+    }
+
+    public function testPostProcessorAppliesGenericFiltersToNestedMapTables(): void
+    {
+        $first = $this->makeDataTable();
+        $second = $this->makeDataTable();
+
+        $nested = new DataTable\Map();
+        $nested->addTable($first, 'first');
+        $map = new class extends DataTable\Map {
+            public function filter($className, $parameters = array())
+            {
+                if (!is_string($className) && !$className instanceof \Closure) {
+                    throw new \InvalidArgumentException('Expected a filter class name or closure.');
+                }
+                parent::filter($className, $parameters);
+            }
+        };
+        $map->addTable($nested, 'nested');
+        $map->addTable($second, 'second');
+
+        $processor = new DataTablePostProcessor(false, false, [
+            'filter_column' => 'label',
+            'filter_pattern' => '^banana$',
+            'filter_limit' => 1,
+        ]);
+
+        $this->assertSame($map, $processor->applyGenericFilters($map));
+        $this->assertSame(['banana'], $first->getColumn('label'));
+        $this->assertSame(['banana'], $second->getColumn('label'));
     }
 
     private function makeDataTable(): DataTable

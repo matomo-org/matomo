@@ -54,9 +54,9 @@ abstract class DataTableManipulator
      * data table maps. It calls back the template method self::doManipulate for each table.
      * This way, data table arrays can be handled in a transparent fashion.
      *
-     * @param DataTable\Map|DataTable $dataTable
-     * @throws Exception
-     * @return DataTable\Map|DataTable
+     * @template T of DataTable\DataTableInterface
+     * @param T $dataTable
+     * @return T|DataTable|DataTable\Map
      */
     protected function manipulate($dataTable)
     {
@@ -95,7 +95,7 @@ abstract class DataTableManipulator
      * Load the subtable for a row.
      * Returns null if none is found.
      *
-     * @param DataTable $dataTable
+     * @param DataTable|null $dataTable
      * @param Row $row
      *
      * @return DataTable|null
