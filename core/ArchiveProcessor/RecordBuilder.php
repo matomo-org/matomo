@@ -17,37 +17,61 @@ use Piwik\Piwik;
 
 /**
  * Inherit from this class to define archiving logic for one or more records.
+ *
+ * Implement `getRecordMetadata()` to describe the records and `aggregate()` to compute them from log data.
+ * Matomo derives the aggregation for week, month, year and range periods from the record metadata.
+ *
+ * @api
  */
 abstract class RecordBuilder
 {
     /**
+     * Maximum number of rows kept in the top level of a table record, `null` for no limit unless the record sets one.
+     *
      * @var int|null
+     * @api
      */
     protected $maxRowsInTable;
 
     /**
+     * Maximum number of rows kept in each subtable of a table record, `null` for no limit unless the record sets one.
+     *
      * @var int|null
+     * @api
      */
     protected $maxRowsInSubtable;
 
     /**
+     * Column to sort by before rows are truncated to the row limits, `null` for the default.
+     *
      * @var string|int|null
+     * @api
      */
     protected $columnToSortByBeforeTruncation;
 
     /**
+     * Aggregation operations indexed by column (or numeric record) name, used when aggregating over periods.
+     *
      * @var array|null
+     * @api
      */
     protected $columnAggregationOps;
 
     /**
+     * Map of column names to their new names, applied after rows were aggregated over periods.
+     *
      * @var array<string|int,string|int>|null
      */
     protected $columnToRenameAfterAggregation;
 
     /**
-     * @param array|null $columnAggregationOps
-     * @param array<string|int,string|int>|null $columnToRenameAfterAggregation
+     * Creates the RecordBuilder with optional defaults for the records it builds.
+     *
+     * @param int|null $maxRowsInTable Maximum rows in the top level of table records, `null` for no limit unless the record sets one.
+     * @param int|null $maxRowsInSubtable Maximum rows in each subtable of table records, `null` for no limit unless the record sets one.
+     * @param string|null $columnToSortByBeforeTruncation Column to sort by before truncating rows, `null` for the default.
+     * @param array|null $columnAggregationOps Aggregation operations indexed by column (or numeric record) name, used when aggregating over periods.
+     * @param array<string|int,string|int>|null $columnToRenameAfterAggregation Map of column names to their new names, applied after aggregation.
      */
     public function __construct(
         ?int $maxRowsInTable = null,
@@ -63,6 +87,12 @@ abstract class RecordBuilder
         $this->columnToRenameAfterAggregation = $columnToRenameAfterAggregation;
     }
 
+    /**
+     * Returns whether this RecordBuilder should build its records for the given archive. Override it to
+     * skip archiving, eg, when a feature is disabled for the site.
+     *
+     * @param ArchiveProcessor $archiveProcessor The processor of the archive being built; gives access to the site, period and segment (`getParams()`) and the LogAggregator.
+     */
     public function isEnabled(ArchiveProcessor $archiveProcessor): bool
     {
         return true;
@@ -71,6 +101,8 @@ abstract class RecordBuilder
     /**
      * Uses the protected `aggregate()` function to build records by aggregating log table data directly, then
      * inserts them as archive data.
+     *
+     * @param ArchiveProcessor $archiveProcessor The processor of the archive being built; gives access to the site, period and segment (`getParams()`) and the LogAggregator.
      */
     public function buildFromLogs(ArchiveProcessor $archiveProcessor): void
     {
@@ -125,6 +157,8 @@ abstract class RecordBuilder
     /**
      * Builds records for non-day periods by aggregating day records together, then inserts
      * them as archive data.
+     *
+     * @param ArchiveProcessor $archiveProcessor The processor of the archive being built; gives access to the site, period and segment (`getParams()`) and the LogAggregator.
      */
     public function buildForNonDayPeriod(ArchiveProcessor $archiveProcessor): void
     {
@@ -320,6 +354,9 @@ abstract class RecordBuilder
         }
     }
 
+    /**
+     * @internal
+     */
     protected function aggregateBuiltFromFlatRecordForNonDay(
         ArchiveProcessor $archiveProcessor,
         Record $hierarchicalRecord,
@@ -421,6 +458,9 @@ abstract class RecordBuilder
         return true;
     }
 
+    /**
+     * @internal
+     */
     protected function aggregateLegacyHierarchyPeriodsIntoFlatTable(
         ArchiveProcessor $archiveProcessor,
         string $recordName,
@@ -475,6 +515,9 @@ abstract class RecordBuilder
         return $hasRows;
     }
 
+    /**
+     * @internal
+     */
     protected function reduceLegacyHierarchyPeriodRowsIntoFlatTable(
         array $sitePeriodRows,
         string $recordName,
@@ -507,9 +550,11 @@ abstract class RecordBuilder
      * Hook executed after the hierarchy table has been rebuilt from the flat table and before
      * the hierarchical blob record is serialized and inserted.
      *
-     * Intended for plugin-specific finalization (for example, metadata or column cleanup) when
-     * using setBuiltFromFlatRecord(). The flat table has already been serialized at this point
+     * Lets core record builders finalize the hierarchical table (for example, metadata or column cleanup)
+     * when using setBuiltFromFlatRecord(). The flat table has already been serialized at this point
      * and may have been fully consumed while rebuilding the hierarchy.
+     *
+     * @internal
      */
     protected function beforeInsertBuiltFromFlatHierarchyRecord(
         ArchiveProcessor $archiveProcessor,
@@ -519,6 +564,9 @@ abstract class RecordBuilder
     ): void {
     }
 
+    /**
+     * @internal
+     */
     protected function buildHierarchicalTableFromFlatTable(
         DataTable $flatTable,
         ?array $columnAggregationOps,
@@ -564,6 +612,9 @@ abstract class RecordBuilder
         return $hierarchicalTable;
     }
 
+    /**
+     * @internal
+     */
     protected function buildHierarchicalTableFromFlatTableAndConsumeRows(
         DataTable $flatTable,
         ?array $columnAggregationOps,
@@ -605,6 +656,9 @@ abstract class RecordBuilder
         return $hierarchicalTable;
     }
 
+    /**
+     * @internal
+     */
     protected function sumRowIntoDestination(Row $source, Row $destination, ?array $columnAggregationOps): void
     {
         $sourceCopy = clone $source;
@@ -628,6 +682,9 @@ abstract class RecordBuilder
         $destination->sumRow($sourceCopy, true, $columnAggregationOps ?? []);
     }
 
+    /**
+     * @internal
+     */
     protected function isSummaryRowEmpty(Row $summaryRow): bool
     {
         foreach ($summaryRow->getColumns() as $name => $value) {
@@ -649,6 +706,7 @@ abstract class RecordBuilder
      * {@link BlobTableAggregator::getSitePeriodKey()}.
      *
      * @return array{0: DataTable, 1: bool, 2: array<string, bool>}
+     * @internal
      */
     protected function aggregateRootDataTableFromBlobs(
         ArchiveProcessor $archiveProcessor,
@@ -679,6 +737,9 @@ abstract class RecordBuilder
         return [$result, $hasRows, $sitePeriodsWithRootRecord];
     }
 
+    /**
+     * @internal
+     */
     protected function querySingleBlobRows(ArchiveProcessor $archiveProcessor, string $recordName): iterable
     {
         return $archiveProcessor->querySingleBlobRecord($recordName);
@@ -689,6 +750,7 @@ abstract class RecordBuilder
      * keyed in the same way as {@link BlobTableAggregator::getSitePeriodKey()}.
      *
      * @return array<string, bool>
+     * @internal
      */
     protected function getAllSubperiodKeys(ArchiveProcessor $archiveProcessor): array
     {
@@ -711,7 +773,8 @@ abstract class RecordBuilder
      * Returns metadata for records primarily used when aggregating over non-day periods. Every numeric/blob
      * record your RecordBuilder creates should have an associated piece of record metadata.
      *
-     * @return Record[]
+     * @param ArchiveProcessor $archiveProcessor The processor of the archive being built; gives access to the site, period and segment (`getParams()`) and the LogAggregator.
+     * @return Record[] The metadata of every record this RecordBuilder creates.
      */
     abstract public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array;
 
@@ -719,10 +782,24 @@ abstract class RecordBuilder
      * Derived classes should define this method to aggregate log data for a single day and return the records
      * to store indexed by record names.
      *
+     * @param ArchiveProcessor $archiveProcessor The processor of the archive being built; gives access to the site, period and segment (`getParams()`) and the LogAggregator.
      * @return array<string, DataTable|int|float|string> Record values indexed by their record name, eg, `['MyPlugin_MyRecord' => new DataTable()]`
+     * @api
      */
     abstract protected function aggregate(ArchiveProcessor $archiveProcessor): array;
 
+    /**
+     * Serializes a table and stores it as a blob record. Row limits and the sort column that are `null`
+     * fall back to the values set on this RecordBuilder.
+     *
+     * @param ArchiveProcessor $archiveProcessor The processor of the archive being built; gives access to the site, period and segment (`getParams()`) and the LogAggregator.
+     * @param string $recordName The name of the record to store.
+     * @param DataTable $record The table to store.
+     * @param int|null $maxRowsInTable Maximum rows in the top level of the table.
+     * @param int|null $maxRowsInSubtable Maximum rows in each subtable.
+     * @param string|null $columnToSortByBeforeTruncation Column to sort by before truncating rows.
+     * @api
+     */
     protected function insertBlobRecord(
         ArchiveProcessor $archiveProcessor,
         string $recordName,
@@ -740,29 +817,47 @@ abstract class RecordBuilder
         unset($serialized);
     }
 
+    /**
+     * Returns the maximum number of rows kept in the top level of table records.
+     *
+     * @return int|null `null` if no limit is set.
+     */
     public function getMaxRowsInTable(): ?int
     {
         return $this->maxRowsInTable;
     }
 
+    /**
+     * Returns the maximum number of rows kept in each subtable of table records.
+     *
+     * @return int|null `null` if no limit is set.
+     */
     public function getMaxRowsInSubtable(): ?int
     {
         return $this->maxRowsInSubtable;
     }
 
+    /**
+     * Returns the column to sort by before rows are truncated to the row limits.
+     *
+     * @return string|null `null` if the default is used.
+     */
     public function getColumnToSortByBeforeTruncation(): ?string
     {
         return $this->columnToSortByBeforeTruncation;
     }
 
+    /**
+     * Returns the name of the plugin this RecordBuilder belongs to.
+     */
     public function getPluginName(): string
     {
         return Piwik::getPluginNameOfMatomoClass(get_class($this));
     }
 
     /**
-     * Returns an extra hint for LogAggregator to add to log aggregation SQL. Can be overridden if you'd
-     * like the origin hint to have more information.
+     * Returns an extra hint for LogAggregator to add to log aggregation SQL.
+     * @internal
      */
     public function getQueryOriginHint(): string
     {
@@ -778,6 +873,7 @@ abstract class RecordBuilder
      * @param ArchiveProcessor $archiveProcessor Archiving parameters, like idSite, can influence the list of
      *                                           all records a RecordBuilder produces, so it is required here.
      * @param string[] $requestedReports The list of requested reports to check for.
+     * @internal
      */
     public function isBuilderForAtLeastOneOf(ArchiveProcessor $archiveProcessor, array $requestedReports): bool
     {

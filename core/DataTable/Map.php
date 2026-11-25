@@ -570,11 +570,17 @@ class Map implements DataTableInterface
         return array();
     }
 
+    /**
+     * @internal
+     */
     public function setAsBuiltWithoutArchives(bool $flag): void
     {
         $this->isBuiltWithoutArchives = $flag;
     }
 
+    /**
+     * @internal
+     */
     public function wasBuiltWithoutArchives(): bool
     {
         return $this->isBuiltWithoutArchives;

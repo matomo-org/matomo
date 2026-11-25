@@ -54,7 +54,12 @@ abstract class Period
     protected $translator;
 
     /**
-     * @ignore
+     * Creates a period that contains the given date. Plugins should normally use {@link \Piwik\Period\Factory::build()};
+     * construct `Day`, `Week`, `Month` or `Year` directly when it must not depend on the periods enabled for the API
+     * (`Range` has its own constructor).
+     *
+     * @param Date $date A date within the period.
+     * @api
      */
     public function __construct(Date $date)
     {

@@ -11,8 +11,16 @@ namespace Piwik\Period;
 
 use Piwik\Period;
 
+/**
+ * Represents a single week period.
+ *
+ * @api
+ */
 class Week extends Period
 {
+    /**
+     * The ID of the week period.
+     */
     public const PERIOD_ID = 2;
 
     protected $label = 'week';
@@ -79,11 +87,17 @@ class Week extends Period
         }
     }
 
+    /**
+     * @ignore
+     */
     public function getImmediateChildPeriodLabel()
     {
         return 'day';
     }
 
+    /**
+     * @ignore
+     */
     public function getParentPeriodLabel()
     {
         return 'month';

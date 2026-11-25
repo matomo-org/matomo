@@ -12,8 +12,16 @@ namespace Piwik\Period;
 use Piwik\Date;
 use Piwik\Period;
 
+/**
+ * Represents a single year period.
+ *
+ * @api
+ */
 class Year extends Period
 {
+    /**
+     * The ID of the year period.
+     */
     public const PERIOD_ID = 4;
 
     protected $label = 'year';
@@ -73,7 +81,7 @@ class Year extends Period
     /**
      * Returns a list of strings representing the current period (one date per month).
      *
-     * @param string $format
+     * @param string $format Ignored.
      * @return array
      */
     public function toString($format = 'ignored')
@@ -88,11 +96,17 @@ class Year extends Period
         return $stringMonth;
     }
 
+    /**
+     * @ignore
+     */
     public function getImmediateChildPeriodLabel()
     {
         return 'month';
     }
 
+    /**
+     * @ignore
+     */
     public function getParentPeriodLabel()
     {
         return null;

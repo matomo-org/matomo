@@ -18,9 +18,22 @@ use Piwik\DataTable\Row;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 
+/**
+ * Represents a metric computed from two other metrics, eg, an average or a rate. Instances are created with
+ * {@link \Piwik\Columns\DimensionMetricFactory} in `Dimension::configureMetrics()`, or with
+ * {@link \Piwik\Columns\ComputedMetricFactory} in the `Metric.addComputedMetrics` event.
+ *
+ * @api
+ */
 class ComputedMetric extends ProcessedMetric
 {
+    /**
+     * Computes the first metric divided by the second metric.
+     */
     public const AGGREGATION_AVG = 'avg';
+    /**
+     * Computes the first metric as a rate of the second metric.
+     */
     public const AGGREGATION_RATE = 'rate';
 
     /**
@@ -43,6 +56,9 @@ class ComputedMetric extends ProcessedMetric
 
     private $metricsList;
 
+    /**
+     * @internal
+     */
     public function __construct($metric1, $metric2, $aggregation = 'avg')
     {
         $nameShort1 = str_replace(array('nb_'), '', $metric1);
@@ -66,53 +82,109 @@ class ComputedMetric extends ProcessedMetric
         return array($this->metric1, $this->metric2);
     }
 
+    /**
+     * Sets the ID of the category the metric belongs to.
+     *
+     * @param string $category The category ID.
+     * @return $this
+     */
     public function setCategory($category)
     {
         $this->category = $category;
         return $this;
     }
 
+    /**
+     * Returns the ID of the category the metric belongs to.
+     *
+     * @return string The category ID.
+     */
     public function getCategoryId()
     {
         return $this->category;
     }
 
+    /**
+     * Sets the name of the first metric used for the computation.
+     *
+     * @param string $metric1 The metric name.
+     * @return $this
+     *
+     * @internal
+     */
     public function setMetric1($metric1)
     {
         $this->metric1 = $metric1;
         return $this;
     }
 
+    /**
+     * Sets the name of the second metric used for the computation.
+     *
+     * @param string $metric2 The metric name.
+     * @return $this
+     *
+     * @internal
+     */
     public function setMetric2($metric2)
     {
         $this->metric2 = $metric2;
         return $this;
     }
 
+    /**
+     * Sets the documentation text shown for the metric.
+     *
+     * @param string $documentation The translated documentation.
+     * @return $this
+     */
     public function setDocumentation($documentation)
     {
         $this->documentation = $documentation;
         return $this;
     }
 
+    /**
+     * Sets the translated name of the metric.
+     *
+     * @param string $name The translated name.
+     * @return $this
+     */
     public function setTranslatedName($name)
     {
         $this->translatedName = $name;
         return $this;
     }
 
+    /**
+     * Sets the data type of the metric.
+     *
+     * @param string $type One of the `Dimension::TYPE_*` constants.
+     * @return $this
+     */
     public function setType($type)
     {
         $this->type = $type;
         return $this;
     }
 
+    /**
+     * Sets the name of the metric.
+     *
+     * @param string $name The metric name.
+     * @return $this
+     */
     public function setName($name)
     {
         $this->name = $name;
         return $this;
     }
 
+    /**
+     * Returns the name of the metric.
+     *
+     * @return string The metric name.
+     */
     public function getName()
     {
         return $this->name;
@@ -180,6 +252,11 @@ class ComputedMetric extends ProcessedMetric
         return $value;
     }
 
+    /**
+     * Returns the translated name of the metric. If none was set, one is generated from the two metrics.
+     *
+     * @return string The translated name.
+     */
     public function getTranslatedName()
     {
         if (!$this->translatedName) {
@@ -215,6 +292,11 @@ class ComputedMetric extends ProcessedMetric
         return $this->translatedName;
     }
 
+    /**
+     * Returns the documentation text of the metric. If none was set, one is generated from the two metrics.
+     *
+     * @return string The documentation text.
+     */
     public function getDocumentation()
     {
         if (!$this->documentation) {
