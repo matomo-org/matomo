@@ -125,8 +125,20 @@ log_level = WARN
 ; this allows you to log more information to one backend vs another.
 ; log_level_screen =
 ; log_level_file =
+; log_level_database =
 ; log_level_errorlog =
 ; log_level_syslog =
+
+; format of the log entries written by the file, database, errorlog and syslog writers.
+; possible values are: text, json, loggly, logstash
+; the screen writer always uses text.
+log_format = text
+
+; you can also set specific log formats for different writers, by appending the writer name to log_format_, like so:
+; log_format_file =
+; log_format_database =
+; log_format_errorlog =
+; log_format_syslog =
 
 ; if configured to log in a file, log entries will be made to this file
 logger_file_path = tmp/logs/matomo.log
@@ -234,6 +246,18 @@ enable_processing_unique_visitors_range = 0
 ; of unique visitors across the entire set of websites, so if a visitor visited two websites in the group, she
 ; would still only be counted as one. only relevant when using plugins that group sites together
 enable_processing_unique_visitors_multiple_sites = 0
+
+; set to 1 to estimate a website's Unique Visitors and Users for that period type instead of counting them exactly.
+; this is much faster for long periods and segments, and the estimate is usually within 2%. day periods are always counted.
+; to estimate periods archived before, invalidate their days (core:invalidate-report-data --periods=day) while the raw logs
+; still exist. until then they are counted exactly if enable_processing_unique_visitors_* is 1, and have no Unique Visitors otherwise
+enable_processing_estimated_unique_visitors_week = 0
+enable_processing_estimated_unique_visitors_month = 0
+enable_processing_estimated_unique_visitors_year = 0
+enable_processing_estimated_unique_visitors_range = 0
+
+; precision of the estimate, from 4 to 18. higher values are more accurate but use more storage (up to about 14 KB per archive at 14)
+unique_visitors_estimate_precision = 14
 
 ; The list of periods that are available in the Matomo calendar
 ; Example use case: custom date range requests are processed in real time,
@@ -391,6 +415,15 @@ time_before_range_archive_considered_outdated = -1
 ; Time in seconds after a started archiving job is considered as failed and will be retried
 ; Do not configure this value lower than the maximum time it can take for the longest running archiving job to finish
 archive_failure_recovery_timeout = 86400
+
+; core:archive skips an archive that failed, and the periods built from it, until this many seconds have passed.
+; One comma separated value per failed attempt, the last one is used for any further attempt. Each value is capped at
+; one year, an invalid list is ignored in favour of the default.
+archive_failure_retry_delays = "3600,21600,86400"
+
+; After this many failed attempts core:archive stops retrying an archive (minimum 1).
+; Use ./console core:archive-failures to list failed archives and retry them.
+archive_failure_max_attempts = 5
 
 ; This setting is overridden in the UI, under "General Settings".
 ; The default value is to allow browsers to trigger the Matomo archiving process.
@@ -704,6 +737,9 @@ show_update_notification_to_superusers_only = 0
 ; notifications to hide, by ID. Only some notifications can be hidden, e.g. the warning about the PHP security
 ; advisory of 2026-10-21, when your Linux distribution has backported the fix without changing the PHP version number:
 ;disabled_notifications[] = PhpSecurityAdvisory_2026_10_21
+;
+; or the database EOL warning, when the Linux distribution continues providing security updates:
+;disabled_notifications[] = DatabaseVersionCheck
 
 ; Set to 1 if you're using https on your Matomo server and Matomo can't detect it,
 ; e.g., a reverse proxy using https-to-http, or a web server that doesn't
@@ -1220,9 +1256,25 @@ defaultHostnameIfEmpty = defaultHostnameIfEmpty.example.org ; default Email @hos
 transport = ; smtp (using the configuration below) or empty (using built-in mail() function)
 port = ; optional; defaults to 25 when security is none or tls; 465 for ssl
 host = ; SMTP server address
-type = ; SMTP Auth type. By default: NONE. For example: LOGIN
-username = ; SMTP username
-password = ; SMTP password
+type = ; SMTP Auth type. By default: NONE. For example: LOGIN. Use Xoauth2 to authenticate with OAuth 2.0 (see the oauth_ settings below)
+username = ; SMTP username. When type is Xoauth2: the address of the mailbox that sends the emails
+password = ; SMTP password. Not used when type is Xoauth2
+; Used when type is Xoauth2: the https:// URL Matomo requests access tokens from
+oauth_token_url = ""
+; Used when type is Xoauth2: the client ID (application ID) of the app registered with your email provider
+oauth_client_id = ""
+; Used when type is Xoauth2: the scope the access token is requested for
+oauth_scope = ""
+; Used when type is Xoauth2: "secret" to sign in with oauth_client_secret, or "certificate" to sign in with the certificate in oauth_certificate_path
+oauth_credential_type = "secret"
+; The client secret of the registered app. Only used when oauth_credential_type is "secret"
+oauth_client_secret = ""
+; Absolute path to the PEM certificate uploaded to the registered app. Only used when oauth_credential_type is "certificate"
+oauth_certificate_path = ""
+; Absolute path to the PEM private key of the certificate. Leave empty when the key is in the certificate file
+oauth_private_key_path = ""
+; Passphrase of the private key. Leave empty when the key has none
+oauth_private_key_password = ""
 encryption = ; SMTP transport-layer encryption, either 'none', 'ssl', 'tls', or empty (i.e., auto).
 ssl_disallow_self_signed = 1 ; set to 0 to allow email server with self signed cert (not recommended)
 ssl_verify_peer = 1 ; set to 0 to disable verifying the authenticity of the peer's certificate (not recommended)

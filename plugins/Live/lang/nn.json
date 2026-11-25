@@ -65,6 +65,7 @@
         "VisitorLogSubcategoryHelp2": "Medan andre rapportar i Matomo viser korleis dei besøkande oppfører seg samla, gir besøksloggen detaljar på besøksnivå. Du kan òg bruke segment for å avgrense til bestemte typar besøk og forstå dei besøkande betre.",
         "VisitorLogSubcategoryHelp3": "Les meir i rettleiinga for besøksloggen.",
         "VisitorProfile": "Besøksprofil",
+        "VisitorProfileNotFound": "Fann ikkje denne besøkande. Besøksdataa kan ha blitt sletta.",
         "VisitorsInRealTime": "Besøk i sanntid",
         "VisitorsLastVisit": "Besøkte òg for %s dagar sidan.",
         "VisitsFrom": "%1$s%2$s besøk%3$s frå",

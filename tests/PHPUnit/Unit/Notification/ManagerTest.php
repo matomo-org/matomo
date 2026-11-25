@@ -99,6 +99,23 @@ class ManagerTest extends TestCase
     }
 
     /**
+     * @dataProvider getNotificationIds
+     */
+    public function testIsValidId(string $id, bool $expected): void
+    {
+        $this->assertSame($expected, Manager::isValidId($id));
+    }
+
+    public function getNotificationIds(): iterable
+    {
+        yield 'word characters' => ['Plugin_notification1', true];
+        yield 'empty' => ['', false];
+        yield 'zero' => ['0', false];
+        yield 'dot' => ['ManageGoals.create', false];
+        yield 'space' => ['a b', false];
+    }
+
+    /**
      * Also the guard that keeps testARequestWithoutNotificationsDoesNotWriteToTheSession honest:
      * if the session were not enabled, both tests would pass for the wrong reason.
      *

@@ -347,11 +347,22 @@ class HttpTest extends \PHPUnit\Framework\TestCase
      */
     public function testCurlHttpsFailsWithInvalidCertificate()
     {
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessageMatches('/curl_exec: .*certificate.* /');
-
-        // use a domain from https://badssl.com/
-        Http::sendHttpRequestBy('curl', 'https://self-signed.badssl.com/', 10);
+        for ($attempt = 1; $attempt <= 2; $attempt++) {
+            try {
+                // use a domain from https://badssl.com/
+                Http::sendHttpRequestBy('curl', 'https://self-signed.badssl.com/', 10);
+            } catch (\Exception $e) {
+                $message = $e->getMessage();
+                // retry once if the outside host is unreachable
+                if (preg_match('/Connection timed out|Could not resolve host|Failed to connect/', $message)) {
+                    continue;
+                }
+                $this->assertMatchesRegularExpression('/curl_exec: .*certificate.* /', $message);
+                return;
+            }
+            $this->fail('Request to self-signed.badssl.com succeeded despite an invalid certificate');
+        }
+        $this->markTestSkipped('self-signed.badssl.com unreachable');
     }
 
     public function testFopenHttpsFailsWithInvalidCertificate()
@@ -409,6 +420,25 @@ class HttpTest extends \PHPUnit\Framework\TestCase
         if ($isValid !== false) {
             $this->assertEquals($message, $response);
         }
+    }
+
+    /**
+     * @dataProvider getMethodsToTest
+     */
+    public function testRedirectIsNotFollowedWhenDisabled($method)
+    {
+        $result = Http::sendHttpRequestBy(
+            $method,
+            Fixture::getRootUrl() . 'tests/resources/redirector.php?redirects=1',
+            30,
+            getExtendedInfo: true,
+            httpMethod: 'POST',
+            requestBody: ['secret' => 'value'],
+            followRedirects: false
+        );
+
+        $this->assertSame(302, $result['status']);
+        $this->assertStringNotContainsString('redirects=0', (string) $result['data']);
     }
 
     public function getRedirectUrls()
@@ -473,6 +503,7 @@ class HttpTest extends \PHPUnit\Framework\TestCase
             'verifySsl' => true,
             'destinationPath' => $destinationPath,
             'validateEgressIp' => false,
+            'followRedirects' => true,
         ), null, null, array()), $params);
 
         $this->assertNotEmpty($params2[4]);// headers
@@ -489,7 +520,27 @@ class HttpTest extends \PHPUnit\Framework\TestCase
             'verifySsl' => true,
             'destinationPath' => $destinationPath,
             'validateEgressIp' => false,
+            'followRedirects' => true,
         ), '{"adf2":"44","afc23":"ab12","method":"post"}', 200), $params2);
+    }
+
+    public function testHttpPostsEventWithFollowRedirectsDisabled()
+    {
+        $params = null;
+        Piwik::addAction('Http.sendHttpRequest', function ($url, $args, &$response, &$status) use (&$params) {
+            $params = $args;
+            $response = '';
+            $status = 200;
+        });
+
+        Http::sendHttpRequestBy(
+            Http::getTransportMethod(),
+            Fixture::getRootUrl() . 'tests/PHPUnit/Integration/Http/Post.php',
+            30,
+            followRedirects: false
+        );
+
+        $this->assertFalse($params['followRedirects']);
     }
 
     public function testHttpReturnsResultOfPostedEvent()

@@ -29,38 +29,40 @@
     >
       <slot />
     </a>
-    <!-- A class rather than `v-show`: the bar has to keep its box when it is not showing, so the
-         title is laid out against the same width either way. -->
-    <div
-      class="enrichedHeadline__iconsBar"
-      :class="{ 'enrichedHeadline__iconsBar--visible': showIcons || showInlineHelp }"
-    >
-      <a
-        v-if="helpUrl && !actualInlineHelp"
-        rel="noreferrer noopener"
-        target="_blank"
-        class="enrichedHeadline__helpIcon"
-        :href="helpUrl"
-        :title="translate('CoreHome_ExternalHelp')"
-      ><span class="icon-help" /></a>
-      <a
-        v-if="actualInlineHelp"
-        v-on:click="showInlineHelp = !showInlineHelp"
-        class="enrichedHeadline__helpIcon"
-        :class="{ 'enrichedHeadline__helpIcon--active': showInlineHelp }"
-        :title="translate(reportGenerated ? 'General_HelpReport' : 'General_Help')"
-      ><span class="icon-info" /></a>
-      <div class="enrichedHeadline__ratingIcons" v-if="showRateFeature">
-        <component :title="actualFeatureName" :is="asComponent(rateFeature)"></component>
+    <!-- `div`s made inline rather than `span`s: the visitor map strips every `span` of its
+         heading to retitle it. The bar is hidden by a class rather than `v-show`, so it keeps its
+         box, see the stylesheet. -->
+    <div class="enrichedHeadline__iconsGlue">
+      <div
+        class="enrichedHeadline__iconsBar"
+        :class="{ 'enrichedHeadline__iconsBar--visible': showIcons || showInlineHelp }"
+      >
+        <a
+          v-if="helpUrl && !actualInlineHelp"
+          rel="noreferrer noopener"
+          target="_blank"
+          class="enrichedHeadline__helpIcon"
+          :href="helpUrl"
+          :title="translate('CoreHome_ExternalHelp')"
+        ><span class="icon-help" /></a>
+        <a
+          v-if="actualInlineHelp"
+          v-on:click="showInlineHelp = !showInlineHelp"
+          class="enrichedHeadline__helpIcon"
+          :class="{ 'enrichedHeadline__helpIcon--active': showInlineHelp }"
+          :title="translate(reportGenerated ? 'General_HelpReport' : 'General_Help')"
+        ><span class="icon-info" /></a>
+        <div class="enrichedHeadline__ratingIcons" v-if="showRateFeature">
+          <component :title="actualFeatureName" :is="asComponent(rateFeature)"></component>
+        </div>
       </div>
     </div>
-    <!-- A host offering somewhere of its own takes the panel out of here, so a panel this wide
-         does not stretch the row the heading sits in. Every caller outside ReportHeader offers
-         nothing and the panel stays. -->
+    <!-- A host passing `helpContainer` takes the panel out of here, so it cannot stretch the
+         heading's row. -->
     <div class="enrichedHeadline__help">
       <Teleport :to="helpContainer" :disabled="!helpContainer">
-        <!-- `v-if`, not `v-show`: a panel merely hidden is still a child, and would keep both
-             nest elements from collapsing to nothing while it is closed. -->
+        <!-- `v-if`, not `v-show`: a hidden panel is still a child, and would keep both wrappers
+             from collapsing while it is closed. -->
         <div v-if="showInlineHelp" class="mtm-helpPanel">
           <div v-html="$sanitize(actualInlineHelp)"/>
           <span class="mtm-helpPanel__date"
@@ -118,6 +120,9 @@ export interface EnrichedHeadlineData {
  *
  * <h2><EnrichedHeadline report-generated="generated time">Pages report</EnrichedHeadline></h2>
  * -> reportGenerated specified via this attribute is shown at the foot of the help panel
+ *
+ * Write the title right against the closing tag: a trailing space lets the hover icons wrap
+ * onto a line of their own.
  */
 export default defineComponent({
   props: {
@@ -165,7 +170,6 @@ export default defineComponent({
     }
   },
   methods: {
-    // Expose the plugin component to `<component :is>` as a plain Component.
     asComponent(component: unknown): Component {
       return component as Component;
     },

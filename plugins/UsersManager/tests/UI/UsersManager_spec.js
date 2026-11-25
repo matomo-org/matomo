@@ -590,6 +590,11 @@ describe("UsersManager", function () {
         await page.waitForNetworkIdle();
         await waitForAccessHeaderSettled();
 
+        // capture from the top so the full-page resize cannot clamp the scroll and offset the image
+        await page.evaluate(() => window.scrollTo(0, 0));
+        await page.waitForFunction(() => window.scrollY === 0);
+        expect(await page.evaluate(() => window.scrollY)).to.equal(0);
+
         expect(await page.screenshotSelector('.usersManager')).to.matchImage({
             imageName: 'permissions_single_site_access',
             // the access-level header height still varies slightly run-to-run after the settle wait;

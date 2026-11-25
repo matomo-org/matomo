@@ -25,7 +25,7 @@
         "DragDropCondition": "„Drag &amp; Drop“-Bedingung",
         "HideMessageInFuture": "Diese Meldung nicht mehr anzeigen",
         "LimitSegmentsSettingRequirementNote": "Beschränken Sie die verfügbaren Segmente, um die Vorschriften einzuhalten.",
-        "LimitSegmentsSettingTitle": "Verfügbare Segmente begrenzen",
+        "LimitSegmentsSettingTitle": "Verfügbarkeit von Segmenten eingeschränkt",
         "LimitSegmentsSettingWhatItDoes": "Segmente auf Basis der Besucher-IP-Adressen, der Zeit der letzten Aktion und der Ad-Klick-ID sind deaktiviert.<br><br>Dies verindert, dass diese detaillierten Attribute herausgefiltert oder kombiniert werden, um einen bestimmten Besucher zu identifizieren.",
         "LoadingSegmentedDataMayTakeSomeTime": "Die Verarbeitung der segmentierten Besucherdaten kann einige Minuten dauern…",
         "ManageSegments": "Segmente verwalten",

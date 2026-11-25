@@ -81,7 +81,6 @@
         "NoDataCloudflareInstructions2": "Rull ut Worker-en (Node.js) og angi Matomo-URL-en og nettsteds-ID-en.",
         "NoDataCloudflareInstructions3": "Knytt Worker-en til sonen eller ruten din, slik at den kjører sammen med forespørslene.",
         "NoDataCloudflareInstructions4": "Kontroller oppsettet ved å sjekke at treff fra KI-chatboter vises i sporingsrapportene.",
-        "NoDataHttpTrackingApiDescription": "Med HTTP-sporings-API-et kan du spore forespørsler fra KI-chatboter direkte når du trenger en egen integrasjon. Begynn med %1$skunnskapsbasen for sporings-API-et%2$s og bruk %3$sreferansen for HTTP-sporings-API-et%4$s for de nyeste parameterne og funksjonene for botsporing.",
         "NoDataLinkKnowledgeBase": "Dokumentasjon: %1$sMatomos kunnskapsbase%2$s",
         "NoDataLinkSourceCode": "Kildekode: %1$sGitHub-kodelager%2$s",
         "NoDataMissingOneContactUs": "Mangler det noe? Kontakt oss",
@@ -108,6 +107,10 @@
         "TopPageUrlsLast30MinutesDocumentation": "Viser side-URL-er som KI-chatboter har bedt om de siste 30 minuttene, sortert etter antall forespørsler fra chatboter.",
         "TopPageUrlsLast30MinutesTitle": "Mest forespurte side-URL-er – siste 30 minutter",
         "TopPageUrlsLast8HoursDocumentation": "Viser side-URL-er som KI-chatboter har bedt om de siste 8 timene, sortert etter antall forespørsler fra chatboter.",
-        "TopPageUrlsLast8HoursTitle": "Mest forespurte side-URL-er – siste 8 timer"
+        "TopPageUrlsLast8HoursTitle": "Mest forespurte side-URL-er – siste 8 timer",
+        "AIChatbotTrafficRatioBelowValue": "&lt;%1$s×",
+        "AIChatbotTrafficRatioValue": "%1$s×",
+        "ColumnAIChatbotTrafficRatio": "Trafikkforhold for KI-chatboter",
+        "ColumnAIChatbotTrafficRatioDocumentation": "Forholdet mellom forespørsler fra KI-chatboter og sidevisninger fra mennesker, direkte eller via KI-agenter. En verdi på 2.0× betyr at det var dobbelt så mange forespørsler fra KI-chatboter som sidevisninger."
     }
 }

@@ -2,6 +2,7 @@
     "CoreUpdater": {
         "AlreadyUpToDate": "Gjithçka është e përditësuar.",
         "CheckingForPluginUpdates": "Po kontrollohet për përditësime të reja shtojce",
+        "CheckingForPluginUpdatesFailed": "S’u kontrollua dot për përditësime shtojce: %1$s",
         "ClickHereToViewSqlQueries": "Klikoni këtu që të shihni dhe kopjoni listën e kërkesave SQL dhe urdhrave të konsolës që do të ekzekutohen",
         "CloudHosting": "Strehim në re",
         "ConsoleCommandDescription": "Përmirësime shkaktuesish. Përdorini pasi të jenë përditësuar kartela të bazës së Matomo-s ose të çfarëdo shtojce. Shtojini --yes që përmirësimi të kryhet pa kërkuar ripohim.",
@@ -90,6 +91,7 @@
         "UpdateUsingHttpsFailedForceHttpInfo": "Për arsye sigurie, Matomo nuk e shkarkoi përditësimin përmes një lidhjeje HTTP jo të sigurt. Ju lutemi, sigurohuni që HTTPS-ja të funksionojë në mjedisin tuaj dhe provoni sërish. Vetëm nëse jeni të sigurt se lidhja është e sigurt, duhet të lejoni përditësimet përmes HTTP duke aktivizuar opsionin e konfigurimit %1$sforce_matomo_http_request%2$s.",
         "UpdateUsingHttpsFailedHelp": "Pse dështoi? Shkarkimi i versionit më të ri të Matomo-s (përmes një lidhjeje HTTPS të sigurt) mund të dështojë për shkak të një numri arsyesh, për shembull, për shkak të një gabimi rrjeti, shpejtësie të ulët në rrjet, ose formësim të gabuar sistemi. Mbani parasysh që kjo mund të dojë të thotë edhe se shërbyesi juaj është objektiv i një sulmi MITM dhe se dikush po përpiqet të zëvendësojë përditësimin me një version dashakeq të Matomo-s.",
         "Updating": "Përditësim",
+        "UpdatingPluginXFailedY": "S’u përditësua dot shtojca %1$s: %2$s",
         "UpdatingPluginXToVersionY": "Po përditësohet shtojca %1$s me versionin %2$s",
         "UpgradeComplete": "Përmirësim i plotësuar!",
         "UpgradePiwik": "Përmirësojeni Matomo-n",

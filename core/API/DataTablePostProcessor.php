@@ -570,7 +570,7 @@ class DataTablePostProcessor
      * (ie, label=...) or array (ie, label[]=...).
      *
      * @param array $request
-     * @return array
+     * @return array<mixed>|string
      */
     public static function getLabelFromRequest($request)
     {

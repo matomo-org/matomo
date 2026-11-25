@@ -462,10 +462,20 @@ class GoalRecommendationService
     /**
      * Dismisses a single saved recommendation so it is no longer shown. The
      * dismissal lasts until the next scan replaces the saved recommendations.
+     * Dismissing the last shown one removes the saved scan.
      */
     public function dismissRecommendation(int $idSite, string $recommendationId): bool
     {
-        return $this->store->markDismissed($idSite, $recommendationId);
+        if (!$this->store->markDismissed($idSite, $recommendationId)) {
+            return false;
+        }
+
+        $saved = $this->store->get($idSite);
+        if ($saved !== null && count($saved['dismissed']) >= count($saved['goals'])) {
+            $this->store->delete($idSite);
+        }
+
+        return true;
     }
 
     private function assignRecommendationIds(array $goals): array

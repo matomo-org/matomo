@@ -22,7 +22,7 @@
         "ClickOutlink": "Clique numa ligação para um site externo",
         "ClickToViewThisGoal": "Clique para ver este objetivo.",
         "ColumnAverageOrderRevenueDocumentation": "O valor médio de ordens (AOV) é o total de receitas de todos os pedidos de comércio eletrónico dividido pelo número de pedidos.",
-        "ColumnAveragePriceDocumentation": "As receitas médias para este %s.",
+        "ColumnAveragePriceDocumentation": "O preço médio para este %s.",
         "ColumnAverageQuantityDocumentation": "A quantidade média deste %s vendidos nos pedidos de comércio eletrónico.",
         "ColumnConversionEntryRateDocumentation": "A porcentagem de entradas que foram convertidas para %s.",
         "ColumnConversionRateDocumentation": "A percentagem de visitas que despoletaram o objectivo %s.",

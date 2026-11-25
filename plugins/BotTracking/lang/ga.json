@@ -45,7 +45,6 @@
         "NoDataCloudflareInstructions2": "Imscaradh an Oibrí (Node.js) agus socraigh do URL Matomo agus d'ID suímh.",
         "NoDataCloudflareInstructions3": "Ceangail an Oibrí le do chrios nó do bhealach ionas go rithfidh sé i gcomhréir le hiarratais.",
         "NoDataCloudflareInstructions4": "Fíoraigh an socrú trí sheiceáil go bhfuil buillí AI Chatbot le feiceáil i dtuarascálacha rianaithe.",
-        "NoDataHttpTrackingApiDescription": "Ligeann an HTTP Tracking API duit iarratais ar chomhrábot AI a rianú go díreach nuair a bhíonn comhtháthú saincheaptha de dhíth ort. Tosaigh leis an mbunachar eolais %1$sTracking API%2$s agus bain úsáid as an tagairt %3$sHTTP Tracking API%4$s chun na paraiméadair agus na hiompraíochtaí is déanaí maidir le rianú bot a fháil.",
         "NoDataLinkKnowledgeBase": "Doiciméadú: %1$sBunachar Eolais Matomo%2$s",
         "NoDataLinkSourceCode": "Cód foinse: %1$sGitHub stórlann%2$s",
         "NoDataMissingOneContactUs": "Ceann ar iarraidh? Déan teagmháil linn",
@@ -108,6 +107,15 @@
         "TopPageUrlsLast30MinutesDocumentation": "Taispeánann sé URLanna leathanaigh arna n-iarraidh ag comhrábotanna AI le 30 nóiméad anuas, in ord de réir iarratais comhrábot.",
         "TopPageUrlsLast30MinutesTitle": "URLanna na Leathanaigh is Fearr - 30 nóiméad deireanacha",
         "TopPageUrlsLast8HoursDocumentation": "Taispeánann sé URLanna leathanaigh arna n-iarraidh ag comhrábotanna AI le linn na 8 n-uaire an chloig seo caite, in ord de réir iarratais comhrábot.",
-        "TopPageUrlsLast8HoursTitle": "URLanna Barrleathanaigh - 8 n-uaire an chloig dheireanacha"
+        "TopPageUrlsLast8HoursTitle": "URLanna Barrleathanaigh - 8 n-uaire an chloig dheireanacha",
+        "AIChatbotTrafficRatioBelowValue": "&lt;%1$s×",
+        "AIChatbotTrafficRatioValue": "%1$s×",
+        "ColumnAIChatbotTrafficRatio": "Cóimheas tráchta do bhotaí comhrá AI",
+        "ColumnAIChatbotTrafficRatioDocumentation": "An cóimheas idir iarratais ar chomhrá-bhaill AI agus radhairc leathanach a rinne daoine, go díreach nó trí ghníomhairí AI. Ciallaíonn luach 2.0× go raibh dhá oiread iarratas ar chomhrá-bhaill AI ann agus a bhí de radhairc leathanach.",
+        "NoDataHttpTrackingApiInstructions1": "Cuireann an HTTP Tracking API ar do chumas iarratais ó chatbotanna AI a rianú go díreach i Matomo, i gcásanna ina dteastaíonn comhtháthú saincheaptha uait. Seol na hiarratais ó chatbotanna AI a bhraitear chuig Matomo, mar aon leis na paraiméadair rianaithe bot atá riachtanach.",
+        "NoDataHttpTrackingApiInstructions2": "Aithin iarratais ó chomhrá-bhaotaí AI i d’fheidhmchlár nó i do fhreastalaí.",
+        "NoDataHttpTrackingApiInstructions3": "Seol na hiarratais chuig Matomo ag baint úsáide as an API Rianaithe HTTP, mar aon le d’aitheantas suímh Matomo agus na paraiméadair rianaithe róbait riachtanacha.",
+        "NoDataHttpTrackingApiInstructions4": "Nuair a bheidh an chumraíocht déanta agus gníomhaíocht ó chatbot AI ar siúl, deimhnigh go bhfuil sé le feiceáil i dtuairiscí an chatbot AI.",
+        "NoDataLinkApiReference": "Tagairt API: %1$sTagairt API Rianaithe HTTP%2$s"
     }
 }

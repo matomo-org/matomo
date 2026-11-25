@@ -741,7 +741,7 @@ class ApiTest extends IntegrationTestCase
             'getReportSubjectAndReportTitle'
         );
 
-        [$reportSubject, $reportTitle] = $getReportSubjectAndReportTitle->invoke(APIScheduledReports::getInstance(), $websiteName, $reports);
+        [$reportSubject, $reportTitle] = $getReportSubjectAndReportTitle->invoke(null, $websiteName, $reports);
         $this->assertEquals($expectedReportSubject, $reportSubject);
         $this->assertEquals($expectedReportTitle, $reportTitle);
     }

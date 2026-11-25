@@ -1,6 +1,6 @@
 {
     "ImageGraph": {
-        "ColumnOrdinateMissing": "Coloana '%1$s' nu a fost gasita in acest raport. Incearca oricare dintre %2$s",
-        "PluginDescription": "Generați imagini grafice PNG frumoase statice pentru oricare dintre rapoartele dvs. de date."
+        "ColumnOrdinateMissing": "Nu s-a găsit o coloană \"%1$s\" în acest raport. Încercați oricare dintre %2$s.",
+        "PluginDescription": "Generați imagini statice frumoase ale graficelor în format PNG pentru oricare dintre rapoartele dumneavoastră de date."
     }
 }

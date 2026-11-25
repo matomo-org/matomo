@@ -25,7 +25,7 @@
         "FeedbackRequest": "Feel free to share your ideas and suggestions with the Matomo Team here:",
         "HelpMessageContent": "Check the %1$s Matomo FAQ %2$s which explains most common errors during update. %3$s Ask your system administrator - they may be able to help you with the error which is most likely related to your server or MySQL setup.",
         "HelpMessageIntroductionWhenError": "The above is the core error message. It should help explain the cause, but if you require further help please:",
-        "HelpMessageIntroductionWhenWarning": "The update completed successfuly, however there were issues during the process. Please read the above descriptions for details. For further help:",
+        "HelpMessageIntroductionWhenWarning": "The update completed successfully, however there were issues during the process. Please read the above descriptions for details. For further help:",
         "HighTrafficPiwikServerEnableMaintenance": "If you manage a high traffic Matomo server, we recommend to %1$smomentarily disable visitor Tracking and put the Matomo User Interface in maintenance mode%2$s.",
         "IncompatbilePluginsWillBeDisabledInfo": "Note: some plugins are not compatible with Matomo %s. We will update them if there is an update on the Marketplace, otherwise we will disable them when you upgrade:",
         "InstallingTheLatestVersion": "Installing the latest version",

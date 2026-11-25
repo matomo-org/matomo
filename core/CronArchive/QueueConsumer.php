@@ -12,6 +12,7 @@ namespace Piwik\CronArchive;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\CronArchive;
+use Piwik\DataAccess\ArchiveFailures;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\Model;
 use Piwik\Date;
@@ -55,6 +56,8 @@ class QueueConsumer
     private CronArchive $cronArchive;
 
     private array $invalidationsToExclude;
+
+    private ArchiveFailures $archiveFailures;
 
     /**
      * @var string[]
@@ -110,6 +113,7 @@ class QueueConsumer
         // if we skip or can't process an idarchive, we want to ignore it the next time we look for an invalidated
         // archive. these IDs are stored here (using a list like this serves to keep our SQL simple).
         $this->invalidationsToExclude = [];
+        $this->archiveFailures = new ArchiveFailures();
 
         $this->periodIdsToLabels = array_flip(Piwik::$idPeriods);
     }
@@ -159,6 +163,8 @@ class QueueConsumer
             // and then stop until the next hour.
             $this->cronArchive->invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain($this->idSite);
 
+            $this->cleanUpArchiveFailures((int) $this->idSite);
+
             $this->currentSiteArchivingStartTime = Date::now()->getDatetime();
         }
 
@@ -169,6 +175,10 @@ class QueueConsumer
         $invalidationsToExcludeInBatch = [];
 
         $siteCreationTime = Date::factory(Site::getCreationDateFor($this->idSite));
+
+        // checked per batch: a failure recorded meanwhile is seen by the next one, and startArchive() refuses the
+        // archives it blocks anyway
+        $siteHasArchiveFailures = $this->archiveFailures->hasFailures((int) $this->idSite);
 
         // get archives to process simultaneously
         $archivesToProcess = [];
@@ -202,15 +212,16 @@ class QueueConsumer
                 continue;
             }
 
-            if ($this->archiveArrayContainsArchive($archivesToProcess, $invalidatedArchive)) {
-                $this->logger->debug("Found duplicate invalidated archive {$invalidatedArchive['idarchive']}, ignoring: $invalidationDesc");
+            // archives that failed recently or were given up, and the periods built from them, wait until a retry
+            $holdResult = $siteHasArchiveFailures ? $this->archiveFailures->holdIfBlocked($invalidatedArchive) : null;
+            if (null !== $holdResult) {
+                $this->logger->debug("Invalidation {$holdResult} because a failed archive blocks it: $invalidationDesc");
                 $this->addInvalidationToExclude($invalidatedArchive);
-                $this->model->deleteInvalidations([$invalidatedArchive]);
                 continue;
             }
 
-            if ($this->model->isSimilarArchiveInProgress($invalidatedArchive)) {
-                $this->logger->debug("Found duplicate invalidated archive (same archive currently in progress), ignoring: $invalidationDesc");
+            if ($this->archiveArrayContainsArchive($archivesToProcess, $invalidatedArchive)) {
+                $this->logger->debug("Found duplicate invalidated archive {$invalidatedArchive['idarchive']}, ignoring: $invalidationDesc");
                 $this->addInvalidationToExclude($invalidatedArchive);
                 $this->model->deleteInvalidations([$invalidatedArchive]);
                 continue;
@@ -269,7 +280,7 @@ class QueueConsumer
 
             $started = $this->model->startArchive($invalidatedArchive);
             if (!$started) { // another process started on this archive, pull another one
-                $this->logger->debug("Archive invalidation is being handled by another process: $invalidationDesc");
+                $this->logger->debug("Archive invalidation is being handled by another process or failed recently: $invalidationDesc");
                 $this->addInvalidationToExclude($invalidatedArchive);
                 continue;
             }
@@ -336,7 +347,13 @@ class QueueConsumer
         while ($iterations < 100) {
             $invalidationsToExclude = array_merge($this->invalidationsToExclude, $extraInvalidationsToIgnore);
 
-            $nextArchive = $this->model->getNextInvalidatedArchive($idSite, $this->currentSiteArchivingStartTime, $invalidationsToExclude);
+            $nextArchive = $this->model->getNextInvalidatedArchive(
+                $idSite,
+                $this->currentSiteArchivingStartTime,
+                $invalidationsToExclude,
+                true,
+                $this->archiveFilter
+            );
             if (empty($nextArchive)) {
                 break;
             }
@@ -386,16 +403,11 @@ class QueueConsumer
         );
 
         $periods = array_flip(Piwik::$idPeriods);
+        $segmentDoneFlag = $this->getSegmentDoneFlag($archiveToProcess);
 
         foreach ($inProgressArchives as $archiveBeingProcessed) {
-            $this->findSegmentForArchive($archiveBeingProcessed);
-
-            // we don't care about lower periods being concurrent if they are for different segments (that are not "all visits")
-            if (
-                !empty($archiveBeingProcessed['segment'])
-                && !empty($archiveToProcess['segment'])
-                && $archiveBeingProcessed['segment'] != $archiveToProcess['segment']
-            ) {
+            // archives of different segments, incl. "all visits", don't use each other's data
+            if ($this->getSegmentDoneFlag($archiveBeingProcessed) !== $segmentDoneFlag) {
                 continue;
             }
 
@@ -413,18 +425,15 @@ class QueueConsumer
                 continue;
             }
 
-            if (empty($archiveToProcess['segment']) && !empty($archiveBeingProcessed['segment'])) {
-                return "segment archive in progress for same site with lower or same period ({$archiveBeingProcessed['segment']}, period = {$processedPeriodLabel}, date = {$processedPeriodDate})";
-            }
-
-            if (!empty($archiveToProcess['segment']) && empty($archiveBeingProcessed['segment'])) {
-                return "all visits archive in progress for same site with lower or same period (period = {$processedPeriodLabel}, date = {$processedPeriodDate})";
-            }
-
             return "lower or same period in progress (period = {$processedPeriodLabel}, date = {$processedPeriodDate})";
         }
 
         return null;
+    }
+
+    private function getSegmentDoneFlag(array $archive): string
+    {
+        return explode('.', $archive['name'])[0];
     }
 
     private function isArchiveOfLowerPeriod(array $archiveToProcess, array $archiveBeingProcessed): bool
@@ -518,6 +527,78 @@ class QueueConsumer
     public function ignoreIdInvalidation($idinvalidation): void
     {
         $this->invalidationsToExclude[$idinvalidation] = $idinvalidation;
+    }
+
+    /**
+     * Removes failures whose invalidations can no longer be processed (eg segment deleted, plugin deactivated), and
+     * releases the invalidations on hold that no failure blocks anymore, eg because the retry delay passed. Those
+     * of removed failures get deleted when they are fetched.
+     */
+    private function cleanUpArchiveFailures(int $idSite): void
+    {
+        $this->removeArchiveFailuresThatCanNotBeProcessed($idSite);
+
+        $released = $this->archiveFailures->releaseUnblockedInvalidations($idSite);
+        if ($released > 0) {
+            $this->logger->info("Released {released} invalidations that were on hold because of failed archives.", ['released' => $released]);
+        }
+    }
+
+    private function removeArchiveFailuresThatCanNotBeProcessed(int $idSite): void
+    {
+        $archiveFailures = $this->archiveFailures;
+        $failures = $archiveFailures->getFailures([$idSite], false, false);
+        if (empty($failures)) {
+            return;
+        }
+
+        if ($archiveFailures->deleteFailuresWithoutInvalidations($idSite) > 0) {
+            $failures = $archiveFailures->getFailures([$idSite], false, false);
+        }
+
+        $siteCreationDate = Date::factory(Site::getCreationDateFor($idSite))->toString();
+        $idFailuresToDelete = [];
+        $skippedCounts = [ArchiveFailures::STATE_WAITING => 0, ArchiveFailures::STATE_GIVEN_UP => 0];
+        // the checks only depend on the period and the done flag, which many failures share
+        $isPeriodProcessable = [];
+        $isNameProcessable = [];
+
+        foreach ($failures as $failure) {
+            $period = (int) $failure['period'];
+            $name = (string) $failure['name'];
+
+            if (!isset($isPeriodProcessable[$period])) {
+                $periodLabel = $this->periodIdsToLabels[$period] ?? null;
+                $isPeriodProcessable[$period] = !empty($periodLabel)
+                    && PeriodFactory::isPeriodEnabledForAPI($periodLabel)
+                    && !PeriodFactory::isAnyLowerPeriodDisabledForAPI($periodLabel);
+            }
+
+            if (!isset($isNameProcessable[$name])) {
+                $plugin = $this->getPluginNameForArchiveIfAny($failure);
+                $isNameProcessable[$name] = (empty($plugin) || Manager::getInstance()->isPluginActivated($plugin))
+                    && $this->findSegmentForArchive($failure);
+            }
+
+            if (
+                !$isPeriodProcessable[$period]
+                || !$isNameProcessable[$name]
+                || $failure['date2'] < $siteCreationDate
+            ) {
+                $idFailuresToDelete[] = (int) $failure['idfailure'];
+            } elseif (isset($skippedCounts[$failure['state']])) {
+                ++$skippedCounts[$failure['state']];
+            }
+        }
+
+        $archiveFailures->deleteFailuresById($idFailuresToDelete);
+
+        if ($skippedCounts[ArchiveFailures::STATE_WAITING] > 0 || $skippedCounts[ArchiveFailures::STATE_GIVEN_UP] > 0) {
+            $this->logger->info("Holding back {waiting} archives that failed recently and {givenUp} that were given up, along with the periods built from them. Run ./console core:archive-failures for details.", [
+                'waiting' => $skippedCounts[ArchiveFailures::STATE_WAITING],
+                'givenUp' => $skippedCounts[ArchiveFailures::STATE_GIVEN_UP],
+            ]);
+        }
     }
 
     public function skipToNextSite(): void

@@ -50,6 +50,8 @@ class PhpSettingsCheck implements Diagnostic
     }
 
     /**
+     * Note: Do not remove this doc block. It is used below to detect if opcache.save_comments is disabled.
+     *
      * @return RequiredPhpSetting[]
      */
     private function getRequiredSettings()
@@ -61,6 +63,10 @@ class PhpSettingsCheck implements Diagnostic
         $maxExecutionTime->addRequiredValue(30, '>=');
         $maxExecutionTime->setErrorResult(DiagnosticResult::STATUS_WARNING);
         $requiredSettings[] = $maxExecutionTime;
+
+        if (false === (new \ReflectionMethod($this, __FUNCTION__))->getDocComment()) {
+            $requiredSettings[] = new RequiredPhpSetting('opcache.save_comments', 1);
+        }
 
         return $requiredSettings;
     }

@@ -115,6 +115,7 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
     it("should change the number of rows when new limit selected", async function () {
         await page.click('.limitSelection [data-limit="10"]');
         await page.waitForNetworkIdle();
+        await page.mouse.move(-10, -10); // make sure no row is highlighted
         expect(await page.screenshot({ fullPage: true })).to.matchImage('10_change_limit');
     });
 
@@ -189,12 +190,12 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
     });
 
     it("should load subtables correctly when row clicked", async function () {
-        (await page.$$('tr.subDataTable'))[0].click();
+        await (await page.$$('tr.subDataTable'))[0].click();
         await page.waitForNetworkIdle();
 
-        (await page.$$('tr.subDataTable'))[2].click();
-        await page.mouse.move(-10, -10); // make sure no krow is highlighted
+        await (await page.$$('tr.subDataTable'))[2].click();
         await page.waitForNetworkIdle();
+        await page.mouse.move(-10, -10); // make sure no row is highlighted
 
         await page.waitForFunction(function () {
             return $('.cellSubDataTable > .dataTable').length === 2;

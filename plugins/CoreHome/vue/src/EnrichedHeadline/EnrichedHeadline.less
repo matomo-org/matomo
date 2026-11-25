@@ -1,30 +1,24 @@
-// The title and whatever sits beside it. Everything stays in the inline flow, so the title wraps
-// over the whole width and the icons bar sits after its last word, taking room from that line
-// alone. Reserving a column for the bar instead would take its width off every line, which in a
-// narrow widget costs the title several of them.
+// Everything stays in the inline flow: the title wraps over the whole width and the icons bar
+// follows its last word, taking room from that line alone. Laid over the row instead, the icons
+// ended up under the controls beside the heading.
 //
-// What stops the bar moving the title as it appears is that it is never taken out of the flow:
-// see `visibility` below. A bar that comes and goes would shift the text both horizontally and,
-// through the line box's baseline, vertically.
+// A last word too long to share a line with the bar, eg. "Bildschirmauflösungen" in a narrow
+// dashboard column, leaves the bar on a line of its own: breaking inside the word reads worse.
 .enrichedHeadline {
     min-height: 22px;
 
     .enrichedHeadline__title {
-        // Inline rather than inline-block: a block would take the whole width as one box and
-        // push the bar onto a line of its own, where the text itself still had room to spare.
+        // Inline rather than inline-block, which would push the bar onto a line of its own.
         display: inline;
     }
 
     .enrichedHeadline__title--editable {
         cursor: pointer;
-        // an editable title still takes the colour of its heading, not the link colour
         color: inherit;
     }
 
-    // The spacing lives here and not on the panel, because it is about the heading directly
-    // above rather than about the panel: a host placing it elsewhere spaces it its own way.
+    // Spaced here rather than on the panel, which a host may render elsewhere.
     .enrichedHeadline__help {
-        // a row to itself, below the title and the icons
         display: block;
         margin: 10px 0;
 
@@ -34,36 +28,41 @@
         }
     }
 
-    // Hidden rather than taken out of the flow, so the line boxes are the same whether or not the
-    // icons are showing, and nothing moves when the pointer arrives.
+    // Keeps the bar on the title's last word, so it never sits alone on a line at rest: the word
+    // joiner forbids a break before the bar, `nowrap` one inside it. A space between the title
+    // and the glue is still a break opportunity.
+    .enrichedHeadline__iconsGlue {
+        display: inline;
+        white-space: nowrap;
+    }
+
+    // Generated, so it stays out of the heading's text, which code reads the report name from.
+    // The empty alternative text hides it from assistive technologies; an engine that does not
+    // know that syntax keeps the first declaration.
+    .enrichedHeadline__iconsGlue::before {
+        content: "\2060";
+        content: ~'"\2060" / ""';
+    }
+
+    // Hidden rather than taken out of the flow, so the title does not move when the icons show.
     .enrichedHeadline__iconsBar {
-        line-height: 1 !important;
         display: inline-flex;
         align-items: center;
-        // Aligned to the top of the line rather than its middle, which would hang the 22px
-        // rating icons a pixel below a 24px line and grow every heading by that pixel.
+        // One line tall and aligned to its top, so the icons centre on the line without growing
+        // it, which the 22px rating icons would on the baseline.
+        height: 1lh;
         vertical-align: top;
-        // Laid over the row rather than in it, the way the widget controls above already are.
-        // Claiming width instead would take it off every line of the title, and the title gets
-        // as little as 194px once a report's controls have had their share: a title past about
-        // half of that would send the icons to a line of their own and make the heading twice
-        // as tall, at rest, on every two-column report page.
-        width: 0;
         visibility: hidden;
-
-        // The icons keep their own size inside a box that has none, and so spill past it.
-        > * {
-            flex: none;
-        }
     }
 
     .enrichedHeadline__iconsBar--visible {
         visibility: visible;
     }
 
-    // No `display` or `vertical-align`: a flex item of the bar above, so both are ignored.
+    // Line height 1 here and on the help icon: with the title's, the rating icons sit 6px high.
     .enrichedHeadline__ratingIcons {
         margin-left: 6px;
+        line-height: 1;
     }
 
     .enrichedHeadline__helpIcon {
@@ -71,6 +70,9 @@
         margin-left: 8px;
         opacity: 0.4;
         font-size: 16px;
+        line-height: 1;
+        // `!important` here and below: in a card title, _cards.less forces the text colour on
+        // every link with an `!important` of its own.
         color: @theme-color-text-light !important;
         text-decoration: none;
     }

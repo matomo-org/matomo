@@ -65,6 +65,7 @@
         "VisitorLogSubcategoryHelp2": "Matomo 的其他報表顯示的是訪客的整體行為，而訪客紀錄則提供細緻的詳細資訊。你也可以使用區隔，將範圍縮小到特定類型的訪問，以更深入了解你的訪客。",
         "VisitorLogSubcategoryHelp3": "請參閱訪客紀錄指南以了解更多。",
         "VisitorProfile": "訪客資料",
+        "VisitorProfileNotFound": "找不到這位訪客，其訪問資料可能已被刪除。",
         "VisitorsInRealTime": "即時訪問",
         "VisitorsLastVisit": "%s 天前也曾訪問過。",
         "VisitsFrom": "%1$s%2$s 次訪問%3$s，來自",

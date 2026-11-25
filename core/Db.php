@@ -13,6 +13,7 @@ use Exception;
 use Piwik\Db\Adapter;
 use Piwik\Db\TransactionalDatabaseInterface;
 use Piwik\Db\TransactionalDatabaseStaticTrait;
+use Piwik\Db\TransactionErrors;
 
 /**
  * Contains SQL related helper functions for Piwik's MySQL database.
@@ -793,14 +794,14 @@ class Db implements TransactionalDatabaseInterface
     private static function logExtraInfoIfDeadlock($ex)
     {
         if (
-            !self::get()->isErrNo($ex, 1213)
-            && !self::get()->isErrNo($ex, 1205)
+            !TransactionErrors::endsTransaction(self::get(), $ex)
+            && !TransactionErrors::isStatementOnly(self::get(), $ex)
         ) {
             return;
         }
 
         try {
-            $deadlockInfo = self::fetchAll("SHOW ENGINE INNODB STATUS");
+            $deadlockInfo = self::get()->fetchAll("SHOW ENGINE INNODB STATUS");
 
             // log using exception so backtrace appears in log output
             Log::debug(new Exception("Encountered deadlock: " . print_r($deadlockInfo, true)));

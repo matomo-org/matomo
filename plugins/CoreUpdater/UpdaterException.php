@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\CoreUpdater;
 
 use Exception;
+use Throwable;
 
 /**
  * Exception during the updating of Piwik to a new version.
@@ -21,7 +22,7 @@ class UpdaterException extends Exception
      */
     private array $updateLogMessages;
 
-    public function __construct(Exception $exception, array $updateLogMessages)
+    public function __construct(Throwable $exception, array $updateLogMessages)
     {
         parent::__construct($exception->getMessage(), 0, $exception);
 

@@ -104,6 +104,36 @@ class DataSubjects
         return $results;
     }
 
+    /**
+     * Returns the website and stored consent of each of the given visits that exists, keyed by visit id.
+     *
+     * @param int[] $idVisits
+     * @return array<int, array{idsite: int, consent: int|null}>
+     */
+    public function getConsentOfVisits(array $idVisits): array
+    {
+        $idVisits = array_values(array_unique(array_map('intval', $idVisits)));
+        $logVisitTable = Common::prefixTable('log_visit');
+        $consentOfVisits = [];
+
+        foreach (array_chunk($idVisits, 1000) as $idVisitsChunk) {
+            $rows = Db::fetchAll(
+                'SELECT idvisit, idsite, consent FROM ' . $logVisitTable
+                . ' WHERE idvisit IN (' . Common::getSqlStringFieldsArray($idVisitsChunk) . ')',
+                $idVisitsChunk
+            );
+
+            foreach ($rows as $row) {
+                $consentOfVisits[(int) $row['idvisit']] = [
+                    'idsite' => (int) $row['idsite'],
+                    'consent' => null === $row['consent'] ? null : (int) $row['consent'],
+                ];
+            }
+        }
+
+        return $consentOfVisits;
+    }
+
     public function deleteDataSubjects($visits)
     {
         if (empty($visits)) {

@@ -1,1 +1,8 @@
-{}
+{
+    "CustomJsTracker": {
+        "DiagnosticPiwikJsMakeWritable": "Vă recomandăm să faceți %1$s accesibil pentru scriere, rulând această comandă: %2$s",
+        "DiagnosticPiwikJsNotWritable": "Fișierul trackerului JavaScript Matomo %s nu poate fi scris, ceea ce înseamnă că alte pluginuri nu pot extinde trackerul JavaScript. În viitor, chiar și unele funcții de bază ar putea să nu funcționeze conform așteptărilor.",
+        "DiagnosticPiwikJsWritable": "Tracker JavaScript cu drept de scriere (%s)",
+        "PluginDescription": "Permite oricărui plugin să extindă fișierul de urmărire JavaScript Matomo (matomo.js) și să adauge funcționalități noi și capacități noi de măsurare a site-urilor."
+    }
+}

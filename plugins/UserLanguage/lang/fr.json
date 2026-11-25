@@ -1,9 +1,9 @@
 {
     "UserLanguage": {
-        "BrowserLanguage": "Langage du navigateur",
+        "BrowserLanguage": "Langue du navigateur",
         "LanguageCode": "Code langue",
         "PluginDescription": "Affiche la langue configurée au sein du navigateur de vos visiteurs.",
         "getLanguageCodeDocumentation": "Indique le code de langue exact sur lequel le navigateur du visiteur est défini. (par exemple \"Allemand - Autriche (de-at)\")",
-        "getLanguageDocumentation": "Indique la langue du navigateur des visiteurs. (par exemple, \"Anglais\")"
+        "getLanguageDocumentation": "Indique la langue du navigateur des visiteurs. (par exemple, \"Français\")"
     }
 }

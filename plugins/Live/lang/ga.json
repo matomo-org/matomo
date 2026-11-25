@@ -65,6 +65,7 @@
         "VisitorLogSubcategoryHelp2": "Cé go léiríonn tuarascálacha eile in Matomo conas a iompraíonn do chuairteoirí iad féin ar leibhéal comhiomlán, soláthraíonn loga na gcuairteanna sonraí gráinneach. Is féidir leat míreanna a úsáid freisin chun é a chaolú go cineálacha sonracha cuairteanna chun tuiscint níos fearr a thabhairt le do chuairteoirí.",
         "VisitorLogSubcategoryHelp3": "Faigh tuilleadh faisnéise sa treoirleabhar cuairte.",
         "VisitorProfile": "Próifíl cuairteora",
+        "VisitorProfileNotFound": "Níorbh fhéidir an cuairteoir seo a aimsiú. D’fhéadfadh sé gur scriosadh sonraí a chuairte.",
         "VisitorsInRealTime": "Cuairteanna i bhfíor-am",
         "VisitorsLastVisit": "Tugadh cuairt ar %s lá roimhe sin freisin.",
         "VisitsFrom": "%1$s %2$s cuairt %3$s ó",

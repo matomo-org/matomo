@@ -46,6 +46,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view = new View('@Live/index');
         $view->idSite = $this->idSite;
         $view->aggregatedOnly = $aggregatedOnly;
+        $view->consentedVisitsOnly = !$aggregatedOnly && Live::isVisitorLogLimitedToConsentedVisits((int) $this->idSite);
         $view->isWidgetized = \Piwik\Request::fromRequest()->getIntegerParameter('widget', 0);
         $view->liveRefreshAfterMs = GeneralConfig::getIntegerConfigValue('live_widget_refresh_after_seconds', 0, $this->idSite) * 1000;
         return $this->render($view);
@@ -71,7 +72,7 @@ class Controller extends \Piwik\Plugin\Controller
     public function indexVisitorLog()
     {
         Piwik::checkUserHasViewAccess($this->idSite);
-        Live::checkIsVisitorLogEnabled($this->idSite);
+        Live::checkIsVisitorLogAvailable($this->idSite);
 
         $view = new View('@Live/indexVisitorLog.twig');
         $view->visitorLog = $this->renderReport('getLastVisitsDetails');
@@ -89,7 +90,7 @@ class Controller extends \Piwik\Plugin\Controller
     public function getLastVisitsStart()
     {
         Piwik::checkUserHasViewAccess($this->idSite);
-        Live::checkIsVisitorLogEnabled($this->idSite);
+        Live::checkIsVisitorLogAvailable($this->idSite);
 
         // hack, ensure we load today's visits by default
         $_GET['date'] = 'today';
@@ -97,7 +98,7 @@ class Controller extends \Piwik\Plugin\Controller
         $_GET['period'] = 'day';
 
         $view = new View('@Live/getLastVisitsStart');
-        $view->isProfileEnabled = Live::isVisitorProfileEnabled();
+        $view->isProfileEnabled = Live::isVisitorProfileAvailable();
         $view->idSite = (int) $this->idSite;
         $error = '';
         $visitors = new DataTable();
@@ -201,7 +202,7 @@ class Controller extends \Piwik\Plugin\Controller
     public function getVisitorProfilePopup()
     {
         Piwik::checkUserHasViewAccess($this->idSite);
-        Live::checkIsVisitorProfileEnabled($this->idSite);
+        Live::checkIsVisitorProfileAvailable($this->idSite);
 
         $visitorData = Request::processRequest('Live.getVisitorProfile');
 
@@ -216,6 +217,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->goals = Request::processRequest('Goals.getGoals', ['idSite' => $this->idSite, 'filter_limit' => '-1'], $default = []);
         $view->visitorData = $visitorData;
         $view->exportLink = $this->getVisitorProfileExportLink();
+        $view->consentedVisitsOnly = !Live::isVisitorProfileEnabled($this->idSite);
 
         $this->setWidgetizedVisitorProfileUrl($view);
 
@@ -253,6 +255,11 @@ class Controller extends \Piwik\Plugin\Controller
 
         if ($startCounter >= $limit) {
             return ''; // do not return more visits than configured for profile
+        }
+
+        if (!Live::isVisitorProfileEnabled($this->idSite)) {
+            // the visitorId segment is not available when the profile is limited to visitors who gave consent
+            return '';
         }
 
         $nextVisits = Request::processRequest('Live.getLastVisitsDetails', array(

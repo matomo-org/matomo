@@ -124,9 +124,19 @@ class Manager
             throw new \Exception('Notification ID is empty.');
         }
 
-        if (!preg_match('/^\w*$/', $id)) {
+        if (!self::isValidId((string) $id)) {
             throw new \Exception('Invalid Notification ID given. Only word characters (AlNum + underscore) allowed.');
         }
+    }
+
+    /**
+     * Whether a notification can be posted under the given ID, see {@link notify()}.
+     *
+     * @internal
+     */
+    public static function isValidId(string $id): bool
+    {
+        return !empty($id) && preg_match('/^\w*$/', $id) === 1;
     }
 
     private static function addNotification($id, Notification $notification): bool

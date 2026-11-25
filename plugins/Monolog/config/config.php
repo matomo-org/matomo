@@ -3,6 +3,7 @@
 use Piwik\Container\Container;
 use Piwik\Log\Logger;
 use Piwik\Log;
+use Piwik\Plugins\Monolog\Formatter\FormatterFactory;
 use Piwik\Plugins\Monolog\Handler\FileHandler;
 use Piwik\Plugins\Monolog\Handler\LogCaptureHandler;
 
@@ -111,20 +112,20 @@ return array(
 
     'Piwik\Plugins\Monolog\Handler\FileHandler' => Piwik\DI::create()
         ->constructor(Piwik\DI::get('log.file.filename'), Piwik\DI::get('log.level.file'))
-        ->method('setFormatter', Piwik\DI::get('log.lineMessageFormatter.file')),
+        ->method('setFormatter', Piwik\DI::get('log.formatter.file')),
 
     'Piwik\Plugins\Monolog\Handler\ErrorLogHandler' => Piwik\DI::autowire()
         ->constructorParameter('level', Piwik\DI::get('log.level.errorlog'))
-        ->method('setFormatter', Piwik\DI::get('log.lineMessageFormatter.file')),
+        ->method('setFormatter', Piwik\DI::get('log.formatter.errorlog')),
 
     'Piwik\Plugins\Monolog\Handler\SyslogHandler' => Piwik\DI::autowire()
         ->constructorParameter('ident', Piwik\DI::get('log.syslog.ident'))
         ->constructorParameter('level', Piwik\DI::get('log.level.syslog'))
-        ->method('setFormatter', Piwik\DI::get('log.lineMessageFormatter.file')),
+        ->method('setFormatter', Piwik\DI::get('log.formatter.syslog')),
 
     'Piwik\Plugins\Monolog\Handler\DatabaseHandler' => Piwik\DI::create()
         ->constructor(Piwik\DI::get('log.level.database'))
-        ->method('setFormatter', Piwik\DI::get('log.lineMessageFormatter')),
+        ->method('setFormatter', Piwik\DI::get('log.formatter.database')),
 
     'Piwik\Plugins\Monolog\Handler\WebNotificationHandler' => Piwik\DI::create()
         ->constructor(Piwik\DI::get('log.level.screen'))
@@ -191,6 +192,28 @@ return array(
         return $c->get('log.level');
     }),
 
+    'log.formatter.classes' => array(
+        'json'     => 'Piwik\Plugins\Monolog\Formatter\JsonFormatter',
+        'loggly'   => 'Piwik\Plugins\Monolog\Formatter\LogglyFormatter',
+        'logstash' => 'Piwik\Plugins\Monolog\Formatter\LogstashFormatter',
+    ),
+
+    'log.formatter.file' => Piwik\DI::factory(function (Container $c) {
+        return FormatterFactory::createForWriter($c, 'file', 'log.lineMessageFormatter.file');
+    }),
+
+    'log.formatter.errorlog' => Piwik\DI::factory(function (Container $c) {
+        return FormatterFactory::createForWriter($c, 'errorlog', 'log.lineMessageFormatter.file');
+    }),
+
+    'log.formatter.syslog' => Piwik\DI::factory(function (Container $c) {
+        return FormatterFactory::createForWriter($c, 'syslog', 'log.lineMessageFormatter.file');
+    }),
+
+    'log.formatter.database' => Piwik\DI::factory(function (Container $c) {
+        return FormatterFactory::createForWriter($c, 'database', 'log.lineMessageFormatter');
+    }),
+
     'log.file.filename' => Piwik\DI::factory(function (Container $c) {
         $logPath = $c->get('ini.log.logger_file_path');
 
@@ -255,6 +278,7 @@ return array(
         }
 
         $fileHandler = new FileHandler($logFile, Logger::INFO);
+        // always text: Piwik\CronArchive\Performance\Logger parses the lines of this file
         $fileHandler->setFormatter($c->get('log.lineMessageFormatter.file'));
         return [$fileHandler];
     },

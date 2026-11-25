@@ -9,7 +9,7 @@
 
 const pluginLoadingPromises: Record<string, Promise<unknown> | undefined> = {};
 
-const PLUGIN_LOAD_TIMEOUT = 120;
+const PLUGIN_LOAD_TIMEOUT_SECONDS = 120;
 const POLL_INTERVAL = 50;
 const POLL_LIMIT = 1000;
 
@@ -31,7 +31,7 @@ export default function importPluginUmd(plugin: string): Promise<unknown> {
 
   const script = document.createElement('script') as any;
   script.charset = 'utf-8';
-  script.timeout = PLUGIN_LOAD_TIMEOUT;
+  script.timeout = PLUGIN_LOAD_TIMEOUT_SECONDS;
   script.src = pluginUmdPath;
 
   let timeout: ReturnType<typeof setTimeout>;
@@ -93,7 +93,7 @@ export default function importPluginUmd(plugin: string): Promise<unknown> {
 
   timeout = setTimeout(() => {
     onScriptComplete({ type: 'timeout', target: script } as unknown as Event);
-  }, PLUGIN_LOAD_TIMEOUT);
+  }, PLUGIN_LOAD_TIMEOUT_SECONDS * 1000);
   script.onerror = onScriptComplete;
   script.onload = onScriptComplete;
 

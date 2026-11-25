@@ -1,6 +1,7 @@
 {
     "Actions": {
         "ActionType": "活动类型",
+        "ActionTypeSegmentHelp": "动作类型，例如：%s",
         "ActionTypes": "活动类型",
         "ActionsInVisit": "访问的活动次数",
         "AvgGenerationTimeTooltip": "平均值基于 %1$s 次访问 %2$s，介于 %3$s 和 %4$s 之间",
@@ -66,6 +67,7 @@
         "PagesSubcategoryHelp3": "点击左边的 + 、 - 图标可展开\\/合并分类。",
         "PluginDescription": "有关页面访问量和页面标题的报告。让您衡量您的内部网站的搜索引擎。自动跟踪外部链接及文件下载链接的点击。",
         "RevisitedPages": "被浏览超过一次的页面",
+        "SearchesSegmentHelp": "要选择所有使用过站内搜索的访问，请使用：%s",
         "SiteSearchCategories": "所有分类（站内搜索）",
         "SiteSearchCategories1": "此报表显示访客使用站内搜索时选择的分类。",
         "SiteSearchCategories2": "例如，电子商务网站通常有“分类”选项，以便访客可以限制在某个分类中搜索产品。",

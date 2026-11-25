@@ -123,7 +123,7 @@ class VisitorLog extends Visualization
         $this->config->custom_parameters['hideProfileLink'] = (int)(1 == Common::getRequestVar('hideProfileLink', 0, 'int'));
         $this->config->custom_parameters['pageUrlNotDefined'] = Piwik::translate('General_NotDefined', Piwik::translate('Actions_ColumnPageURL'));
 
-        if (!Live::isVisitorProfileEnabled()) {
+        if (!Live::isVisitorProfileAvailable()) {
             $this->config->custom_parameters['hideProfileLink'] = 1;
         }
 
@@ -161,6 +161,16 @@ class VisitorLog extends Visualization
         }
 
         $this->assignTemplateVar('actionsToDisplayCollapsed', StaticContainer::get('Live.pageViewActionsToDisplayCollapsed'));
+
+        $idSite = (int) Common::getRequestVar('idSite', 0, 'int');
+        if ($idSite > 0 && Live::isVisitorLogLimitedToConsentedVisits($idSite)) {
+            // a header message, as it is shown even when the visits log has no visit to list, after any message
+            // already set for this visits log
+            $this->config->show_header_message = $this->config->show_header_message
+                . '<div vue-entry="CoreHome.Alert" severity="info">'
+                . Common::sanitizeInputValue(Piwik::translate('Live_OnlyConsentedVisitsShown'))
+                . '</div>';
+        }
 
         $enableAddNewSegment = Common::getRequestVar('enableAddNewSegment', false);
         if ($enableAddNewSegment) {
