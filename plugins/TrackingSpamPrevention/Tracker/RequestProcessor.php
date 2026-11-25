@@ -74,7 +74,9 @@ class RequestProcessor extends Tracker\RequestProcessor
     }
 
     /**
-     * The token lookup mirrors Request::authenticateTrackingApi(). Access is checked even when
+     * The token is read like in Request::authenticateTrackingApi(). Super User access is checked like in
+     * Request::authenticateSuperUserOrAdminOrWrite(), with Access::reloadAccess(), so a Super User token
+     * restricted to a lower access level does not count. Access is checked even when
      * tracking_requests_require_authentication is disabled, as it is for every bulk tracking request.
      */
     private function isSuperUserTokenAuth(Request $request): bool
