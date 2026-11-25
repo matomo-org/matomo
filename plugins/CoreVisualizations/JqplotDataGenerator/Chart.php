@@ -56,7 +56,11 @@ class Chart
 
         $this->axes[$axisName]['labels'] = array_values($xLabels);
 
-        $ticks = array_values($xTicks ?: $xLabels);
+        // ticks are rendered as plain text (canvas, pie legend), so decode the sanitized labels;
+        // 'labels' stay encoded as they are inserted as HTML into tooltips
+        $ticks = array_map(function ($tick) {
+            return is_string($tick) ? Common::unsanitizeInputValue($tick) : $tick;
+        }, array_values($xTicks ?: $xLabels));
 
         if (!$showAllTicks) {
             // unset labels so there are $xSteps number of blank ticks between labels
