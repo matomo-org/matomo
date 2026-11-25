@@ -143,9 +143,10 @@ class ControllerTest extends IntegrationTestCase
     {
         $this->setStoredOAuthSettings();
 
-        $this->postMailSettings($this->getOAuthMailSettingsRequest([], false));
+        $response = $this->postMailSettings($this->getOAuthMailSettingsRequest([], false));
 
         $this->assertSame('the-stored-secret', Config::getInstance()->mail['oauth_client_secret']);
+        $this->assertTrue($response['hasClientSecret']);
     }
 
     /**
@@ -362,11 +363,25 @@ class ControllerTest extends IntegrationTestCase
 
         $this->assertSame('success', $response['result']);
         $this->assertSame('', Config::getInstance()->mail['oauth_client_secret']);
+        $this->assertFalse($response['hasClientSecret']);
 
         $response = $this->postMailSettings($this->getOAuthMailSettingsRequest(['mailOAuthCredentialType' => 'secret'], false));
 
         $this->assertSame('error', $response['result']);
         $this->assertStringStartsWith('To use OAuth 2.0, please enter', $response['message']);
+    }
+
+    public function testSetMailSettingsRemovesTheClientSecretWhenAnotherLoginMethodIsUsed(): void
+    {
+        $this->setStoredOAuthSettings();
+        Config::getInstance()->mail = ['type' => 'Xoauth2'] + Config::getInstance()->mail;
+
+        $response = $this->postMailSettings($this->getOAuthMailSettingsRequest(['mailType' => 'Login'], false));
+
+        $this->assertSame('success', $response['result']);
+        $this->assertSame('Login', Config::getInstance()->mail['type']);
+        $this->assertSame('', Config::getInstance()->mail['oauth_client_secret']);
+        $this->assertFalse($response['hasClientSecret']);
     }
 
     public function testSetMailSettingsNeverTakesTheCertificateSettingsFromTheRequest(): void

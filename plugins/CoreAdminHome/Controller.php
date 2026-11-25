@@ -264,7 +264,12 @@ class Controller extends ControllerAdmin
                 );
             }
 
-            $toReturn = $response->getResponse();
+            // the form shows what was stored instead of repeating the rules above
+            $toReturn = $response->getResponse([
+                'result' => 'success',
+                'message' => 'ok',
+                'hasClientSecret' => $mail['oauth_client_secret'] !== '',
+            ]);
         } catch (Exception $e) {
             $toReturn = $response->getResponseException($e);
         }
@@ -294,8 +299,8 @@ class Controller extends ControllerAdmin
             $mail['oauth_client_secret'] = $storedMail['oauth_client_secret'];
         }
 
-        if ($mail['oauth_credential_type'] === ClientCredentials::CREDENTIAL_TYPE_CERTIFICATE) {
-            // a client secret is not used with a certificate
+        if (!SmtpTokenProvider::isOAuthType($mail['type']) || $mail['oauth_credential_type'] === ClientCredentials::CREDENTIAL_TYPE_CERTIFICATE) {
+            // a client secret is only used with OAuth 2.0 and no certificate
             $mail['oauth_client_secret'] = '';
         }
 

@@ -7,7 +7,9 @@
 
 import { flushPromises, mount } from '@vue/test-utils';
 
-const { post } = vi.hoisted(() => ({ post: vi.fn(() => Promise.resolve()) }));
+const { post } = vi.hoisted(() => ({
+  post: vi.fn(() => Promise.resolve({ hasClientSecret: true })),
+}));
 
 vi.mock('CoreHome', () => ({
   AjaxHelper: { post },
@@ -133,28 +135,23 @@ describe('CoreAdminHome/SmtpSettings.vue', () => {
     expect(await save(wrapper)).not.toHaveProperty('mailOAuthClientSecret');
   });
 
-  it('does not show a client secret as stored after the server dropped it', async () => {
+  it('does not show a client secret as stored once the server removed it', async () => {
     const wrapper = mountWithStoredOAuthSettings();
 
-    await wrapper.find('[name="mailOAuthCredentialType"]').setValue('certificate');
-    await wrapper.find('[name="mailOAuthScope"]').setValue('https://another.example.test/.default');
+    post.mockResolvedValueOnce({ hasClientSecret: false });
     await save(wrapper);
     await flushPromises();
-    await wrapper.find('[name="mailOAuthCredentialType"]').setValue('secret');
 
     expect((wrapper.find('[name="mailOAuthClientSecret"]').element as HTMLInputElement).value).toBe('');
   });
 
-  it('does not show a client secret as stored after a save with the certificate', async () => {
+  it('does not send a client secret entered before switching to another login method', async () => {
     const wrapper = mountWithStoredOAuthSettings();
 
     await wrapper.find('[name="mailOAuthClientSecret"]').setValue('a-new-secret');
-    await wrapper.find('[name="mailOAuthCredentialType"]').setValue('certificate');
-    await save(wrapper);
-    await flushPromises();
-    await wrapper.find('[name="mailOAuthCredentialType"]').setValue('secret');
+    await wrapper.find('[name="mailType"]').setValue('Login');
 
-    expect((wrapper.find('[name="mailOAuthClientSecret"]').element as HTMLInputElement).value).toBe('');
+    expect(await save(wrapper)).not.toHaveProperty('mailOAuthClientSecret');
   });
 
   it('does not show a password as stored after a save with OAuth 2.0', async () => {

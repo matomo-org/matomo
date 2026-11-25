@@ -284,18 +284,6 @@ export default defineComponent({
       this.mailPassword = newValue;
       this.passwordChanged = true;
     },
-    updateSavedOAuthSettings(postedClientSecret?: string) {
-      // a client secret that was not sent is kept by the server, unless the certificate is used
-      if (postedClientSecret !== undefined || this.oauthSettings.credentialType === 'certificate') {
-        this.savedOAuthSettings = {
-          ...this.savedOAuthSettings,
-          hasClientSecret: !!postedClientSecret,
-        };
-      }
-
-      // the saved client secret must be entered again before it is sent to another token URL
-      this.oauthSettings = { ...this.oauthSettings, clientSecret: undefined };
-    },
     save(password: string) {
       this.isLoading = true;
 
@@ -319,17 +307,28 @@ export default defineComponent({
         mailSettings.mailPassword = this.mailPassword;
       }
 
-      // a secret entered before switching to the certificate is not used, so it isn't stored either
-      if (this.oauthSettings.clientSecret !== undefined && this.oauthSettings.credentialType === 'secret') {
+      // a secret entered before switching to the certificate or another login method is not used,
+      // so it isn't sent either
+      if (
+        this.oauthSettings.clientSecret !== undefined
+        && this.isOAuth
+        && this.oauthSettings.credentialType === 'secret'
+      ) {
         mailSettings.mailOAuthClientSecret = this.oauthSettings.clientSecret;
       }
 
-      AjaxHelper.post(
+      AjaxHelper.post<{ hasClientSecret: boolean }>(
         { module: 'CoreAdminHome', action: 'setMailSettings' },
         mailSettings,
         { withTokenInUrl: true },
-      ).then(() => {
-        this.updateSavedOAuthSettings(mailSettings.mailOAuthClientSecret as string | undefined);
+      ).then((response) => {
+        // the server drops a client secret the new settings don't use, so show what it kept
+        this.savedOAuthSettings = {
+          ...this.savedOAuthSettings,
+          hasClientSecret: response.hasClientSecret,
+        };
+        // the saved client secret must be entered again before it is sent to another token URL
+        this.oauthSettings = { ...this.oauthSettings, clientSecret: undefined };
 
         if (mailSettings.mailType === 'Xoauth2') {
           // the server removes the password when OAuth 2.0 is used
