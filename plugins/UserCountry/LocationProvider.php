@@ -43,18 +43,83 @@ abstract class LocationProvider
 
     public const GEOGRAPHIC_COORD_PRECISION = 2;
 
+    /**
+     * Array key of the continent code in a location result.
+     *
+     * @api
+     */
     public const CONTINENT_CODE_KEY = 'continent_code';
+    /**
+     * Array key of the continent name in a location result.
+     *
+     * @api
+     */
     public const CONTINENT_NAME_KEY = 'continent_name';
+    /**
+     * Array key of the country code in a location result.
+     *
+     * @api
+     */
     public const COUNTRY_CODE_KEY = 'country_code';
+    /**
+     * Array key of the country name in a location result.
+     *
+     * @api
+     */
     public const COUNTRY_NAME_KEY = 'country_name';
+    /**
+     * Array key of the region code in a location result.
+     *
+     * @api
+     */
     public const REGION_CODE_KEY = 'region_code';
+    /**
+     * Array key of the region name in a location result.
+     *
+     * @api
+     */
     public const REGION_NAME_KEY = 'region_name';
+    /**
+     * Array key of the city name in a location result.
+     *
+     * @api
+     */
     public const CITY_NAME_KEY = 'city_name';
+    /**
+     * Array key of the area code in a location result.
+     *
+     * @api
+     */
     public const AREA_CODE_KEY = 'area_code';
+    /**
+     * Array key of the latitude in a location result.
+     *
+     * @api
+     */
     public const LATITUDE_KEY = 'lat';
+    /**
+     * Array key of the longitude in a location result.
+     *
+     * @api
+     */
     public const LONGITUDE_KEY = 'long';
+    /**
+     * Array key of the postal code in a location result.
+     *
+     * @api
+     */
     public const POSTAL_CODE_KEY = 'postal_code';
+    /**
+     * Array key of the ISP in a location result.
+     *
+     * @api
+     */
     public const ISP_KEY = 'isp';
+    /**
+     * Array key of the organization in a location result.
+     *
+     * @api
+     */
     public const ORG_KEY = 'org';
 
     /**
@@ -102,34 +167,41 @@ abstract class LocationProvider
      * @param array $info What this must contain depends on the specific provider
      *                    implementation. All providers require an 'ip' key mapped
      *                    to the visitor's IP address.
-     * @return array|false
+     * @return array|false The location result keyed by the `*_KEY` constants, or false if the location could not be determined.
+     * @api
      */
     abstract public function getLocation($info);
 
     /**
-     * Returns true if this provider is available for use, false if otherwise.
+     * Returns whether this provider is available for use.
      *
-     * @return bool
+     * @return bool True if the provider is available. Some bundled providers return an HTML note instead of false, but
+     *              core treats that as unavailable only in the provider list, so providers must return a bool.
+     * @api
      */
     abstract public function isAvailable();
 
     /**
-     * Returns true if this provider is working, false if otherwise.
+     * Returns whether this provider is working.
      *
-     * @return bool
+     * @return bool|string True if working, otherwise false or an HTML error message, which core shows as the
+     *                     provider's status.
+     * @api
      */
     abstract public function isWorking();
 
     /**
-     * Returns information about this location provider. Contains an id, title & description:
+     * Returns information about this location provider. Contains an id, title, description & order:
      *
      * array(
      *     'id' => 'geoip2php',
      *     'title' => '...',
-     *     'description' => '...'
+     *     'description' => '...',
+     *     'order' => 3
      * );
      *
-     * @return array
+     * @return array The provider information: 'id', 'title', 'description' and 'order' (position in the provider list), optionally 'install_docs' and 'extra_message' (HTML).
+     * @api
      */
     abstract public function getInfo();
 
@@ -143,6 +215,7 @@ abstract class LocationProvider
      *                         self::ORG_KEY => false)
      *               The result is not guaranteed to have keys for every type of location
      *               info.
+     * @api
      */
     abstract public function getSupportedLocationInfo();
 
@@ -417,12 +490,13 @@ abstract class LocationProvider
     /**
      * Tries to fill in any missing information in a location result.
      *
-     * This method will try to set the continent code, continent name and country code
-     * using other information.
+     * This method will try to set the continent code, continent name and country name
+     * using other information, and rounds the latitude and longitude.
      *
      * Note: This function must always be called by location providers in getLocation.
      *
      * @param array $location The location information to modify.
+     * @api
      */
     public function completeLocationResult(&$location)
     {
@@ -543,7 +617,8 @@ abstract class LocationProvider
      * will return an IPv4 address or IPv6 address.
      *
      * @param  array $info Must have 'ip' key.
-     * @return string
+     * @return string The IPv4 or IPv6 address as a string.
+     * @api
      */
     protected function getIpFromInfo($info)
     {

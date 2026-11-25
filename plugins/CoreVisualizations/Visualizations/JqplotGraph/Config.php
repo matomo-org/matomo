@@ -12,7 +12,11 @@ namespace Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Graph\Config as GraphConfig;
 
 /**
- * DataTable Visualization that derives from HtmlTable and sets show_extra_columns to true.
+ * Display properties of the jqPlot graph visualizations.
+ *
+ * Set them via `$view->config` in Report::configureView().
+ *
+ * @api
  */
 class Config extends GraphConfig
 {
@@ -20,18 +24,24 @@ class Config extends GraphConfig
      * The name of the JavaScript class to use as this graph's external series toggle. The class
      * must be a subclass of JQPlotExternalSeriesToggle.
      *
-     * @see self::EXTERNAL_SERIES_TOGGLE_SHOW_ALL
+     * @see $external_series_toggle_show_all
      *
      * Default value: false
+     *
+     * @var string|false
+     * @internal
      */
     public $external_series_toggle = false;
 
     /**
      * Whether the graph should show all loaded series upon initial display.
      *
-     * @see self::EXTERNAL_SERIES_TOGGLE
+     * @see $external_series_toggle
      *
      * Default value: false
+     *
+     * @var bool
+     * @internal
      */
     public $external_series_toggle_show_all = false;
 
@@ -39,9 +49,14 @@ class Config extends GraphConfig
      * The number of x-axis ticks for each x-axis label.
      *
      * Default: 2
+     *
+     * @var int|false
      */
     public $x_axis_step_size = 2;
 
+    /**
+     * @internal
+     */
     public function __construct()
     {
         parent::__construct();

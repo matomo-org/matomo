@@ -31,6 +31,11 @@ use Piwik\ViewDataTable\EstimatedUniques;
  */
 class Evolution extends JqplotGraph
 {
+    /**
+     * The visualization ID, used in Report::configureView() and getDefaultTypeViewDataTable().
+     *
+     * @api
+     */
     public const ID = 'graphEvolution';
     public const SERIES_COLOR_COUNT = 8;
 

@@ -20,7 +20,11 @@ use Piwik\Site;
 use Piwik\Url;
 
 /**
- * DataTable Visualization that derives from Sparklines.
+ * Display properties of the Sparklines visualization.
+ *
+ * Set them via `$view->config` in Report::configureView().
+ *
+ * @api
  */
 class Config extends \Piwik\ViewDataTable\Config
 {
@@ -42,12 +46,15 @@ class Config extends \Piwik\ViewDataTable\Config
 
     /**
      * Adds possibility to set html attributes on the sparklines title / headline.
-     * @var array
+     *
+     * @var array<string, string>
      */
     public $title_attributes = array();
 
     /**
-     * Defines custom parameters that will be appended to the sparkline image urls
+     * Defines custom parameters that will be appended to the sparkline image urls.
+     *
+     * @var array<string, mixed>
      */
     public $custom_parameters = [];
 
@@ -60,7 +67,7 @@ class Config extends \Piwik\ViewDataTable\Config
      *
      * compute_evolution(array, array)
      *
-     * @var callable
+     * @var callable|null
      */
     public $compute_evolution = null;
 
@@ -80,6 +87,9 @@ class Config extends \Piwik\ViewDataTable\Config
      */
     public $metric_titles = [];
 
+    /**
+     * @internal
+     */
     public function __construct()
     {
         parent::__construct();
@@ -119,7 +129,7 @@ class Config extends \Piwik\ViewDataTable\Config
      * }
      *
      * @param array|string $metricNames The name of the metrics in the same format they were used when added via
-     *                                  {@link addSparklineMetric}
+     *                                  {@link addSparklineMetric()}
      */
     public function removeSparklineMetric($metricNames)
     {
@@ -146,7 +156,7 @@ class Config extends \Piwik\ViewDataTable\Config
      * }
      *
      * @param array|string $metricNames The name of the metrics in the same format they were used when added via
-     *                                  {@link addSparklineMetric}
+     *                                  {@link addSparklineMetric()}
      * @param array|string $replacementColumns The removed columns will be replaced with these columns
      */
     public function replaceSparklineMetric($metricNames, $replacementColumns)
@@ -179,8 +189,8 @@ class Config extends \Piwik\ViewDataTable\Config
      * @param string|array $metricName  Either one metric name (eg 'nb_visits') or an array of metric names
      * @param int|null $order  Defines the order. The lower the order the earlier the sparkline will be displayed.
      *                         By default the sparkline will be appended to the end.
-     * @param array $graphParams The params to use when changing an associated evolution graph. By default this is determined
-     *                           from the sparkline URL, but sometimes the sparkline API method may not match the evolution graph API method.
+     * @param array|null $graphParams The params to use when changing an associated evolution graph. By default this is determined
+     *                                from the sparkline URL, but sometimes the sparkline API method may not match the evolution graph API method.
      */
     public function addSparklineMetric($metricName, $order = null, $graphParams = null)
     {
@@ -198,6 +208,7 @@ class Config extends \Piwik\ViewDataTable\Config
      *
      * @param int|null $order   Defines the order. The lower the order the earlier the sparkline will be displayed.
      *                          By default the sparkline will be appended to the end.
+     * @internal
      */
     public function addPlaceholder($order = null)
     {
@@ -222,8 +233,10 @@ class Config extends \Piwik\ViewDataTable\Config
      * @param array $requestParamsForSparkline You need to at least set a module / action eg
      *                                         array('columns' => array('nb_visit'), 'module' => '', 'action' => '')
      * @param int|float|string|array $metricInfos Either the metric value or an array of values.
-     * @param string|array $description Either one description or an array of descriptions. If an array, both
+     * @param string|array|null $description  Either one description or an array of descriptions. If an array, both
      *                                         $value and $description need the same amount of array entries.
+     *                                         Null if $metricInfos is already a list of metric arrays ('value',
+     *                                         'description', optionally 'group').
      *                                         $description[0] should be the description for $value[0].
      *                                         $description should be already translated. If $value should appear
      *                                         somewhere within the text a `%s` can be used in the translation.
@@ -232,14 +245,15 @@ class Config extends \Piwik\ViewDataTable\Config
      *                                         An optional 'tooltip' can be set as well. Eg
      *                                         array('currentValue' => 10, 'pastValue' => 20,
      *                                               'tooltip' => '10 visits in 2015-07-26 compared to 20 visits in 2015-07-25')
-     * @param int $order                       Defines the order. The lower the order the earlier the sparkline will be
+     * @param int|null $order                  Defines the order. The lower the order the earlier the sparkline will be
      *                                         displayed. By default the sparkline will be appended to the end.
-     * @param string $title                    The title of this specific sparkline. It is displayed on the left above the sparkline image.
+     * @param string|null $title               The title of this specific sparkline. It is displayed on the left above the sparkline image.
      * @param string $group                    The ID of the group for this sparkline.
-     * @param int $seriesIndices               The indexes of each series displayed in the sparkline. This determines what color is used for each series. Mainly used for comparison.
-     * @param array $graphParams               The params to use when changing an associated evolution graph. By default this is determined
+     * @param array<int, int>|null $seriesIndices The indexes of each series displayed in the sparkline. This determines what color is used for each series. Mainly used for comparison.
+     * @param array|null $graphParams          The params to use when changing an associated evolution graph. By default this is determined
      *                                         from the sparkline URL, but sometimes the sparkline API method may not match the evolution graph API method.
      * @throws \Exception In case an evolution parameter is set but has wrong data structure
+     * @internal
      */
     public function addSparkline($requestParamsForSparkline, $metricInfos, $description, $evolution = null, $order = null, $title = null, $group = '', $seriesIndices = null, $graphParams = null)
     {
@@ -342,6 +356,13 @@ class Config extends \Piwik\ViewDataTable\Config
         $this->sparklines[] = $sparkline;
     }
 
+    /**
+     * Generates the tooltip text that describes the period shown by a sparkline.
+     *
+     * @param array $params The sparkline request parameters; the 'period', 'date' and 'compareDates' entries are used.
+     * @return string The tooltip text, empty if no period is set.
+     * @internal
+     */
     public function generateSparklineTooltip($params)
     {
         $tooltip = '';
@@ -376,6 +397,9 @@ class Config extends \Piwik\ViewDataTable\Config
 
     /**
      * Detect whether sparklines are linkable with an evolution graph. {@link setNotLinkableWithAnyEvolutionGraph()}
+     *
+     * @return bool
+     * @internal
      */
     public function areSparklinesLinkable()
     {
@@ -457,7 +481,8 @@ class Config extends \Piwik\ViewDataTable\Config
      *
      * @param array $paramsToSet array( 'date' => 'last50', 'viewDataTable' =>'sparkline' )
      * @throws \Piwik\NoAccessException
-     * @return array
+     * @return array The processed parameters.
+     * @internal
      */
     public function getGraphParamsModified($paramsToSet = array())
     {

@@ -21,8 +21,23 @@ use Piwik\Plugin;
 
 class CustomDimensions extends Plugin
 {
+    /**
+     * Scope value of a custom dimension that is tracked per action.
+     *
+     * @api
+     */
     public const SCOPE_ACTION = 'action';
+    /**
+     * Scope value of a custom dimension that is tracked per visit.
+     *
+     * @api
+     */
     public const SCOPE_VISIT = 'visit';
+    /**
+     * Scope value of a custom dimension that is tracked per conversion.
+     *
+     * @api
+     */
     public const SCOPE_CONVERSION = 'conversion';
 
     private Configuration $configuration;

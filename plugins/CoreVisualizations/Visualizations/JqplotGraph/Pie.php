@@ -17,6 +17,11 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
  */
 class Pie extends JqplotGraph
 {
+    /**
+     * The visualization ID, used in Report::configureView() and getDefaultTypeViewDataTable().
+     *
+     * @api
+     */
     public const ID = 'graphPie';
     public const FOOTER_ICON       = 'icon-chart-pie';
     public const FOOTER_ICON_TITLE = 'General_Piechart';

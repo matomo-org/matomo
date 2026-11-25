@@ -17,6 +17,11 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
  */
 class AllColumns extends HtmlTable
 {
+    /**
+     * The visualization ID, used in Report::configureView() and getDefaultTypeViewDataTable().
+     *
+     * @api
+     */
     public const ID = 'tableAllColumns';
     public const FOOTER_ICON       = 'icon-table-more';
     public const FOOTER_ICON_TITLE = 'General_DisplayTableWithMoreMetrics';

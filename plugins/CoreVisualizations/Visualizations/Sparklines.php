@@ -38,18 +38,15 @@ use Piwik\ViewDataTable\EstimatedUniques;
  * Results in: [sparkline image] X visits
  * Data is fetched from the configured $view->requestConfig->apiMethodToRequestDataTable.
  *
- * In case you want to add any custom sparklines from any other API method you can call
- * {@link Sparklines\Config::addSparkline()}.
- *
- * Example:
- * $sparklineUrlParams = array('columns' => array('nb_visits));
- * $evolution = array('currentValue' => 5, 'pastValue' => 10, 'tooltip' => 'Foo bar');
- * $view->config->addSparkline($sparklineUrlParams, $value = 5, $description = 'Visits', $evolution);
- *
  * @property Sparklines\Config $config
  */
 class Sparklines extends ViewDataTable
 {
+    /**
+     * The visualization ID, used in Report::configureView() and getDefaultTypeViewDataTable().
+     *
+     * @api
+     */
     public const ID = 'sparklines';
 
     public static function getDefaultConfig()

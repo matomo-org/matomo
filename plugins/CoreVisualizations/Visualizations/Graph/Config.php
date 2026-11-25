@@ -12,7 +12,11 @@ namespace Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
 use Piwik\ViewDataTable\Config as VisualizationConfig;
 
 /**
- * DataTable Visualization that derives from HtmlTable and sets show_extra_columns to true.
+ * Display properties of the Graph visualizations.
+ *
+ * Set them via `$view->config` in Report::configureView().
+ *
+ * @api
  */
 class Config extends VisualizationConfig
 {
@@ -20,6 +24,8 @@ class Config extends VisualizationConfig
      * Whether the series picker should allow picking more than one series or not.
      *
      * Default value: true
+     *
+     * @var bool
      */
     public $allow_multi_select_series_picker = true;
 
@@ -27,6 +33,8 @@ class Config extends VisualizationConfig
      * The maximum number of rows to render. All other rows will be aggregated in an 'Others' row.
      *
      * Default value: false (no limit)
+     *
+     * @var int|false
      */
     public $max_graph_elements = false;
 
@@ -34,6 +42,8 @@ class Config extends VisualizationConfig
      * Array property that contains the names of columns that can be selected in the Series Picker.
      *
      * Default value: false
+     *
+     * @var array|false
      */
     public $selectable_columns = false;
 
@@ -41,9 +51,11 @@ class Config extends VisualizationConfig
      * Contains the column or metadata (if any) of the values used in the Row Picker.
      * The defined column or metadata will be used as identifier for the row, the label column will always be used as value
      *
-     * @see self::ROWS_TO_DISPLAY
+     * @see $rows_to_display
      *
      * Default value: false
+     *
+     * @var string|false
      */
     public $row_picker_match_rows_by = false;
 
@@ -51,9 +63,11 @@ class Config extends VisualizationConfig
      * Contains the list of values identifying rows that should be displayed as separate series.
      * The values are of a specific column determined by the row_picker_match_rows_by column.
      *
-     * @see self::ROW_PICKER_VALUE_COLUMN
+     * @see $row_picker_match_rows_by
      *
      * Default value: false
+     *
+     * @var array|false
      */
     public $rows_to_display = false;
 
@@ -61,7 +75,10 @@ class Config extends VisualizationConfig
      * Contains the list of values available for the Row Picker. Currently set to be all visible
      * rows, if the row_picker_match_rows_by property is set.
      *
-     * @see self::ROW_PICKER_VALUE_COLUMN
+     * @see $row_picker_match_rows_by
+     *
+     * @var array
+     * @internal
      */
     public $selectable_rows = [];
 
@@ -69,6 +86,8 @@ class Config extends VisualizationConfig
      * Controls whether all ticks & labels are shown on a graph's x-axis or just some.
      *
      * Default value: false
+     *
+     * @var bool
      */
     public $show_all_ticks = false;
 
@@ -76,6 +95,8 @@ class Config extends VisualizationConfig
      * If true, a row with totals of each DataTable column is added.
      *
      * Default value: false
+     *
+     * @var bool
      */
     public $add_total_row = false;
 
@@ -84,6 +105,8 @@ class Config extends VisualizationConfig
      * choose between displaying data of different columns.
      *
      * Default value: true
+     *
+     * @var bool
      */
     public $show_series_picker = true;
 
@@ -96,9 +119,14 @@ class Config extends VisualizationConfig
      * displayed.
      *
      * Default value: true
+     *
+     * @var bool
      */
     public $display_percentage_in_tooltip = true;
 
+    /**
+     * @internal
+     */
     public function __construct()
     {
         parent::__construct();
