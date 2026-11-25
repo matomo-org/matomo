@@ -12,10 +12,12 @@ namespace Piwik\Mail;
 use PHPMailer\PHPMailer\Exception as PHPMailerException;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
+use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\DI\DependencyException;
 use Piwik\Exception\DI\NotFoundException;
+use Piwik\Log\LoggerInterface;
 use Piwik\Mail;
 use Piwik\Piwik;
 
@@ -112,7 +114,25 @@ class Transport
             return true;
         }
 
-        return $phpMailer->send();
+        try {
+            return $phpMailer->send();
+        } catch (PHPMailerException $e) {
+            if (Common::isPhpCliMode()) {
+                throw $e;
+            }
+
+            StaticContainer::get(LoggerInterface::class)->error('Could not send email: {exception}', [
+                'exception' => $e,
+                'ignoreInScreenWriter' => true,
+            ]);
+
+            // the mail library appends the reply of the mail server, which is only written to the log
+            throw new PHPMailerException(
+                Piwik::translate('General_ExceptionEmailNotSent', ['core:test-email']),
+                $e->getCode(),
+                $e
+            );
+        }
     }
 
     /**

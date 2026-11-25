@@ -114,25 +114,40 @@ class ExceptionHandler
         exit(1);
     }
 
-    public static function replaceSensitiveValues(string $message): string
+    /**
+     * Returns the message to show for an exception in a response that prints no backtrace.
+     */
+    public static function getMessageForResponse(\Throwable $exception): string
     {
-        $dbConfig = Db::getDatabaseConfig();
+        // only the token, the salt and the root path are rewritten here
+        $message = self::replaceSensitiveValues($exception->getMessage(), false);
 
+        // the database server writes the account as 'user'@'host', whatever language it uses
+        return preg_replace("/'[^']*'@'/", "'dbuser'@'", $message) ?? $message;
+    }
+
+    public static function replaceSensitiveValues(string $message, bool $replaceCredentials = true): string
+    {
         $valuesToReplace = [
             'tokenauth'   => Piwik::getCurrentUserTokenAuth(),
             'generalSalt' => SettingsPiwik::getSalt(),
-            'dbuser'      => $dbConfig['username'],
-            'dbpass'      => $dbConfig['password'],
         ];
 
-        $mailConfig = Config::getInstance()->mail;
+        if ($replaceCredentials) {
+            $dbConfig = Db::getDatabaseConfig();
 
-        if (!empty($mailConfig['username'])) {
-            $valuesToReplace['smtpuser'] = $mailConfig['username'];
-        }
+            $valuesToReplace['dbuser'] = $dbConfig['username'];
+            $valuesToReplace['dbpass'] = $dbConfig['password'];
 
-        if (!empty($mailConfig['password'])) {
-            $valuesToReplace['smtppass'] = $mailConfig['password'];
+            $mailConfig = Config::getInstance()->mail;
+
+            if (!empty($mailConfig['username'])) {
+                $valuesToReplace['smtpuser'] = $mailConfig['username'];
+            }
+
+            if (!empty($mailConfig['password'])) {
+                $valuesToReplace['smtppass'] = $mailConfig['password'];
+            }
         }
 
         // Remove possible empty entries
