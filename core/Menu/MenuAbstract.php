@@ -111,6 +111,7 @@ abstract class MenuAbstract extends Singleton
      * @param string $menuName The translation key of a main menu category, eg 'Dashboard_Dashboard'
      * @param string $iconCssClass   The css class name of an icon, eg 'icon-user'
      * @return void
+     * @api
      */
     public function registerMenuIcon($menuName, $iconCssClass)
     {

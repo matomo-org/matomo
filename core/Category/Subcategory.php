@@ -27,33 +27,41 @@ namespace Piwik\Category;
 class Subcategory
 {
     /**
-     * The id of the subcategory, see eg {@link Piwik\Widget\WidgetConfig::setSubcategoryId()`} or
-     * {@link Piwik\Report\getSubcategoryId()}. The id will be used in the Piwik reporting URL and as the name
+     * The id of the subcategory, see eg {@link Piwik\Widget\WidgetConfig::setSubcategoryId()} or
+     * {@link Piwik\Plugin\Report::getSubcategoryId()}. The id will be used in the Piwik reporting URL and as the name
      * in the Piwik reporting submenu. If you want to define a different URL and name, specify a {@link $name}.
      * For example you might want to have the actual GoalId (eg '4') in the URL but the actual goal name in the
      * submenu (eg 'Downloads'). In this case one should specify `$id=4;$name='Downloads'`.
      *
-     * @var string eg 'General_Overview' or 'VisitTime_ByServerTimeWidgetName'.
+     * Eg 'General_Overview' or 'VisitTime_ByServerTimeWidgetName'.
+     *
+     * @var string
+     * @api
      */
     protected $id = '';
 
     /**
      * The id of the category the subcategory belongs to, must be specified.
-     * See {@link Piwik\Widget\WidgetConfig::setCategoryId()`} or {@link Piwik\Report\getCategoryId()}.
+     * See {@link Piwik\Widget\WidgetConfig::setCategoryId()} or {@link Piwik\Plugin\Report::getCategoryId()}.
      *
-     * @var string A translation key eg 'General_Visits' or 'Goals_Goals'
+     * A translation key eg 'General_Visits' or 'Goals_Goals'.
+     *
+     * @var string
+     * @api
      */
     protected $categoryId = '';
 
     /**
      * The name that shall be used in the menu etc, defaults to the specified {@link $id}. See {@link $id}.
      * @var string
+     * @api
      */
     protected $name = '';
 
     /**
      * The order of the subcategory. The lower the value the earlier a widget or a report will be displayed.
      * @var int
+     * @api
      */
     protected $order = 99;
 

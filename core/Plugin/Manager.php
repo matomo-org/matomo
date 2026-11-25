@@ -1145,10 +1145,13 @@ class Manager
     }
 
     /**
-     * Returns a Plugin object by name.
+     * Returns the Plugin object of a loaded plugin. Throws if the plugin is not loaded.
+     *
+     * Get the plugin manager via constructor injection or `StaticContainer::get(\Piwik\Plugin\Manager::class)`.
      *
      * @param string $name The name of the plugin, eg, `'Actions'`.
-     * @return Plugin
+     * @return Plugin The loaded plugin.
+     * @api
      */
     public function getLoadedPlugin($name)
     {

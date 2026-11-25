@@ -22,6 +22,7 @@ abstract class ProfileSummaryAbstract
      * Visitor profile information (will be automatically set)
      *
      * @var array
+     * @api
      */
     protected $profile = [];
 

@@ -38,6 +38,12 @@ abstract class ConversionDimension extends Dimension
     public const INSTALLER_PREFIX = 'log_conversion.';
 
     protected $dbTableName = 'log_conversion';
+    /**
+     * Translation key for the category of the dimension.
+     *
+     * @var string
+     * @api
+     */
     protected $category = 'Goals_Conversion';
 
     /**
