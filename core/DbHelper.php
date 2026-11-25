@@ -34,8 +34,9 @@ class DbHelper
      *
      * @param string $tableName The name of the table to check for. Must be prefixed.
      *                          Avoid using user input, as the variable will be used in a query unescaped.
-     * @return bool
+     * @return bool True if the table exists.
      * @throws \Exception
+     * @api
      */
     public static function tableExists($tableName)
     {
@@ -307,10 +308,12 @@ class DbHelper
     }
 
     /**
-     * Adds a MAX_EXECUTION_TIME hint into a SELECT query if $limit is bigger than 0
+     * Limits the execution time of a SELECT query: adds a `MAX_EXECUTION_TIME` optimizer hint on MySQL and a `SET STATEMENT max_statement_time=... FOR` prefix on MariaDB.
      *
-     * @param string $sql  query to add hint to
-     * @param float $limit  time limit in seconds
+     * @param string $sql The complete SELECT query to limit.
+     * @param float $limit The time limit in seconds; MariaDB rounds it up to full seconds.
+     * @return string The limited query, or the query without a limit if `$limit` is not bigger than 0 or the query is not a SELECT query.
+     * @api
      */
     public static function addMaxExecutionTimeHintToQuery(string $sql, float $limit): string
     {

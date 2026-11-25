@@ -34,7 +34,8 @@ class SettingsServer
     /**
      * Returns true if the current request is a Tracker request.
      *
-     * @return bool true if the current request is a Tracking API Request (ie. piwik.php)
+     * @return bool true if the current request is a Tracking API Request (ie. matomo.php)
+     * @api
      */
     public static function isTrackerApiRequest()
     {

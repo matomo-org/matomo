@@ -698,9 +698,10 @@ class Piwik
      * array[]=value1&array[]=value2 in the URL.
      * This function will handle both cases and return the array.
      *
-     * @param array<string>|string|null|false $columns
-     * @param bool $unique
-     * @return array<string>
+     * @param array<string>|string|null|false $columns The parameter value: an array or a comma separated string.
+     * @param bool $unique Whether to remove duplicate values from a comma separated string.
+     * @return array<string> The values; an empty array if `$columns` is empty.
+     * @api
      */
     public static function getArrayFromApiParameter($columns, $unique = true)
     {

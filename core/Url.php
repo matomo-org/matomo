@@ -950,7 +950,8 @@ class Url
      * @param string|null $content   Optional campaign content, omitted when not given
      * @param string|null $placement Optional campaign placement, omitted when not given
      *
-     * @return ($url is string ? string : null)      www.matomo.org/faq/123?mtm_campaign=Matomo_App&mtm_source=Matomo_App_OnPremise&mtm_medium=App.CoreAdminHome.trackingCodeGenerator
+     * @return ($url is string ? string : null) The https URL with the campaign parameters; the unchanged URL if it does not point to a matomo.org domain, if disabled by the `disable_tracking_matomo_app_links` setting, or if no medium is given and there is no current module and action.
+     * @api
      */
     public static function addCampaignParametersToMatomoLink(
         ?string $url = null,
