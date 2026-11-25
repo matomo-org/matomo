@@ -30,17 +30,6 @@ parameters:
 			count: 1
 			path: core/API/DataTableManipulator.php
 
-		-
-			message: '#^If condition is always true\.$#'
-			identifier: if.alwaysTrue
-			count: 1
-			path: core/API/DataTableManipulator/Flattener.php
-
-		-
-			message: '#^Strict comparison using \=\=\= between Piwik\\DataTable and null will always evaluate to false\.$#'
-			identifier: identical.alwaysFalse
-			count: 1
-			path: core/API/DataTableManipulator/Flattener.php
 
 		-
 			message: '#^Parameter \#2 \$callback of function array_filter expects \(callable\(string\)\: bool\)\|null, ''strlen'' given\.$#'
