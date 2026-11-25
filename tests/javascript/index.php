@@ -5437,9 +5437,9 @@ if ($mysql) {
         tracker.forgetCookieConsentGiven();
     });
 
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
     test("Test API - requireCookieConsent keeps existing visitor ID cookie when consent is given", function() {
-        expect(8);
-
         // the site ID is already known when requireCookieConsent is called, as it is for trackers added via addTracker
         var tracker = Piwik.getTracker();
         var visitorCookieName = tracker.hook.test._getCookieName('id');
@@ -5454,6 +5454,27 @@ if ($mysql) {
 
         tracker.disableCookies();
         strictEqual(document.cookie.indexOf(visitorCookieName + '='), -1, 'disableCookies still deletes the visitor ID cookie');
+        deleteCookies();
+    });
+
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
+    test("Test API - requireCookieConsent deletes existing cookies on the next request when consent is never given", function() {
+        var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection();
+        // a token of its own, so this request is not counted by tests that fetch the default token's requests
+        tracker.setCustomData('token', getCookieConsentToken() + 'neverconsented');
+        var visitorCookieName = tracker.hook.test._getCookieName('id');
+        var existingCookieValue = '1234567890abcdef.1600000000.';
+        tracker.hook.test._setCookie(visitorCookieName, existingCookieValue, 86400000);
+
+        ok(tracker.requireCookieConsent(), 'requireCookieConsent disabled cookies');
+        strictEqual(tracker.hook.test._getCookie(visitorCookieName), existingCookieValue, 'existing visitor ID cookie is kept until the next request');
+
+        tracker.trackRequest('myFoo=withoutCookieConsent');
+        strictEqual(document.cookie.indexOf(visitorCookieName + '='), -1, 'the visitor ID cookie is deleted on the next request without cookie consent');
+        ok(!tracker.areCookiesEnabled(), 'cookies are still disabled after the request');
+
         deleteCookies();
     });
 
