@@ -46,9 +46,7 @@ abstract class ControllerAdmin extends Controller
     private const NEXT_REQUIRED_MINIMUM_MYSQL = '8.0';
     private const NEXT_REQUIRED_MINIMUM_MARIADB = '10.6';
 
-    private const SMTP_BASIC_AUTH_RETIREMENT_MICROSOFT_NOTIFICATION_ID = 'SmtpBasicAuthRetirementMicrosoft';
-
-    private const SMTP_BASIC_AUTH_RETIREMENT_MICROSOFT_ANNOUNCEMENT_URL = 'https://techcommunity.microsoft.com/blog/exchange/updated-exchange-online-smtp-auth-basic-authentication-deprecation-timeline/4489835';
+    private const SMTP_BASIC_AUTH_RETIREMENT_NOTIFICATION_ID = 'SmtpBasicAuthRetirementMicrosoft';
 
     private static function notifyWhenTrackingStatisticsDisabled()
     {
@@ -449,17 +447,17 @@ abstract class ControllerAdmin extends Controller
 
         if (
             !Piwik::hasUserSuperUserAccess()
-            || NotificationManager::isDisabled(self::SMTP_BASIC_AUTH_RETIREMENT_MICROSOFT_NOTIFICATION_ID)
+            || NotificationManager::isDisabled(self::SMTP_BASIC_AUTH_RETIREMENT_NOTIFICATION_ID)
             || !self::areMailSettingsShownInUi()
             || !self::isMailConfigUsingSmtpPasswordLogin(Config::getInstance()->mail)
         ) {
             // persistent notifications stay in the session, so drop it once the settings no longer match
-            NotificationManager::cancel(self::SMTP_BASIC_AUTH_RETIREMENT_MICROSOFT_NOTIFICATION_ID);
+            NotificationManager::cancel(self::SMTP_BASIC_AUTH_RETIREMENT_NOTIFICATION_ID);
             return;
         }
 
         // posted once per session, so a warning the user closed stays closed until they sign in again
-        $session = new SessionNamespace(self::SMTP_BASIC_AUTH_RETIREMENT_MICROSOFT_NOTIFICATION_ID);
+        $session = new SessionNamespace(self::SMTP_BASIC_AUTH_RETIREMENT_NOTIFICATION_ID);
         if (!empty($session->shown)) {
             return;
         }
@@ -468,12 +466,13 @@ abstract class ControllerAdmin extends Controller
             'module' => 'CoreAdminHome',
             'action' => 'generalSettings',
         ]) . '#/mailSettings';
+        $announcementUrl = 'https://techcommunity.microsoft.com/blog/exchange/updated-exchange-online-smtp-auth-basic-authentication-deprecation-timeline/4489835';
 
         $message = Piwik::translate('General_SmtpBasicAuthRetirementMicrosoft', [
             // the rest of the query string comes from the request and the message is not escaped
             '<a href="' . htmlspecialchars($settingsUrl, ENT_QUOTES) . '">',
             '</a>',
-            Url::getExternalLinkTag(self::SMTP_BASIC_AUTH_RETIREMENT_MICROSOFT_ANNOUNCEMENT_URL),
+            Url::getExternalLinkTag($announcementUrl),
             '</a>',
         ]);
 
@@ -485,7 +484,7 @@ abstract class ControllerAdmin extends Controller
         // persistent, so the reporting UI doesn't clear it before the user closes it
         $notification->type = Notification::TYPE_PERSISTENT;
         $notification->flags = Notification::FLAG_CLEAR;
-        NotificationManager::notify(self::SMTP_BASIC_AUTH_RETIREMENT_MICROSOFT_NOTIFICATION_ID, $notification);
+        NotificationManager::notify(self::SMTP_BASIC_AUTH_RETIREMENT_NOTIFICATION_ID, $notification);
 
         $session->shown = true;
     }
@@ -516,7 +515,7 @@ abstract class ControllerAdmin extends Controller
     public static function cancelSmtpBasicAuthRetirementWarningIfResolved(array $mail): void
     {
         if (!self::isMailConfigUsingSmtpPasswordLogin($mail)) {
-            NotificationManager::cancel(self::SMTP_BASIC_AUTH_RETIREMENT_MICROSOFT_NOTIFICATION_ID);
+            NotificationManager::cancel(self::SMTP_BASIC_AUTH_RETIREMENT_NOTIFICATION_ID);
         }
     }
 

@@ -129,15 +129,6 @@ class ControllerAdminSmtpBasicAuthRetirementTest extends IntegrationTestCase
         yield 'user without super user access' => [[], [], false];
     }
 
-    public function testDoesNotPostTheWarningToAUserWithoutSuperUserAccess(): void
-    {
-        FakeAccess::clearAccess(false, [1], [], 'adminUser');
-
-        $this->notify();
-
-        $this->assertNull($this->getWarning());
-    }
-
     public function testDoesNotPostTheWarningToTheAnonymousUser(): void
     {
         FakeAccess::clearAccess(false, [], [1], 'anonymous');

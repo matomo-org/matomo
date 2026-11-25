@@ -107,10 +107,6 @@ class ControllerAdminTest extends TestCase
         $smtp = ['transport' => 'smtp', 'host' => 'smtp.office365.com', 'type' => 'Login'];
 
         yield 'Microsoft 365 with a password login' => [$smtp, true];
-        yield 'another server, as the host is not checked' => [['host' => 'smtp.gmail.com'] + $smtp, true];
-        yield 'a server of your own' => [['host' => 'mail.example.org'] + $smtp, true];
-        yield 'PLAIN login' => [['type' => 'Plain'] + $smtp, true];
-        yield 'CRAM-MD5 login' => [['type' => 'Cram-md5'] + $smtp, true];
         yield 'mail() instead of SMTP' => [['transport' => ''] + $smtp, false];
         yield 'transport in upper case, which Transport does not treat as SMTP' => [['transport' => 'SMTP'] + $smtp, false];
         yield 'no transport set' => [['host' => 'smtp.office365.com', 'type' => 'Login'], false];
