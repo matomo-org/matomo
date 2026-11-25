@@ -23,6 +23,7 @@ use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
 use Piwik\Plugins\PrivacyManager\FeatureFlags\GranularPrivacyCompliance;
 use Piwik\Plugins\PrivacyManager\FeatureFlags\HybridTracking;
+use Piwik\Plugins\PrivacyManager\Model\DataSubjects;
 use Piwik\Policy\PolicyManager;
 use Piwik\Plugins\SitesManager\SiteContentDetection\ConsentManagerDetectionAbstract;
 use Piwik\Plugins\SitesManager\SiteContentDetection\SiteContentDetectionAbstract;
@@ -195,7 +196,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         Piwik::checkUserHasSomeAdminAccess();
 
-        return $this->renderTemplate('gdprTools');
+        return $this->renderTemplate('gdprTools', [
+            'maxVisits' => DataSubjects::getMaxVisitsListed(),
+        ]);
     }
 
     public function ePrivacyLaws()

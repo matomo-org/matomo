@@ -12,6 +12,7 @@ namespace Piwik\Plugins\PrivacyManager\Model;
 use Piwik\Columns\Dimension;
 use Piwik\Columns\Join\ActionNameJoin;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Db;
@@ -26,11 +27,23 @@ use Piwik\Log\LoggerInterface;
 
 class DataSubjects
 {
+    private const DEFAULT_MAX_VISITS_LISTED = 400;
+
     private LogTablesProvider $logTablesProvider;
 
     public function __construct(LogTablesProvider $logTablesProvider)
     {
         $this->logTablesProvider = $logTablesProvider;
+    }
+
+    /**
+     * The number of visits the GDPR tools list for one search, from `[General] gdpr_tools_max_visits`.
+     */
+    public static function getMaxVisitsListed(): int
+    {
+        $maxVisits = (int) (Config::getInstance()->General['gdpr_tools_max_visits'] ?? self::DEFAULT_MAX_VISITS_LISTED);
+
+        return $maxVisits > 0 ? $maxVisits : self::DEFAULT_MAX_VISITS_LISTED;
     }
 
     private function getDistinctIdSitesInTable($tableName, $maxIdSite)

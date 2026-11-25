@@ -726,6 +726,13 @@ live_ai_chatbots_top_page_urls_maximum_rows = 100
 ; and through SET STATEMENT max_statement_time on MariaDB. This feature will not work with the MYSQLI extension.
 live_query_max_execution_time = -1
 
+; maximum number of visits the GDPR tools list for one search, and so can export or delete at once.
+; Higher values make the search slower and the page heavier; live_query_max_execution_time still applies to the search.
+; Values below 1 fall back to 400. Above 450, exports and deletions are sent in several requests,
+; so an export lists each table's rows in request order rather than one sorted list, and the
+; PrivacyManager.exportDataSubjects and PrivacyManager.deleteDataSubjects events fire once per request.
+gdpr_tools_max_visits = 400
+
 ; In "All Websites" dashboard, when looking at today's reports (or a date range including today),
 ; the page will automatically refresh every 5 minutes. Set to 0 to disable automatic refresh
 multisites_refresh_after_seconds = 300

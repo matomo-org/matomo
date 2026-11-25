@@ -135,8 +135,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-show="dataSubjects.length > 400">
-            <td colspan="9">{{ translate('PrivacyManager_ResultTruncated', '400') }}</td>
+          <tr v-show="isTruncated">
+            <td colspan="9">{{ translate('PrivacyManager_ResultTruncated', `${maxVisits}`) }}</td>
           </tr>
           <tr
             :title="`${translate('PrivacyManager_LastAction')}: ${dataSubject.lastActionDateTime}`"
@@ -284,6 +284,7 @@ import {
 } from 'CoreHome';
 import { SegmentGenerator } from 'SegmentEditor';
 import { SaveButton, Field } from 'CorePluginsAdmin';
+import { ExportBatch, mergeExportBatches, postInBatches } from './batches';
 
 interface DataSubject {
   browser: string;
@@ -307,6 +308,11 @@ interface DataSubject {
   visitorId: string;
 }
 
+interface VisitDescriptor {
+  idsite: string|number;
+  idvisit: string|number;
+}
+
 // the segments the GDPR tools search by that identify a visitor
 const DATA_SUBJECT_IDENTIFIER_SEGMENTS = ['userId', 'visitorId', 'visitId', 'visitIp'];
 
@@ -316,6 +322,7 @@ interface ManageGdprState {
   site: SiteRef;
   segment_filter: string;
   dataSubjects: DataSubject[];
+  isTruncated: boolean;
   toggleAll: boolean;
   hasSearched: boolean;
   profileEnabled: boolean;
@@ -334,6 +341,12 @@ interface DataSubjectSearchScope {
 }
 
 export default defineComponent({
+  props: {
+    maxVisits: {
+      type: Number,
+      default: 400,
+    },
+  },
   components: {
     ContentBlock,
     SiteSelector,
@@ -354,6 +367,7 @@ export default defineComponent({
       },
       segment_filter: 'visitId==',
       dataSubjects: [],
+      isTruncated: false,
       toggleAll: true,
       hasSearched: false,
       profileEnabled: Matomo.visitorProfileEnabled,
@@ -450,19 +464,20 @@ export default defineComponent({
     showProfile(visitorId: string, idSite: string|number) {
       Matomo.helper.showVisitorProfilePopup(visitorId, idSite);
     },
+    postVisitsInBatches<R>(params: QueryParameters, visits: VisitDescriptor[]): Promise<R[]> {
+      return postInBatches(visits, (batch) => AjaxHelper.post<R>(params, { visits: batch }));
+    },
     exportDataSubject() {
-      const visitsToDelete = this.activatedDataSubjects;
-      AjaxHelper.post<unknown[]>(
+      this.postVisitsInBatches<ExportBatch>(
         {
           module: 'API',
           method: 'PrivacyManager.exportDataSubjects',
           format: 'json',
           filter_limit: -1,
         },
-        {
-          visits: visitsToDelete,
-        },
-      ).then((visits) => {
+        this.activatedDataSubjects,
+      ).then((batches) => {
+        const visits = mergeExportBatches(batches);
         this.showSuccessNotification(translate('PrivacyManager_VisitsSuccessfullyExported'));
         Matomo.helper.sendContentAsDownload('exported_data_subjects.json', JSON.stringify(visits));
       });
@@ -471,19 +486,19 @@ export default defineComponent({
       Matomo.helper.modalConfirm(this.$refs.confirmDeleteDataSubject as HTMLElement, {
         yes: () => {
           this.isDeleting = true;
-          const visitsToDelete = this.activatedDataSubjects;
-          AjaxHelper.post(
+          this.postVisitsInBatches(
             {
               module: 'API',
               method: 'PrivacyManager.deleteDataSubjects',
               filter_limit: -1,
             },
-            {
-              visits: visitsToDelete,
-            },
+            this.activatedDataSubjects,
           ).then(() => {
             this.dataSubjects = [];
             this.showSuccessNotification(translate('PrivacyManager_VisitsSuccessfullyDeleted'));
+            this.findDataSubjects();
+          }, () => {
+            // the error is already shown, list what the batches before it left
             this.findDataSubjects();
           }).finally(() => {
             this.isDeleting = false;
@@ -507,6 +522,7 @@ export default defineComponent({
     },
     findDataSubjects() {
       this.dataSubjects = [];
+      this.isTruncated = false;
       this.dataSubjectsActive = [];
       // until the scope of this search is known, no row links to a visitor profile
       this.consentedVisitsOnlyIdSites = null;
@@ -542,8 +558,10 @@ export default defineComponent({
           segment: this.segment_filter,
         }).then((visits) => {
           this.hasSearched = true;
-          this.dataSubjectsActive = visits.map(() => true);
-          this.dataSubjects = visits;
+          // the search returns one visit more than is listed when there are more
+          this.isTruncated = visits.length > this.maxVisits;
+          this.dataSubjects = visits.slice(0, this.maxVisits);
+          this.dataSubjectsActive = this.dataSubjects.map(() => true);
         }).finally(() => {
           this.isLoading = false;
         });
@@ -560,7 +578,7 @@ export default defineComponent({
     hasActiveDataSubjects(): boolean {
       return !!this.activatedDataSubjects.length;
     },
-    activatedDataSubjects(): { idsite: string|number, idvisit: string|number }[] {
+    activatedDataSubjects(): VisitDescriptor[] {
       return this.dataSubjects.filter((v, i) => this.dataSubjectsActive[i]).map((v) => ({
         idsite: v.idSite,
         idvisit: v.idVisit,

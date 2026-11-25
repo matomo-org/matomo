@@ -453,6 +453,28 @@ describe("PrivacyManager", function () {
         await page.waitForTimeout(300);
     });
 
+    it('should list only the configured maximum of visits in the GDPR tools', async function() {
+        testEnvironment.overrideConfig('General', 'gdpr_tools_max_visits', 2);
+        await testEnvironment.save();
+
+        try {
+            await loadActionPage('gdprTools');
+            await selectStartsWith();
+            await enterSegmentMatchValue('10');
+            await findDataSubjects();
+
+            await page.waitForSelector('.manageGdpr .entityTable tbody tr[title]', { visible: true });
+            const rows = await page.$$eval('.manageGdpr .entityTable tbody tr[title]', (rows) => rows.length);
+            expect(rows).to.equal(2);
+            const truncatedRow = await page.waitForSelector('.manageGdpr .entityTable tbody tr:first-child', { visible: true });
+            const truncated = await truncatedRow.evaluate((row) => row.textContent);
+            expect(truncated).to.contain('truncated to the first 2 visits');
+        } finally {
+            delete testEnvironment.configOverride.General.gdpr_tools_max_visits;
+            await testEnvironment.save();
+        }
+    });
+
     it('should load GDPR tools page', async function() {
         await loadActionPage('gdprTools');
 

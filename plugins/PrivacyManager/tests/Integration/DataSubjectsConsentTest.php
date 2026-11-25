@@ -13,6 +13,7 @@ namespace Piwik\Plugins\PrivacyManager\tests\Integration;
 
 use Piwik\API\Request;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Date;
@@ -258,6 +259,41 @@ class DataSubjectsConsentTest extends IntegrationTestCase
         $sorted = $lastActionTimes;
         rsort($sorted);
         $this->assertSame($sorted, $lastActionTimes, 'visits are sorted by last action, newest first');
+    }
+
+    public function testFindDataSubjectsReturnsOneVisitMoreThanTheConfiguredMaximum(): void
+    {
+        Config::getInstance()->General['gdpr_tools_max_visits'] = 3;
+        // alice has 3 visits on the site without policy, 2 copies make 5
+        $this->copyVisit($this->visits['other:alice:0'], 2);
+
+        $this->assertCount(4, $this->findVisitIds($this->otherSite, 'userId==alice'));
+    }
+
+    /**
+     * @dataProvider getInvalidMaximumsOfVisitsListed
+     *
+     * @param mixed $maxVisits
+     */
+    public function testInvalidMaximumOfVisitsListedFallsBackToTheDefault($maxVisits): void
+    {
+        $general = Config::getInstance()->General;
+        if ($maxVisits === null) {
+            unset($general['gdpr_tools_max_visits']);
+        } else {
+            $general['gdpr_tools_max_visits'] = $maxVisits;
+        }
+        Config::getInstance()->General = $general;
+
+        $this->assertSame(400, DataSubjects::getMaxVisitsListed());
+    }
+
+    public static function getInvalidMaximumsOfVisitsListed(): iterable
+    {
+        yield 'missing' => [null];
+        yield 'zero' => ['0'];
+        yield 'negative' => ['-5'];
+        yield 'not a number' => ['many'];
     }
 
     public function testFindDataSubjectsFindsAConsentedVisitTrackedWhileThePolicyIsEnforced(): void

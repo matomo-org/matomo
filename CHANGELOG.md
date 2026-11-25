@@ -20,6 +20,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * Where `enable_userid_overwrites_visitorid` is on, a User ID that a policy withholds is never used for `idvisitor`, even with consent, so `nb_uniq_visitors` keeps counting browsers.
 
 ### New config.ini.php settings
+* `[General] gdpr_tools_max_visits` (default `400`) sets how many visits the GDPR tools list for one search, and so how many can be exported or deleted at once. Above 450, the GDPR tools export and delete in several API requests, so the `PrivacyManager.exportDataSubjects` and `PrivacyManager.deleteDataSubjects` events fire once per request.
 * `[PrivacyManager] consent_aware_analytics` sets consent-aware measurement for the whole instance and locks that value on the *Privacy → Compliance* page. It does not lock the websites: each one keeps its own value, which takes effect while the instance value is off. A website measures it when either the instance or the website has it on.
 * `[log] log_format` (and `log_format_<writer>` per writer) lets the file, database, errorlog and syslog log writers write `json`, `loggly` or `logstash` instead of `text`.
 * `[General] enable_processing_estimated_unique_visitors_week`, `_month`, `_year` and `_range` (default `0`) estimate a website's unique visitors and users for that period instead of counting them from the visit logs. To estimate periods archived before, invalidate their days.
