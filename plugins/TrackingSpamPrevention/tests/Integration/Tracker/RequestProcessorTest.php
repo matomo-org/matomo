@@ -92,6 +92,49 @@ class RequestProcessorTest extends IntegrationTestCase
         $this->assertSame([], $this->ranges->getBlockedRanges());
     }
 
+    public function testUpdateBlockedIpRangesMaxActionsEnabledLimitReachedShouldStopRequestButNotBanCustomIpOfAdminUser()
+    {
+        $this->settings->max_actions->setValue(200);
+
+        $request = new Request(['idsite' => 1, 'cip' => '11.12.13.14', 'token_auth' => $this->createUserTokenForSite('adminuser', 'admin', 1)]);
+        $this->assertTrue($request->isAuthenticated());
+
+        $this->assertTrue($this->processor->afterRequestProcessed($this->makeVisit(200), $request));
+        $this->assertSame([], $this->ranges->getBlockedRanges());
+    }
+
+    /**
+     * @dataProvider getAccessLevelsBelowSuperUser
+     */
+    public function testUpdateBlockedIpRangesMaxActionsEnabledLimitReachedShouldStopRequestButNotBanCustomIpOfSuperUserTokenWithLowerAccessLevel(string $accessLevel)
+    {
+        $this->settings->max_actions->setValue(200);
+
+        $request = new Request(['idsite' => 1, 'cip' => '11.12.13.14', 'token_auth' => $this->createSuperUserTokenWithAccessLevel($accessLevel)]);
+        $this->assertTrue($request->isAuthenticated());
+
+        $this->assertTrue($this->processor->afterRequestProcessed($this->makeVisit(200), $request));
+        $this->assertSame([], $this->ranges->getBlockedRanges());
+    }
+
+    public function getAccessLevelsBelowSuperUser(): iterable
+    {
+        // a Super User token limited to view cannot use cip, the tracker rejects it before it gets here
+        yield 'write' => ['write'];
+        yield 'admin' => ['admin'];
+    }
+
+    public function testUpdateBlockedIpRangesMaxActionsEnabledLimitReachedShouldBanCustomIpOfSuperUserTokenWithSuperUserAccessLevel()
+    {
+        $this->settings->max_actions->setValue(200);
+
+        $request = new Request(['idsite' => 1, 'cip' => '11.12.13.14', 'token_auth' => $this->createSuperUserTokenWithAccessLevel('superuser')]);
+        $this->assertTrue($request->isAuthenticated());
+
+        $this->assertTrue($this->processor->afterRequestProcessed($this->makeVisit(200), $request));
+        $this->assertSame(['11.' => ['11.12.13.14/32']], $this->ranges->getBlockedRanges());
+    }
+
     public function testUpdateBlockedIpRangesMaxActionsEnabledLimitReachedShouldRejectCustomIpWithInvalidToken()
     {
         $this->settings->max_actions->setValue(200);
@@ -196,13 +239,26 @@ class RequestProcessorTest extends IntegrationTestCase
 
     private function createWriteUserTokenForSite(int $idSite): string
     {
-        $login = 'writeuser';
+        return $this->createUserTokenForSite('writeuser', 'write', $idSite);
+    }
+
+    private function createUserTokenForSite(string $login, string $access, int $idSite): string
+    {
         $model = new UsersModel();
         $token = $model->generateRandomTokenAuth();
 
-        $model->addUser($login, UsersManager::getPasswordHash('password'), 'writeuser@example.com', '2020-12-12 00:00:00');
-        $model->addUserAccess($login, 'write', [$idSite]);
-        $model->addTokenAuth($login, $token, 'write user token', '2020-12-12 00:00:00');
+        $model->addUser($login, UsersManager::getPasswordHash('password'), $login . '@example.com', '2020-12-12 00:00:00');
+        $model->addUserAccess($login, $access, [$idSite]);
+        $model->addTokenAuth($login, $token, $access . ' user token', '2020-12-12 00:00:00');
+
+        return $token;
+    }
+
+    private function createSuperUserTokenWithAccessLevel(string $accessLevel): string
+    {
+        $model = new UsersModel();
+        $token = $model->generateRandomTokenAuth();
+        $model->addTokenAuth(Fixture::ADMIN_USER_LOGIN, $token, 'limited super user token', '2020-12-12 00:00:00', null, false, false, $accessLevel);
 
         return $token;
     }
