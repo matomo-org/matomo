@@ -2203,12 +2203,6 @@ parameters:
 			path: plugins/BulkTracking/Tracker/Handler.php
 
 		-
-			message: '#^Call to function property_exists\(\) with Piwik\\ViewDataTable\\Config and ''selectable_columns'' will always evaluate to true\.$#'
-			identifier: function.alreadyNarrowedType
-			count: 1
-			path: plugins/Contents/Reports/Base.php
-
-		-
 			message: '#^Expression in empty\(\) is not falsy\.$#'
 			identifier: empty.expr
 			count: 1
