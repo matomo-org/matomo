@@ -664,7 +664,7 @@ class ApiTest extends IntegrationTestCase
     public function getIpSettingWordingCases(): iterable
     {
         yield 'a site that has not opted in keeps the plain wording' => [false, ''];
-        yield 'an opted-in site says consent lifts the anonymisation' => [true, '2'];
+        yield 'an opted-in site says consent lifts the anonymisation' => [true, 'ConsentAware'];
     }
 
     /**

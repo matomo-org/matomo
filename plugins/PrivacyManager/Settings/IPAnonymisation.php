@@ -65,11 +65,11 @@ class IPAnonymisation implements CustomSettingInterface, PolicyComparisonInterfa
 
     public static function getWhatItDoes(?int $idSite = null): string
     {
-        // the consent-aware wording describes what a site measuring consent-aware analytics
-        // does. It is off by default, and a site that has not opted in treats every visitor the
-        // same, so the plain wording is what is true there
-        if (null !== $idSite && ConsentAwareAnalytics::isEnabledForSite($idSite)) {
-            return Piwik::translate('PrivacyManager_AnonymizeIpPolicySettingWhatItDoes2');
+        // as for the campaign masking and referrer anonymisation settings: the consent-aware
+        // wording describes a site that measures consent-aware analytics, and where it is not
+        // turned on every visitor is treated the same.
+        if (ConsentAwareAnalytics::isEnabledForScope($idSite)) {
+            return Piwik::translate('PrivacyManager_AnonymizeIpPolicySettingWhatItDoesConsentAware');
         }
 
         return Piwik::translate('PrivacyManager_AnonymizeIpPolicySettingWhatItDoes');
@@ -77,11 +77,11 @@ class IPAnonymisation implements CustomSettingInterface, PolicyComparisonInterfa
 
     public static function getImpact(?int $idSite = null): string
     {
-        // the consent-aware wording describes what a site measuring consent-aware analytics
-        // does. It is off by default, and a site that has not opted in treats every visitor the
-        // same, so the plain wording is what is true there
-        if (null !== $idSite && ConsentAwareAnalytics::isEnabledForSite($idSite)) {
-            return Piwik::translate('PrivacyManager_AnonymizeIpPolicySettingImpact2');
+        // as for the campaign masking and referrer anonymisation settings: the consent-aware
+        // wording describes a site that measures consent-aware analytics, and where it is not
+        // turned on every visitor is treated the same.
+        if (ConsentAwareAnalytics::isEnabledForScope($idSite)) {
+            return Piwik::translate('PrivacyManager_AnonymizeIpPolicySettingImpactConsentAware');
         }
 
         return Piwik::translate('PrivacyManager_AnonymizeIpPolicySettingImpact');

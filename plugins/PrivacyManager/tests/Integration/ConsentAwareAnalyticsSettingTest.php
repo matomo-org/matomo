@@ -21,6 +21,8 @@ use Piwik\Piwik;
 use Piwik\Plugins\PrivacyManager\API;
 use Piwik\Plugins\PrivacyManager\Settings\CampaignParameterValuesMasked;
 use Piwik\Plugins\PrivacyManager\Settings\ConsentAwareAnalytics;
+use Piwik\Plugins\PrivacyManager\Settings\IPAnonymisation;
+use Piwik\Plugins\PrivacyManager\Settings\IpAddressMaskLength;
 use Piwik\Plugins\PrivacyManager\Settings\ReferrerAnonymisation;
 use Piwik\Plugins\UserId\Settings\UserIdDisabled;
 use Piwik\Tests\Framework\Fixture;
@@ -109,6 +111,8 @@ class ConsentAwareAnalyticsSettingTest extends IntegrationTestCase
     {
         $settings = [
             CampaignParameterValuesMasked::class => 'PrivacyManager_CampaignParameterValuesMaskedSetting',
+            IPAnonymisation::class => 'PrivacyManager_AnonymizeIpPolicySetting',
+            IpAddressMaskLength::class => 'PrivacyManager_AnonymizeIpMaskLengthSetting',
             ReferrerAnonymisation::class => 'PrivacyManager_ReferrerAnonymizationSetting',
             UserIdDisabled::class => 'UserId_UserIdDisabledSetting',
         ];

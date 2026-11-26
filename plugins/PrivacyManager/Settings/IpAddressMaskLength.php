@@ -70,11 +70,11 @@ class IpAddressMaskLength implements CustomSettingInterface, PolicyComparisonInt
             self::getPolicyRequirements()[CnilPolicy::class],
         ];
 
-        // the consent-aware wording describes what a site measuring consent-aware analytics
-        // does. It is off by default, and a site that has not opted in treats every visitor the
-        // same, so the plain wording is what is true there
-        if (null !== $idSite && ConsentAwareAnalytics::isEnabledForSite($idSite)) {
-            return Piwik::translate('PrivacyManager_AnonymizeIpMaskLengthSettingWhatItDoes2', $params);
+        // as for the campaign masking and referrer anonymisation settings: the consent-aware
+        // wording describes a site that measures consent-aware analytics, and where it is not
+        // turned on every visitor is treated the same.
+        if (ConsentAwareAnalytics::isEnabledForScope($idSite)) {
+            return Piwik::translate('PrivacyManager_AnonymizeIpMaskLengthSettingWhatItDoesConsentAware', $params);
         }
 
         return Piwik::translate('PrivacyManager_AnonymizeIpMaskLengthSettingWhatItDoes', $params);
@@ -82,11 +82,11 @@ class IpAddressMaskLength implements CustomSettingInterface, PolicyComparisonInt
 
     public static function getImpact(?int $idSite = null): string
     {
-        // the consent-aware wording describes what a site measuring consent-aware analytics
-        // does. It is off by default, and a site that has not opted in treats every visitor the
-        // same, so the plain wording is what is true there
-        if (null !== $idSite && ConsentAwareAnalytics::isEnabledForSite($idSite)) {
-            return Piwik::translate('PrivacyManager_AnonymizeIpMaskLengthSettingImpact2', [self::getCurrentMaskLength($idSite)]);
+        // as for the campaign masking and referrer anonymisation settings: the consent-aware
+        // wording describes a site that measures consent-aware analytics, and where it is not
+        // turned on every visitor is treated the same.
+        if (ConsentAwareAnalytics::isEnabledForScope($idSite)) {
+            return Piwik::translate('PrivacyManager_AnonymizeIpMaskLengthSettingImpactConsentAware', [self::getCurrentMaskLength($idSite)]);
         }
 
         return Piwik::translate('PrivacyManager_AnonymizeIpMaskLengthSettingImpact', [self::getCurrentMaskLength($idSite)]);
