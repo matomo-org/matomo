@@ -16,18 +16,15 @@ use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Plugin\ControllerAdmin;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Request\AuthenticationToken;
+use Piwik\Session;
+use Piwik\Session\SessionNamespace;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use ReflectionMethod;
 
 /**
- * Posting the warning creates a session namespace, which in CLI turns on session storage for the rest of the
- * process, so every test runs in a process of its own.
- *
  * @group Core
- * @runTestsInSeparateProcesses
- * @preserveGlobalState disabled
  */
 class ControllerAdminSmtpBasicAuthRetirementTest extends IntegrationTestCase
 {
@@ -184,8 +181,13 @@ class ControllerAdminSmtpBasicAuthRetirementTest extends IntegrationTestCase
         $this->assertNull($this->getWarning());
     }
 
+    /**
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
     public function testDoesNotPostTheWarningOnARequestAuthenticatedWithATokenAuth(): void
     {
+        $this->enableSession();
         $authenticationToken = $this->createMock(AuthenticationToken::class);
         $authenticationToken->method('getAuthToken')->willReturn('a_token_auth');
         StaticContainer::getContainer()->set(AuthenticationToken::class, $authenticationToken);
@@ -196,8 +198,27 @@ class ControllerAdminSmtpBasicAuthRetirementTest extends IntegrationTestCase
         $this->assertSame([], $_SESSION, 'a token_auth request must not remember the warning as shown');
     }
 
+    /**
+     * A fresh process, so no other test has turned the session on.
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
+    public function testPostsTheWarningWithoutTurningOnASessionWhenThereIsNone(): void
+    {
+        $this->notify();
+
+        $this->assertNotNull($this->getWarning());
+        $this->assertFalse(Session::isWritable(), 'the warning turned on the session');
+    }
+
+    /**
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
     public function testAClosedWarningStaysClosedUntilTheNextSession(): void
     {
+        $this->enableSession();
         $this->notify();
         $this->assertNotNull($this->getWarning(), 'the warning was not posted to begin with');
 
@@ -216,13 +237,27 @@ class ControllerAdminSmtpBasicAuthRetirementTest extends IntegrationTestCase
         $this->assertNotNull($this->getWarning(), 'the warning did not come back after signing in again');
     }
 
+    /**
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
     public function testAWarningThatWasNotClosedIsKeptAcrossRequests(): void
     {
+        $this->enableSession();
         $this->notify();
         $this->startNextRequest();
         $this->notify();
 
         $this->assertNotNull($this->getWarning());
+    }
+
+    /**
+     * In CLI this turns on session storage for the rest of the process, so tests that call it run in a process of
+     * their own.
+     */
+    private function enableSession(): void
+    {
+        new SessionNamespace('ControllerAdminSmtpBasicAuthRetirementTest');
     }
 
     private function setGeneralConfig(array $values): void

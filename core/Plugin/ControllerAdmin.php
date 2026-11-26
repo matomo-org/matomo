@@ -26,6 +26,7 @@ use Piwik\Plugins\CoreAdminHome\Controller as CoreAdminHomeController;
 use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
 use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\Request\AuthenticationToken;
+use Piwik\Session;
 use Piwik\Session\SessionNamespace;
 use Piwik\Tracker\TrackerConfig;
 use Piwik\Url;
@@ -458,8 +459,10 @@ abstract class ControllerAdmin extends Controller
         }
 
         // posted once per session, so a warning the user closed stays closed until they sign in again
-        $session = new SessionNamespace(self::SMTP_BASIC_AUTH_RETIREMENT_NOTIFICATION_ID);
-        if (!empty($session->shown)) {
+        $session = Session::isWritable() && Session::isReadable()
+            ? new SessionNamespace(self::SMTP_BASIC_AUTH_RETIREMENT_NOTIFICATION_ID)
+            : null;
+        if ($session !== null && !empty($session->shown)) {
             return;
         }
 
@@ -499,7 +502,9 @@ abstract class ControllerAdmin extends Controller
         $notification->flags = Notification::FLAG_CLEAR;
         NotificationManager::notify(self::SMTP_BASIC_AUTH_RETIREMENT_NOTIFICATION_ID, $notification);
 
-        $session->shown = true;
+        if ($session !== null) {
+            $session->shown = true;
+        }
     }
 
     /**
