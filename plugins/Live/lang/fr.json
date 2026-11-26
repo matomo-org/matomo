@@ -32,6 +32,7 @@
         "NoMoreVisits": "Ce sont toutes les visites de ce visiteur.",
         "OnClickPause": "%s est en cours d'exécution… Cliquez pour le mettre en pause.",
         "OnClickStart": "%s est arrêté. Cliquez pour le démarrer.",
+        "OnlyConsentedVisitsShown": "Seules les visites des internautes ayant donné leur consentement sont affichées, car la politique de conformité de ce site web désactive le journal des visites.",
         "PageRefreshed": "Nombre de fois où cette page a été vue / rafraîchie d'affilée.",
         "PluginDescription": "Fournit le log en temps réel des visiteurs et vous permet de visualiser vos visiteurs en temps réel au sein d'un gadget du tableau de bord. Le profil d'un visiteur peut être consulté pour n'importe quel utilisateur.",
         "PreviousVisitor": "Visiteur précédent",
