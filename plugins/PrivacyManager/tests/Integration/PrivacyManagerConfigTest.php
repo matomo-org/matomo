@@ -252,12 +252,15 @@ class PrivacyManagerConfigTest extends IntegrationTestCase
 
     /**
      * A tracker cache written before the admin's own values were cached alongside the enforced ones
-     * has no entry for them. That must not read as anonymisation being off.
+     * has no entry for them. That must not read as anonymisation being off: the values the policy
+     * enforces stand, so consent lifts nothing until the cache is rebuilt.
      */
-    public function testGetConfiguredIpSettingsFallBackToMaskingWhenTheTrackerCacheLacksThem()
+    public function testGetConfiguredIpSettingsKeepThePolicysMaskWhenTheTrackerCacheLacksThem()
     {
         $this->setConfigSiteId(1);
         $this->config->ipAnonymizerEnabled = false;
+        $this->config->ipAddressMaskLength = 1;
+        API::getInstance()->setComplianceStatus('all', 'cnil_v1', $enabled = true);
 
         $siteCache = TrackerCache::getCacheWebsiteAttributes(1);
         $this->assertFalse($siteCache['PrivacyManager.ipAnonymizerEnabledConfiguredValue'], 'precondition: the value is cached');
@@ -270,6 +273,31 @@ class PrivacyManagerConfigTest extends IntegrationTestCase
 
         $this->assertTrue($this->config->getConfiguredValue('ipAnonymizerEnabled'));
         $this->assertSame(2, $this->config->getConfiguredValue('ipAddressMaskLength'));
+    }
+
+    /**
+     * A tracker cache written before the configured value was kept in it says nothing about what
+     * the admin chose, so the enforced value stands: falling back to the setting's default could
+     * be less strict than what the admin chose themselves.
+     */
+    public function testGetConfiguredValueKeepsTheEnforcedValueWhereTheCacheLacksTheConfiguredOne()
+    {
+        $idSite = Fixture::createWebsite('2024-01-01 00:00:00');
+
+        $siteCache = TrackerCache::getCacheWebsiteAttributes($idSite);
+        $siteCache['PrivacyManager.anonymizeReferrer'] = ReferrerAnonymizer::EXCLUDE_ALL;
+        unset($siteCache['PrivacyManager.anonymizeReferrerConfiguredValue']);
+        TrackerCache::$cache->save($idSite, $siteCache);
+
+        // written before the configured value was kept, the general cache lacks it too
+        $generalCache = TrackerCache::getCacheGeneral();
+        unset($generalCache['PrivacyManager.anonymizeReferrerConfiguredValue']);
+        TrackerCache::setCacheGeneral($generalCache);
+
+        $config = new PrivacyManagerConfig($idSite);
+
+        $this->assertSame(ReferrerAnonymizer::EXCLUDE_ALL, $config->getConfiguredValue('anonymizeReferrer'));
+        $this->assertFalse($config->isConfiguredValueOverriddenByPolicy());
     }
 
     public function testGetConfiguredValueRejectsASettingItIsNotCachedFor()

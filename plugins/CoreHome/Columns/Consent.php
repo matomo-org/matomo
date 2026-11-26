@@ -215,6 +215,9 @@ class Consent extends VisitDimension
      * on to start, not to this one. A visit being created now is the one the request starts, so
      * that question does not arise there.
      *
+     * Ask it once whether the request starts a new visit is settled, that is from a dimension's
+     * onNewVisit() / onExistingVisit() or a request processor's afterRequestProcessed() on.
+     *
      * @param Action|null $action
      */
     public static function visitConsentApplies(Request $request, Visitor $visitor, $action = null): bool

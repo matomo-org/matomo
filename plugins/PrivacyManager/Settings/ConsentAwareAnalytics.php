@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Piwik\Plugins\PrivacyManager\Settings;
 
+use Piwik\Piwik;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
 use Piwik\Plugins\UserId\Settings\UserIdDisabled;
 use Piwik\Settings\FieldConfig;
@@ -103,6 +104,23 @@ class ConsentAwareAnalytics implements SystemSettingInterface, MeasurableSetting
     }
 
     /**
+     * The text a compliance setting shows for the given scope: the consent-aware variant, keyed
+     * `<key>ConsentAware`, where consent-aware analytics is on for that scope, and the plain one
+     * otherwise. A scope that does not measure it treats every visitor the same, so the plain
+     * text is what is true there.
+     *
+     * @param array<int, mixed> $params as for Piwik::translate()
+     */
+    public static function translateForScope(?int $idSite, string $translationKey, array $params = []): string
+    {
+        if (self::isEnabledForScope($idSite)) {
+            return Piwik::translate($translationKey . 'ConsentAware', $params);
+        }
+
+        return Piwik::translate($translationKey, $params);
+    }
+
+    /**
      * Turns it on or off for the whole instance, or for a site when one is given.
      */
     public static function setEnabled(bool $enabled, ?int $idSite = null): void
@@ -130,6 +148,23 @@ class ConsentAwareAnalytics implements SystemSettingInterface, MeasurableSetting
         $cache = TrackerCache::getCacheWebsiteAttributes($idSite);
 
         return true === ($cache[self::TRACKER_CACHE_KEY] ?? false);
+    }
+
+    /**
+     * Whether consent is measured while tracking this site: it measures consent-aware analytics
+     * and does not force cookieless tracking, under which consent changes nothing.
+     *
+     * This is Request::measuresConsentAwareAnalytics() for when no request is at hand - a report
+     * or segment deciding whether consented visits can have stored what it shows - so that what
+     * they offer stays in step with what tracking stores. Read from the tracker cache.
+     */
+    public static function isMeasuredForSite(int $idSite): bool
+    {
+        if ($idSite <= 0 || !self::isEnabled($idSite)) {
+            return false;
+        }
+
+        return !(new PrivacyManagerConfig($idSite))->forceCookielessTracking;
     }
 
     /**
@@ -166,15 +201,7 @@ class ConsentAwareAnalytics implements SystemSettingInterface, MeasurableSetting
             return true;
         }
 
-        $config = new PrivacyManagerConfig($idSite);
-
-        if (
-            $config->ipAnonymizerEnabled !== (bool) $config->getConfiguredValue('ipAnonymizerEnabled')
-            || $config->ipAddressMaskLength !== (int) $config->getConfiguredValue('ipAddressMaskLength')
-        ) {
-            return true;
-        }
-
-        return $config->anonymizeReferrer !== (string) $config->getConfiguredValue('anonymizeReferrer');
+        // every privacy setting consent lifts back to the admin's own value
+        return (new PrivacyManagerConfig($idSite))->isConfiguredValueOverriddenByPolicy();
     }
 }
