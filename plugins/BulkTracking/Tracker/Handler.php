@@ -13,8 +13,6 @@ use Piwik\Access;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Db\TransactionErrors;
-use Piwik\Exception\InvalidRequestParameterException;
-use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Piwik;
 use Piwik\Tracker;
 use Piwik\Tracker\RequestSet;
@@ -58,12 +56,14 @@ class Handler extends Tracker\Handler
         foreach ($requestSet->getRequests() as $index => $request) {
             try {
                 $tracker->trackRequest($request);
-            } catch (UnexpectedWebsiteFoundException $ex) {
-                $invalidRequests[] = $index;
-            } catch (InvalidRequestParameterException $ex) {
-                $invalidRequests[] = $index;
             } catch (Exception $e) {
-                if (TransactionErrors::isStatementOnly(Tracker::getDatabase(), $e)) {
+                $statusCode = self::getStatusCodeForException($e);
+                // eg an unknown site, an invalid parameter or a plugin's HttpCodeException with a client error
+                // status; a status the client should retry fails the batch instead
+                if ($statusCode < 500 && !in_array($statusCode, [408, 429], true)) {
+                    Common::printDebug('Request ' . $index . ' is invalid: ' . $e->getMessage());
+                    $invalidRequests[] = $index;
+                } elseif (TransactionErrors::isStatementOnly(Tracker::getDatabase(), $e)) {
                     continue;
                 } else {
                     throw $e;
