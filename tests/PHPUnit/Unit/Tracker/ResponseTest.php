@@ -152,8 +152,19 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
         unset($_GET['send_image']);
 
         $this->assertEquals('', $this->response->getOutput());
-        $statusLines = $this->getSentStatusLines();
-        $this->assertSame('HTTP/1.1 204 No Response', end($statusLines));
+        $this->assertSame(['HTTP/1.1 204 No Response'], $this->getSentStatusLines());
+    }
+
+    public function testOutputExceptionShouldNotSendErrorCodeWithImageIfRequestWasAlreadyTracked()
+    {
+        $tracker = $this->getTracker();
+        $this->response->init($tracker);
+
+        $this->response->outputException($tracker, new Exception('My Custom Message'), 500);
+        $this->response->outputResponse($tracker);
+
+        Fixture::checkResponse($this->response->getOutput());
+        $this->assertSame([], $this->getSentStatusLines());
     }
 
     public function testOutputResponseShouldOutputNoResponseIf204HeaderIsRequested()

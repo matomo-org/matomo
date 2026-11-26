@@ -58,7 +58,10 @@ class Response
     {
         // not once the request was recorded, as matomo.js resends a request answered with an error
         $this->keepResponseCode = !$tracker->hasLoggedRequests();
-        Common::sendResponseCode($statusCode);
+
+        if ($this->keepResponseCode) {
+            Common::sendResponseCode($statusCode);
+        }
         $this->logExceptionToErrorLog($e);
 
         if ($tracker->isDebugModeEnabled()) {
