@@ -94,14 +94,18 @@ class Handler
         $statusCode = self::getStatusCodeForException($e);
 
         // if an internal server error, log as a real error, otherwise it's just malformed input
-        if ($statusCode >= 500) {
-            $this->logger->error('Exception: {exception}', [
-                'exception' => $e,
-            ]);
-        } else {
-            $this->logger->debug('Exception: {exception}', [
-                'exception' => $e,
-            ]);
+        try {
+            if ($statusCode >= 500) {
+                $this->logger->error('Exception: {exception}', [
+                    'exception' => $e,
+                ]);
+            } else {
+                $this->logger->debug('Exception: {exception}', [
+                    'exception' => $e,
+                ]);
+            }
+        } catch (Throwable) {
+            // a failing log writer must not replace the response
         }
 
         $this->response->outputException($tracker, $e, $statusCode);
