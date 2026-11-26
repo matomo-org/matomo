@@ -101,6 +101,17 @@ class ManagerTest extends TestCase
         yield 'expired before' => [999, false];
     }
 
+    public function testNotifyRemovesAnEarlierNotificationWithTheSameIdWhenTheNewOneHasExpired(): void
+    {
+        Date::$now = 1000;
+        Manager::notify('testid', new Notification('earlier'));
+        $expired = new Notification('expired');
+        $expired->expiresAt = 1000;
+
+        $this->assertFalse(Manager::notify('testid', $expired));
+        $this->assertArrayNotHasKey('testid', Manager::getPendingInMemoryNotifications());
+    }
+
     /**
      * @runInSeparateProcess
      * @preserveGlobalState disabled

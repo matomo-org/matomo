@@ -35,7 +35,8 @@ class Manager
 
     /**
      * Posts a notification that will be shown in Piwik's status bar. If a notification with the same ID
-     * has been posted and has not been closed/removed, it will be replaced with `$notification`.
+     * has been posted and has not been closed/removed, it will be replaced with `$notification`. If
+     * `$notification` has already expired, the earlier one is removed and nothing is posted.
      *
      * @param string       $id   A unique identifier for this notification. The ID must be a valid HTML
      *                           element ID. It can only contain alphanumeric characters (underscores can
@@ -50,6 +51,7 @@ class Manager
         self::checkId($id);
 
         if (self::hasExpired($notification)) {
+            self::removeNotification($id);
             return false;
         }
 

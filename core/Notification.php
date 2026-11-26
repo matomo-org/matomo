@@ -163,10 +163,8 @@ class Notification
     /**
      * A Unix timestamp from which the notification is no longer posted or shown, or `null` to show it until it is
      * closed or removed.
-     *
-     * @var ?int
      */
-    public $expiresAt = null;
+    public ?int $expiresAt = null;
 
     /**
      * @param  string $message   The notification message.
