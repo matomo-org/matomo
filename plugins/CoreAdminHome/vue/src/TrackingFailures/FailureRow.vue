@@ -1,5 +1,11 @@
 <template>
-  <td>{{ failure.site_name }} ({{ translate('General_Id') }} {{ failure.idsite }})</td>
+  <td>
+    {{ failure.site_name }} ({{ translate('General_Id') }} {{ failure.idsite }})
+    <div
+      v-if="isExcluded"
+      class="matomoTrackingFailures__excluded"
+    >{{ translate('CoreAdminHome_TrackingFailuresExcludedFromEmail') }}</div>
+  </td>
   <td>{{ failure.problem }}</td>
   <td>{{ failure.solution }} <a
     v-show="failure.solution_url"
@@ -46,6 +52,7 @@ export default defineComponent({
       type: Object,
       required: true,
     },
+    isExcluded: Boolean,
   },
   emits: ['delete'],
   data() {

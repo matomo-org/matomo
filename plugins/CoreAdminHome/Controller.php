@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\CoreAdminHome;
 
 use Exception;
+use Piwik\Access;
 use Piwik\API\ResponseBuilder;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
@@ -104,7 +105,24 @@ class Controller extends ControllerAdmin
     {
         Piwik::checkUserHasSomeAdminAccess();
 
-        return $this->renderTemplate('trackingFailures');
+        $settings = new TrackingFailuresNotificationSettings();
+        $excludedIdSites = $settings->getExcludedSiteIds();
+
+        if (!Piwik::hasUserSuperUserAccess()) {
+            // an admin only learns about the websites they manage
+            $excludedIdSites = array_intersect($excludedIdSites, Access::getInstance()->getSitesIdWithAdminAccess());
+        }
+
+        $excludedSites = [];
+        foreach ($excludedIdSites as $idSite) {
+            $excludedSites[] = ['id' => $idSite, 'name' => Site::getNameFor($idSite)];
+        }
+
+        return $this->renderTemplate('trackingFailures', [
+            'isSuperUser' => Piwik::hasUserSuperUserAccess(),
+            'notificationsEnabled' => $settings->isEnabled(),
+            'excludedSites' => $excludedSites,
+        ]);
     }
 
     public function generalSettings()

@@ -1,0 +1,64 @@
+.trackingFailuresNotificationSettings__row {
+    display: flex;
+    gap: 24px;
+    padding: 16px 0;
+    border-top: 1px solid @theme-color-border;
+
+    @media (max-width: 800px) {
+        flex-direction: column;
+        gap: 8px;
+    }
+}
+
+.trackingFailuresNotificationSettings__label {
+    flex: none;
+    width: 40%;
+
+    @media (max-width: 800px) {
+        width: auto;
+    }
+}
+
+.trackingFailuresNotificationSettings__help {
+    color: @theme-color-text-light;
+    font-size: 12px;
+}
+
+.trackingFailuresNotificationSettings__control {
+    flex: auto;
+}
+
+.trackingFailuresNotificationSettings__siteList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0 0 12px;
+}
+
+.trackingFailuresNotificationSettings__siteItem {
+    display: flex;
+    align-items: safe center;
+    gap: 4px;
+    padding: 2px 4px 2px 12px;
+    border: 1px solid @theme-color-border;
+    border-radius: 16px;
+}
+
+.trackingFailuresNotificationSettings__siteRemove {
+    padding: 4px;
+    border: 0;
+    background: none;
+    color: @theme-color-text-light;
+    cursor: pointer;
+
+    &:hover,
+    &:focus-visible {
+        color: @theme-color-text;
+    }
+}
+
+.trackingFailuresNotificationSettings__sitePicker {
+    display: flex;
+    align-items: safe center;
+    gap: 8px;
+}

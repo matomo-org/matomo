@@ -54,6 +54,36 @@ describe("TrackingFailures", function () {
         expect(await elem.screenshot()).to.matchImage('manage_with_failures');
     });
 
+    it('should mark the failures of a website that is excluded from the email', async function () {
+        const settings = '.trackingFailuresNotificationSettings';
+
+        await page.click(settings + '__siteAdd');
+        await page.click(settings + ' .matomo-save-button .btn');
+        await page.waitForNetworkIdle();
+
+        const excluded = await page.$$eval('.matomoTrackingFailures__excluded', (elements) => {
+            return elements.map((e) => e.closest('td').textContent.replace(/\s+/g, ' ').trim());
+        });
+        expect(excluded).to.deep.equal(['new site name (Id 1) Excluded from email notifications']);
+
+        expect(await (await page.$(settings)).screenshot()).to.matchImage('notification_settings');
+    });
+
+    it('should keep the excluded website after a reload and allow removing it', async function () {
+        const settings = '.trackingFailuresNotificationSettings';
+
+        await page.goto(manageUrl);
+        await page.waitForSelector('.matomoTrackingFailures__excluded');
+        expect(await page.$$eval(settings + '__siteItem', (e) => e.length)).to.equal(1);
+
+        await page.click(settings + '__siteRemove');
+        await page.click(settings + ' .matomo-save-button .btn');
+        await page.waitForNetworkIdle();
+
+        expect(await page.$$eval('.matomoTrackingFailures__excluded', (e) => e.length)).to.equal(0);
+        expect(await page.$$eval(settings + '__siteItem', (e) => e.length)).to.equal(0);
+    });
+
     it('should show ask to confirm delete one', async function () {
         await page.evaluate(function () {
             $('.matomoTrackingFailures table tbody tr:nth-child(2) .icon-delete').click();
