@@ -4,6 +4,7 @@
         "ColumnAvgTimeOnDimension": "Avg. Time On Dimension",
         "ColumnAvgTimeOnDimensionDocumentation": "Avg. Time on custom action dimension is the average time visitors spent on a specific custom action before moving to another tracked action. Calculated by summing the time spent on the action across all visits and dividing it by the number of times the action was performed.",
         "ColumnUniqueActions": "Unique Actions",
+        "ColumnUniqueActionsDocumentation": "The number of visits that included an action with this dimension value. If an action with this value happened multiple times during one visit, it is only counted once.",
         "ConfigureDimension": "Configure %1$s Custom Dimension %2$s",
         "ConfigureNewDimension": "Configure a new dimension",
         "CustomDimensionId": "Custom Dimensions (Id %d)",

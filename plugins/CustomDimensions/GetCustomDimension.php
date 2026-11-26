@@ -162,6 +162,17 @@ class GetCustomDimension extends Report
         return $metrics;
     }
 
+    protected function getMetricsDocumentation()
+    {
+        $documentation = parent::getMetricsDocumentation();
+
+        if ($this->scopeOfDimension === CustomDimensions::SCOPE_ACTION) {
+            $documentation['nb_visits'] = Piwik::translate('CustomDimensions_ColumnUniqueActionsDocumentation');
+        }
+
+        return $documentation;
+    }
+
     public function configureReportMetadata(&$availableReports, $infos)
     {
         if (!$this->isEnabled()) {
