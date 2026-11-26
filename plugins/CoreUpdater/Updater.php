@@ -24,6 +24,7 @@ use Piwik\Plugin\ReleaseChannels;
 use Piwik\Plugins\CorePluginsAdmin\PluginInstaller;
 use Piwik\Plugins\Marketplace\API as MarketplaceApi;
 use Piwik\Plugins\Marketplace\Marketplace;
+use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Translation\Translator;
 use Piwik\Unzip;
@@ -87,6 +88,10 @@ class Updater
      */
     public function updatePiwik($https = true)
     {
+        if (!SettingsPiwik::isVersionUpdateCheckEnabled()) {
+            throw new Exception('Version update check (enable_auto_update) is disabled');
+        }
+
         if (!$this->isNewVersionAvailable()) {
             throw new Exception($this->translator->translate('CoreUpdater_ExceptionAlreadyLatestVersion', Version::VERSION));
         }
