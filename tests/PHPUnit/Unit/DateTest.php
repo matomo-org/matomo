@@ -149,6 +149,19 @@ class DateTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($expectedTimestamp, Date::factory($keyword)->getTimestamp());
     }
 
+    public function testFactoryResolvesRelativeDateKeywordsWithoutCaseSensitivity(): void
+    {
+        Date::$now = strtotime('2020-05-05 17:00:00');
+
+        foreach (['Today', 'TOMORROW', 'Yesterday', 'YESTERDAYSAMETIME', 'LastWeek'] as $keyword) {
+            $this->assertSame(
+                Date::factory(strtolower($keyword))->getTimestamp(),
+                Date::factory($keyword)->getTimestamp(),
+                $keyword
+            );
+        }
+    }
+
     public function getRelativeDateKeywords(): iterable
     {
         yield 'lastweek' => ['lastweek', Date::lastWeek()->getTimestamp()];
@@ -539,6 +552,19 @@ class DateTest extends \PHPUnit\Framework\TestCase
             ['last year', 'UTC+5', '2012-01-01 00:00:00', '2012-12-31 19:00:00'],
             ['last-year', 'Antarctica/Mawson', '2012-01-01 00:00:00', '2012-12-31 19:00:00'],
         ];
+    }
+
+    public function testFactoryInTimezoneResolvesRelativeKeywordsWithoutCaseSensitivity(): void
+    {
+        Date::$now = strtotime('2020-05-05 17:00:00');
+
+        foreach (['Today', 'TOMORROW', 'Yesterday', 'YESTERDAYSAMETIME', 'LastWeek'] as $keyword) {
+            $this->assertSame(
+                Date::factoryInTimezone(strtolower($keyword), 'UTC+5')->getTimestamp(),
+                Date::factoryInTimezone($keyword, 'UTC+5')->getTimestamp(),
+                $keyword
+            );
+        }
     }
 
     public function testFactoryInTimezoneDoesNotWorkWithNormalDates()
