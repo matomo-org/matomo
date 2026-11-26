@@ -233,7 +233,7 @@
         class="exportDataSubjects"
         style="margin-right:3.5px"
         @confirm="exportDataSubject()"
-        :disabled="!hasActiveDataSubjects"
+        :disabled="!hasActiveDataSubjects || isExporting"
         :value="translate('PrivacyManager_ExportSelectedVisits')"
       >
       </SaveButton>
@@ -319,6 +319,7 @@ const DATA_SUBJECT_IDENTIFIER_SEGMENTS = ['userId', 'visitorId', 'visitId', 'vis
 interface ManageGdprState {
   isLoading: boolean;
   isDeleting: boolean;
+  isExporting: boolean;
   site: SiteRef;
   segment_filter: string;
   dataSubjects: DataSubject[];
@@ -361,6 +362,7 @@ export default defineComponent({
     return {
       isLoading: false,
       isDeleting: false,
+      isExporting: false,
       site: {
         id: 'all',
         name: translate('UsersManager_AllWebsites'),
@@ -468,6 +470,7 @@ export default defineComponent({
       return postInBatches(visits, (batch) => AjaxHelper.post<R>(params, { visits: batch }));
     },
     exportDataSubject() {
+      this.isExporting = true;
       this.postVisitsInBatches<ExportBatch>(
         {
           module: 'API',
@@ -480,6 +483,8 @@ export default defineComponent({
         const visits = mergeExportBatches(batches);
         this.showSuccessNotification(translate('PrivacyManager_VisitsSuccessfullyExported'));
         Matomo.helper.sendContentAsDownload('exported_data_subjects.json', JSON.stringify(visits));
+      }).finally(() => {
+        this.isExporting = false;
       });
     },
     deleteDataSubject() {
