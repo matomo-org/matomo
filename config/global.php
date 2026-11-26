@@ -190,6 +190,10 @@ return [
         '*.git-blame-ignore-revs',
         '*.bower.json',
         '*.travis.yml',
+        // Developer docs no longer shipped since 6.0.0-b2 (see clean-build.sh), but left behind by updates
+        'AGENTS.md',
+        'CHANGELOG.md',
+        'CONTRIBUTING.md',
     ]),
 
     'Piwik\EventDispatcher' => Piwik\DI::autowire()->constructorParameter('observers', Piwik\DI::get('observers.global')),
