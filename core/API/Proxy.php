@@ -20,6 +20,7 @@ use Piwik\Plugin\API;
 use Piwik\Plugin\Manager;
 use ReflectionClass;
 use ReflectionMethod;
+use ReflectionNamedType;
 
 // prevent upgrade error eg from Matomo 3.x to Matomo 4.x. Refs https://github.com/matomo-org/matomo/pull/16468
 // the `false` is important otherwise it would fail and try to load the proxy.php file again.
@@ -293,6 +294,7 @@ class Proxy
                 }
             }
 
+            /** @var mixed $returnedValue The intercept event can set the result by reference. */
             // call the method if a hook hasn't already set an output variable
             if ($returnedValue === null) {
                 $returnedValue = call_user_func_array(array($object, $methodName), $apiParametersInCorrectOrder);
@@ -637,6 +639,10 @@ class Proxy
             }
 
             $type = $parameter->getType();
+            if ($type !== null && !$type instanceof ReflectionNamedType) {
+                // The request readers cannot validate union or intersection parameter types.
+                return;
+            }
 
             // In case no default value is defined in the method, but the type hint allows null, we assume null as default value
             if ($type && $type->allowsNull() && $defaultValue === $this->noDefaultValue) {
