@@ -29,7 +29,7 @@
         "AnonymizeLocationHelp": "Această acțiune nu poate fi anulată. Locația este reevaluată pe baza adresei IP anonimizate (cel puțin 2 octeți ai adresei IP vor fi anonimizați).",
         "AnonymizePreviousData": "Anonimizarea datelor brute urmărite anterior",
         "AnonymizePreviousDataDescription": "Dacă ați urmărit date personale, cum ar fi adresa IP completă a vizitatorilor, este posibil să doriți să anonimizați acum aceste date, în cazul în care nu aveți consimțământ pentru ele sau nu mai aveți un interes legitim.",
-        "AnonymizePreviousDataOnlySuperUser": "Doar un utilizator cu acces de super utilizator poate anonimiza datele brute urmărite anterior.",
+        "AnonymizePreviousDataOnlySuperUser": "Doar un utilizator cu acces de superutilizator poate anonimiza datele brute urmărite anterior.",
         "AnonymizeProcessInfo": "Această acțiune poate dura mult timp și, de aceea, nu va fi executată imediat. Veți putea urmări mai jos starea curentă a procesului. Anonimizarea ar trebui să înceapă, de regulă, în decurs de o oră.",
         "AnonymizeReferrer": "Anonimizare referent",
         "AnonymizeReferrerExcludeAll": "Nu înregistra URL-ul referentului, dar detectează în continuare tipul referentului",

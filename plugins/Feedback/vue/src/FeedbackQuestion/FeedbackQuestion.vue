@@ -8,12 +8,12 @@
 <template>
   <div>
     <div v-if="!isHidden" class="bannerHeader">
-      <span>{{ translate(`Feedback_FeedbackTitle`) }} <i class="icon-heart red-text"></i></span>
+      <span>{{ translate(`Feedback_FeedbackTitle`) }} <i class="icon-heart red-text" aria-hidden="true"></i></span>
       <a @click="showQuestion" class="btn">
         {{ translate(`Feedback_Question${question}`) }}
       </a>
       <a class="close-btn" @click="disableReminder">
-        <i class="icon-close white-text"></i></a>
+        <i class="icon-close white-text" aria-hidden="true"></i></a>
     </div>
     <div class="ratefeature">
       <MatomoDialog
@@ -26,7 +26,7 @@
           <h2>{{ translate(`Feedback_Question${question}`) }}</h2>
           <p
             v-html="$sanitize(translate('Feedback_FeedbackSubtitle',
-            `<i class='icon-heart red-text'></i>`))"></p>
+            `<i class='icon-heart red-text' aria-hidden='true'></i>`))"></p>
           <br/>
           <div class="messageContainer">
             <div class="error-text" v-if="errorMessage">{{ errorMessage }}</div>
@@ -53,7 +53,7 @@
         >
           <h2>{{ translate(`Feedback_ThankYou`) }}</h2>
           <p v-html="$sanitize(translate('Feedback_ThankYourForFeedback',
-        `<i class='icon-heart red-text'></i>`))">
+        `<i class='icon-heart red-text' aria-hidden='true'></i>`))">
           </p>
           <input
             type="button"

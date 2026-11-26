@@ -9,6 +9,7 @@
 
 namespace Piwik\Tests\Integration;
 
+use Piwik\Archive\ArchiveInvalidator;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
@@ -1107,6 +1108,134 @@ class CronArchiveTest extends IntegrationTestCase
 
         $this->assertSame(2, $invalidatedReports[2][0]);
         $this->assertSame('2014-04-06', $invalidatedReports[2][1]);
+    }
+
+    public function testRememberedInvalidationIsDeferredWhileTheDayIsBeingArchived()
+    {
+        $this->setUpRememberedInvalidations();
+
+        $this->insertInvalidations([$this->getInProgressInvalidation(1, 'done')]);
+
+        // real invalidation API, so applied markers are removed
+        $archiver = $this->getArchiverForRememberedInvalidations(null);
+        $archiver->invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain(1);
+        $archiver->invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain(2);
+
+        $this->assertSame(['2020-02-01'], $this->invalidator()->getDaysWithRememberedInvalidationsForSite(1));
+        $this->assertSame([], $this->invalidator()->getDaysWithRememberedInvalidationsForSite(2));
+
+        // nothing is queued for site 1 besides the running build, the segment waits too
+        $queuedForSite1 = Db::fetchAll('SELECT name, status FROM ' . Common::prefixTable('archive_invalidations') . ' WHERE idsite = 1');
+        $this->assertEquals([['name' => 'done', 'status' => 1]], $queuedForSite1);
+
+        // the build finished without a usable archive (e.g. it failed), so the kept marker is applied now
+        Db::query('DELETE FROM ' . Common::prefixTable('archive_invalidations'));
+
+        $mockInvalidateApi = $this->getMockInvalidateApi();
+        $archiver = $this->getArchiverForRememberedInvalidations($mockInvalidateApi);
+        $archiver->invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain(1);
+
+        $this->assertEquals([
+            [1, '2020-02-01', 'day', false, false, false],
+            [1, '2020-02-01', 'day', 'browserCode==IE', false, false],
+        ], $mockInvalidateApi->getInvalidations());
+    }
+
+    public function testRememberedInvalidationStillQueuesASegmentBeingArchived()
+    {
+        $this->setUpRememberedInvalidations();
+
+        $segmentDoneFlag = Rules::getDoneFlagArchiveContainsAllPlugins(new Segment('browserCode==IE', [1]));
+        $this->insertInvalidations([$this->getInProgressInvalidation(1, $segmentDoneFlag)]);
+
+        $mockInvalidateApi = $this->getMockInvalidateApi();
+        $archiver = $this->getArchiverForRememberedInvalidations($mockInvalidateApi);
+        $archiver->invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain(1);
+
+        // the marker is removed with the all-visits invalidation, so the segment must not be skipped
+        $this->assertEquals([
+            [1, '2020-02-01', 'day', false, false, false],
+            [1, '2020-02-01', 'day', 'browserCode==IE', false, false],
+        ], $mockInvalidateApi->getInvalidations());
+    }
+
+    public function testRememberedInvalidationIsDeferredWhileTheArchiveIsFresh()
+    {
+        $this->setUpRememberedInvalidations();
+
+        // the build that finished a minute ago is within the TTL
+        $archiveTable = ArchiveTableCreator::getNumericTable(Date::factory('2020-02-01'), true);
+        Db::query("INSERT INTO $archiveTable (idarchive, idsite, period, date1, date2, name, value, ts_archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [
+            1, 1, 1, '2020-02-01', '2020-02-01', 'done', ArchiveWriter::DONE_OK, Date::now()->subSeconds(60)->getDatetime(),
+        ]);
+
+        $mockInvalidateApi = $this->getMockInvalidateApi();
+        $archiver = $this->getArchiverForRememberedInvalidations($mockInvalidateApi);
+        $archiver->invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain(1);
+
+        $this->assertEquals([], $mockInvalidateApi->getInvalidations());
+        $this->assertSame(['2020-02-01'], $this->invalidator()->getDaysWithRememberedInvalidationsForSite(1));
+
+        Date::$now = Date::now()->addHour(2)->getTimestamp();
+
+        $mockInvalidateApi = $this->getMockInvalidateApi();
+        $archiver = $this->getArchiverForRememberedInvalidations($mockInvalidateApi);
+        $archiver->invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain(1);
+
+        $this->assertEquals([
+            [1, '2020-02-01', 'day', false, false, false],
+            [1, '2020-02-01', 'day', 'browserCode==IE', false, false],
+        ], $mockInvalidateApi->getInvalidations());
+    }
+
+    private function setUpRememberedInvalidations(): void
+    {
+        Date::$now = strtotime('2020-02-03 04:05:06');
+
+        Fixture::createWebsite('2019-04-04 03:45:45');
+        Fixture::createWebsite('2019-04-04 03:45:45');
+
+        Rules::setBrowserTriggerArchiving(false);
+        SegmentAPI::getInstance()->add('ie', 'browserCode==IE', 1, true, true);
+        Rules::setBrowserTriggerArchiving(true);
+
+        // remove invalidation options created by the fixture
+        Option::deleteLike('%report_to_invalidate_%');
+
+        $this->invalidator()->rememberToInvalidateArchivedReportsLater(1, Date::factory('2020-02-01'));
+        $this->invalidator()->rememberToInvalidateArchivedReportsLater(2, Date::factory('2020-02-01'));
+    }
+
+    private function getArchiverForRememberedInvalidations($mockInvalidateApi): CronArchive
+    {
+        $archiver = new CronArchive();
+        $archiver->skipInvalidatingRecentDates = true;
+        $archiver->init();
+        if ($mockInvalidateApi) {
+            $archiver->setApiToInvalidateArchivedReport($mockInvalidateApi);
+        }
+
+        return $archiver;
+    }
+
+    private function getInProgressInvalidation(int $idSite, string $doneFlag): array
+    {
+        return [
+            'idarchive' => 1,
+            'idsite' => $idSite,
+            'period' => 1,
+            'date1' => '2020-02-01',
+            'date2' => '2020-02-01',
+            'name' => $doneFlag,
+            'report' => null,
+            'status' => 1,
+            'ts_started' => '2020-02-03 03:00:00',
+        ];
+    }
+
+    private function invalidator(): ArchiveInvalidator
+    {
+        return StaticContainer::get(ArchiveInvalidator::class);
     }
 
     public function testWasSegmentCreatedRecently()

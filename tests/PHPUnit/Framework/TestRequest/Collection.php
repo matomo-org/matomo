@@ -54,6 +54,7 @@ class Collection
         'API.getPagesComparisonsDisabledFor',
         'BotTracking',
         'AIProviders',
+        'PrivacyManager.getConsentAwareAnalytics',
     );
 
     /**

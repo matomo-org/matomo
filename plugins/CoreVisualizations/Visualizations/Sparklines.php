@@ -22,6 +22,7 @@ use Piwik\Plugins\API\Filter\DataComparisonFilter;
 use Piwik\Piwik;
 use Piwik\SettingsPiwik;
 use Piwik\View;
+use Piwik\ViewDataTable\EstimatedUniques;
 
 /**
  * Reads the requested DataTable from the API and prepares data for the Sparklines view. It can display any amount
@@ -492,6 +493,10 @@ class Sparklines extends ViewDataTable
      */
     private function resolveMetricTitle($column, $description, array $metricTranslations)
     {
+        if (isset($this->config->metric_titles[$column])) {
+            return $this->config->metric_titles[$column];
+        }
+
         if ($this->config->use_metric_labels_as_titles) {
             return $this->config->translations[$column] ?? $metricTranslations[$column] ?? $description;
         }
@@ -501,7 +506,7 @@ class Sparklines extends ViewDataTable
 
     private function removeUniqueVisitorsIfNotEnabledForPeriod($columns, $period)
     {
-        if (SettingsPiwik::isUniqueVisitorsEnabled($period)) {
+        if (SettingsPiwik::isUniqueVisitorsTotalAvailable($period)) {
             return $columns;
         }
 
@@ -514,12 +519,12 @@ class Sparklines extends ViewDataTable
 
     /**
      * A processed metric that could not be computed (eg. a ratio without a denominator) is
-     * unavailable, not zero.
+     * unavailable, not zero. So are unique visitors and users missing from a period that couldn't be estimated.
      */
     private function isUnavailableMetricValue(DataTable\Row|false|null $row, string $columnName, array $columnMetrics): bool
     {
         return $row instanceof DataTable\Row
-            && isset($columnMetrics[$columnName])
+            && (isset($columnMetrics[$columnName]) || EstimatedUniques::getColumnSuffix($columnName) !== null)
             && $row->getColumn($columnName) === false;
     }
 

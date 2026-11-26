@@ -102,7 +102,7 @@ class Range extends Period
         return 'range' . $this->strPeriod . $this->strDate . $this->timezone . $end . $today;
     }
 
-    private function loadAllFromCache()
+    private function loadAllFromCache(): bool
     {
         $range = $this->getCache()->fetch($this->getCacheId());
 
@@ -111,6 +111,8 @@ class Range extends Period
                 $this->$key = $val;
             }
         }
+
+        return $this->subperiodsProcessed;
     }
 
     private function cacheAll()
@@ -206,13 +208,7 @@ class Range extends Period
      */
     protected function generate()
     {
-        if ($this->subperiodsProcessed) {
-            return;
-        }
-
-        $this->loadAllFromCache();
-
-        if ($this->subperiodsProcessed) {
+        if ($this->subperiodsProcessed || $this->loadAllFromCache()) {
             return;
         }
 
@@ -531,8 +527,7 @@ class Range extends Period
      * the range spans over.
      *
      * @param string $period The sub period type, `'day'`, `'week'`, `'month'` and `'year'`.
-     * @param int $lastN The number of periods of type `$period` that the result range should
-     *                   span.
+     * @param string $lastN A relative range, for example `'last7'` or `'previous7'`.
      * @param string $endDate The desired end date of the range.
      * @param \Piwik\Site $site The site whose timezone should be used.
      * @return string The date range string, eg, `'2012-01-02,2013-01-02'`.
