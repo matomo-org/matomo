@@ -24,6 +24,7 @@ use Piwik\Tracker\VisitExcluded;
 use Piwik\Tracker\VisitorRecognizer;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
 use Piwik\Plugins\CoreHome\Columns\Consent;
+use Piwik\Plugins\PrivacyManager\Settings\ConsentAwareAnalytics;
 
 /**
  * Encapsulates core tracking logic related to visits.
@@ -143,19 +144,31 @@ class VisitRequestProcessor extends RequestProcessor
     {
         $ip = $visitProperties->getProperty('location_ip');
 
-        $visitor = Visitor::makeFromVisitProperties($visitProperties, $request);
-        $action = $request->getMetadata('Actions', 'action');
-        $hasConsent = Consent::visitConsentApplies($request, $visitor, $action);
+        // consent only counts on a site measuring consent-aware analytics, so every other site
+        // skips the question without building a visitor for it
+        $hasConsent = false;
 
-        // The IP held at this point is the one stored on the visit this request was recognised as,
-        // already anonymised as that visit's consent allowed. Where consent lifts the
-        // anonymisation for a visit starting now, or for the visit this request brings consent
-        // into, the IP this request was sent from is the one to start from.
-        if (
-            $hasConsent
-            && ($request->getMetadata('CoreHome', 'isNewVisit') || Consent::isBroughtIntoVisitBy($request, $visitor, $action))
-        ) {
-            $ip = $request->getIp();
+        if ($request->measuresConsentAwareAnalytics()) {
+            $visitor = Visitor::makeFromVisitProperties($visitProperties, $request);
+            $action = $request->getMetadata('Actions', 'action');
+            $hasConsent = Consent::visitConsentApplies($request, $visitor, $action);
+
+            // The IP held at this point is the one stored on the visit this request was recognised
+            // as, already anonymised as that visit's consent allowed, or this request's IP where no
+            // visit was recognised. Where consent lifts a policy's anonymisation for a visit
+            // starting now, or for the visit this request brings consent into, the IP this request
+            // was sent from is the one to start from. Where no policy restriction is in force there
+            // is nothing to lift, and the visit gets its IP exactly as it would without consent.
+            if (
+                $hasConsent
+                && (
+                    ($request->getMetadata('CoreHome', 'isNewVisit')
+                        && ConsentAwareAnalytics::hasRelaxableRestriction((int) $request->getIdSiteIfExists()))
+                    || Consent::isBroughtIntoVisitBy($request, $visitor, $action)
+                )
+            ) {
+                $ip = $request->getIp();
+            }
         }
 
         /**

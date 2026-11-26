@@ -48,6 +48,9 @@ class IpAnonymisationConsentTest extends IntegrationTestCase
     /** @var list<bool> */
     private $consentPassedToTheEvent = [];
 
+    /** @var list<int> */
+    private $otherSiteIds = [];
+
     public function setUp(): void
     {
         parent::setUp();
@@ -59,7 +62,9 @@ class IpAnonymisationConsentTest extends IntegrationTestCase
 
     public function tearDown(): void
     {
-        PolicyManager::setPolicyActiveStatus(CnilPolicy::class, false, $this->idSite);
+        foreach (array_merge([$this->idSite], $this->otherSiteIds) as $idSite) {
+            PolicyManager::setPolicyActiveStatus(CnilPolicy::class, false, $idSite);
+        }
         Cache::deleteTrackerCache();
 
         parent::tearDown();
@@ -153,8 +158,34 @@ class IpAnonymisationConsentTest extends IntegrationTestCase
 
         $this->assertSame(2, $this->countVisits(), 'a new campaign starts a new visit');
         $this->assertSame(self::IP, $this->fetchStoredIp(0));
-        $this->assertNotSame(self::IP, $this->fetchStoredIp(1));
-        $this->assertStringEndsWith('.0.0', $this->fetchStoredIp(1));
+        $this->assertSame('192.168.0.0', $this->fetchStoredIp(1));
+    }
+
+    /**
+     * @return iterable<string, array{0: ?string}>
+     */
+    public function getConsentOnAVisitForcedWhereNoPolicyAppliesCases(): iterable
+    {
+        yield 'without consent' => [null];
+        yield 'with consent' => ['1'];
+    }
+
+    /**
+     * Where no policy restriction is in force, consent has nothing to lift, so a visit forced to
+     * start by a new campaign gets the same IP whether or not the request carries consent.
+     *
+     * @dataProvider getConsentOnAVisitForcedWhereNoPolicyAppliesCases
+     */
+    public function testConsentChangesNothingOnAVisitForcedWhereNoPolicyApplies(?string $consent): void
+    {
+        $this->configureSite($policy = false, $optedIn = true, $adminAnonymises = true, $adminMaskLength = 2);
+
+        $this->trackPageView($consent, 'landing?mtm_campaign=a');
+        $this->trackPageView($consent, 'landing?mtm_campaign=b', '10.20.30.40');
+
+        $this->assertSame(2, $this->countVisits(), 'a new campaign starts a new visit');
+        $this->assertSame('192.168.0.0', $this->fetchStoredIp(0));
+        $this->assertSame('192.168.0.0', $this->fetchStoredIp(1));
     }
 
     /**
@@ -209,7 +240,7 @@ class IpAnonymisationConsentTest extends IntegrationTestCase
 
         $this->trackPageView(null, 'landing');
         $this->trackPageView(null, 'other');
-        $this->ping('1', 'other');
+        $this->ping('1', 'other', '10.20.30.40');
 
         $this->assertSame(1, $this->countVisits(), 'a ping cannot start a visit');
         $this->assertSame([false, false, false], $this->consentPassedToTheEvent);
@@ -301,6 +332,7 @@ class IpAnonymisationConsentTest extends IntegrationTestCase
 
         $firstSite = $this->idSite;
         $this->idSite = Fixture::createWebsite('2024-01-01 00:00:00', 0, 'IP consent, second site', 'http://example.com');
+        $this->otherSiteIds[] = $this->idSite;
         $this->configureSite($policy = true, $optedIn = true, $adminAnonymises = true, $adminMaskLength = 1);
 
         $this->tracker = $this->makeTracker($useLocal = false);
@@ -316,7 +348,7 @@ class IpAnonymisationConsentTest extends IntegrationTestCase
         $this->idSite = $secondSite;
         $this->assertSame('192.168.10.0', $this->fetchStoredIp());
 
-        PolicyManager::setPolicyActiveStatus(CnilPolicy::class, false, $firstSite);
+        $this->idSite = $firstSite;
     }
 
     private function configureSite(bool $policy, bool $optedIn, bool $adminAnonymises, int $adminMaskLength): void
@@ -355,9 +387,9 @@ class IpAnonymisationConsentTest extends IntegrationTestCase
         return $tracker;
     }
 
-    private function ping(?string $consent, string $page): void
+    private function ping(?string $consent, string $page, string $ip = self::IP): void
     {
-        $this->prepareRequest($consent, $page, self::IP);
+        $this->prepareRequest($consent, $page, $ip);
 
         Fixture::checkResponse($this->tracker->doPing());
     }
