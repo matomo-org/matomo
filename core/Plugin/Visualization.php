@@ -457,8 +457,13 @@ class Visualization extends ViewDataTable
         if ($this->isComparing()) {
             $request = $this->getRequestArray();
             if (!empty($request['comparePeriods'])) {
+                $hasDimension = $this->report && $this->report->getDimension();
                 foreach ($request['comparePeriods'] as $comparePeriod) {
-                    if (!SettingsPiwik::isUniqueVisitorsEnabled($comparePeriod)) {
+                    // reports with a dimension only have unique visitors for days, longer periods store sum_daily_nb_uniq_visitors
+                    if (
+                        !SettingsPiwik::isUniqueVisitorsEnabled($comparePeriod)
+                        || ($hasDimension && $comparePeriod !== 'day')
+                    ) {
                         $hasNbUniqVisitors = false;
                         break;
                     }
