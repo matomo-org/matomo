@@ -25,7 +25,6 @@ use Piwik\Plugins\PrivacyManager\DataRounding;
 
 class ResponseBuilder
 {
-    private $outputFormat = null;
     private $apiRenderer  = null;
     private $request      = null;
     private $sendHeader   = true;
@@ -49,7 +48,6 @@ class ResponseBuilder
      */
     public function __construct($outputFormat, $request = array(), $shouldPrintBacktrace = null)
     {
-        $this->outputFormat = $outputFormat;
         $this->request      = $request;
         $this->apiRenderer  = ApiRenderer::factory($outputFormat, $request);
         $this->shouldPrintBacktrace = $shouldPrintBacktrace === null ? ExceptionHandler::shouldPrintBackTraceWithMessage() : $shouldPrintBacktrace;
