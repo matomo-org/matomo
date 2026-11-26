@@ -164,6 +164,13 @@ abstract class Controller
 
         $this->securityPolicy = StaticContainer::get(View\SecurityPolicy::class);
 
+        // many code paths read date / period without a type, an array would cause a TypeError
+        foreach (['date', 'period'] as $name) {
+            if (is_array($_GET[$name] ?? $_POST[$name] ?? null)) {
+                throw new BadRequestException("The parameter '$name' doesn't have a correct type");
+            }
+        }
+
         $date = Common::getRequestVar('date', 'yesterday', 'string');
         try {
             $this->idSite = Common::getRequestVar('idSite', false, 'int');
