@@ -11,6 +11,8 @@ namespace Piwik\Plugins\Insights;
 
 use Piwik\API\Request as ApiRequest;
 use Piwik\DataTable;
+use Piwik\Date;
+use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Plugins\API\ProcessedReport;
 use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
@@ -62,6 +64,53 @@ class Model
         }
 
         return $pastDate[0];
+    }
+
+    /**
+     * Whether insights can compare the given date with $comparedDate: a single date of the same period type, or for a
+     * date range, a range of the same length or the same days in another year.
+     */
+    public function isComparableDate(string $period, string $date, string $comparedDate): bool
+    {
+        if ($period !== 'range') {
+            try {
+                Date::factory($comparedDate);
+            } catch (\Exception $e) {
+                return false;
+            }
+
+            return !Period::isMultiplePeriod($comparedDate, $period);
+        }
+
+        // outside the try, so an invalid $date raises its own error instead of blaming $comparedDate
+        $range = new Range('range', $date);
+        $dayCount = $range->getDayCount();
+
+        try {
+            $comparedRange = new Range('range', $comparedDate);
+
+            // ranges of different lengths would make most rows look like strong movers only because one is longer
+            return $comparedRange->getDayCount() === $dayCount
+                || $this->isSameRangeInAnotherYear($range, $comparedRange);
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
+    /**
+     * The date selector compares with the previous year by moving both ends of the range one year back, so a range
+     * crossing 29 February is one day longer or shorter than the range it is compared with. Moving 29 February to a
+     * year without it gives 1 March, in PHP as in the date selector.
+     */
+    private function isSameRangeInAnotherYear(Range $range, Range $comparedRange): bool
+    {
+        $start = $range->getDateStart();
+        $comparedStart = $comparedRange->getDateStart();
+        $years = (int) $comparedStart->toString('Y') - (int) $start->toString('Y');
+
+        return $years !== 0
+            && $start->addPeriod($years, 'year')->toString() === $comparedStart->toString()
+            && $range->getDateEnd()->addPeriod($years, 'year')->toString() === $comparedRange->getDateEnd()->toString();
     }
 
     /**
