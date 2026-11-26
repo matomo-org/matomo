@@ -15,7 +15,7 @@ GPS (lat/long): {{ visitInfo.getColumn('latitude') }},{{ visitInfo.getColumn('lo
     {% if visitInfo.getColumn('location') != 'General_Unknown'|translate %}<span><img width="16" class="flag" src="{{ visitInfo.getColumn('countryFlag') }}"/>&nbsp;
     {% if visitInfo.getColumn('city') is not empty %}{{ visitInfo.getColumn('city') }}{% else %}{{ visitInfo.getColumn('country') }}{% endif %}</span>{% endif %}
 
-    {% if visitInfo.getColumn('userId') is not empty %}<br/><br/>{{ visitInfo.getColumn('userId')|rawSafeDecoded }}{% endif %}
+    {% if visitInfo.getColumn('userId') is not empty %}<br/><br/><span class="visitor-log-user-id">{{ visitInfo.getColumn('userId')|rawSafeDecoded }}</span>{% endif %}
 </span>{% endif %}
 {% if isWidget %}
     <br />
