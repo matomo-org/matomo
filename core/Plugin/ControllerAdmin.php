@@ -436,7 +436,7 @@ abstract class ControllerAdmin extends Controller
     /**
      * Microsoft 365 turns off password logins for SMTP by default from the end of December 2026. The warning goes
      * to every super user who sends with a password login, as the host alone can't tell reliably whether the server
-     * is a Microsoft one.
+     * is a Microsoft one. Where the email settings can't be changed in the UI, it points to the config file instead.
      */
     private static function notifyWhenSmtpBasicAuthIsRetiredByMicrosoft(): void
     {
@@ -448,7 +448,8 @@ abstract class ControllerAdmin extends Controller
         if (
             !Piwik::hasUserSuperUserAccess()
             || NotificationManager::isDisabled(self::SMTP_BASIC_AUTH_RETIREMENT_NOTIFICATION_ID)
-            || !self::areMailSettingsShownInUi()
+            // Matomo Cloud doesn't send through the [mail] settings
+            || Manager::getInstance()->isPluginActivated('Cloud')
             || !self::isMailConfigUsingSmtpPasswordLogin(Config::getInstance()->mail)
         ) {
             // persistent notifications stay in the session, so drop it once the settings no longer match
@@ -462,19 +463,31 @@ abstract class ControllerAdmin extends Controller
             return;
         }
 
-        $settingsUrl = 'index.php' . Url::getCurrentQueryStringWithParametersModified([
-            'module' => 'CoreAdminHome',
-            'action' => 'generalSettings',
-        ]) . '#/mailSettings';
-        $announcementUrl = 'https://techcommunity.microsoft.com/blog/exchange/updated-exchange-online-smtp-auth-basic-authentication-deprecation-timeline/4489835';
+        $announcementLink = Url::getExternalLinkTag(
+            'https://techcommunity.microsoft.com/blog/exchange/updated-exchange-online-smtp-auth-basic-authentication-deprecation-timeline/4489835'
+        );
 
-        $message = Piwik::translate('General_SmtpBasicAuthRetirementMicrosoft', [
-            // the rest of the query string comes from the request and the message is not escaped
-            '<a href="' . htmlspecialchars($settingsUrl, ENT_QUOTES) . '">',
-            '</a>',
-            Url::getExternalLinkTag($announcementUrl),
-            '</a>',
-        ]);
+        if (self::areMailSettingsShownInUi()) {
+            $settingsUrl = 'index.php' . Url::getCurrentQueryStringWithParametersModified([
+                'module' => 'CoreAdminHome',
+                'action' => 'generalSettings',
+            ]) . '#/mailSettings';
+
+            $message = Piwik::translate('General_SmtpBasicAuthRetirementMicrosoft', [
+                // the rest of the query string comes from the request and the message is not escaped
+                '<a href="' . htmlspecialchars($settingsUrl, ENT_QUOTES) . '">',
+                '</a>',
+                $announcementLink,
+                '</a>',
+            ]);
+        } else {
+            $message = Piwik::translate('General_SmtpBasicAuthRetirementMicrosoftConfigFile', [
+                '[mail]',
+                'config/config.ini.php',
+                $announcementLink,
+                '</a>',
+            ]);
+        }
 
         $notification = new Notification($message);
         $notification->raw = true;

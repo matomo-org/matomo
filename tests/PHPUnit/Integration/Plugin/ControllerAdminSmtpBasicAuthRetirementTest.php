@@ -14,6 +14,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Notification;
 use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Plugin\ControllerAdmin;
+use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Request\AuthenticationToken;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
@@ -124,9 +125,54 @@ class ControllerAdminSmtpBasicAuthRetirementTest extends IntegrationTestCase
         yield 'no login method' => [['type' => ''], [], true];
         yield 'mail() instead of SMTP' => [['transport' => ''], [], true];
         yield 'warning turned off in the config file' => [[], ['disabled_notifications' => [self::NOTIFICATION_ID]], true];
-        yield 'general settings admin turned off' => [[], ['enable_general_settings_admin' => 0], true];
-        yield 'multi server environment' => [[], ['multi_server_environment' => 1], true];
         yield 'user without super user access' => [[], [], false];
+    }
+
+    /**
+     * @dataProvider getSetupsWhereTheEmailSettingsAreNotInTheUi
+     */
+    public function testPointsToTheConfigFileWhenTheEmailSettingsCannotBeChangedInTheUi(array $general): void
+    {
+        $this->setGeneralConfig($general);
+
+        $this->notify();
+
+        $notification = $this->getWarning();
+        $this->assertNotNull($notification, 'the warning was not posted');
+        $this->assertSame('Microsoft 365 email authentication is changing', $notification->title);
+        $this->assertStringContainsString(
+            'update your authentication method to OAuth 2.0 in the [mail] section of your config/config.ini.php file',
+            $notification->message
+        );
+        $this->assertStringNotContainsString('generalSettings', $notification->message);
+        $this->assertStringContainsString(
+            'href="https://techcommunity.microsoft.com/blog/exchange/updated-exchange-online-smtp-auth-basic-authentication-deprecation-timeline/4489835">Learn more</a>',
+            $notification->message
+        );
+    }
+
+    public function getSetupsWhereTheEmailSettingsAreNotInTheUi(): iterable
+    {
+        yield 'general settings admin turned off' => [['enable_general_settings_admin' => 0]];
+        yield 'multi server environment' => [['multi_server_environment' => 1]];
+    }
+
+    public function testCancelsTheWarningOnMatomoCloud(): void
+    {
+        $this->notify();
+        $this->assertNotNull($this->getWarning(), 'the warning was not posted to begin with');
+
+        $pluginManager = $this->getMockBuilder(PluginManager::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['isPluginActivated'])
+            ->getMock();
+        $pluginManager->method('isPluginActivated')->willReturnCallback(function (string $name): bool {
+            return $name === 'Cloud';
+        });
+        StaticContainer::getContainer()->set(PluginManager::class, $pluginManager);
+        $this->notify();
+
+        $this->assertNull($this->getWarning());
     }
 
     public function testDoesNotPostTheWarningToTheAnonymousUser(): void

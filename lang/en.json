@@ -505,6 +505,7 @@
         "SingleWebsitesDashboard": "Single Website dashboard",
         "SmallTrafficYouCanLeaveDefault": "For small traffic websites, you can leave the default %s seconds, and access all reports in real time.",
         "SmtpBasicAuthRetirementMicrosoft": "From the end of December 2026, Microsoft will disable password-based SMTP authentication by default. If you use Microsoft 365 to send emails from Matomo, update your authentication method to OAuth 2.0 in %1$syour email settings%2$s to keep scheduled reports, alerts and other emails working. %3$sLearn more%4$s",
+        "SmtpBasicAuthRetirementMicrosoftConfigFile": "From the end of December 2026, Microsoft will disable password-based SMTP authentication by default. If you use Microsoft 365 to send emails from Matomo, update your authentication method to OAuth 2.0 in the %1$s section of your %2$s file to keep scheduled reports, alerts and other emails working. %3$sLearn more%4$s",
         "SmtpBasicAuthRetirementMicrosoftTitle": "Microsoft 365 email authentication is changing",
         "SmtpEncryption": "SMTP encryption",
         "SmtpFromAddress": "SMTP from address",
