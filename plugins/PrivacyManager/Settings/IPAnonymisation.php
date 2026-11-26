@@ -65,26 +65,12 @@ class IPAnonymisation implements CustomSettingInterface, PolicyComparisonInterfa
 
     public static function getWhatItDoes(?int $idSite = null): string
     {
-        // as for the campaign masking and referrer anonymisation settings: the consent-aware
-        // wording describes a site that measures consent-aware analytics, and where it is not
-        // turned on every visitor is treated the same.
-        if (ConsentAwareAnalytics::isEnabledForScope($idSite)) {
-            return Piwik::translate('PrivacyManager_AnonymizeIpPolicySettingWhatItDoesConsentAware');
-        }
-
-        return Piwik::translate('PrivacyManager_AnonymizeIpPolicySettingWhatItDoes');
+        return ConsentAwareAnalytics::translateForScope($idSite, 'PrivacyManager_AnonymizeIpPolicySettingWhatItDoes');
     }
 
     public static function getImpact(?int $idSite = null): string
     {
-        // as for the campaign masking and referrer anonymisation settings: the consent-aware
-        // wording describes a site that measures consent-aware analytics, and where it is not
-        // turned on every visitor is treated the same.
-        if (ConsentAwareAnalytics::isEnabledForScope($idSite)) {
-            return Piwik::translate('PrivacyManager_AnonymizeIpPolicySettingImpactConsentAware');
-        }
-
-        return Piwik::translate('PrivacyManager_AnonymizeIpPolicySettingImpact');
+        return ConsentAwareAnalytics::translateForScope($idSite, 'PrivacyManager_AnonymizeIpPolicySettingImpact');
     }
 
     public static function getComplianceRequirementNote(?int $idSite = null): string

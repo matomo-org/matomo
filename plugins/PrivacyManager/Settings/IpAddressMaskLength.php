@@ -70,26 +70,12 @@ class IpAddressMaskLength implements CustomSettingInterface, PolicyComparisonInt
             self::getPolicyRequirements()[CnilPolicy::class],
         ];
 
-        // as for the campaign masking and referrer anonymisation settings: the consent-aware
-        // wording describes a site that measures consent-aware analytics, and where it is not
-        // turned on every visitor is treated the same.
-        if (ConsentAwareAnalytics::isEnabledForScope($idSite)) {
-            return Piwik::translate('PrivacyManager_AnonymizeIpMaskLengthSettingWhatItDoesConsentAware', $params);
-        }
-
-        return Piwik::translate('PrivacyManager_AnonymizeIpMaskLengthSettingWhatItDoes', $params);
+        return ConsentAwareAnalytics::translateForScope($idSite, 'PrivacyManager_AnonymizeIpMaskLengthSettingWhatItDoes', $params);
     }
 
     public static function getImpact(?int $idSite = null): string
     {
-        // as for the campaign masking and referrer anonymisation settings: the consent-aware
-        // wording describes a site that measures consent-aware analytics, and where it is not
-        // turned on every visitor is treated the same.
-        if (ConsentAwareAnalytics::isEnabledForScope($idSite)) {
-            return Piwik::translate('PrivacyManager_AnonymizeIpMaskLengthSettingImpactConsentAware', [self::getCurrentMaskLength($idSite)]);
-        }
-
-        return Piwik::translate('PrivacyManager_AnonymizeIpMaskLengthSettingImpact', [self::getCurrentMaskLength($idSite)]);
+        return ConsentAwareAnalytics::translateForScope($idSite, 'PrivacyManager_AnonymizeIpMaskLengthSettingImpact', [self::getCurrentMaskLength($idSite)]);
     }
 
     public static function getComplianceRequirementNote(?int $idSite = null): string
