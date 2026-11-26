@@ -161,6 +161,12 @@ class Notification
     public $raw = false;
 
     /**
+     * A Unix timestamp from which the notification is no longer posted or shown, or `null` to show it until it is
+     * closed or removed.
+     */
+    public ?int $expiresAt = null;
+
+    /**
      * @param  string $message   The notification message.
      * @throws \Exception        If the message is empty.
      */

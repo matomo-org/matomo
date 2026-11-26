@@ -10,6 +10,7 @@
 namespace Piwik\Notification;
 
 use Piwik\Config\GeneralConfig;
+use Piwik\Date;
 use Piwik\Notification;
 use Piwik\Session;
 use Piwik\Session\SessionNamespace;
@@ -34,19 +35,25 @@ class Manager
 
     /**
      * Posts a notification that will be shown in Piwik's status bar. If a notification with the same ID
-     * has been posted and has not been closed/removed, it will be replaced with `$notification`.
+     * has been posted and has not been closed/removed, it will be replaced with `$notification`. If
+     * `$notification` has already expired, the earlier one is removed and nothing is posted.
      *
      * @param string       $id   A unique identifier for this notification. The ID must be a valid HTML
      *                           element ID. It can only contain alphanumeric characters (underscores can
      *                           be used).
      * @param Notification $notification The notification to post.
      * @return bool true if the notification was added, false if it was ignored because there were too many
-     *                   pending ones.
+     *                   pending ones or it has expired.
      * @api
      */
     public static function notify($id, Notification $notification): bool
     {
         self::checkId($id);
+
+        if (self::hasExpired($notification)) {
+            self::removeNotification($id);
+            return false;
+        }
 
         self::removeOldestNotificationsIfThereAreTooMany();
         return self::addNotification($id, $notification);
@@ -102,6 +109,13 @@ class Manager
     {
         $notifications = self::getAllNotifications();
 
+        foreach ($notifications as $id => $notification) {
+            if (self::hasExpired($notification)) {
+                self::removeNotification($id);
+                unset($notifications[$id]);
+            }
+        }
+
         uasort($notifications, function ($n1, $n2) {
             /** @var Notification $n1 */ /** @var Notification $n2 */
             if ($n1->getPriority() == $n2->getPriority()) {
@@ -137,6 +151,11 @@ class Manager
     public static function isValidId(string $id): bool
     {
         return !empty($id) && preg_match('/^\w*$/', $id) === 1;
+    }
+
+    private static function hasExpired(Notification $notification): bool
+    {
+        return $notification->expiresAt !== null && Date::getNowTimestamp() >= $notification->expiresAt;
     }
 
     private static function addNotification($id, Notification $notification): bool

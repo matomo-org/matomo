@@ -29,6 +29,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * Plugins that provide a second factor answer the new events `Login.userRequiresSecondFactorConfirmation` and `Login.verifySecondFactor`.
 * The *Administration → Development → Component Library* page, available in development mode, documents the generic components, starting with the selector (`.mtm-selector`), and what each Matomo version changes in them.
 * The `ExpandOnHover` Vue directive now takes the `expandedClass` option of `ExpandOnClick`, and both directives accept a list of classes for it.
+* `Piwik\Notification::$expiresAt` takes a Unix timestamp from which a notification is no longer shown: `Notification\Manager` doesn't post it from then on and removes it from the session if it was posted before.
 * The Monolog plugin's DI entry `log.formatter.classes` maps log format names to formatter classes and can be extended by plugins to add log formats.
 * The new API method `PrivacyManager.getDataSubjectSearchScope` describes whether the GDPR tools can search the requested websites, and whether only the visits of visitors who gave consent can be found on any of them.
 * `archive_invalidations.status` can now be `Piwik\Archive\ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD` (`2`): `core:archive` doesn't process such invalidations until the failed archive they wait for can be retried.

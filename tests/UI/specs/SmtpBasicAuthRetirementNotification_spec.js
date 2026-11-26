@@ -35,6 +35,11 @@ describe("SmtpBasicAuthRetirementNotification", function () {
     }
 
     before(function () {
+        // the warning is only shown until the end of December 2026
+        if (Date.now() >= Date.UTC(2027, 0, 1)) {
+            this.skip();
+        }
+
         // not a Microsoft server, as the warning goes to every SMTP password login
         testEnvironment.overrideConfig('mail', {
             transport: 'smtp',

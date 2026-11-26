@@ -11,6 +11,7 @@ namespace Piwik\Tests\Integration\Plugin;
 
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\Date;
 use Piwik\Notification;
 use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Plugin\ControllerAdmin;
@@ -35,6 +36,8 @@ class ControllerAdminSmtpBasicAuthRetirementTest extends IntegrationTestCase
         parent::setUp();
 
         Fixture::loadAllTranslations();
+        // before the warning expires at the end of December 2026
+        Date::$now = Date::factory('2026-12-31 23:59:59')->getTimestamp();
         $_SESSION = [];
         NotificationManager::cancelAllNotifications();
         FakeAccess::clearAccess(true);
@@ -55,6 +58,7 @@ class ControllerAdminSmtpBasicAuthRetirementTest extends IntegrationTestCase
     public function tearDown(): void
     {
         Fixture::resetTranslations();
+        Date::$now = null;
 
         parent::tearDown();
     }
@@ -77,6 +81,7 @@ class ControllerAdminSmtpBasicAuthRetirementTest extends IntegrationTestCase
         $this->assertSame(Notification::TYPE_PERSISTENT, $notification->type);
         $this->assertSame(0, $notification->hasNoClear(), 'the warning has no close button');
         $this->assertTrue($notification->raw);
+        $this->assertSame(Date::factory('2027-01-01')->getTimestamp(), $notification->expiresAt);
 
         $this->assertStringContainsString('From the end of December 2026, Microsoft will disable', $notification->message);
         $this->assertMatchesRegularExpression(
@@ -87,6 +92,18 @@ class ControllerAdminSmtpBasicAuthRetirementTest extends IntegrationTestCase
             'target="_blank" rel="noreferrer noopener" href="https://techcommunity.microsoft.com/blog/exchange/updated-exchange-online-smtp-auth-basic-authentication-deprecation-timeline/4489835">Learn more</a>',
             $notification->message
         );
+    }
+
+    public function testDoesNotShowTheWarningFromJanuary2027(): void
+    {
+        $this->notify();
+        $this->assertNotNull($this->getWarning(), 'the warning was not posted to begin with');
+
+        Date::$now = Date::factory('2027-01-01')->getTimestamp();
+        $this->startNextRequest();
+        $this->notify();
+
+        $this->assertNull($this->getWarning());
     }
 
     public function testPostsTheWarningWhateverTheSmtpServerIs(): void
