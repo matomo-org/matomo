@@ -155,19 +155,50 @@ describe('PrivacyManager/ManageGdpr.vue', () => {
       )
       .mockImplementationOnce(() => Promise.reject(new Error('batch failed')));
     const wrapper = await mountWithSearchResult(MAX_VISITS);
-    // the component leaves a failed export's rejection to AjaxHelper's error notification
-    const unhandled = vi.fn();
-    process.on('unhandledRejection', unhandled);
 
-    try {
-      await wrapper.find('.exportDataSubjects').trigger('click');
-      await flushPromises();
-    } finally {
-      process.off('unhandledRejection', unhandled);
-    }
+    await wrapper.find('.exportDataSubjects').trigger('click');
+    await flushPromises();
 
     expect(postedVisitCounts()).toEqual([450, 450]);
     expect(mocks.sendContentAsDownload).not.toHaveBeenCalled();
+    expect(wrapper.find('.exportDataSubjects').attributes('disabled')).toBeUndefined();
+  });
+
+  it('disables deleting while an export runs', async () => {
+    let finishExport = () => {};
+    mocks.post.mockImplementation((params: unknown, body: { visits: { idvisit: string }[] }) => (
+      new Promise((resolve) => {
+        finishExport = () => resolve(exportOf(body.visits));
+      })
+    ));
+    const wrapper = await mountWithSearchResult(1);
+
+    await wrapper.find('.exportDataSubjects').trigger('click');
+    await flushPromises();
+
+    expect(wrapper.find('.deleteDataSubjects').attributes('disabled')).toBeDefined();
+
+    finishExport();
+    await flushPromises();
+
+    expect(wrapper.find('.deleteDataSubjects').attributes('disabled')).toBeUndefined();
+  });
+
+  it('disables exporting while a delete runs', async () => {
+    let finishDelete = () => {};
+    mocks.post.mockImplementation(() => new Promise((resolve) => {
+      finishDelete = () => resolve({});
+    }));
+    const wrapper = await mountWithSearchResult(1);
+
+    await wrapper.find('.deleteDataSubjects').trigger('click');
+    await flushPromises();
+
+    expect(wrapper.find('.exportDataSubjects').attributes('disabled')).toBeDefined();
+
+    finishDelete();
+    await flushPromises();
+
     expect(wrapper.find('.exportDataSubjects').attributes('disabled')).toBeUndefined();
   });
 

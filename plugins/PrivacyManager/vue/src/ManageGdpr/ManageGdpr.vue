@@ -233,14 +233,14 @@
         class="exportDataSubjects"
         style="margin-right:3.5px"
         @confirm="exportDataSubject()"
-        :disabled="!hasActiveDataSubjects || isExporting"
+        :disabled="!hasActiveDataSubjects || isExporting || isDeleting"
         :value="translate('PrivacyManager_ExportSelectedVisits')"
       >
       </SaveButton>
       <SaveButton
         class="deleteDataSubjects"
         @confirm="deleteDataSubject()"
-        :disabled="!hasActiveDataSubjects || isDeleting"
+        :disabled="!hasActiveDataSubjects || isDeleting || isExporting"
         :value="translate('PrivacyManager_DeleteSelectedVisits')"
       >
       </SaveButton>
@@ -483,6 +483,8 @@ export default defineComponent({
         const visits = mergeExportBatches(batches);
         this.showSuccessNotification(translate('PrivacyManager_VisitsSuccessfullyExported'));
         Matomo.helper.sendContentAsDownload('exported_data_subjects.json', JSON.stringify(visits));
+      }, () => {
+        // AjaxHelper has already shown the error
       }).finally(() => {
         this.isExporting = false;
       });
