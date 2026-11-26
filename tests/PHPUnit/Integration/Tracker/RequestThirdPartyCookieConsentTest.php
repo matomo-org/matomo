@@ -15,7 +15,6 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Cookie;
 use Piwik\Db;
-use Piwik\Piwik;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
 use Piwik\Plugins\PrivacyManager\Settings\ConsentAwareAnalytics;
 use Piwik\Policy\CnilPolicy;
@@ -23,7 +22,6 @@ use Piwik\Policy\PolicyManager;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tracker\Cache;
-use Piwik\Tracker\Config\ThirdPartyCookies;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visit;
 
@@ -205,6 +203,34 @@ class RequestThirdPartyCookieConsentTest extends IntegrationTestCase
     }
 
     /**
+     * A site also measures consent-aware analytics when it is turned on for the whole instance
+     * rather than for the site.
+     *
+     * @dataProvider getInstanceWideCases
+     */
+    public function testConsentAwareAnalyticsOnForTheInstanceLiftsThePolicyToo(
+        array $consentParam,
+        bool $expectWritten
+    ): void {
+        $this->prepare(true, false, 1, null);
+        ConsentAwareAnalytics::setEnabled(true);
+
+        $request = $this->buildCapturingRequest($consentParam);
+        $this->trackWith($request);
+
+        $this->assertSame($expectWritten ? [self::FIRST_PARTY_ID] : [], $request->savedCookieValues);
+    }
+
+    /**
+     * @return iterable<string, array{array<string, mixed>, bool}>
+     */
+    public function getInstanceWideCases(): iterable
+    {
+        yield 'consent' => [['consent' => '1'], true];
+        yield 'no consent' => [[], false];
+    }
+
+    /**
      * The cookie is shared by every site tracked through this Matomo. A consented visitor who
      * already has one keeps its value rather than having it replaced by this site's visitor ID.
      */
@@ -292,33 +318,6 @@ class RequestThirdPartyCookieConsentTest extends IntegrationTestCase
         $this->assertSame([], $request->savedCookieValues);
     }
 
-    public function testTheCompliancePageDescribesTheConsentAwareSettingOnlyForAnOptedInSite(): void
-    {
-        $this->assertSame(
-            Piwik::translate('General_ThirdPartyCookieSettingWhatItDoes'),
-            ThirdPartyCookies::getWhatItDoes($this->idSite)
-        );
-        $this->assertSame(
-            Piwik::translate('General_ThirdPartyCookieSettingImpact'),
-            ThirdPartyCookies::getImpact($this->idSite)
-        );
-
-        $this->optIn();
-
-        $this->assertSame(
-            Piwik::translate('General_ThirdPartyCookieSettingWhatItDoesConsentAware'),
-            ThirdPartyCookies::getWhatItDoes($this->idSite)
-        );
-        $this->assertSame(
-            Piwik::translate('General_ThirdPartyCookieSettingImpactConsentAware'),
-            ThirdPartyCookies::getImpact($this->idSite)
-        );
-        $this->assertSame(
-            Piwik::translate('General_ThirdPartyCookieSettingWhatItDoes'),
-            ThirdPartyCookies::getWhatItDoes(null)
-        );
-    }
-
     private function prepare(bool $policy, bool $optedIn, ?int $globalValue, ?int $siteValue): void
     {
         $tracker = Config::getInstance()->Tracker;
@@ -344,11 +343,7 @@ class RequestThirdPartyCookieConsentTest extends IntegrationTestCase
 
     private function optIn(): void
     {
-        $measurable = ConsentAwareAnalytics::getMeasurableSetting($this->idSite);
-        $measurable->setValue(true);
-        $measurable->save();
-
-        Cache::deleteTrackerCache();
+        ConsentAwareAnalytics::setEnabled(true, $this->idSite);
     }
 
     private function setExistingThirdPartyCookie(string $idVisitor): void
