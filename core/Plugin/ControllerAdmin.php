@@ -508,7 +508,7 @@ abstract class ControllerAdmin extends Controller
     }
 
     /**
-     * Follows the rules Transport::initSmtpTransport() uses to decide whether to send through SMTP with a login.
+     * Matches Transport::initSmtpTransport(), except that blank values count as unset.
      *
      * @param array<string, mixed> $mail The [mail] config section.
      */
