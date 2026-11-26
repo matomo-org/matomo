@@ -48,11 +48,6 @@ use Piwik\Validators\BaseValidator;
  */
 class API extends \Piwik\Plugin\API
 {
-    /**
-     * One more than the 400 visits the GDPR tools list, so that they can tell when there are more.
-     */
-    private const DATA_SUBJECTS_LIMIT = 401;
-
     private DataSubjects $gdpr;
 
     private LogDataAnonymizations $logDataAnonymizations;
@@ -210,7 +205,8 @@ class API extends \Piwik\Plugin\API
      * that have visitor logs or profiles enabled, and for sites whose compliance policy disables the visitor log,
      * where only the visits of visitors who gave consent are returned to a user with admin access to the site.
      * Such a site is only searched when this is the request being served, not one sent within another, such as a
-     * bulk request. Returns at most 401 matching visits, the most recent first.
+     * bulk request. Returns at most one more matching visit than `[General] gdpr_tools_max_visits` (400 by
+     * default), the most recent first, so that more matches can be told apart.
      *
      * @param int|string|int[] $idSite Website ID(s) to query.
      *                                 Accepts comma-separated IDs, "all", numeric IDs as strings, or ["all"].
@@ -332,7 +328,8 @@ class API extends \Piwik\Plugin\API
             'idSite' => $idSites,
             'period' => 'range',
             'date' => '1998-01-01,today',
-            'filter_limit' => self::DATA_SUBJECTS_LIMIT,
+            // one more than are listed, so that the GDPR tools can tell when there are more
+            'filter_limit' => DataSubjects::getMaxVisitsListed() + 1,
             'doNotFetchActions' => 1,
         ]);
 

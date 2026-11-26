@@ -3,5 +3,5 @@
 {% set title %}{{ 'PrivacyManager_GDPR'|translate }}{% endset %}
 
 {% block content %}
-    <div vue-entry="PrivacyManager.ManageGdpr"></div>
+    <div vue-entry="PrivacyManager.ManageGdpr" max-visits="{{ maxVisits|json_encode }}"></div>
 {% endblock %}
