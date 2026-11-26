@@ -91,6 +91,32 @@ class ControllerAdminTest extends TestCase
         yield 'Unknown database type' => ['PostgreSQL', '15.2', null];
     }
 
+    /**
+     * @dataProvider getMailConfigs
+     */
+    public function testIsMailConfigUsingSmtpPasswordLogin(array $mail, bool $expected): void
+    {
+        $this->assertSame(
+            $expected,
+            $this->invokeControllerAdminMethod('isMailConfigUsingSmtpPasswordLogin', [$mail])
+        );
+    }
+
+    public function getMailConfigs(): iterable
+    {
+        $smtp = ['transport' => 'smtp', 'host' => 'smtp.office365.com', 'type' => 'Login'];
+
+        yield 'Microsoft 365 with a password login' => [$smtp, true];
+        yield 'mail() instead of SMTP' => [['transport' => ''] + $smtp, false];
+        yield 'transport in upper case, which Transport does not treat as SMTP' => [['transport' => 'SMTP'] + $smtp, false];
+        yield 'no transport set' => [['host' => 'smtp.office365.com', 'type' => 'Login'], false];
+        yield 'no host' => [['host' => ''] + $smtp, false];
+        yield 'whitespace-only host' => [['host' => '  '] + $smtp, false];
+        yield 'no login' => [['type' => ''] + $smtp, false];
+        yield 'OAuth 2.0' => [['type' => 'Xoauth2'] + $smtp, false];
+        yield 'OAuth 2.0 in upper case' => [['type' => 'XOAUTH2'] + $smtp, false];
+    }
+
     private function invokeControllerAdminMethod(string $methodName, array $arguments)
     {
         $method = new ReflectionMethod(ControllerAdmin::class, $methodName);

@@ -228,6 +228,8 @@ class Controller extends ControllerAdmin
             // an access token requested before a change at the provider would otherwise be reused until it expires
             StaticContainer::get(SmtpTokenProvider::class)->forgetAccessToken();
 
+            ControllerAdmin::cancelSmtpBasicAuthRetirementWarningIfResolved($mail);
+
             try {
                 /**
                  * Triggered after the email server settings were saved on the general settings page.
