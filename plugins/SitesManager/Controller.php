@@ -13,7 +13,9 @@ use Exception;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Http\JsonResponse;
+use Piwik\Log\LoggerInterface;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Policy\PolicyManager;
@@ -75,17 +77,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $response = new ResponseBuilder(Common::getRequestVar('format'));
 
-        $globalSettings = [];
-        $globalSettings['keepURLFragmentsGlobal'] = API::getInstance()->getKeepURLFragmentsGlobal();
-        $globalSettings['defaultCurrency'] = API::getInstance()->getDefaultCurrency();
-        $globalSettings['searchKeywordParametersGlobal'] = API::getInstance()->getSearchKeywordParametersGlobal();
-        $globalSettings['searchCategoryParametersGlobal'] = API::getInstance()->getSearchCategoryParametersGlobal();
-        $globalSettings['defaultTimezone'] = API::getInstance()->getDefaultTimezone();
-        $globalSettings['excludedIpsGlobal'] = API::getInstance()->getExcludedIpsGlobal();
-        $globalSettings['excludedQueryParametersGlobal'] = API::getInstance()->getExcludedQueryParametersGlobal();
-        $globalSettings['excludedUserAgentsGlobal'] = API::getInstance()->getExcludedUserAgentsGlobal();
-        $globalSettings['excludedReferrersGlobal'] = API::getInstance()->getExcludedReferrersGlobal();
-        $globalSettings['exclusionTypeForQueryParams'] = API::getInstance()->getExclusionTypeForQueryParams();
+        $globalSettings = $this->getGlobalSettingValues();
         // stored as an instance-wide option, so it is never site specific
         $globalSettings['exclusionTypeForQueryParamsPolicyControlled'] = PolicyManager::getCompliancePoliciesControllingASetting(
             API::OPTION_EXCLUDE_TYPE_QUERY_PARAMS_GLOBAL,
@@ -97,11 +89,34 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     }
 
     /**
+     * @return array<string, mixed>
+     */
+    private function getGlobalSettingValues(): array
+    {
+        $api = API::getInstance();
+
+        return [
+            'keepURLFragmentsGlobal' => $api->getKeepURLFragmentsGlobal(),
+            'defaultCurrency' => $api->getDefaultCurrency(),
+            'searchKeywordParametersGlobal' => $api->getSearchKeywordParametersGlobal(),
+            'searchCategoryParametersGlobal' => $api->getSearchCategoryParametersGlobal(),
+            'defaultTimezone' => $api->getDefaultTimezone(),
+            'excludedIpsGlobal' => $api->getExcludedIpsGlobal(),
+            'excludedQueryParametersGlobal' => $api->getExcludedQueryParametersGlobal(),
+            'excludedUserAgentsGlobal' => $api->getExcludedUserAgentsGlobal(),
+            'excludedReferrersGlobal' => $api->getExcludedReferrersGlobal(),
+            'exclusionTypeForQueryParams' => $api->getExclusionTypeForQueryParams(),
+        ];
+    }
+
+    /**
      * Records Global settings when user submit changes
      */
     public function setGlobalSettings()
     {
         $response = new ResponseBuilder(Common::getRequestVar('format'));
+        $settingsBeforeSave = null;
+        $saveException = null;
 
         try {
             $this->checkTokenInUrl();
@@ -116,6 +131,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $keepURLFragments = Common::getRequestVar('keepURLFragments', $default = 0);
             $exclusionTypeForQueryParams = Common::getRequestVar('exclusionTypeForQueryParams', $default = "");
 
+            $settingsBeforeSave = $this->getGlobalSettingValues();
+
             $api = API::getInstance();
             $api->setDefaultTimezone($timezone);
             $api->setDefaultCurrency($currency);
@@ -125,13 +142,49 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $api->setGlobalSearchParameters($searchKeywordParameters, $searchCategoryParameters);
             $api->setKeepURLFragmentsGlobal($keepURLFragments);
             $api->setGlobalQueryParamExclusion($exclusionTypeForQueryParams, $excludedQueryParameters);
-
-            $toReturn = $response->getResponse();
         } catch (Exception $e) {
-            $toReturn = $response->getResponseException($e);
+            $saveException = $e;
         }
 
-        return $toReturn;
+        if ($settingsBeforeSave !== null) {
+            try {
+                $settingsAfterSave = $this->getGlobalSettingValues();
+
+                if ($saveException === null || $settingsAfterSave !== $settingsBeforeSave) {
+                    /**
+                     * Triggered after the global website settings were saved on the global settings page.
+                     *
+                     * The event is posted once for each save, also if no value changed. If the save fails part
+                     * way, the values saved before the failure stay saved. The event is then posted only if
+                     * these values changed a setting. It is not posted when one of the `SitesManager.setGlobal*`,
+                     * `SitesManager.setKeepURLFragmentsGlobal`, `SitesManager.setDefaultCurrency` or
+                     * `SitesManager.setDefaultTimezone` API methods is called directly.
+                     *
+                     * **Example**
+                     *
+                     *     Piwik::addAction('SitesManager.globalSettingsUpdated', function ($settings) {
+                     *         Log::info('Global excluded IPs: ' . $settings['excludedIpsGlobal']);
+                     *     });
+                     *
+                     * @param array $settings The current global website settings after the save, with the same
+                     *                        keys as the `SitesManager.getGlobalSettings` controller action
+                     *                        returns, but without the compliance policy information.
+                     */
+                    Piwik::postEvent('SitesManager.globalSettingsUpdated', [$settingsAfterSave]);
+                }
+            } catch (\Throwable $e) {
+                StaticContainer::get(LoggerInterface::class)->warning(
+                    'A listener of SitesManager.globalSettingsUpdated failed: {message}',
+                    ['message' => $e->getMessage(), 'exception' => $e]
+                );
+            }
+        }
+
+        if ($saveException !== null) {
+            return $response->getResponseException($saveException);
+        }
+
+        return $response->getResponse();
     }
 
     /**

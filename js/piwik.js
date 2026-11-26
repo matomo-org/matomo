@@ -7769,7 +7769,13 @@ if (typeof window.Matomo !== 'object') {
                 // requireConsent() tracker in the same cookie scope reporting consent, and keep
                 // hasRememberedConsent() true for a banner keyed on it
                 deleteCookie(CONSENT_COOKIE_NAME, configCookiePath, configCookieDomain);
-                this.forgetCookieConsentGiven();
+
+                // Consent to cookies is a separate answer, given on a screen of its own, and
+                // rememberConsentGiven() never writes it. Withdrawing consent to being measured
+                // leaves it alone, and only takes cookies away where it was never given.
+                if (!this.getRememberedCookieConsent()) {
+                    this.disableCookies();
+                }
             };
 
             /**

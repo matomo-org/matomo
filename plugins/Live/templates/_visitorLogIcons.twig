@@ -81,4 +81,12 @@
         {% endif %}
     </span>
     {% endif %}
+
+    {% if visitor.getColumn('consentState') == 'consented' %}
+    <span class="visitorType">
+        <span class="visitorLogTooltip consentState consentState-consented" title="{{ 'CoreHome_ConsentState'|translate }}">
+            {{- 'CoreHome_ConsentStateConsented'|translate -}}
+        </span>
+    </span>
+    {% endif %}
 </span>

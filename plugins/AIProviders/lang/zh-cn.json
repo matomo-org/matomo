@@ -1,9 +1,16 @@
 {
     "AIProviders": {
+        "AIProcessing": "AI 处理",
+        "AIProcessingHelp": "这两个类别默认都处于关闭状态，并适用于所有网站。AI 功能只会发送您在此处允许的类别中的数据。",
+        "AIProcessingIntro": "您可以选择启用或停用 Matomo 中由 AI 驱动的工具和功能。我们的 AI 服务提供商不会将您的数据用于模型训练。请记住，避免在您的输入数据中分享任何敏感信息。",
+        "AIProcessingSaveSuccess": "AI 处理设置已保存。",
+        "AggregatedAnalyticsData": "汇总分析数据",
+        "AggregatedAnalyticsDataDescription": "允许 AI 工具和功能访问报告中的汇总数据，包括细分、目标、网站、维度等相关信息。例如按国家/地区和广告活动统计的每个页面的访问。不包括原始访问数据。",
         "AnthropicDefaultModelDescription": "默认模型：claude-haiku-4-5",
         "ApiKey": "API密钥",
         "ApiKeyAlreadyConfiguredPlaceholder": "输入一个新密钥以替换现有密钥。",
         "ApiKeyPlaceholder": "输入您的 API 密钥",
+        "BackToPreviousPage": "返回上一页",
         "BedrockDescription": "通过 AWS Bedrock 访问 AI 模型。",
         "BedrockEndpointPlaceholder": "例如 eu-central-1",
         "BedrockEndpointTitle": "AWS 区域",
@@ -11,6 +18,7 @@
         "ClickTestConnectionToShowAvailableModels": "点击测试连接即可查看可用模型。",
         "ConfigurationIntro": "在 Matomo 中配置 AI 服务提供商和默认的 AI 行为。",
         "CustomProviderDescription": "使用您自己的 OpenAI 兼容端点。",
+        "DataProcessingDetails": "数据处理详情",
         "DefaultBadge": "默认",
         "DefaultCapabilityLevel": "默认能力级别",
         "DefaultCapabilityLevelHelp": "选择 Matomo 可以使用的默认能力。具体功能可能会覆盖此设置。",
@@ -26,6 +34,7 @@
         "ErrorInvalidAwsRegion": "%s 的 AWS 区域无效。",
         "ErrorInvalidEndpointUrl": "%s 的端点 URL 无效。",
         "ErrorProviderNotConfigured": "AI 提供商 \"%s\" 尚未配置。",
+        "ErrorUnknownAIProcessingCategory": "未知的 AI 处理数据类别“%s”。",
         "ErrorUnknownCapabilityLevel": "未知的 AI 模型能力级别“%s”。",
         "ErrorUnknownProvider": "未知的 AI 提供商“%s”。",
         "GoogleDefaultModelDescription": "默认模型：gemini-3.1-flash-lite",
@@ -35,8 +44,11 @@
         "MenuTitle": "AI 提供商",
         "Model": "型号",
         "NoDefaultProviderWarning": "暂无法设置默认的 AI 提供商。请先连接一个提供商。",
+        "NonAnalyticsData": "非分析数据",
+        "NonAnalyticsDataDescription": "允许 AI 工具访问您的非报告数据，包括目标、细分和网站。不包括用户数据和汇总报告数据。",
         "OpenAIDefaultModelDescription": "默认模型：gpt-5.4-mini",
         "PluginDescription": "配置 AI 提供商连接及 Matomo AI 功能使用的默认模型设置。",
+        "QuotaReached": "已达到 AI 使用限制。",
         "RefreshModels": "刷新模型列表",
         "RequestFailed": "AI 提供商请求失败：%s",
         "SettingsSaveSuccess": "AI 提供商设置已保存。",
@@ -48,6 +60,7 @@
         "ThinkingCapability": "思考中",
         "ThinkingCapabilityDescription": "更强的推理能力，适合处理复杂任务。",
         "UnexpectedError": "发生意外错误。请检查 Matomo 服务器日志。",
-        "UnsavedChanges": "您有未保存的更改"
+        "UnsavedChanges": "您有未保存的更改",
+        "UsedBy": "使用者"
     }
 }

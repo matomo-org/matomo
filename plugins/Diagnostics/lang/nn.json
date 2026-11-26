@@ -1,6 +1,8 @@
 {
     "Diagnostics": {
         "AllPrivateDirectoriesAreInaccessible": "Ingen private mapper er tilgjengelege frå internett.",
+        "ArchivingFailuresCheck": "Mislykka arkiveringar",
+        "ArchivingFailuresComment": "%1$s arkiv kunne ikkje behandlast og ventar på nytt forsøk, og %2$s arkiv vart gjevne opp etter at maksimalt tal på forsøk var nådd. Rapportar for arkiv som er gjevne opp, og for periodane som inneheld dei, blir ikkje oppdaterte før dei blir forsøkte på nytt. Den eldste feilen skjedde %3$s. Bruk konsollkommandoen %4$s for å sjå feila og forsøke på nytt.",
         "BrowserAndAutoArchivingEnabledComment": "Det ser ut til at både nettlesararkivering og automatisk arkivering er skrudde på. Automatisk arkivering starta sist for %3$s sidan. Viss %1$sautomatisk arkivering%2$s er skrudd på, bør du skru av nettlesararkivering i «Generelle innstillingar».",
         "BrowserAndAutoArchivingEnabledLabel": "Nettlesar- og automatisk arkivering er skrudd på",
         "BrowserTriggeredArchivingEnabled": "For best mogleg yting og ein rask Matomo tilrår vi sterkt å setje opp ein crontab som arkiverer rapportane automatisk, og å skru av nettlesarutløyst arkivering i innstillingane til Matomo. %1$sLær meir.%2$s",

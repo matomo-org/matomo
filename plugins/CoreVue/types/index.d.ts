@@ -171,6 +171,7 @@ declare global {
     cacheBuster: string;
     numbers: Record<string, any>;
     visitorProfileEnabled: boolean;
+    visitorProfileAvailable: boolean;
     languageName: string;
     isPagesComparisonApiDisabled: boolean; // can be set to avoid checks on Api.getPagesComparisonsDisabledFor
     userLogin?: string;
@@ -182,6 +183,7 @@ declare global {
     apiBulkRequestLimit: number;
 
     visitorLogEnabled: boolean;
+    visitorLogUnavailableSegments: string[];
     updatePeriodParamsFromUrl(): void;
     updateTitle(date: string, period: string, c: string, s: string, segment?: string): void;
     hasUserCapability(capability: string): boolean;

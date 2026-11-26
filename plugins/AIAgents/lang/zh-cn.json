@@ -1,1 +1,28 @@
-{}
+{
+    "AIAgents": {
+        "AIAgentName": "AI 代理名称",
+        "AIAgentVisits": "AI 代理访问",
+        "AIAgentVisitsDocumentation": "这是 AI 代理访问的概览。AI 代理流量只包括 AI 在真实浏览器中打开您的网站并像人类访客一样操作的访问。它不包括 ChatGPT 或其他 AI 工具在不使用浏览器的情况下获取您页面的后台请求。",
+        "ColumnAIAgentActions": "AI 代理访问的动作数",
+        "ColumnAIAgentAverageVisitDuration": "AI 代理访问的平均时长（秒）",
+        "ColumnAIAgentAvgActionsPerVisit": "每次 AI 代理访问的平均动作数",
+        "ColumnAIAgentBounceRate": "AI 代理访问的跳出率",
+        "ColumnAIAgentMaxActions": "单次 AI 代理访问的最多动作数",
+        "ColumnAIAgentUniqueVisitors": "AI 代理独立访客",
+        "ColumnAIAgentUsers": "AI 代理用户",
+        "ColumnAIAgentVisits": "AI 代理访问",
+        "ColumnHumanActions": "人类访问的动作数",
+        "ColumnHumanAverageVisitDuration": "人类访问的平均时长（秒）",
+        "ColumnHumanAvgActionsPerVisit": "每次人类访问的平均动作数",
+        "ColumnHumanBounceRate": "人类访问的跳出率",
+        "ColumnHumanMaxActions": "单次人类访问的最多动作数",
+        "ColumnHumanUniqueVisitors": "人类独立访客",
+        "ColumnHumanUsers": "人类用户",
+        "ColumnHumanVisits": "人类访问",
+        "PluginDescription": "有关 AI 代理活动的报告。",
+        "WidgetGraphAIAgents": "AI 代理趋势",
+        "WidgetOverviewAIAgents": "AI 代理概览",
+        "AIAgentsOverview": "AI 代理概览",
+        "AIAgentsOverviewSubcategoryDescription": "一目了然地查看 AI 代理和人类访客如何与您的网站互动。此概览展示综合指标和趋势，让您在查看详细报告之前快速发现变化。"
+    }
+}

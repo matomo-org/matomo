@@ -10,6 +10,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\ArchiveProcessor\HyperLogLog;
 use Piwik\Cache as PiwikCache;
 use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
@@ -21,6 +22,9 @@ use Piwik\Container\StaticContainer;
 class SettingsPiwik
 {
     public const OPTION_PIWIK_URL = 'piwikUrl';
+
+    // shortest first: a period's estimate is built from the sketches of the shorter ones
+    private const PERIODS_THAT_CAN_BE_ESTIMATED = ['week', 'month', 'year', 'range'];
 
     /**
      * Get salt from [General] section. Should ONLY be used as a seed to create hashes
@@ -334,6 +338,86 @@ class SettingsPiwik
         }
 
         return $result;
+    }
+
+    /**
+     * Returns true if at least one period is estimated, so day archives store the sketches the estimates are
+     * built from.
+     *
+     * @internal
+     */
+    public static function isUniqueVisitorsEstimateEnabled(): bool
+    {
+        return self::getUniqueVisitorsEstimatedPeriods() !== [];
+    }
+
+    /**
+     * Returns true if a website's total unique visitors and users for the given period are estimated rather
+     * than counted: `[General] enable_processing_estimated_unique_visitors_<period>` is 1. Days, and an empty
+     * period label, are always counted.
+     *
+     * @param string $periodLabel `"day"`, `"week"`, `"month"`, `"year"` or `"range"`
+     *
+     * @internal
+     */
+    public static function isUniqueVisitorsEstimated(string $periodLabel): bool
+    {
+        return in_array($periodLabel, self::getUniqueVisitorsEstimatedPeriods(), true);
+    }
+
+    /**
+     * Returns true if a longer period than the given one is estimated, so the given one has to store the sketch
+     * that estimate is built from.
+     *
+     * @param string $periodLabel `"day"`, `"week"`, `"month"`, `"year"` or `"range"`
+     *
+     * @internal
+     */
+    public static function isUniqueVisitorsSketchNeeded(string $periodLabel): bool
+    {
+        $position = array_search($periodLabel, self::PERIODS_THAT_CAN_BE_ESTIMATED, true);
+        $longerPeriods = array_slice(self::PERIODS_THAT_CAN_BE_ESTIMATED, $position === false ? 0 : $position + 1);
+
+        return array_intersect($longerPeriods, self::getUniqueVisitorsEstimatedPeriods()) !== [];
+    }
+
+    /**
+     * @return string[]
+     */
+    private static function getUniqueVisitorsEstimatedPeriods(): array
+    {
+        $general = Config::getInstance()->General;
+
+        return array_values(array_filter(self::PERIODS_THAT_CAN_BE_ESTIMATED, function ($period) use ($general) {
+            return ($general['enable_processing_estimated_unique_visitors_' . $period] ?? 0) == 1;
+        }));
+    }
+
+    /**
+     * Returns true if a website's total unique visitors and users are available for the given period, counted
+     * or estimated. Unique visitors in report rows still follow {@link isUniqueVisitorsEnabled()}.
+     *
+     * @param string $periodLabel `"day"`, `"week"`, `"month"`, `"year"` or `"range"`
+     *
+     * @internal
+     */
+    public static function isUniqueVisitorsTotalAvailable(string $periodLabel): bool
+    {
+        return self::isUniqueVisitorsEnabled($periodLabel) || self::isUniqueVisitorsEstimated($periodLabel);
+    }
+
+    /**
+     * Returns the configured precision of the unique visitors estimate, or 14 if it is out of range.
+     *
+     * @internal
+     */
+    public static function getUniqueVisitorsEstimatePrecision(): int
+    {
+        $precision = filter_var(Config::getInstance()->General['unique_visitors_estimate_precision'] ?? null, FILTER_VALIDATE_INT, [
+            'options' => ['min_range' => HyperLogLog::MIN_PRECISION, 'max_range' => HyperLogLog::MAX_PRECISION],
+        ]);
+
+        return $precision === false ? 14 : $precision;
     }
 
     /**

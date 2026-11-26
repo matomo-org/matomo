@@ -33,7 +33,7 @@
                                                placeholder="" autocomplete="username" autocorrect="off" autocapitalize="none"
                                                spellcheck="false" tabindex="10" autofocus="autofocus" required />
                                         <label for="login_form_login">
-                                            <i class="icon-user icon"></i> {{ 'Login_LoginOrEmail'|translate }}
+                                            <i class="icon-user icon" aria-hidden="true"></i> {{ 'Login_LoginOrEmail'|translate }}
                                         </label>
                                     </div>
                                 </div>
@@ -53,7 +53,7 @@
                                                autocapitalize="none" spellcheck="false" tabindex="20" required
                                                vue-directive="CoreHome.AutoClearPassword" />
                                         <label for="login_form_password">
-                                            <i class="icon-locked icon"></i> {{ 'General_Password'|translate }}
+                                            <i class="icon-locked icon" aria-hidden="true"></i> {{ 'General_Password'|translate }}
                                         </label>
                                     </div>
                                 </div>
@@ -129,7 +129,7 @@
                                         <input type="text" placeholder="" name="form_login" id="reset_form_login" class="input" value="" size="20"
                                                autocorrect="off" autocapitalize="none"
                                                tabindex="10"/>
-                                        <label for="reset_form_login"><i class="icon-user icon"></i> {{ 'Login_LoginOrEmail'|translate }}</label>
+                                        <label for="reset_form_login"><i class="icon-user icon" aria-hidden="true"></i> {{ 'Login_LoginOrEmail'|translate }}</label>
                                     </div>
                                 </div>
                             </div>
@@ -148,7 +148,7 @@
                                              external-input-selector="#reset_form_password"
                                              validation-rules="{{ passwordStrengthValidationRules|json_encode }}"
                                         ></div>
-                                        <label for="reset_form_password"><i class="icon-locked icon"></i> {{ 'Login_NewPassword'|translate }}</label>
+                                        <label for="reset_form_password"><i class="icon-locked icon" aria-hidden="true"></i> {{ 'Login_NewPassword'|translate }}</label>
                                     </div>
                                 </div>
                             </div>
@@ -167,7 +167,7 @@
                                              external-input-selector="#reset_form_password_bis"
                                              validation-rules="{{ passwordStrengthValidationRules|json_encode }}"
                                         ></div>
-                                        <label for="reset_form_password_bis"><i class="icon-locked icon"></i> {{ 'Login_NewPasswordRepeat'|translate }}</label>
+                                        <label for="reset_form_password_bis"><i class="icon-locked icon" aria-hidden="true"></i> {{ 'Login_NewPasswordRepeat'|translate }}</label>
                                     </div>
                                 </div>
                             </div>

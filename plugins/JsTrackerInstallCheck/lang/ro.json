@@ -1,1 +1,10 @@
-{}
+{
+    "JsTrackerInstallCheck": {
+        "JsTrackingCodeInstallCheckFailureMessage": "Verificarea codului de urmărire a eșuat. Verificați dacă ați instalat corect codul. %1$sAflați mai multe%2$s.",
+        "JsTrackingCodeInstallCheckFailureMessageWordpress": "Verificarea codului de urmărire a eșuat. Verificați dacă ați instalat pluginul \"%1$s\" și ați urmat toți pașii. %2$sAflați mai multe%3$s.",
+        "JsTrackingCodeInstallCheckSuccessMessage": "Codul de urmărire a fost instalat cu succes! Acest ecran va dispărea imediat ce se urmăresc date pentru site-ul dumneavoastră.",
+        "OptionalTestInstallationDescription": "Opțional: pentru a testa dacă codul de urmărire poate trimite solicitări către instanța Matomo, introduceți URL-ul exact pe care îl urmăriți și faceți clic pe \"Testare instalare\". Se va deschide o filă nouă, care ar trebui să se închidă în 10 secunde.",
+        "PluginDescription": "Verifică dacă codul de urmărire a fost instalat pe site-ul dumneavoastră și dacă poate trimite solicitări de urmărire către instanța Matomo",
+        "TestInstallationBtnText": "Testare instalare"
+    }
+}

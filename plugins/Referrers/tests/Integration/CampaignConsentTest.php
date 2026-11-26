@@ -217,6 +217,124 @@ class CampaignConsentTest extends IntegrationTestCase
         );
     }
 
+    /**
+     * Raised in review: the tracker reports consent as soon as the site's own code asks it to,
+     * while the server also requires the site to be opted in and not forcing cookieless tracking.
+     * Where they disagree the campaign still describes the arrival, so the visit must not be split
+     * - a site admin can change the tracking code where only a superuser can opt the site in.
+     *
+     * @dataProvider getSetupsWhereTheServerIgnoresConsent
+     */
+    public function testConsentOnTheArrivalPageDoesNotSplitTheVisitWhenTheServerIgnoresIt(string $setup): void
+    {
+        $this->enforceCampaignMasking();
+
+        if ('not opted in' === $setup) {
+            $this->disableConsentAwareAnalytics();
+        } else {
+            $this->setForcedCookielessTracking(true);
+        }
+
+        // the tracker withheld the campaign on the arrival page view
+        $this->tracker->setUrlReferrer('https://www.facebook.com/');
+        $this->trackPageView('landing', $withCampaign = false, $consent = null);
+        $this->tracker->setUrlReferrer('');
+
+        // consent given on the same page: the tracker now sends the campaign
+        $this->prepareRequest('landing', $withCampaign = true, $consent = '1');
+        Fixture::checkResponse($this->tracker->doTrackEvent('Consent', 'Given'));
+
+        $this->assertSame(1, $this->countVisits(), 'the visit was split over a consent the server does not honour');
+        $this->assertSame(
+            '',
+            (string) $this->fetchVisitColumn('consent'),
+            'the server should not have recorded consent for a site it does not measure it for'
+        );
+    }
+
+    public function getSetupsWhereTheServerIgnoresConsent(): array
+    {
+        return [['not opted in'], ['forced cookieless']];
+    }
+
+    /**
+     * Raised in review: a site using the classic requireConsent() sends consent=1 with every
+     * request once the visitor consents, and has always done so, so reading the reported consent
+     * reaches sites with no policy at all. Where nothing masks campaigns there is no withheld
+     * campaign to complete, and a campaign reached later starts a visit as it always has.
+     */
+    public function testACampaignOnTheLandingPageStillStartsAVisitOnASiteNotOptedIn(): void
+    {
+        // no policy, and hybrid tracking off
+        $this->disableConsentAwareAnalytics();
+
+        // arrival from a search engine, without a campaign
+        $this->tracker->setUrlReferrer('https://www.google.com/search?q=running+shoes');
+        $this->trackPageView('landing', $withCampaign = false, $consent = '1');
+        $this->tracker->setUrlReferrer('');
+
+        // the same page, opened again from a campaign link
+        $this->trackPageView('landing', $withCampaign = true, $consent = '1');
+
+        $this->assertSame(2, $this->countVisits(), 'the campaign should start a visit of its own, as on 6.x-dev');
+        $this->assertSame(self::CAMPAIGN_NAME, $this->fetchVisitColumn('referer_name', 1));
+    }
+
+    /**
+     * A site measuring consent-aware analytics withholds the campaign until consent through its
+     * tracker (disableCampaignParameters()), with or without a policy that masks campaigns. Consent
+     * given on the arrival page brings the campaign the visitor arrived through, so the visit is
+     * completed with it rather than split.
+     *
+     * @dataProvider getConsentingRequestsOnTheArrivalPage
+     */
+    public function testConsentOnTheArrivalPageCompletesTheCampaignWithoutAPolicy(string $request): void
+    {
+        // deliberately no enforceCampaignMasking(): the site is opted in, nothing is enforced
+
+        // the tracker withheld the campaign on the arrival page view
+        $this->tracker->setUrlReferrer('https://www.facebook.com/');
+        $this->trackPageView('landing', $withCampaign = false, $consent = null);
+        $this->tracker->setUrlReferrer('');
+
+        // consent given on the same page: the tracker now sends the campaign
+        if ('event' === $request) {
+            $this->prepareRequest('landing', $withCampaign = true, $consent = '1');
+            Fixture::checkResponse($this->tracker->doTrackEvent('Consent', 'Given'));
+        } else {
+            $this->trackPageView('landing', $withCampaign = true, $consent = '1');
+        }
+
+        $this->assertSame(1, $this->countVisits(), 'the visit was split over the campaign it arrived through');
+        $this->assertSame('1', (string) $this->fetchVisitColumn('consent'));
+        $this->assertSame(Common::REFERRER_TYPE_CAMPAIGN, (int) $this->fetchVisitColumn('referer_type'));
+        $this->assertSame(self::CAMPAIGN_NAME, $this->fetchVisitColumn('referer_name'));
+    }
+
+    public function getConsentingRequestsOnTheArrivalPage(): array
+    {
+        return [['event'], ['page view']];
+    }
+
+    /**
+     * Baseline: a site measuring consent-aware analytics through the classic requireConsent()
+     * reports consent from the first request, so the visit already holds it when a campaign link
+     * is opened later. That campaign is a change, and starts a visit of its own as it always has.
+     */
+    public function testACampaignOnTheLandingPageStillStartsAVisitOnceTheVisitHasConsented(): void
+    {
+        // deliberately no enforceCampaignMasking(): the site is opted in, nothing is enforced
+
+        $this->tracker->setUrlReferrer('https://www.google.com/search?q=running+shoes');
+        $this->trackPageView('landing', $withCampaign = false, $consent = '1');
+        $this->tracker->setUrlReferrer('');
+
+        $this->trackPageView('landing', $withCampaign = true, $consent = '1');
+
+        $this->assertSame(2, $this->countVisits(), 'the campaign should start a visit of its own');
+        $this->assertSame(self::CAMPAIGN_NAME, $this->fetchVisitColumn('referer_name', 1));
+    }
+
     private function disableConsentAwareAnalytics(): void
     {
         $measurable = ConsentAwareAnalyticsSetting::getMeasurableSetting($this->idSite);

@@ -24,6 +24,7 @@ use Piwik\Tracker\Cache;
 use Piwik\Tracker\PageUrl;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visit\EntryPage;
+use Piwik\Tracker\Visit\WithheldCampaign;
 use Piwik\Tracker\Visitor;
 use Piwik\UrlHelper;
 
@@ -178,19 +179,23 @@ abstract class Base extends VisitDimension
 
         // PHPStan reads $typeReferrerAnalyzed as never being a campaign here and so calls this
         // condition dead, which it is not: detectReferrerCampaign() sets the property through a
-        // path it does not follow. The entry is baselined for that reason, and gained a conjunct
-        // rather than a second site when consent was taken into account - do not delete the block
-        // on the strength of the analyser's view.
+        // path it does not follow. The entry is baselined for that reason - do not delete the
+        // block on the strength of the analyser's view.
         if (
             $referrerInformation['referer_type'] == Common::REFERRER_TYPE_CAMPAIGN
-            && !$this->hasVisitorConsented($request, $visitor)
-            && CampaignParameterValuesMasked::isEnabled((int) $this->idsite)
+            && $this->isCampaignMaskedFor($request, $visitor)
         ) {
             $referrerInformation['referer_name'] = CampaignParameterValuesMasked::getPlaceholderValue();
             $referrerInformation['referer_keyword'] = CampaignParameterValuesMasked::getPlaceholderValue();
         }
 
         return $referrerInformation;
+    }
+
+    private function isCampaignMaskedFor(Request $request, Visitor $visitor): bool
+    {
+        return !$this->hasVisitorConsented($request, $visitor)
+            && CampaignParameterValuesMasked::isEnabled((int) $this->idsite);
     }
 
     protected function getExcludedReferrers($idSite): array
@@ -1014,21 +1019,25 @@ abstract class Base extends VisitDimension
         Request $request,
         $action = null
     ): bool {
-        if ($information['referer_type'] != Common::REFERRER_TYPE_CAMPAIGN) {
-            return false;
-        }
+        return $request->hasConsent()
+            && $this->withheldCampaignDescribesTheArrival($visitor, $information, $request, $action);
+    }
 
-        if (!$request->hasConsent() || Consent::hasVisitConsented($visitor)) {
-            return false;
-        }
-
-        // a visit already attributed to a campaign is completed through the placeholder rules
-        // instead, and a second campaign over the first is a change rather than a completion
-        if ($visitor->getImmutableVisitorColumn('referer_type') == Common::REFERRER_TYPE_CAMPAIGN) {
-            return false;
-        }
-
-        return true === EntryPage::isRequestOnEntryPage($visitor, $action, $request);
+    /**
+     * Whether the campaign this request carries is the one the visit arrived through, rather than
+     * a different campaign reached later, as WithheldCampaign::revealsArrival() decides it.
+     *
+     * @param Action|null $action
+     * @internal
+     */
+    protected function withheldCampaignDescribesTheArrival(
+        Visitor $visitor,
+        array $information,
+        Request $request,
+        $action = null
+    ): bool {
+        return $information['referer_type'] == Common::REFERRER_TYPE_CAMPAIGN
+            && WithheldCampaign::revealsArrival($request, $visitor, $action);
     }
 
     /**

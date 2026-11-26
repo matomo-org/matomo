@@ -24,6 +24,7 @@ use Piwik\Plugins\AIProviders\AIRequest;
 use Piwik\Plugins\AIProviders\AIRequestContext;
 use Piwik\Plugins\AIProviders\AIRequestDecision;
 use Piwik\Plugins\AIProviders\AIUsage;
+use Piwik\Plugins\AIProviders\AIUsageAction;
 use Piwik\Plugins\AIProviders\Exception\AIProviderServerException;
 use Piwik\Plugins\AIProviders\Exception\AIQuotaExceededException;
 use Piwik\Plugins\AIProviders\Provider\AIProvider;
@@ -170,7 +171,7 @@ class UsageEventsTest extends IntegrationTestCase
     public function testDeniedRequestThrowsWithTheDecisionAndIsNeverSent(): void
     {
         Piwik::addAction('AIProviders.beforeRequest', function (AIRequestContext $context, AIRequestDecision $decision): void {
-            $decision->deny('limit_reached', 'Limit reached.', 1000, 1000, 0);
+            $decision->deny('limit_reached', 'Limit reached.', 1000, 1000, 0, new AIUsageAction('Buy more', 'index.php?module=Billing'));
         });
 
         try {
@@ -182,6 +183,9 @@ class UsageEventsTest extends IntegrationTestCase
             $this->assertSame(1000, $e->getDecision()->getUsed());
             $this->assertSame(1000, $e->getDecision()->getLimit());
             $this->assertSame(0, $e->getDecision()->getRemaining());
+            $action = $e->getDecision()->getAction();
+            $this->assertNotNull($action);
+            $this->assertSame('index.php?module=Billing', $action->getUrl());
         }
 
         $this->assertSame(0, $this->provider->calls);
@@ -298,6 +302,40 @@ class UsageEventsTest extends IntegrationTestCase
         $this->assertSame([], $this->usages);
     }
 
+    public function testProbeRequestReturnsTheUsageAnAllowingListenerReported(): void
+    {
+        Piwik::addAction('AIProviders.beforeRequest', function (AIRequestContext $context, AIRequestDecision $decision): void {
+            $decision->reportUsage(80, 100, 20, 'Renews in November.', new AIUsageAction('Buy more', 'index.php?module=Billing'));
+        });
+
+        $decision = $this->service()->probeRequest(new AIConversationRequest([], 'AskMatomo'));
+
+        $this->assertTrue($decision->isAllowed());
+        $this->assertSame(80, $decision->getUsed());
+        $this->assertSame(100, $decision->getLimit());
+        $this->assertSame('Renews in November.', $decision->getMessage());
+        $action = $decision->getAction();
+        $this->assertNotNull($action);
+        $this->assertSame('index.php?module=Billing', $action->getUrl());
+        $this->assertTrue($this->beforeRequestContexts[0]->isProbe());
+        $this->assertSame(0, $this->provider->calls);
+        $this->assertSame([], $this->usages);
+    }
+
+    public function testProbeRequestThrowsOnADenialLikeAssertRequestAllowed(): void
+    {
+        Piwik::addAction('AIProviders.beforeRequest', function (AIRequestContext $context, AIRequestDecision $decision): void {
+            $decision->deny('limit_reached', 'Used up');
+        });
+
+        try {
+            $this->service()->probeRequest(new AIConversationRequest([], 'AskMatomo'));
+            $this->fail('Expected the probe to be denied.');
+        } catch (AIQuotaExceededException $e) {
+            $this->assertSame('Used up', $e->getMessage());
+        }
+    }
+
     public function testAssertRequestAllowedStripsTheModelForACallerThatIsNotAllowlisted(): void
     {
         $this->service()->assertRequestAllowed((new AIRequest('Prompt', 'Goals'))->withModel('requested-model'));
@@ -389,6 +427,26 @@ class UsageEventsTest extends IntegrationTestCase
 
         $this->assertFalse($decision->isAllowed());
         $this->assertSame('Prompt limit reached.', $decision->getMessage());
+    }
+
+    public function testCheckFeatureAllowedReturnsTheMessageAndActionAnAllowingListenerReported(): void
+    {
+        Piwik::addAction(
+            'AIProviders.checkFeatureAllowed',
+            function (string $featureKey, array $payload, AIRequestDecision $decision): void {
+                $decision->reportUsage(3, 5, 2, 'Renews in November.', new AIUsageAction('Buy more', 'index.php?module=Billing'));
+            }
+        );
+
+        $decision = $this->service()->checkFeatureAllowed('MyPlugin.addPrompt', ['currentCount' => 3]);
+
+        $this->assertTrue($decision->isAllowed());
+        $this->assertSame(2, $decision->getRemaining());
+        $this->assertSame('Renews in November.', $decision->getMessage());
+        $action = $decision->getAction();
+        $this->assertNotNull($action);
+        $this->assertSame('Buy more', $action->getLabel());
+        $this->assertSame('index.php?module=Billing', $action->getUrl());
     }
 
     private function conversationRequest(): AIConversationRequest

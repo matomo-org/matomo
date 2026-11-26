@@ -223,7 +223,7 @@ class API extends \Piwik\Plugin\API
                     throw new Exception('Visits log is deactivated for all given websites (idSite=' . json_encode($idSite) . ').');
                 }
             } else {
-                Live::checkIsVisitorLogEnabled($idSites);
+                Live::checkIsVisitorLogAvailable($idSites);
             }
         }
 
@@ -274,7 +274,7 @@ class API extends \Piwik\Plugin\API
     public function getVisitorProfile(int $idSite, $visitorId = false, $segment = false, $limitVisits = false): array
     {
         Piwik::checkUserHasViewAccess($idSite);
-        Live::checkIsVisitorProfileEnabled($idSite);
+        Live::checkIsVisitorProfileAvailable($idSite);
 
         if (!is_numeric($limitVisits) || $limitVisits <= 0) {
             $limitVisits = VisitorProfile::VISITOR_PROFILE_MAX_VISITS_TO_SHOW;
@@ -324,7 +324,7 @@ class API extends \Piwik\Plugin\API
     public function getMostRecentVisitorId(int $idSite, $segment = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
-        Live::checkIsVisitorLogEnabled($idSite);
+        Live::checkIsVisitorLogAvailable($idSite);
 
         // for faster performance search for a visitor within the last 7 days first
         $minTimestamp = Date::now()->subDay(7)->getTimestamp();
@@ -388,7 +388,7 @@ class API extends \Piwik\Plugin\API
     public function getFirstVisitForVisitorId($idSite, $visitorId): DataTable
     {
         Piwik::checkUserHasViewAccess($idSite);
-        Live::checkIsVisitorProfileEnabled($idSite);
+        Live::checkIsVisitorProfileAvailable($idSite);
 
         if (empty($visitorId)) {
             return new DataTable();

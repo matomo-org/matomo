@@ -3,9 +3,16 @@
         "ColumnConfiguration": "Configuraţia",
         "ColumnResolution": "Rezoluţie ecran",
         "Configurations": "Configurare",
+        "PluginDescription": "Raportează rezoluțiile de ecran ale vizitatorilor.",
         "Resolutions": "Rezolutii",
+        "ScreenResolutionDetectionDisabled": "Detectarea rezoluției ecranului este dezactivată",
+        "ScreenResolutionDetectionDisabledImpact": "Informațiile despre rezoluția ecranului nu sunt colectate, iar rapoartele privind rezoluția ecranului din <strong>Vizitatori &gt; Dispozitive</strong> nu sunt disponibile.",
+        "ScreenResolutionDetectionDisabledRequirementNote": "Detectarea rezoluției ecranului și raportul privind rezoluția ecranului trebuie să fie dezactivate.",
+        "ScreenResolutionDetectionDisabledWhatItDoes": "Detectarea rezoluției ecranului este dezactivată.<br><br>Aceasta reduce riscul de identificare a vizitatorilor pe baza configurației ecranului lor.",
+        "ScreenResolutionReportDisabledByCompliancePolicy": "Raportul privind rezoluția ecranului este dezactivat de politica de conformitate.",
         "WidgetGlobalVisitors": "Configurare vizitatori globala",
         "WidgetGlobalVisitorsDocumentation": "Acest raport arată cele mai comune configurații generale,pe care vizitatorii le au avut. O configurație este combinația dintre un sistem de operare, un tip de browser și o rezoluție a ecranului.",
-        "WidgetResolutions": "Rezolutii ecran"
+        "WidgetResolutions": "Rezolutii ecran",
+        "WidgetResolutionsDocumentation": "Acest raport arată rezoluțiile de ecran folosite de vizitatori când v-au vizualizat site-ul."
     }
 }

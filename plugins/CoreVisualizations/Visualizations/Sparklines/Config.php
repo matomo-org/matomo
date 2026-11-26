@@ -73,6 +73,13 @@ class Config extends \Piwik\ViewDataTable\Config
      */
     public $use_metric_labels_as_titles = false;
 
+    /**
+     * Card titles of the redesigned sparkline card for single metrics, by column. A title set here is used
+     * instead of the generic metric name, eg to say that a metric's value was estimated.
+     * @var array<string, string>
+     */
+    public $metric_titles = [];
+
     public function __construct()
     {
         parent::__construct();

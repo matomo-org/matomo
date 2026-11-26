@@ -47,7 +47,6 @@
         "NoDataCloudflareInstructions2": "Worker (Node.js) dağıtımı yapın ve Matomo adresiniz ile site kimliğinizi ayarlayın.",
         "NoDataCloudflareInstructions3": "Bölgenize veya rotanıza Worker ekleyin. Böylece isteklerle iç içe çalışır.",
         "NoDataCloudflareInstructions4": "Yapay zekâ sohbet robotu erişilmelerinin izleme raporlarında görüntülenip görüntülenmeyeceğini kontrol ederek kurulumu doğrulayın.",
-        "NoDataHttpTrackingApiDescription": "HTTP izleme API uygulaması, özel bir bütünleştirmeye gerek duyduğunuzda, yapay zekâ sohbet robotu isteklerini doğrudan izlemenizi sağlar. %1$sİzleme API uygulaması bilgi bankası%2$s ile başlayın ve güncel robot izleme parametreleri ve davranışları için %3$sHTTP izleme API referansı%4$s bölümünü kullanın.",
         "NoDataLinkKnowledgeBase": "Belgeler: %1$sMatomo bilgi bankası%2$s",
         "NoDataLinkSourceCode": "Kaynak kodu: %1$sGitHub deposu%2$s",
         "NoDataMissingOneContactUs": "Eksik bir şey mi var? Bizimle görüşün",
