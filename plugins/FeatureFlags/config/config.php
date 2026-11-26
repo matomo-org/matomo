@@ -13,6 +13,7 @@ return [
      * The first one will be overwritten by the second one (if set).
      */
     'featureflag.storages' => [
+        DI::get('Piwik\Plugins\FeatureFlags\Storage\CookieFeatureFlagStorage'),
         DI::get('Piwik\Plugins\FeatureFlags\Storage\ConfigFeatureFlagStorage'),
     ],
     /**
