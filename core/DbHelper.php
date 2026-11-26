@@ -436,26 +436,115 @@ class DbHelper
     }
 
     /**
+     * Extracts the "GROUP BY" clause from a query.
+     *
+     * Will return null if no clause found or the extraction failed,
+     * e.g. parentheses in the extracted clause are not balanced.
+     */
+    public static function extractGroupByFromQuery(string $sql, bool $stripTableNames = false): ?string
+    {
+        $groupBy = self::extractClauseFromQuery(
+            $sql,
+            '/.*GROUP\s+BY\s+(.*?)(?:\s+(?:WITH|HAVING|WINDOW|ORDER|LIMIT)\b|\s*;|\s*$)(.*)/is'
+        );
+
+        if ($stripTableNames && null !== $groupBy) {
+            return self::stripTableNamesFromQueryClause($groupBy);
+        } else {
+            return $groupBy;
+        }
+    }
+
+    /**
      * Extracts the "ORDER BY" clause from a query.
      *
      * Will return null if no clause found or the extraction failed,
      * e.g. parentheses in the extracted clause are not balanced.
      */
-    public static function extractOrderByFromQuery(string $sql): ?string
+    public static function extractOrderByFromQuery(string $sql, bool $stripTableNames = false): ?string
     {
-        $pattern = '/.*ORDER\s+BY\s+(.*?)(?:\s+LIMIT|\s*;|\s*$)/is';
+        $orderBy = self::extractClauseFromQuery(
+            $sql,
+            '/.*ORDER\s+BY\s+(.*?)(?:\s+LIMIT\b|\s*;|\s*$)(.*)/is'
+        );
 
-        if (preg_match($pattern, $sql, $matches)) {
-            $orderBy = $matches[1];
-            $openParentheses = substr_count($orderBy, '(');
-            $closeParentheses = substr_count($orderBy, ')');
+        if ($stripTableNames && null !== $orderBy) {
+            return self::stripTableNamesFromQueryClause($orderBy);
+        } else {
+            return $orderBy;
+        }
+    }
 
-            if ($openParentheses === $closeParentheses) {
-                return trim($orderBy);
-            }
+    /**
+     * Extracts the "SELECT" columns from a query.
+     *
+     * Will return null if no columns found or the extraction failed.
+     *
+     * Will skip comments and optimizer hints between the SELECT and the
+     * first column, but not between individual columns. A leading WITH clause
+     * is skipped, a FROM inside parentheses (subqueries, function arguments)
+     * does not end the columns.
+     */
+    public static function extractSelectFromQuery(string $sql, bool $stripTableNames = false): ?string
+    {
+        $selectStart = self::findSelectColumnsStart($sql);
+
+        if (null === $selectStart) {
+            return null;
         }
 
-        return null;
+        $selectEnd = self::findTopLevelToken($sql, $selectStart, ['FROM', ';']);
+
+        if (null === $selectEnd) {
+            return null;
+        }
+
+        $select = trim(substr($sql, $selectStart, $selectEnd - $selectStart));
+
+        if ('' === $select) {
+            return null;
+        }
+
+        if ($stripTableNames) {
+            return self::stripTableNamesFromQueryClause($select);
+        } else {
+            return $select;
+        }
+    }
+
+    /**
+     * Extracts the query of the derived table a query selects from,
+     * e.g. "<query>" from "SELECT * FROM ( <query> ) AS alias GROUP BY ...".
+     *
+     * Will return null if the query does not select from a derived table
+     * or the extraction failed.
+     *
+     * @internal
+     */
+    public static function extractDerivedTableFromQuery(string $sql): ?string
+    {
+        $selectStart = self::findSelectColumnsStart($sql);
+
+        if (null === $selectStart) {
+            return null;
+        }
+
+        $fromPos = self::findTopLevelToken($sql, $selectStart, ['FROM', ';']);
+
+        if (null === $fromPos || !preg_match('/\GFROM\s*\(/i', $sql, $matches, 0, $fromPos)) {
+            return null;
+        }
+
+        $derivedTableStart = $fromPos + strlen($matches[0]);
+        $derivedTableEnd = self::findTopLevelToken($sql, $derivedTableStart, [')']);
+
+        if (null === $derivedTableEnd || strlen($sql) === $derivedTableEnd) {
+            return null;
+        }
+
+        $derivedTable = trim(substr($sql, $derivedTableStart, $derivedTableEnd - $derivedTableStart));
+
+        return '' === $derivedTable ? null : $derivedTable;
     }
 
     /**
@@ -470,5 +559,170 @@ class DbHelper
     public static function isValidDbname($dbname)
     {
         return (0 !== preg_match('/(^[a-zA-Z0-9]+([a-zA-Z0-9\_\.\-\+]*))$/D', $dbname));
+    }
+
+    private static function extractClauseFromQuery(string $query, string $pattern): ?string
+    {
+        preg_match($pattern, $query, $matches);
+
+        if (empty($matches[1])) {
+            return null;
+        }
+
+        $clause = trim($matches[1]);
+        $openParentheses = substr_count($clause, '(');
+        $closeParentheses = substr_count($clause, ')');
+
+        if ($openParentheses !== $closeParentheses) {
+            return null;
+        }
+
+        // secondary match is after optional keywords
+        // check for balanced parentheses to avoid matching
+        // clause from a nested query
+        if (!empty($matches[2])) {
+            $postMatch = $matches[2];
+            $openParentheses = substr_count($postMatch, '(');
+            $closeParentheses = substr_count($postMatch, ')');
+
+            if ($openParentheses !== $closeParentheses) {
+                return null;
+            }
+        }
+
+        return $clause;
+    }
+
+    /**
+     * Returns the position after the SELECT keyword of the main query and the
+     * comments and optimizer hints following it, or null if there is none.
+     */
+    private static function findSelectColumnsStart(string $sql): ?int
+    {
+        // skip leading whitespace and comments
+        preg_match('/^(?:\s+|\/\*.*?\*\/)*/s', $sql, $matches);
+        $selectPos = strlen($matches[0]);
+
+        if (preg_match('/\GWITH\b/i', $sql, $matches, 0, $selectPos)) {
+            // the main query follows the common table expressions
+            $selectPos = self::findTopLevelToken($sql, $selectPos + strlen($matches[0]), ['SELECT']);
+
+            if (null === $selectPos) {
+                return null;
+            }
+        }
+
+        if (!preg_match('/\GSELECT\s+(?:\/\*.*?\*\/\s*)*/is', $sql, $matches, 0, $selectPos)) {
+            return null;
+        }
+
+        return $selectPos + strlen($matches[0]);
+    }
+
+    /**
+     * Returns the position of the first of the given tokens that is not inside
+     * parentheses, quotes or comments, starting at $offset. Keywords are matched
+     * as whole words, case-insensitive; ";" and ")" can be passed as tokens too.
+     *
+     * Returns the length of the query if no token was found, and null if the
+     * parentheses, quotes or comments are not balanced before the token.
+     *
+     * @param string[] $tokens Upper case keywords, ";" or ")"
+     */
+    private static function findTopLevelToken(string $sql, int $offset, array $tokens): ?int
+    {
+        $length = strlen($sql);
+        $depth = 0;
+
+        for ($pos = $offset; $pos < $length; $pos++) {
+            $char = $sql[$pos];
+
+            if ("'" === $char || '"' === $char || '`' === $char) {
+                $end = $pos + 1;
+
+                while ($end < $length && $sql[$end] !== $char) {
+                    if ('\\' === $sql[$end] && '`' !== $char) {
+                        // skip escaped character
+                        $end++;
+                    }
+
+                    $end++;
+                }
+
+                if ($end >= $length) {
+                    return null;
+                }
+
+                $pos = $end;
+                continue;
+            }
+
+            if ('/' === $char && '*' === ($sql[$pos + 1] ?? '')) {
+                $end = strpos($sql, '*/', $pos + 2);
+
+                if (false === $end) {
+                    return null;
+                }
+
+                $pos = $end + 1;
+                continue;
+            }
+
+            if ('#' === $char || ('-' === $char && preg_match('/\G--\s/', $sql, $matches, 0, $pos))) {
+                $end = strpos($sql, "\n", $pos);
+
+                if (false === $end) {
+                    return $length;
+                }
+
+                $pos = $end;
+                continue;
+            }
+
+            if ('(' === $char) {
+                $depth++;
+                continue;
+            }
+
+            if (')' === $char) {
+                if (0 === $depth && in_array(')', $tokens, true)) {
+                    return $pos;
+                }
+
+                $depth--;
+
+                if ($depth < 0) {
+                    return null;
+                }
+
+                continue;
+            }
+
+            if (';' === $char && 0 === $depth && in_array(';', $tokens, true)) {
+                return $pos;
+            }
+
+            if ((ctype_alnum($char) || '_' === $char) && preg_match('/\G\w+/', $sql, $matches, 0, $pos)) {
+                if (0 === $depth && in_array(strtoupper($matches[0]), $tokens, true)) {
+                    return $pos;
+                }
+
+                // skip the rest of the word, so keywords only match whole words
+                $pos += strlen($matches[0]) - 1;
+            }
+        }
+
+        return 0 === $depth ? $length : null;
+    }
+
+    private static function stripTableNamesFromQueryClause(string $clause): string
+    {
+        return preg_replace_callback(
+            '/`?\w+`?\.`?(\w+)`?/',
+            function (array $matches): string {
+                return '`' . $matches[1] . '`';
+            },
+            $clause
+        );
     }
 }
