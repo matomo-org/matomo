@@ -776,6 +776,11 @@ abstract class Base extends VisitDimension
 
         $this->setCampaignValuesToLowercase($type, $name, $keyword);
 
+        if ($type === Common::REFERRER_TYPE_CAMPAIGN) {
+            $name = $this->getCampaignValueAsStoredOnVisit($visitor, 'referer_name', $name);
+            $keyword = $this->getCampaignValueAsStoredOnVisit($visitor, 'referer_keyword', $keyword);
+        }
+
         $fields = [
             'referer_type'              => $type,
             'referer_name'              => $name,
@@ -829,6 +834,32 @@ abstract class Base extends VisitDimension
         // the campaign the cookie carries may be an older one than the visit was started by, so
         // it is reported only where it is the same. Stored values are lowercased when written.
         return mb_strtolower($held) === mb_strtolower((string) $value);
+    }
+
+    /**
+     * Returns the campaign value as the visit stores it when it is the same campaign value, ignoring case.
+     *
+     * Campaign values are lowercased by core, but a plugin (e.g. MarketingCampaignsReporting) may store
+     * them on the visit in their original case. A conversion of that campaign has to use the same spelling,
+     * otherwise visits and conversions of one campaign are reported in separate rows.
+     *
+     * @param string $column the visit column holding the value
+     * @param mixed $value the lowercased value the conversion would store
+     * @return mixed
+     */
+    private function getCampaignValueAsStoredOnVisit(Visitor $visitor, string $column, $value)
+    {
+        if (empty($value) || Common::REFERRER_TYPE_CAMPAIGN != $visitor->getVisitorColumn('referer_type')) {
+            return $value;
+        }
+
+        $stored = (string) $visitor->getVisitorColumn($column);
+
+        if ('' === $stored || CampaignParameterValuesMasked::isPlaceholderValue($stored)) {
+            return $value;
+        }
+
+        return mb_strtolower($stored) === mb_strtolower((string) $value) ? $stored : $value;
     }
 
     /**
