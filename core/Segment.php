@@ -458,7 +458,7 @@ class Segment
         }
 
         if ($matchType == SegmentExpression::MATCH_IDVISIT_NOT_IN) {
-            $segmentObj = new Segment($value, $this->idSites, $this->startDate, $this->endDate);
+            $segmentObj = new Segment($value, $this->idSites);
 
             $select = 'log_visit.idvisit';
             $from = 'log_visit';
