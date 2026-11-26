@@ -14,12 +14,14 @@ use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\ArchiveWriter;
+use Piwik\Config;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Mail;
 use Piwik\Plugins\CoreAdminHome\Emails\JsTrackingCodeMissingEmail;
 use Piwik\Plugins\CoreAdminHome\Emails\TrackingFailuresEmail;
 use Piwik\Plugins\CoreAdminHome\Tasks;
+use Piwik\Plugins\CoreAdminHome\TrackingFailuresNotificationSettings;
 use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
 use Piwik\Plugins\SegmentEditor\Model as SegmentModel;
 use Piwik\Scheduler\Task;
@@ -74,7 +76,7 @@ class TasksTest extends IntegrationTestCase
         $archivePurger->setYesterdayDate(Date::factory('2015-02-26'));
         $archivePurger->setNow(Date::factory('2015-02-27 08:00:00')->getTimestamp());
 
-        $this->tasks = new Tasks($archivePurger, new NullLogger(), new Failures());
+        $this->tasks = new Tasks($archivePurger, new NullLogger(), new Failures(), new TrackingFailuresNotificationSettings());
 
         $this->mail = null;
     }
@@ -270,6 +272,47 @@ class TasksTest extends IntegrationTestCase
         $this->assertEquals('superUserLogin', $mail->getLogin());
         $this->assertEquals('hello@example.org', $mail->getEmailAddress());
         $this->assertEquals(2, $mail->getNumFailures());
+    }
+
+    public function testNotifyTrackingFailuresDoesNotSendAnyMailWhenDisabledInConfig()
+    {
+        Config::setSetting('General', 'enable_tracking_failures_notification', 0);
+        (new Failures())->logFailure(1, new Request(['idsite' => 9999, 'rec' => 1]));
+        Fixture::createSuperUser(false);
+
+        $this->tasks->notifyTrackingFailures();
+
+        $this->assertNull($this->mail);
+    }
+
+    public function testNotifyTrackingFailuresDoesNotCountFailuresOfExcludedSites()
+    {
+        $idSiteExcluded = Fixture::createWebsite('2014-01-02 03:04:05');
+        $idSiteNotExcluded = Fixture::createWebsite('2014-01-02 03:04:05');
+        (new TrackingFailuresNotificationSettings())->save(true, [$idSiteExcluded]);
+
+        $failures = new Failures();
+        $failures->logFailure(2, new Request(['idsite' => $idSiteExcluded, 'rec' => 1]));
+        $failures->logFailure(2, new Request(['idsite' => $idSiteNotExcluded, 'rec' => 1]));
+        $failures->logFailure(1, new Request(['idsite' => 9999, 'rec' => 1]));
+        Fixture::createSuperUser(false);
+
+        $this->tasks->notifyTrackingFailures();
+
+        $this->assertInstanceOf(TrackingFailuresEmail::class, $this->mail);
+        $this->assertSame(2, $this->mail->getNumFailures());
+    }
+
+    public function testNotifyTrackingFailuresDoesNotSendAnyMailWhenAllFailuresBelongToExcludedSites()
+    {
+        $idSite = Fixture::createWebsite('2014-01-02 03:04:05');
+        (new TrackingFailuresNotificationSettings())->save(true, [$idSite]);
+        (new Failures())->logFailure(2, new Request(['idsite' => $idSite, 'rec' => 1]));
+        Fixture::createSuperUser(false);
+
+        $this->tasks->notifyTrackingFailures();
+
+        $this->assertNull($this->mail);
     }
 
     /**

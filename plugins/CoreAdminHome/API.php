@@ -53,16 +53,20 @@ class API extends \Piwik\Plugin\API
 
     private OptOutManager $optOutManager;
 
+    private TrackingFailuresNotificationSettings $trackingFailuresNotificationSettings;
+
     public function __construct(
         Scheduler $scheduler,
         ArchiveInvalidator $invalidator,
         Failures $trackingFailures,
-        OptOutManager $optOutManager
+        OptOutManager $optOutManager,
+        TrackingFailuresNotificationSettings $trackingFailuresNotificationSettings
     ) {
         $this->scheduler = $scheduler;
         $this->invalidator = $invalidator;
         $this->trackingFailures = $trackingFailures;
         $this->optOutManager = $optOutManager;
+        $this->trackingFailuresNotificationSettings = $trackingFailuresNotificationSettings;
     }
 
     /**
@@ -81,7 +85,6 @@ class API extends \Piwik\Plugin\API
     /**
      * @param bool|string $enableBrowserTriggerArchiving
      * @param int|string $todayArchiveTimeToLive
-     * @return true
      * @internal
      */
     public function setArchiveSettings($enableBrowserTriggerArchiving, $todayArchiveTimeToLive): bool
@@ -101,7 +104,6 @@ class API extends \Piwik\Plugin\API
     /**
      * @param string[] $trustedHosts
      * @param string|null $passwordConfirmation Current user's password confirmation when required by session auth.
-     * @return true
      * @internal
      */
     public function setTrustedHosts(
@@ -293,6 +295,26 @@ class API extends \Piwik\Plugin\API
         }
 
         return $failures;
+    }
+
+    /**
+     * Saves the settings of the weekly tracking failures email for the whole instance.
+     *
+     * @param bool $enabled Whether the email is sent to super users at all.
+     * @param string $excludedIdSites Comma separated IDs of the websites whose failures do not count towards
+     *                                the email. Replaces the stored list, so leaving it out removes all
+     *                                exclusions. IDs of websites that do not exist are ignored.
+     * @throws \Piwik\Http\BadRequestException if an ID is not a positive whole number.
+     * @internal
+     */
+    public function setTrackingFailuresNotificationSettings(bool $enabled, string $excludedIdSites = ''): void
+    {
+        Piwik::checkUserHasSuperUserAccess();
+
+        // split here, so a lone '0' is rejected like any other invalid ID instead of being read as an empty list
+        $excludedIdSites = Site::getIdSitesFromIdSitesString(explode(',', $excludedIdSites), false, true);
+
+        $this->trackingFailuresNotificationSettings->save($enabled, $excludedIdSites);
     }
 
     /**
