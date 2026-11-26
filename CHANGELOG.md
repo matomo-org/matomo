@@ -44,6 +44,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * `core:archive-failures` lists the archives `core:archive` failed to process and resets them, so they are retried in the next run.
 
 ### Deprecations
+* `Piwik\Tracker\Response::logExceptionToErrorLog()` is deprecated, no longer called and will be removed in Matomo 7, as tracker errors are logged through the configured log writers.
 * The `disabled` class on a `.mtm-selector` is deprecated and will be removed in Matomo 7; use the `mtm-selector--disabled` modifier instead.
 * `Piwik\DataAccess\Model::isSimilarArchiveInProgress()` is deprecated and will be removed in Matomo 7; use `Piwik\DataAccess\Model::isArchiveAlreadyInProgress()` instead.
 
@@ -71,6 +72,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The chart parameters built by `Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\Chart::setAxisXLabels()` now hold the x-axis `ticks` as plain text instead of HTML-encoded, so a label like `My "quoted" video` shows as written on bar chart axes and in pie chart legends. `labels` stay HTML-encoded. Plugin JavaScript that inserts `axes.xaxis.ticks` values into HTML, for example in a tooltip, must now escape them, e.g. with `piwikHelper.htmlEntities()`.
 * Action names stored in `log_action.name` are now truncated to 4096 characters if they exceed the column limit.
 * Error log records written during tracking requests no longer include the request's query string as context, as it holds visitor data.
+* The tracking endpoint no longer writes its errors to PHP's error log directly. They're only logged through the configured log writers, rejected requests (`4xx`) at `DEBUG` level, so with only the default `screen` writer, which tracking requests can't use, they aren't logged.
 * The JavaScript `AjaxHelper` now handles an API error answered with a 4xx status like one answered with status `200`, unless an error callback set via `setErrorCallback()` handles it.
 * On a website whose compliance policy disables the visits log, `PrivacyManager.findDataSubjects` now returns the visits of visitors who gave consent instead of nothing, and `PrivacyManager.exportDataSubjects` rejects any other visit of such a website. Each visit returned by `PrivacyManager.findDataSubjects` now includes `consentState`, as `Live.getLastVisitsDetails` reports it. `PrivacyManager.exportDataSubjects` and `PrivacyManager.deleteDataSubjects` now reject an `idsite` or `idvisit` that is not a positive integer, such as `3abc`, `-1` or `5.0`, with a 400 error on every website, where such a value used to be cast to an integer.
 * On a website whose compliance policy disables the visits log, `API.getSuggestedValuesForSegment` now suggests values from the visits of visitors who gave consent instead of failing. If that website also measures consent-aware analytics, `Live.getLastVisitsDetails`, `Live.getVisitorProfile`, `Live.getMostRecentVisitorId` and `Live.getFirstVisitForVisitorId` return those visits instead of an error, when asked for that website alone; a request for several websites still skips it.

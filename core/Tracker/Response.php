@@ -62,7 +62,6 @@ class Response
         if ($this->keepResponseCode) {
             Common::sendResponseCode($statusCode);
         }
-        $this->logExceptionToErrorLog($e);
 
         if ($tracker->isDebugModeEnabled()) {
             echo "\nAn exception occurred: " . $this->getMessageFromException($e) . "\n\n";
@@ -235,6 +234,10 @@ class Response
         return $e->getMessage();
     }
 
+    /**
+     * @deprecated since Matomo 6.1.0, no longer called and will be removed in Matomo 7. Tracker errors are
+     *             logged by {@link Handler::onException()} through the configured log writers.
+     */
     protected function logExceptionToErrorLog($e)
     {
         $hostname = Url::getRFCValidHostname();
