@@ -57,6 +57,9 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * A segment using `!=` with the value `0`, or a value its segment maps to `0` such as `visitorType!=new`, `deviceType!=desktop` or `visitEcommerceStatus!=none`, now also matches the visits where the segment's value is `NULL`, as `!=` already did for any other value.
 * For estimated periods, `VisitsSummary.get`, `VisitFrequency.get`, `AIAgents.get` and `API.get` return estimated `nb_uniq_visitors` and `nb_users`, and a new `uniques_estimated` column (`1` when estimated). `VisitFrequency.get` and `AIAgents.get` return it per visitor type, for example `uniques_estimated_returning`. A period without a unique count now leaves out `nb_uniq_visitors` and `nb_users` instead of returning `0`, also in `API.getProcessedReport`, `ImageGraph` and `VisitsSummary.getUniqueVisitors` / `getUsers`.
 
+### HTTP Tracking API
+* With `[Tracker] record_statistics = 0`, the tracking endpoint now also answers requests with `send_image=0` with `503` instead of `204`, and bulk requests with `503` and `"status":"error"` instead of a success response.
+
 ### Archiving
 * Different `core:archive` processes can now archive "All visits" and segments of the same site and an overlapping period at the same time. State that an archiver shares across a site's segments must therefore also be safe to use while the "All visits" archive is processed.
 * Plugins reading `nb_uniq_visitors` or `nb_users` from the `VisitsSummary` archive of an estimated period get the estimate. The archive's `uniques_estimated` record is `1` when the value was estimated.
