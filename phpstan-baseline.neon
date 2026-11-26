@@ -2221,18 +2221,6 @@ parameters:
 			path: plugins/BulkTracking/Tracker/Handler.php
 
 		-
-			message: '#^Result of && is always false\.$#'
-			identifier: booleanAnd.alwaysFalse
-			count: 1
-			path: plugins/Contents/RecordBuilders/ContentRecords.php
-
-		-
-			message: '#^Variable \$subLabel in empty\(\) always exists and is not falsy\.$#'
-			identifier: empty.variable
-			count: 1
-			path: plugins/Contents/RecordBuilders/ContentRecords.php
-
-		-
 			message: '#^Expression in empty\(\) is not falsy\.$#'
 			identifier: empty.expr
 			count: 1

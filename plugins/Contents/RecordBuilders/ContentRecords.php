@@ -220,14 +220,6 @@ class ContentRecords extends RecordBuilder
                 continue;
             }
 
-            // content piece is optional
-            if (
-                $subDimension == 'contentPiece'
-                && empty($subLabel)
-            ) {
-                $subLabel = Archiver::CONTENT_PIECE_NOT_SET;
-            }
-
             $topLevelRow->sumRowWithLabelToSubtable($subLabel, $columns);
         }
     }
