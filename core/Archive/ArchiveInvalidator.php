@@ -332,9 +332,11 @@ class ArchiveInvalidator
         $isInvalidatingDays = $period == 'day' || $cascadeDown || empty($period);
         $isNotInvalidatingSegment = empty($segment) || empty($segment->getString());
 
+        // an invalidation of a single plugin or report doesn't archive the other plugins' reports again
         if (
             $isInvalidatingDays
             && $isNotInvalidatingSegment
+            && empty($name)
         ) {
             $hasDeletedAny = false;
 
@@ -452,14 +454,12 @@ class ArchiveInvalidator
             $this->model->updateArchiveAsInvalidated($table, $idSites, $ranges, $segment, false, $name);
         }
 
+        // only range archives are invalidated here, so the days remembered for invalidation are kept
         foreach ($idSites as $idSite) {
             foreach ($dates as $dateRange) {
-                $this->forgetRememberedArchivedReportsToInvalidate($idSite, $dateRange[0]);
                 $invalidationInfo->processedDates[] = $dateRange[0];
             }
         }
-
-        Cache::clearCacheGeneral();
 
         return $invalidationInfo;
     }
@@ -702,8 +702,11 @@ class ArchiveInvalidator
         bool $forceInvalidateNonexistentRanges = false,
         ?string $name = null,
         bool $doNotCreateInvalidations = false
-    ) {
+    ): void {
         $idSites = array_map('intval', $idSites);
+
+        // a single report (`Plugin.report`) marks no archive, so it leaves the ranges alone too
+        $report = explode('.', (string) $name, 2)[1] ?? '';
 
         $yearMonths = [];
 
@@ -715,7 +718,7 @@ class ArchiveInvalidator
 
             $this->model->updateArchiveAsInvalidated($table, $idSites, $datesForTable, $segment, $forceInvalidateNonexistentRanges, $name, $doNotCreateInvalidations);
 
-            if ($removeRanges && !empty($table)) {
+            if ($removeRanges && $report === '' && !empty($table)) {
                 $this->model->updateRangeArchiveAsInvalidated($table, $idSites, $datesForTable, $segment);
             }
         }

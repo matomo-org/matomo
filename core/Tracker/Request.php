@@ -981,10 +981,10 @@ class Request
      * Consent-aware measurement is opt-in per site, so this is false for every site that has not
      * been opted in, whatever the request reports.
      *
-     * The JavaScript tracker reports consent when it is in use and has been granted, either for
-     * tracking as a whole or for cookies. A request without the parameter is not a refusal, it
-     * only means the site is not signalling consent, so nothing may be relaxed on the strength of
-     * its absence.
+     * The JavaScript tracker reports consent to being tracked (`setConsentGiven()`,
+     * `rememberConsentGiven()`), never consent to cookies alone. A request without the parameter
+     * is not a refusal, it only means the site is not signalling consent, so nothing may be
+     * relaxed on the strength of its absence.
      */
     public function hasConsent(): bool
     {

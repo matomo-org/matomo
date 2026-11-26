@@ -1210,6 +1210,19 @@ class ApiTest extends IntegrationTestCase
         $this->assertSame(['http://www.piwik.org'], $settings->urls->getValue());
     }
 
+    public function testUpdateSiteShouldKeepSettingIfPassedWithoutValue()
+    {
+        $idSite = API::getInstance()->addSite('site1', ['http://piwik.net', 'http://piwik.org']);
+
+        // an emptied list field arrives without a value, as empty arrays are dropped from the request
+        $settings = ['WebsiteMeasurable' => [['name' => 'urls']]];
+
+        $this->updateSiteSettings($idSite, 'newSiteName', $settings);
+
+        $this->assertSame('newSiteName', (new Measurable($idSite))->getName());
+        $this->assertSame(['http://piwik.net', 'http://piwik.org'], API::getInstance()->getSiteUrlsFromId($idSite));
+    }
+
     public function testUpdateSiteCorrectlySavesExcludedUnknownUrlSettings()
     {
         $idSite = API::getInstance()->addSite("site1", ["http://piwik.net"]);

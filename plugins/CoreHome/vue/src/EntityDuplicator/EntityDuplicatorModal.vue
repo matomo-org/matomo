@@ -14,7 +14,7 @@
     ref="root">
     <div class="main-duplicator-modal-content" v-show="isModalVisible">
       <div class="modal-header">
-        <span class="btn-close modal-close"><i class="icon-close"></i></span>
+        <span class="btn-close modal-close"><i class="icon-close" aria-hidden="true"></i></span>
         <h2>
           {{ getModalTitle }}
         </h2>

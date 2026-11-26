@@ -925,12 +925,6 @@ parameters:
 			path: core/Period/Range.php
 
 		-
-			message: '#^Binary operation "\-" between string and 1 results in an error\.$#'
-			identifier: binaryOp.invalid
-			count: 1
-			path: core/Period/Week.php
-
-		-
 			message: '#^Call to function is_numeric\(\) with float\|int will always evaluate to true\.$#'
 			identifier: function.alreadyNarrowedType
 			count: 3
@@ -3459,7 +3453,7 @@ parameters:
 		-
 			message: '#^Result of && is always false\.$#'
 			identifier: booleanAnd.alwaysFalse
-			count: 2
+			count: 1
 			path: plugins/Referrers/Columns/Base.php
 
 		-
@@ -3743,12 +3737,6 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: plugins/VisitTime/RecordBuilders/Base.php
-
-		-
-			message: '#^Parameter \#1 \$array \(array\{''nb_uniq_visitors'', ''nb_users'', ''nb_visits'', ''nb_actions'', ''nb_visits_converted'', ''bounce_count'', ''sum_visit_length'', ''max_actions''\}\|array\{''nb_visits'', ''nb_actions'', ''nb_visits_converted'', ''bounce_count'', ''sum_visit_length'', ''max_actions''\}\) of array_values is already a list, call has no effect\.$#'
-			identifier: arrayValues.list
-			count: 1
-			path: plugins/VisitsSummary/API.php
 
 		-
 			message: '#^Call to Piwik\\Plugin\\Report\:\:init\(\) on a separate line has no effect\.$#'

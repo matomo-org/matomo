@@ -1,9 +1,28 @@
 {
     "Contents": {
+        "ContentImpression": "Impresie conținut",
+        "ContentInteraction": "Interacțiune conținut",
+        "ContentInteractionSegmentHelp": "Tipul de interacțiune cu conținutul. De exemplu \"click\" sau \"submit\".",
+        "ContentInteractions": "Interacțiuni conținut",
         "ContentName": "Nume Continut",
+        "ContentNameReportDocumentation": "Acest raport arată numele conținutului pe care vizitatorii l-au vizualizat și cu care au interacționat.",
+        "ContentNameSegmentHelp": "Numele unui bloc de conținut, de exemplu \"Ad Sale\"",
+        "ContentNames": "Nume conținut",
+        "ContentPiece": "Element de conținut",
+        "ContentPieceReportDocumentation": "Acest raport arată elementele de conținut pe care vizitatorii le-au vizualizat și cu care au interacționat.",
+        "ContentPieceSegmentHelp": "Conținutul propriu-zis. De exemplu \"ad.jpg\" sau \"My text ad\"",
+        "ContentPieces": "Elemente de conținut",
         "ContentTarget": "Conţinut ţintă",
+        "ContentTargetSegmentHelp": "De exemplu, URL-ul unei pagini de destinație: \"http://landingpage.example.com\"",
+        "ContentTargets": "Ținte conținut",
         "Contents": "Conţinut",
+        "ContentsSubcategoryHelp1": "Urmărirea conținutului vă ajută să determinați popularitatea anumitor elemente de conținut de pe orice pagină a site-ului sau aplicației dumneavoastră. Această secțiune raportează numărul de impresii și de interacțiuni primite de diversele elemente de conținut de pe site.",
+        "ContentsSubcategoryHelp2": "Aflați mai multe în ghidul Content Tracking.",
         "Impressions": "Impresii",
-        "InteractionRate": "Rata de interacţiune"
+        "ImpressionsMetricDocumentation": "Numărul de afișări ale unui bloc de conținut, cum ar fi un banner sau o reclamă, pe o pagină.",
+        "InteractionRate": "Rata de interacţiune",
+        "InteractionRateMetricDocumentation": "Raportul dintre impresiile de conținut și interacțiuni.",
+        "InteractionsMetricDocumentation": "Numărul de interacțiuni cu un bloc de conținut (de ex. un „clic” pe un banner sau pe o reclamă).",
+        "PluginDescription": "Urmărirea conținutului și a bannerelor vă permite să măsurați performanța (afișări, clicuri, CTR) oricărui element de conținut din paginile dumneavoastră (banner publicitar, imagine, orice element)."
     }
 }

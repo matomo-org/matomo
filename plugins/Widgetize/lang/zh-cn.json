@@ -1,9 +1,21 @@
 {
     "Widgetize": {
+        "DirectLink": "› 直接链接",
+        "DisplayDashboardInIframe": "您还可以在 IFRAME 中将完整的 Matomo 报表面板显示在您的应用或网站中（%1$s查看示例%2$s）。date 参数可以设置为特定的日历日期、“today”或“yesterday”。period 参数可以设置为“day”、“week”、“month”或“year”。language 参数可以设置为某个翻译的语言代码，例如 language=fr。例如，对于 idSite=1 和 date=yesterday，您可以这样写：",
+        "DisplayDashboardInIframeAllSites": "您还可以将所有网站报表面板以小工具形式嵌入 IFRAME 中（%1$s查看示例%2$s）",
+        "EmbedIframe": "&rsaquo; 嵌入 Iframe",
+        "ErrorTokenAuthFailed": "无法使用所提供的 <code>token_auth</code> 验证此小工具网址。小工具网址仅适用于在创建时未勾选“仅允许安全请求”的令牌。请在您的%1$s安全页面%2$s上创建可用于网址的令牌，或者%3$s向匿名用户授予查看权限%4$s，以便无需令牌即可嵌入此小工具。",
+        "ErrorTokenAuthFailedDisabledByPolicy": "无法验证此小工具网址，因为此 Matomo 实例的服务器策略已停用基于网址的 <code>token_auth</code>。请%1$s向匿名用户授予查看权限%2$s，或者通过服务器端代理以 POST 方式发送令牌来获取小工具。",
+        "Intro": "使用 Matomo，您只需点击一下，即可将%1$s网站分析报告导出%2$s到您的博客、网站或内部网报表面板中。",
         "OpenInNewWindow": "打开一个新窗口",
         "PluginDescription": "在你的网站或应用程序中嵌入简单HTML标签来展示Matomo报告。",
+        "Reports": "小工具化报告",
+        "SelectAReport": "选择一个报告，然后将小工具下方的嵌入代码复制粘贴到您的页面中：",
         "TooHighAccessLevel": "该用户具有超级用户权限。不允许使用超级用户的令牌来嵌入小部件。%1$s参见FAQ常见问题了解更多信息。%2$s",
         "TopLinkTooltip": "将Matomo报告导出为小部件，并通过iframe将仪表板嵌入到您的应用程序中。",
-        "ViewAccessRequired": "该用户具有某些写入权限。用户只有查看权限的令牌才能被使用。 更多信息请参见%1$s。"
+        "UrlTokensDisabledByPolicy": "此 Matomo 实例的服务器策略已停用基于网址的 <code>token_auth</code>（已启用 <code>only_allow_secure_auth_tokens</code>）。小工具网址无法通过令牌参数进行验证。要将这些小工具发布在受密码保护的页面上，请%1$s向匿名用户授予查看权限%2$s，或者通过服务器端代理以 POST 方式发送令牌来获取小工具。",
+        "ViewAccessRequired": "该用户具有某些写入权限。用户只有查看权限的令牌才能被使用。 更多信息请参见%1$s。",
+        "ViewableAnonymously": "如果您希望所有人都能查看您的小工具，首先必须在%1$s用户管理部分%2$s中为匿名用户设置“查看”权限。<br>或者，如果您将小工具发布在受密码保护的页面或私人页面上，则不一定要允许“匿名”用户查看您的报告。在这种情况下，您可以在小工具网址中添加秘密的 <code>token_auth</code> 参数。您可以在%3$s安全页面%4$s上管理您的验证令牌。",
+        "ViewableAnonymouslyUrlTokenRequirement": "只有在创建时未勾选“仅允许安全请求”的令牌才能用作网址参数。标记为仅限安全使用的令牌必须通过 POST 发送，无法用于验证小工具网址。"
     }
 }

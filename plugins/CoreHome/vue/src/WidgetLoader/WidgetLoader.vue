@@ -129,7 +129,9 @@ export default defineComponent({
       const widgetContent = this.$refs.widgetContent as HTMLElement;
       Matomo.helper.destroyVueComponent(widgetContent);
       if (widgetContent) {
-        widgetContent.innerHTML = '';
+        // jQuery's empty() also destroys jQuery UI widgets, eg a graph tooltip that would
+        // otherwise stay open and follow the mouse after the graph is gone
+        window.$(widgetContent).empty();
       }
     },
     getWidgetUrl(parameters?: QueryParameters): QueryParameters {

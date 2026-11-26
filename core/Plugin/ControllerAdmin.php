@@ -404,6 +404,10 @@ abstract class ControllerAdmin extends Controller
             return;
         }
 
+        if (NotificationManager::isDisabled('DatabaseVersionCheck')) {
+            return;
+        }
+
         $isEOL = Piwik::hasUserSuperUserAccess() && Schema::getInstance()->hasReachedEOL();
         if (!$isEOL) {
             return;
