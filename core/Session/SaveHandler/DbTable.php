@@ -11,6 +11,7 @@ namespace Piwik\Session\SaveHandler;
 
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
+use Piwik\Db\Schema;
 use Piwik\DbHelper;
 use Exception;
 use Piwik\Log\LoggerInterface;
@@ -306,7 +307,7 @@ class DbTable implements \SessionHandlerInterface
     private function touchTimestamps($id, $data)
     {
         $sql = $this->insertSql()
-            . ' ON DUPLICATE KEY UPDATE '
+            . ' ' . Schema::getInstance()->getOnDuplicateKeyUpdateSql() . ' '
             . $this->config['modifiedColumn'] . ' = ?,'
             . $this->config['lifetimeColumn'] . ' = ?';
 
@@ -316,7 +317,7 @@ class DbTable implements \SessionHandlerInterface
     private function upsert($id, $data)
     {
         $sql = $this->insertSql()
-            . ' ON DUPLICATE KEY UPDATE '
+            . ' ' . Schema::getInstance()->getOnDuplicateKeyUpdateSql() . ' '
             . $this->config['modifiedColumn'] . ' = ?,'
             . $this->config['lifetimeColumn'] . ' = ?,'
             . $this->config['dataColumn'] . ' = ?';

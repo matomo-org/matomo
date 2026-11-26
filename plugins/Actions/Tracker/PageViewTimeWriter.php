@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Actions\Tracker;
 
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Db\Schema;
 use Piwik\Tracker;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
@@ -280,15 +281,16 @@ class PageViewTimeWriter
     ): void {
         $table = Common::prefixTable(self::TABLE);
         $db = Tracker::getDatabase();
+        $schema = Schema::getInstance();
 
         // A retried request must not reset time_spent accumulated since the first run, so the
         // upsert refreshes the idaction columns only.
         $sql = "INSERT INTO `$table`
                     (idsite, idvisit, idlink_va, idpageview, idaction_url, idaction_name, server_time, time_spent)
                 VALUES (?, ?, ?, ?, ?, ?, ?, 0)
-                ON DUPLICATE KEY UPDATE
-                    idaction_url  = VALUES(idaction_url),
-                    idaction_name = VALUES(idaction_name)";
+                " . $schema->getOnDuplicateKeyUpdateSql() . "
+                    idaction_url  = " . $schema->getInsertedValueSql('idaction_url') . ",
+                    idaction_name = " . $schema->getInsertedValueSql('idaction_name');
         $db->query($sql, [
             $idSite,
             $idVisit,

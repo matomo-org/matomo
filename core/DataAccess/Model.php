@@ -19,6 +19,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\CronArchive\ArchiveFilter;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Db\Schema;
 use Piwik\DbHelper;
 use Piwik\Period;
 use Piwik\Piwik;
@@ -65,7 +66,7 @@ class Model
         }
 
         $sql = "SELECT idsite, date1, date2, period, name,
-                       GROUP_CONCAT(idarchive, '.', value ORDER BY ts_archived DESC, idarchive DESC) as archives
+                       " . Schema::getInstance()->getGroupConcatSql("CONCAT(idarchive, '.', value)", 'ts_archived DESC, idarchive DESC') . " as archives
                   FROM `$archiveTable`
                  WHERE name LIKE 'done%'
                    AND `value` NOT IN (" . ArchiveWriter::DONE_ERROR . ", " . ArchiveWriter::DONE_ERROR_INVALIDATED . ")
@@ -659,8 +660,9 @@ class Model
     public function insertRecord($tableName, $fields, $record, $name, $value)
     {
         // duplicate idarchives are Ignored, see https://github.com/piwik/piwik/issues/987
-        $query = "INSERT IGNORE INTO `$tableName` (" . implode(", ", $fields) . ")
-                  VALUES (?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE " . end($fields) . " = ?";
+        $schema = Schema::getInstance();
+        $query = $schema->getInsertIgnoreSql() . " INTO `$tableName` (" . implode(", ", $fields) . ")
+                  VALUES (?,?,?,?,?,?,?,?) " . $schema->getOnDuplicateKeyUpdateSql() . " " . end($fields) . " = ?";
 
         $bindSql   = $record;
         $bindSql[] = $name;
@@ -975,8 +977,9 @@ class Model
                 $conditions[] = '0 = 1';
             } else {
                 $nameConditions = [];
+                $likeEscape = Schema::getInstance()->getLikeEscapeSql();
                 foreach ($segmentHashes as $hash) {
-                    $nameConditions[] = 'name = ? OR name LIKE ?';
+                    $nameConditions[] = 'name = ? OR name LIKE ?' . $likeEscape;
                     $bind[] = 'done' . $hash;
                     $bind[] = 'done' . addcslashes($hash, '%_\\') . '.%';
                 }
@@ -987,7 +990,7 @@ class Model
         $forceReport = $archiveFilter->getForceReport();
         if ($forceReport !== null && str_contains($forceReport, '.')) {
             [$plugin, $report] = explode('.', $forceReport, 2);
-            $conditions[] = 'report = ? AND name LIKE ?';
+            $conditions[] = 'report = ? AND name LIKE ?' . Schema::getInstance()->getLikeEscapeSql();
             $bind[] = $report;
             $bind[] = 'done%.' . addcslashes($plugin, '%_\\');
         }
@@ -1030,7 +1033,7 @@ class Model
         $idSitesClause = $this->getRemoveInvalidationsIdSitesClause($idSite);
 
         $table = Common::prefixTable('archive_invalidations');
-        $sql = "DELETE FROM `$table` WHERE $idSitesClause `name` LIKE ?";
+        $sql = "DELETE FROM `$table` WHERE $idSitesClause `name` LIKE ?" . Schema::getInstance()->getLikeEscapeSql();
 
         Db::query($sql, ['done%.' . str_replace('_', "\\_", $start)]);
     }
@@ -1040,7 +1043,7 @@ class Model
         $idSitesClause = $this->getRemoveInvalidationsIdSitesClause($idSite);
 
         $table = Common::prefixTable('archive_invalidations');
-        $sql = "DELETE FROM `$table` WHERE $idSitesClause `name` LIKE ? AND report = ?";
+        $sql = "DELETE FROM `$table` WHERE $idSitesClause `name` LIKE ?" . Schema::getInstance()->getLikeEscapeSql() . " AND report = ?";
 
         Db::query($sql, ['done%.' . str_replace('_', "\\_", $plugin), $report]);
     }

@@ -11,6 +11,7 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Db\Schema;
+use Piwik\Db\SqlListParser;
 
 /**
  * The ranking query class wraps an arbitrary SQL query with more SQL that limits
@@ -285,7 +286,14 @@ class RankingQuery
     {
         // +1 to include "Others"
         $limit = $this->limit + 1;
-        $counterExpression = $this->getCounterExpression($limit, $withRollup);
+
+        // Engines without user variables count rows with window functions instead. Both counters
+        // assign the same values, so the rest of the query is shared.
+        $useWindowFunctions = Schema::getInstance()->supportsWindowFunctions();
+
+        $counterExpression = $useWindowFunctions
+            ? $this->getWindowCounterExpression($limit, $withRollup, $innerQuery)
+            : $this->getCounterExpression($limit, $withRollup);
 
         // generate select clauses for label columns
         $labelColumnsString = '`' . implode('`, `', array_keys($this->labelColumns)) . '`';
@@ -347,7 +355,9 @@ class RankingQuery
         }
 
         // initialize the counters
-        if ($this->partitionColumn !== false) {
+        if ($useWindowFunctions) {
+            $initCounter = '';
+        } elseif ($this->partitionColumn !== false) {
             $initCounter = '';
             foreach ($this->partitionColumnValues as $value) {
                 $initCounter .= '( SELECT @counter' . intval($value) . ':=0 ) initCounter' . intval($value) . ', ';
@@ -358,7 +368,11 @@ class RankingQuery
 
         $counterRollupExpression = '';
 
-        if ($withRollup) {
+        if ($withRollup && $useWindowFunctions) {
+            $counterRollupExpression = "
+                , " . $this->getWindowCounterRollupExpression($limit, $innerQuery) . " AS counterRollup
+            ";
+        } elseif ($withRollup) {
             $initCounter .= ' ( SELECT @counterRollup:=0 ) initCounterRollup,';
             $counterRollupWhen = '';
 
@@ -383,7 +397,7 @@ class RankingQuery
             ";
         }
 
-        if (!str_contains($innerQuery, ' LIMIT ') && !Schema::getInstance()->supportsSortingInSubquery()) {
+        if (!$useWindowFunctions && !str_contains($innerQuery, ' LIMIT ') && !Schema::getInstance()->supportsSortingInSubquery()) {
             // Setting a limit for the inner query forces the optimizer to use a temporary table, which uses the sorting
             $innerQuery .= ' LIMIT 18446744073709551615';
         }
@@ -401,7 +415,7 @@ class RankingQuery
 				( $innerQuery ) actualQuery
 		";
 
-        if ($withRollup && !Schema::getInstance()->supportsRankingRollupWithoutExtraSorting()) {
+        if (!$useWindowFunctions && $withRollup && !Schema::getInstance()->supportsRankingRollupWithoutExtraSorting()) {
             // MariaDB requires an additional sorting layer to return
             // the counter/counterRollup values we expect
             $rollupColumnSorts = [];
@@ -444,12 +458,245 @@ class RankingQuery
             // Sort the final result if a rollup was used
             // to ensure rollup values are returned first, and "Others" last
             $groupOthers .= " ORDER BY counter, counterRollup";
-        } elseif (!Schema::getInstance()->supportsSortingInSubquery()) {
-            // When subqueries aren't sorted, we need to sort the result manually again
+
+            if ($useWindowFunctions) {
+                // the grouping output order is not defined: break ties between equal counters
+                // by label, as the user-variable path's grouping does
+                $groupOthers .= ', `' . implode('`, `', array_keys($this->labelColumns)) . '`';
+            }
+        } elseif ($useWindowFunctions || !Schema::getInstance()->supportsSortingInSubquery()) {
+            // When subqueries aren't sorted, or the grouping output isn't, sort the result manually again
             $groupOthers .= " ORDER BY counter";
         }
 
         return $groupOthers;
+    }
+
+    /**
+     * The OVER clause of the window counters: ordered like the inner query, whose row order the
+     * user-variable counters rely on, and partitioned like them if $partitioned.
+     */
+    private function getWindowOverClause(string $innerQuery, bool $partitioned = true): string
+    {
+        $parts = [];
+        if ($partitioned && $this->partitionColumn !== false) {
+            $parts[] = 'PARTITION BY `' . $this->partitionColumn . '`';
+        }
+
+        $innerOrderBy = $this->getWindowOrderBy($innerQuery);
+        if ($innerOrderBy !== null) {
+            $parts[] = 'ORDER BY ' . $innerOrderBy;
+        }
+
+        $parts[] = 'ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW';
+
+        return 'OVER (' . implode(' ', $parts) . ')';
+    }
+
+    /**
+     * Returns the inner query's ORDER BY rewritten to refer to the inner query's result columns,
+     * which is where the window is evaluated, or null if the inner query isn't sorted.
+     *
+     * Only sorts by columns, possibly qualified and possibly as `column IS NULL`, are supported. A
+     * column is resolved as in the inner query: a bare name to the result column of that name, else
+     * to the item selecting that column; a qualified name to the item selecting it. Other
+     * expressions could mean something else, or need bindings, outside the inner query.
+     *
+     * @throws Exception If the inner ORDER BY can't be applied to the result columns.
+     */
+    private function getWindowOrderBy(string $innerQuery): ?string
+    {
+        $orderBy = SqlListParser::getOrderBy($innerQuery);
+        if ($orderBy === null) {
+            return null;
+        }
+
+        // [normalized expression, result column name, selected column name or null] of the inner
+        // query's select items, and the qualifiers of its `*` items ('' for a bare `*`)
+        $selectItems = [];
+        $stars = [];
+        $selectList = SqlListParser::getSelectList($innerQuery);
+        foreach ($selectList === null ? [] : SqlListParser::splitList($selectList) as $selectItem) {
+            [$expression, $name] = SqlListParser::splitAlias($selectItem);
+            if ($name !== null) {
+                $selectItems[] = [SqlListParser::normalize($expression), $name, SqlListParser::getColumnName($expression)];
+            } elseif (preg_match('/^(?:(.+)\.)?\*$/', trim($selectItem), $star)) {
+                $stars[SqlListParser::normalize($star[1] ?? '')] = true;
+            }
+        }
+
+        $sorts = [];
+        foreach (SqlListParser::splitList($orderBy) as $item) {
+            if (!preg_match('/^(.+?)(\s+IS\s+NULL)?(\s+(?:ASC|DESC))?$/is', $item, $matches)) {
+                throw new Exception("Cannot sort ranking query rows by \"$item\".");
+            }
+
+            $column = $this->resolveWindowSortColumn($matches[1], $selectItems, $stars);
+            if ($column === null) {
+                throw new Exception("Ranking queries using window functions can only sort by result columns, not by \"$item\".");
+            }
+
+            $sorts[] = "`$column`" . strtoupper(preg_replace('/\s+/', ' ', ($matches[2] ?? '') . ($matches[3] ?? '')));
+        }
+
+        return implode(', ', $sorts);
+    }
+
+    /**
+     * @param array<array{0: string, 1: string, 2: ?string}> $selectItems
+     * @param array<string, true> $stars
+     */
+    private function resolveWindowSortColumn(string $expression, array $selectItems, array $stars): ?string
+    {
+        $column = SqlListParser::getColumnName($expression);
+        if ($column === null) {
+            return null;
+        }
+
+        $wanted = SqlListParser::normalize($expression);
+        $isQualified = str_contains($wanted, '.');
+        $bareColumn = strtolower($column);
+
+        // result columns sharing a name can't be told apart outside the inner query
+        $nameCounts = [];
+        foreach ($selectItems as [, $name]) {
+            $nameCounts[strtolower($name)] = ($nameCounts[strtolower($name)] ?? 0) + 1;
+        }
+
+        if (!$isQualified && isset($nameCounts[$bareColumn])) {
+            // a bare name refers to the result column of that name first
+            if ($nameCounts[$bareColumn] > 1) {
+                return null;
+            }
+            foreach ($selectItems as [, $name]) {
+                if (strtolower($name) === $bareColumn) {
+                    return $name;
+                }
+            }
+        }
+
+        $qualifier = $isQualified ? substr($wanted, 0, strrpos($wanted, '.')) : '';
+        $isSelectedByStar = $isQualified ? isset($stars['']) || isset($stars[$qualifier]) : $stars !== [];
+
+        // the result columns selecting this column, qualified the same way; else, unless a `*`
+        // selects it under its own name, a bare name also matches it qualified, and a qualified
+        // name matches it bare
+        foreach ($isSelectedByStar ? [true] : [true, false] as $exactly) {
+            $matches = [];
+            foreach ($selectItems as [$selected, $name, $selectedColumn]) {
+                if ($selectedColumn === null) {
+                    continue;
+                }
+                $isMatch = $exactly
+                    ? $selected === $wanted
+                    : strtolower($selectedColumn) === $bareColumn && str_contains($selected, '.') !== $isQualified;
+                if ($isMatch) {
+                    $matches[$selected][] = $name;
+                }
+            }
+
+            // several result columns of the same expression hold the same values
+            if (count($matches) === 1) {
+                foreach (reset($matches) as $name) {
+                    if ($nameCounts[strtolower($name)] === 1) {
+                        return $name;
+                    }
+                }
+
+                return null;
+            }
+            if (count($matches) > 1) {
+                return null;
+            }
+        }
+
+        return $isSelectedByStar ? $column : null;
+    }
+
+    /**
+     * Window-function equivalent of {@see getCounterExpression()}: a running count, capped at
+     * $limit, of the rows the user-variable counter increments. Rows that counter sets aside
+     * (excluded rows, rollup rows, partition values outside the configured set) are not counted.
+     */
+    private function getWindowCounterExpression(int $limit, bool $withRollup, string $innerQuery): string
+    {
+        $countableConditions = [];
+        if ($this->columnToMarkExcludedRows !== false) {
+            // the rows the CASE below doesn't set aside, including NULL marks, which reach the increment
+            $countableConditions[] = "COALESCE({$this->columnToMarkExcludedRows} != 0, 0) = 0";
+        }
+        if ($withRollup) {
+            foreach (array_keys($this->labelColumns) as $column) {
+                $countableConditions[] = "`$column` IS NOT NULL";
+            }
+        }
+        $countable = empty($countableConditions) ? '1 = 1' : implode(' AND ', $countableConditions);
+
+        $runningCount = "SUM(CASE WHEN $countable THEN 1 ELSE 0 END) " . $this->getWindowOverClause($innerQuery);
+
+        $whens = [];
+
+        if ($this->columnToMarkExcludedRows !== false) {
+            $whens[] = "WHEN {$this->columnToMarkExcludedRows} != 0 THEN -1 * {$this->columnToMarkExcludedRows}";
+        }
+
+        if ($withRollup) {
+            foreach (array_keys($this->labelColumns) as $column) {
+                $whens[] = "WHEN `$column` IS NULL THEN -1";
+            }
+        }
+
+        if ($this->partitionColumn !== false) {
+            $partitionValues = implode(', ', array_map('intval', $this->partitionColumnValues));
+            $whens[] = "WHEN `{$this->partitionColumn}` IS NULL OR `{$this->partitionColumn}` NOT IN ($partitionValues) THEN 0";
+        }
+
+        $whens[] = "WHEN $runningCount >= $limit THEN $limit";
+        $whens[] = "ELSE $runningCount";
+
+        return "
+            CASE
+                " . implode("
+                ", $whens) . "
+            END
+        ";
+    }
+
+    /**
+     * Window-function equivalent of the user-variable rollup counter: a running count, capped at
+     * $limit, of the rollup rows (a NULL in some label column). The grand total row (all labels
+     * NULL) gets -1, and detail rows 0.
+     */
+    private function getWindowCounterRollupExpression(int $limit, string $innerQuery): string
+    {
+        $nullConditions = [];
+        foreach (array_keys($this->labelColumns) as $column) {
+            $nullConditions[] = "`$column` IS NULL";
+        }
+        $anyNull = '(' . implode(' OR ', $nullConditions) . ')';
+        $allNull = '(' . implode(' AND ', $nullConditions) . ')';
+
+        $whens = [];
+        $countable = $anyNull;
+
+        if (count($nullConditions) >= 2) {
+            $countable = "$anyNull AND NOT $allNull";
+            $whens[] = "WHEN $allNull THEN -1";
+        }
+
+        // one rollup counter for all partitions, as the user-variable path has
+        $runningCount = "SUM(CASE WHEN $countable THEN 1 ELSE 0 END) " . $this->getWindowOverClause($innerQuery, false);
+
+        $whens[] = "WHEN $anyNull AND $runningCount >= $limit THEN $limit";
+        $whens[] = "WHEN $anyNull THEN $runningCount";
+        $whens[] = "ELSE 0";
+
+        return "
+            CASE
+                " . implode("
+                ", $whens) . "
+            END
+        ";
     }
 
     private function getCounterExpression($limit, bool $withRollup = false)

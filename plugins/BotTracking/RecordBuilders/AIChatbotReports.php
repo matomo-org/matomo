@@ -19,6 +19,8 @@ use Piwik\Config\GeneralConfig;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable;
 use Piwik\Db;
+use Piwik\Db\RollupQuery;
+use Piwik\Db\Schema;
 use Piwik\Plugins\BotTracking\Archiver;
 use Piwik\Plugins\BotTracking\BotDetector;
 use Piwik\Plugins\BotTracking\Dao\BotRequestsDao;
@@ -214,24 +216,35 @@ class AIChatbotReports extends RecordBuilder
 
     private function queryBotRequests(LogAggregator $logAggregator, int $actionType)
     {
-        $where  = $logAggregator->getWhereStatement('bot', 'server_time');
-
-        $sql = sprintf(
-            "SELECT * FROM (SELECT bot.bot_name, log_action.name AS url, COUNT(*) AS requests
-             FROM `%s` AS bot
-             INNER JOIN `%s` AS log_action ON log_action.idaction = bot.idaction_url
-             WHERE log_action.name IS NOT NULL
+        $select  = 'bot.bot_name, log_action.name AS url, COUNT(*) AS requests';
+        $from    = sprintf(
+            '`%s` AS bot
+             INNER JOIN `%s` AS log_action ON log_action.idaction = bot.idaction_url',
+            BotRequestsDao::getPrefixedTableName(),
+            Common::prefixTable('log_action')
+        );
+        $where   = sprintf(
+            "log_action.name IS NOT NULL
                AND log_action.name <> ''
                AND log_action.type = %d
                AND bot.bot_type = ?
-               AND %s
-             GROUP BY bot.bot_name, url WITH ROLLUP) AS rollupQuery
-             ORDER BY requests DESC, bot_name, url",
-            BotRequestsDao::getPrefixedTableName(),
-            Common::prefixTable('log_action'),
+               AND %s",
             $actionType,
-            $where
+            $logAggregator->getWhereStatement('bot', 'server_time')
         );
+        $groupBy = 'bot.bot_name, url';
+        $bind    = array_merge([BotDetector::BOT_TYPE_AI_CHATBOT], $logAggregator->getGeneralQueryBindParams());
+
+        if (Schema::getInstance()->supportsGroupByWithRollup()) {
+            $rollupSql = "SELECT $select FROM $from WHERE $where GROUP BY $groupBy WITH ROLLUP";
+        } else {
+            $rollup    = RollupQuery::build($select, $from, $where, $groupBy, $bind);
+            $rollupSql = $rollup['sql'];
+            $bind      = $rollup['bind'];
+        }
+
+        $sql = "SELECT * FROM ($rollupSql) AS rollupQuery
+             ORDER BY requests DESC, bot_name, url";
 
         if ($this->rankingQueryLimit > 0) {
             $rankingQuery = new RankingQuery($this->rankingQueryLimit);
@@ -240,7 +253,7 @@ class AIChatbotReports extends RecordBuilder
             $sql = $rankingQuery->generateRankingQuery($sql, true);
         }
 
-        return Db::query($sql, array_merge([BotDetector::BOT_TYPE_AI_CHATBOT], $logAggregator->getGeneralQueryBindParams()));
+        return Db::query($sql, $bind);
     }
 
     private function getRankingQueryLimit(): int
