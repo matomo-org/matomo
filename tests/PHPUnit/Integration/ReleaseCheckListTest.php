@@ -1029,6 +1029,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             '*.gitmodules',
             '*.gitattributes',
             '*.git-blame-ignore-revs',
+            '*/.git-hooks-matomo/*',
             '*.bowerrc',
             '*.bower.json',
             '*bower.json',
@@ -1076,6 +1077,8 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             '*phpstan.neon',
             '*phpstan.neon.dist',
             '*phpstan-baseline.neon',
+            '*phpstan.created.neon',
+            '*phpstan.modified.neon',
             '*package.xml',
             '*.stylelintrc.json',
         ];
