@@ -26,15 +26,42 @@ class Tasks
      */
     private array $tasks = array();
 
+    /**
+     * Task priority: lowest.
+     *
+     * @api
+     */
     public const LOWEST_PRIORITY  = Task::LOWEST_PRIORITY;
+    /**
+     * Task priority: low.
+     *
+     * @api
+     */
     public const LOW_PRIORITY     = Task::LOW_PRIORITY;
+    /**
+     * Task priority: normal.
+     *
+     * @api
+     */
     public const NORMAL_PRIORITY  = Task::NORMAL_PRIORITY;
+    /**
+     * Task priority: high.
+     *
+     * @api
+     */
     public const HIGH_PRIORITY    = Task::HIGH_PRIORITY;
+    /**
+     * Task priority: highest.
+     *
+     * @api
+     */
     public const HIGHEST_PRIORITY = Task::HIGHEST_PRIORITY;
 
     /**
      * This method is called to collect all schedule tasks. Register all your tasks here that should be executed
      * regularly such as daily or monthly.
+     *
+     * @api
      */
     public function schedule()
     {

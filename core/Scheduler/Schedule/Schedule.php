@@ -117,7 +117,8 @@ abstract class Schedule
      * given timezone. This is useful for instance in case you want to make sure a task runs at midnight in a website's
      * timezone.
      *
-     * @param string $timezone
+     * @param string $timezone The timezone identifier, eg 'Europe/Berlin'.
+     * @api
      */
     public function setTimezone($timezone)
     {

@@ -52,6 +52,7 @@ class Report
      * The name of the module which is supposed to be equal to the name of the plugin. The module is detected
      * automatically.
      * @var string
+     * @api
      */
     protected $module;
 
@@ -59,6 +60,7 @@ class Report
      * The name of the action. The action is detected automatically depending on the file name. A corresponding action
      * should exist in the API as well.
      * @var string
+     * @api
      */
     protected $action;
 
@@ -73,12 +75,14 @@ class Report
     /**
      * A translated documentation which explains the report.
      * @var string
+     * @api
      */
     protected $documentation;
 
     /**
      * URL linking to an online guide for this report or plugin.
      * @var string
+     * @api
      */
     protected $onlineGuideUrl;
 
@@ -122,6 +126,7 @@ class Report
      * If set to null, the defaults from the `Metrics.getDefaultMetricSemanticTypes` event are used.
      *
      * @var null|(string|null)[]
+     * @api
      */
     protected $metricSemanticTypes = null;
 
@@ -168,6 +173,7 @@ class Report
      * An instance of a dimension if the report has one. You can create a new dimension using the Piwik console CLI tool
      * if needed.
      * @var \Piwik\Columns\Dimension
+     * @api
      */
     protected $dimension;
 
@@ -199,6 +205,7 @@ class Report
      * Default sort column. Either a column name or a column id.
      *
      * @var string|int
+     * @api
      */
     protected $defaultSortColumn = 'nb_visits';
 
@@ -206,6 +213,7 @@ class Report
      * Default sort desc. If true will sort by default desc, if false will sort by default asc
      *
      * @var bool
+     * @api
      */
     protected $defaultSortOrderDesc = true;
 
@@ -221,6 +229,7 @@ class Report
      * periods/sites/etc. is required for such features.
      *
      * @var string
+     * @api
      */
     protected $rowIdentifier = 'label';
 
@@ -720,7 +729,9 @@ class Report
     }
 
     /**
-     * @ignore
+     * Get the default sort column.
+     *
+     * @return string|int A column name or a column id.
      */
     public function getDefaultSortColumn()
     {
@@ -794,9 +805,9 @@ class Report
     }
 
     /**
-     * Get the name of the report
-     * @return string
-     * @ignore
+     * Get the translated name of the report.
+     *
+     * @return string The translated report name.
      */
     public function getName()
     {
@@ -805,8 +816,8 @@ class Report
 
     /**
      * Get the name of the module.
-     * @return string
-     * @ignore
+     *
+     * @return string The module (plugin) name.
      */
     public function getModule()
     {
@@ -815,8 +826,8 @@ class Report
 
     /**
      * Get the name of the action.
-     * @return string
-     * @ignore
+     *
+     * @return string The action name.
      */
     public function getAction()
     {
@@ -829,9 +840,9 @@ class Report
     }
 
     /**
-     * Get the translated name of the category the report belongs to.
-     * @return string|null
-     * @ignore
+     * Get the id of the category the report belongs to.
+     *
+     * @return string|null The category id, or null if none is set.
      */
     public function getCategoryId()
     {
@@ -839,9 +850,9 @@ class Report
     }
 
     /**
-     * Get the translated name of the subcategory the report belongs to.
-     * @return string|null
-     * @ignore
+     * Get the id of the subcategory the report belongs to.
+     *
+     * @return string|null The subcategory id, or null if none is set.
      */
     public function getSubcategoryId()
     {
@@ -849,8 +860,9 @@ class Report
     }
 
     /**
-     * @return \Piwik\Columns\Dimension|null
-     * @ignore
+     * Get the dimension of the report, if it has one.
+     *
+     * @return \Piwik\Columns\Dimension|null The dimension, or null if the report has none.
      */
     public function getDimension()
     {

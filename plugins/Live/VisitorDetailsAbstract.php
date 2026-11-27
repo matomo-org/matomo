@@ -25,6 +25,7 @@ abstract class VisitorDetailsAbstract
      * The visitor raw data (will be automatically set)
      *
      * @var array
+     * @api
      */
     protected $details = array();
 
@@ -150,7 +151,7 @@ abstract class VisitorDetailsAbstract
      * **Example:**
      *
      *     public function renderAction($action, $previousAction, $visitorDetails) {
-     *         if ($action['type'] != Action::TYPE_CONTENT) {
+     *         if ($action['type'] != Action::TYPE_CONTENT_NAME) {
      *             return;
      *         }
      *

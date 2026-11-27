@@ -86,6 +86,7 @@ abstract class Dimension
     /**
      * Translation key for name singular
      * @var string
+     * @api
      */
     protected $nameSingular = '';
 
@@ -99,6 +100,7 @@ abstract class Dimension
     /**
      * Translation key for category
      * @var string
+     * @api
      */
     protected $category = '';
 
@@ -122,6 +124,7 @@ abstract class Dimension
      * An API method whose label columns will be used to determine the suggested values should browser archiving
      * be disabled. The API must have defined a segment metadata on each row for this to work.
      * @var string
+     * @api
      */
     protected $suggestedValuesApi = '';
 
@@ -566,8 +569,8 @@ abstract class Dimension
 
     /**
      * Get the name of the dimension column.
-     * @return string
-     * @ignore
+     *
+     * @return string The column name, or an empty string if the dimension has no column.
      */
     public function getColumnName()
     {

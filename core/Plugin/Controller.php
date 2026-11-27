@@ -276,10 +276,11 @@ abstract class Controller
     }
 
     /**
-     * A helper method that renders a view either to the screen or to a string.
+     * Renders the given view and returns the output.
      *
      * @param ViewInterface $view The view to render.
-     * @return string|void
+     * @return string|null The rendered output.
+     * @api
      */
     protected function renderView(ViewInterface $view)
     {
@@ -1196,8 +1197,11 @@ abstract class Controller
     }
 
     /**
+     * Checks that the request has an idSite, that the site exists and that the current user has view access to it.
+     *
      * @return void
      * @throws BadRequestException if the request has no idSite.
+     * @api
      */
     protected function checkSitePermission()
     {

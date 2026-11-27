@@ -37,6 +37,12 @@ abstract class ActionDimension extends Dimension
     public const INSTALLER_PREFIX = 'log_link_visit_action.';
 
     protected $dbTableName = 'log_link_visit_action';
+    /**
+     * Translation key for the category of the dimension.
+     *
+     * @var string
+     * @api
+     */
     protected $category = 'General_Actions';
 
     /**

@@ -75,8 +75,7 @@ class Menu
 
     /**
      * Generates a URL for the given action. In your plugin controller you have to create a method with the same name
-     * as this method will be executed when a user clicks on the menu item. If you want to generate a URL for the
-     * action of another module, meaning not your plugin, you should use the method {@link urlForModuleAction()}.
+     * as this method will be executed when a user clicks on the menu item.
      *
      * @param  string $controllerAction  The name of the action that should be executed within your controller
      * @param  array  $additionalParams  Optional URL parameters that will be appended to the URL
@@ -140,6 +139,7 @@ class Menu
      * @param  string $controllerAction  The name of the action that should be executed within your controller
      * @param  array  $additionalParams  Optional URL parameters that will be appended to the URL
      * @return array   Returns the array of query parameter names and values to the given module action and idSite date and period.
+     * @api
      */
     protected function urlForActionWithDefaultUserParams($controllerAction, $additionalParams = array())
     {

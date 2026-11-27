@@ -105,6 +105,7 @@ class ConsoleCommand extends SymfonyCommand implements SignalableCommandInterfac
      * Checks if all input options that are marked as requires-value were provided
      *
      * @throws \InvalidArgumentException
+     * @api
      */
     protected function checkAllRequiredOptionsAreNotEmpty(): void
     {
@@ -124,6 +125,7 @@ class ConsoleCommand extends SymfonyCommand implements SignalableCommandInterfac
      * This method can't be used.
      *
      * @see doExecute
+     * @internal
      */
     final protected function execute(InputInterface $input, OutputInterface $output): int
     {
@@ -326,7 +328,8 @@ class ConsoleCommand extends SymfonyCommand implements SignalableCommandInterfac
     /**
      * Method that implements the actual command code
      *
-     * @return int  use self::SUCCESS or self::FAILURE
+     * @return int use self::SUCCESS or self::FAILURE
+     * @api
      */
     protected function doExecute(): int
     {
@@ -337,6 +340,7 @@ class ConsoleCommand extends SymfonyCommand implements SignalableCommandInterfac
      * This method can't be used.
      *
      * @see doInteract
+     * @internal
      */
     final protected function interact(InputInterface $input, OutputInterface $output)
     {
@@ -349,6 +353,7 @@ class ConsoleCommand extends SymfonyCommand implements SignalableCommandInterfac
      * Can be overwritten by plugin command
      *
      * @see parent::interact()
+     * @api
      */
     protected function doInteract(): void
     {
@@ -358,6 +363,7 @@ class ConsoleCommand extends SymfonyCommand implements SignalableCommandInterfac
      * This method can't be used.
      *
      * @see doInitialize
+     * @internal
      */
     final protected function initialize(InputInterface $input, OutputInterface $output)
     {
@@ -370,21 +376,35 @@ class ConsoleCommand extends SymfonyCommand implements SignalableCommandInterfac
      * Can be overwritten by plugin command
      *
      * @see parent::initialize()
+     * @api
      */
     protected function doInitialize(): void
     {
     }
 
+    /**
+     * Returns the output of the running command.
+     *
+     * @api
+     */
     protected function getOutput(): OutputInterface
     {
         return $this->output;
     }
 
+    /**
+     * @internal
+     */
     protected function setOutput(OutputInterface $output): void
     {
         $this->output = $output;
     }
 
+    /**
+     * Returns the input of the running command.
+     *
+     * @api
+     */
     protected function getInput(): InputInterface
     {
         return $this->input;
@@ -404,6 +424,12 @@ class ConsoleCommand extends SymfonyCommand implements SignalableCommandInterfac
      * Helper method to ask the user for confirmation
      *
      * @see QuestionHelper
+     *
+     * @param string $question The question to display.
+     * @param bool $default The answer used when the user just presses enter.
+     * @param string $trueAnswerRegex Regular expression an answer must match to count as confirmation.
+     * @return bool True if the user confirmed.
+     * @api
      */
     protected function askForConfirmation(string $question, bool $default = true, string $trueAnswerRegex = '/^y/i'): bool
     {
@@ -418,9 +444,12 @@ class ConsoleCommand extends SymfonyCommand implements SignalableCommandInterfac
      *
      * @see QuestionHelper
      *
-     * @param mixed|null    $default
-     * @param iterable|null $autocompleterValues
-     * @return mixed
+     * @param string $question The question to display.
+     * @param callable|null $validator Called with the answer; must return the (possibly normalised) answer and throw an exception if it is invalid. Null to skip validation.
+     * @param mixed|null $default The answer used when the user just presses enter.
+     * @param iterable|null $autocompleterValues Values offered for autocompletion.
+     * @return mixed The validated answer.
+     * @api
      */
     protected function askAndValidate(
         string $question,
@@ -441,8 +470,10 @@ class ConsoleCommand extends SymfonyCommand implements SignalableCommandInterfac
      *
      * @see QuestionHelper
      *
-     * @param mixed|null $default
-     * @return mixed
+     * @param string $question The question to display.
+     * @param mixed|null $default The answer used when the user just presses enter.
+     * @return mixed The answer.
+     * @api
      */
     protected function ask(string $question, $default = null)
     {
@@ -455,6 +486,9 @@ class ConsoleCommand extends SymfonyCommand implements SignalableCommandInterfac
      * Note: Only one progress bar can be used at a time
      *
      * @see ProgressBar
+     *
+     * @param int $numChangesToPerform Number of steps the progress bar represents; 0 if unknown.
+     * @api
      */
     protected function initProgressBar(int $numChangesToPerform = 0): ProgressBar
     {
@@ -464,6 +498,9 @@ class ConsoleCommand extends SymfonyCommand implements SignalableCommandInterfac
 
     /**
      * Starts a previously initialized progress bar
+     *
+     * @param int $numChangesToPerform Number of steps of the progress bar. Replaces the number given to {@link initProgressBar()}, also when left at 0 (unknown).
+     * @api
      */
     protected function startProgressBar(int $numChangesToPerform = 0): void
     {
@@ -472,6 +509,9 @@ class ConsoleCommand extends SymfonyCommand implements SignalableCommandInterfac
 
     /**
      * Advances the previously initialized progress bar
+     *
+     * @param int $step Number of steps to advance.
+     * @api
      */
     protected function advanceProgressBar(int $step = 1): void
     {
@@ -483,7 +523,9 @@ class ConsoleCommand extends SymfonyCommand implements SignalableCommandInterfac
     }
 
     /**
-     * Finished the initialized progress bar
+     * Finishes the initialized progress bar
+     *
+     * @api
      */
     protected function finishProgressBar(): void
     {
@@ -499,9 +541,9 @@ class ConsoleCommand extends SymfonyCommand implements SignalableCommandInterfac
      *
      * @see Table
      *
-     * @param array $header
-     * @param array $rows
-     * @return void
+     * @param array $header The column headers.
+     * @param array $rows The table rows, each an array of cell values.
+     * @api
      */
     protected function renderTable(array $header, array $rows)
     {
@@ -515,8 +557,12 @@ class ConsoleCommand extends SymfonyCommand implements SignalableCommandInterfac
     /**
      * Runs a certain command
      *
-     * @param array  $arguments
+     * @param string $command The name of the command to run.
+     * @param array $arguments The arguments and options to pass to the command.
+     * @param bool $hideOutput Whether to discard the output of the command.
+     * @return int The exit code of the command.
      * @throws \Symfony\Component\Console\Exception\ExceptionInterface
+     * @api
      */
     protected function runCommand(string $command, array $arguments, bool $hideOutput = false): int
     {
