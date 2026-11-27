@@ -233,6 +233,49 @@ class PrivacyManagerConfigTest extends IntegrationTestCase
     }
 
     /**
+     * Consent lifts the IP anonymisation a policy enforces back to the admin's own settings, so the
+     * tracker needs both of them as configured, and both from the same site.
+     */
+    public function testGetConfiguredValueReturnsTheAdminsOwnIpSettingsWhileAPolicyEnforcesStricterOnes()
+    {
+        API::getInstance()->setComplianceStatus('all', 'cnil_v1', $enabled = true);
+
+        $this->setConfigSiteId(2);
+        $this->config->ipAnonymizerEnabled = false;
+        $this->config->ipAddressMaskLength = 1;
+
+        $this->assertTrue($this->config->ipAnonymizerEnabled, 'the policy should be enforced');
+        $this->assertSame(2, $this->config->ipAddressMaskLength, 'the policy should be enforced');
+        $this->assertFalse($this->config->getConfiguredValue('ipAnonymizerEnabled'));
+        $this->assertSame(1, $this->config->getConfiguredValue('ipAddressMaskLength'));
+    }
+
+    /**
+     * A tracker cache written before the admin's own values were cached alongside the enforced ones
+     * has no entry for them. That must not read as anonymisation being off: the values the policy
+     * enforces stand, so consent lifts nothing until the cache is rebuilt.
+     */
+    public function testGetConfiguredIpSettingsKeepThePolicysMaskWhenTheTrackerCacheLacksThem()
+    {
+        $this->setConfigSiteId(1);
+        $this->config->ipAnonymizerEnabled = false;
+        $this->config->ipAddressMaskLength = 1;
+        API::getInstance()->setComplianceStatus('all', 'cnil_v1', $enabled = true);
+
+        $siteCache = TrackerCache::getCacheWebsiteAttributes(1);
+        $this->assertFalse($siteCache['PrivacyManager.ipAnonymizerEnabledConfiguredValue'], 'precondition: the value is cached');
+        unset($siteCache['PrivacyManager.ipAnonymizerEnabledConfiguredValue'], $siteCache['PrivacyManager.ipAddressMaskLengthConfiguredValue']);
+        TrackerCache::$cache->save(1, $siteCache);
+
+        $generalCache = TrackerCache::getCacheGeneral();
+        unset($generalCache['PrivacyManager.ipAnonymizerEnabledConfiguredValue'], $generalCache['PrivacyManager.ipAddressMaskLengthConfiguredValue']);
+        TrackerCache::setCacheGeneral($generalCache);
+
+        $this->assertTrue($this->config->getConfiguredValue('ipAnonymizerEnabled'));
+        $this->assertSame(2, $this->config->getConfiguredValue('ipAddressMaskLength'));
+    }
+
+    /**
      * A tracker cache written before the configured value was kept in it says nothing about what
      * the admin chose, so the enforced value stands: falling back to the setting's default could
      * be less strict than what the admin chose themselves.
@@ -273,7 +316,9 @@ class PrivacyManagerConfigTest extends IntegrationTestCase
         $expected = [
             'existingEntry' => 'test',
             'PrivacyManager.ipAddressMaskLength' => 2,
+            'PrivacyManager.ipAddressMaskLengthConfiguredValue' => 2,
             'PrivacyManager.ipAnonymizerEnabled' => true,
+            'PrivacyManager.ipAnonymizerEnabledConfiguredValue' => true,
             'PrivacyManager.doNotTrackEnabled'   => false,
             'PrivacyManager.anonymizeUserId'     => false,
             'PrivacyManager.anonymizeOrderId'    => false,

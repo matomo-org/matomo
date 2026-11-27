@@ -57,7 +57,7 @@ class Config
      * something else, so adding a setting here is all either needs. Caching it for every setting
      * would only duplicate entries a policy can never override.
      */
-    private const CACHE_CONFIGURED_VALUE_FOR = ['anonymizeReferrer'];
+    private const CACHE_CONFIGURED_VALUE_FOR = ['anonymizeReferrer', 'ipAnonymizerEnabled', 'ipAddressMaskLength'];
 
     public function __construct(?int $idSite = null)
     {

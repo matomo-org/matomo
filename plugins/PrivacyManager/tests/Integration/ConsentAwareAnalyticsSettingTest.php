@@ -23,6 +23,8 @@ use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
 use Piwik\Plugins\PrivacyManager\ReferrerAnonymizer;
 use Piwik\Plugins\PrivacyManager\Settings\CampaignParameterValuesMasked;
 use Piwik\Plugins\PrivacyManager\Settings\ConsentAwareAnalytics;
+use Piwik\Plugins\PrivacyManager\Settings\IPAnonymisation;
+use Piwik\Plugins\PrivacyManager\Settings\IpAddressMaskLength;
 use Piwik\Plugins\PrivacyManager\Settings\ReferrerAnonymisation;
 use Piwik\Plugins\UserId\Settings\UserIdDisabled;
 use Piwik\Tests\Framework\Fixture;
@@ -111,6 +113,8 @@ class ConsentAwareAnalyticsSettingTest extends IntegrationTestCase
     {
         $settings = [
             CampaignParameterValuesMasked::class => 'PrivacyManager_CampaignParameterValuesMaskedSetting',
+            IPAnonymisation::class => 'PrivacyManager_AnonymizeIpPolicySetting',
+            IpAddressMaskLength::class => 'PrivacyManager_AnonymizeIpMaskLengthSetting',
             ReferrerAnonymisation::class => 'PrivacyManager_ReferrerAnonymizationSetting',
             UserIdDisabled::class => 'UserId_UserIdDisabledSetting',
         ];
@@ -443,6 +447,48 @@ class ConsentAwareAnalyticsSettingTest extends IntegrationTestCase
         $generalCache = TrackerCache::getCacheGeneral();
         unset($generalCache['PrivacyManager.anonymizeReferrerConfiguredValue']);
         TrackerCache::setCacheGeneral($generalCache);
+
+        $this->assertSame($expected, ConsentAwareAnalytics::hasRelaxableRestriction($this->idSite));
+    }
+
+    /**
+     * @return iterable<string, array{0: bool, 1: bool, 2: int, 3: int, 4: bool}>
+     */
+    public function getIpRestrictionCases(): iterable
+    {
+        // enforced anonymisation, configured anonymisation, enforced mask, configured mask, relaxable
+        yield 'anonymisation enforced over the admin\'s own choice' => [true, false, 2, 2, true];
+        yield 'a mask enforced over the admin\'s shorter one' => [true, true, 2, 1, true];
+        yield 'the admin\'s own values, nothing enforced over them' => [true, true, 2, 2, false];
+        yield 'no anonymisation configured or enforced' => [false, false, 2, 2, false];
+    }
+
+    /**
+     * Consent lifts the IP anonymisation a policy enforces, so that counts as something to relax.
+     * Every other setting consent relaxes is held equal here, so only the IP settings decide.
+     *
+     * @dataProvider getIpRestrictionCases
+     */
+    public function testIpAnonymisationEnforcedOverTheAdminsOwnValuesIsARelaxableRestriction(
+        bool $enforcedAnonymisation,
+        bool $configuredAnonymisation,
+        int $enforcedMaskLength,
+        int $configuredMaskLength,
+        bool $expected
+    ): void {
+        $siteCache = TrackerCache::getCacheWebsiteAttributes($this->idSite);
+
+        $siteCache[CampaignParameterValuesMasked::class] = false;
+        $siteCache[UserIdDisabled::class] = false;
+        $siteCache[UserIdDisabled::CONFIGURED_VALUE_CACHE_KEY] = false;
+        $siteCache['PrivacyManager.anonymizeReferrer'] = '';
+        $siteCache['PrivacyManager.anonymizeReferrerConfiguredValue'] = '';
+        $siteCache['PrivacyManager.ipAnonymizerEnabled'] = $enforcedAnonymisation;
+        $siteCache['PrivacyManager.ipAnonymizerEnabledConfiguredValue'] = $configuredAnonymisation;
+        $siteCache['PrivacyManager.ipAddressMaskLength'] = $enforcedMaskLength;
+        $siteCache['PrivacyManager.ipAddressMaskLengthConfiguredValue'] = $configuredMaskLength;
+
+        TrackerCache::$cache->save($this->idSite, $siteCache);
 
         $this->assertSame($expected, ConsentAwareAnalytics::hasRelaxableRestriction($this->idSite));
     }

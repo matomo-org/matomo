@@ -19,10 +19,12 @@ use Piwik\Tracker\RequestProcessor;
 use Piwik\Tracker\Settings;
 use Piwik\Tracker\TrackerConfig;
 use Piwik\Tracker\Visit\VisitProperties;
+use Piwik\Tracker\Visitor;
 use Piwik\Tracker\VisitExcluded;
 use Piwik\Tracker\VisitorRecognizer;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
 use Piwik\Plugins\CoreHome\Columns\Consent;
+use Piwik\Plugins\PrivacyManager\Settings\ConsentAwareAnalytics;
 
 /**
  * Encapsulates core tracking logic related to visits.
@@ -142,6 +144,33 @@ class VisitRequestProcessor extends RequestProcessor
     {
         $ip = $visitProperties->getProperty('location_ip');
 
+        // consent only counts on a site measuring consent-aware analytics, so every other site
+        // skips the question without building a visitor for it
+        $hasConsent = false;
+
+        if ($request->measuresConsentAwareAnalytics()) {
+            $visitor = Visitor::makeFromVisitProperties($visitProperties, $request);
+            $action = $request->getMetadata('Actions', 'action');
+            $hasConsent = Consent::visitConsentApplies($request, $visitor, $action);
+
+            // The IP held at this point is the one stored on the visit this request was recognised
+            // as, already anonymised as that visit's consent allowed, or this request's IP where no
+            // visit was recognised. Where consent lifts a policy's anonymisation for a visit
+            // starting now, or for the visit this request brings consent into, the IP this request
+            // was sent from is the one to start from. Where no policy restriction is in force there
+            // is nothing to lift, and the visit gets its IP exactly as it would without consent.
+            if (
+                $hasConsent
+                && (
+                    ($request->getMetadata('CoreHome', 'isNewVisit')
+                        && ConsentAwareAnalytics::hasRelaxableRestriction((int) $request->getIdSiteIfExists()))
+                    || Consent::isBroughtIntoVisitBy($request, $visitor, $action)
+                )
+            ) {
+                $ip = $request->getIp();
+            }
+        }
+
         /**
          * Triggered after visits are tested for exclusion so plugins can modify the IP address
          * persisted with a visit.
@@ -150,8 +179,13 @@ class VisitRequestProcessor extends RequestProcessor
          *
          * @param string &$ip The visitor's IP address.
          * @param int $idSite The site ID we're tracking the visit for.
+         * @param bool $hasConsent Whether the visit has the visitor's consent, on a site that
+         *                         measures consent-aware analytics.
          */
-        $this->eventDispatcher->postEvent('Tracker.setVisitorIp', [&$ip, (int) $request->getIdSiteIfExists()]);
+        $this->eventDispatcher->postEvent(
+            'Tracker.setVisitorIp',
+            [&$ip, (int) $request->getIdSiteIfExists(), $hasConsent]
+        );
 
         $visitProperties->setProperty('location_ip', $ip);
 

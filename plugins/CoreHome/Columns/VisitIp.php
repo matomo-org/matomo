@@ -17,6 +17,9 @@ use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugin\Segment;
 use Piwik\Segment\SegmentsList;
+use Piwik\Tracker\Action;
+use Piwik\Tracker\Request;
+use Piwik\Tracker\Visitor;
 
 /**
  * Dimension for the log_visit.location_ip column. This column is added in the CREATE TABLE
@@ -31,6 +34,26 @@ class VisitIp extends VisitDimension
     protected $nameSingular = 'General_VisitorIP';
     protected $namePlural = 'General_VisitorIPs';
     protected $sqlFilterValue = array('Matomo\Network\IPUtils', 'stringToBinaryIP');
+
+    /**
+     * The IP is set once, when the visit starts. The exception is the request that brings consent
+     * into a visit measured without it: the IP stored for that visit was anonymised as the visit's
+     * lack of consent required, and the visit is the consented one from here on.
+     *
+     * The value written is the one {@see \Piwik\Plugins\CoreHome\Tracker\VisitRequestProcessor}
+     * already prepared for this request, anonymised as the consent allows.
+     *
+     * @param Action|null $action
+     * @return string|false
+     */
+    public function onExistingVisit(Request $request, Visitor $visitor, $action)
+    {
+        if (!Consent::isBroughtIntoVisitBy($request, $visitor, $action)) {
+            return false;
+        }
+
+        return $visitor->getVisitorColumn($this->columnName);
+    }
 
     public function getAcceptValues()
     {
