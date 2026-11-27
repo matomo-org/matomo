@@ -49,7 +49,6 @@
         "NoDataCloudflareInstructions2": "Despliegue el Worker (Node.js) y defina la URL de Matomo y el ID del sitio.",
         "NoDataCloudflareInstructions3": "Asocie el Worker a su zona o ruta para que se ejecute junto con las solicitudes.",
         "NoDataCloudflareInstructions4": "Compruebe la configuración verificando que los hits de chatbots de IA aparecen en los informes de seguimiento.",
-        "NoDataHttpTrackingApiDescription": "La HTTP Tracking API le permite registrar directamente las solicitudes de chatbots de IA cuando necesita una integración personalizada. Empiece por la %1$sbase de conocimientos de la Tracking API%2$s y use la %3$sreferencia de la HTTP Tracking API%4$s para conocer los parámetros y comportamientos más recientes del seguimiento de bots.",
         "NoDataLinkKnowledgeBase": "Documentación: %1$sbase de conocimientos de Matomo%2$s",
         "NoDataLinkSourceCode": "Código fuente: %1$srepositorio de GitHub%2$s",
         "NoDataMissingOneContactUs": "¿Falta alguno? Contáctenos",

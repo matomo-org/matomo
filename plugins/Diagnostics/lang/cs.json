@@ -1,6 +1,8 @@
 {
     "Diagnostics": {
         "AllPrivateDirectoriesAreInaccessible": "Všechny neveřejné adresáře jsou z internetu nepřístupné.",
+        "ArchivingFailuresCheck": "Neúspěšné archivace",
+        "ArchivingFailuresComment": "Archivy, které se nepodařilo zpracovat a čekají na opakování: %1$s. Archivy, jejichž zpracování bylo po dosažení maximálního počtu pokusů ukončeno: %2$s. Přehledy za období těchto archivů a období, která je zahrnují, se až do opakovaného zpracování neaktualizují. Nejstarší selhání nastalo dne %3$s. Chyby zobrazíte a zpracování zopakujete pomocí konzolového příkazu %4$s.",
         "BrowserAndAutoArchivingEnabledComment": "Zdá se, že je zapnutá archivace v prohlížeči i automatická archivace. Automatická archivace byla naposledy spuštěna před %3$s. Pokud je zapnutá %1$sautomatická archivace%2$s, měli byste v „Obecných nastaveních“ vypnout archivaci v prohlížeči.",
         "BrowserAndAutoArchivingEnabledLabel": "Archivace v prohlížeči i automatická archivace jsou zapnuté",
         "BrowserTriggeredArchivingEnabled": "Pro optimální výkon a rychlý běh Matoma důrazně doporučujeme nastavit crontab pro automatickou archivaci přehledů a v nastavení Matoma vypnout spouštění archivace v prohlížeči. %1$sDalší informace%2$s",

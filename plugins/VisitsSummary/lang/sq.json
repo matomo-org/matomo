@@ -2,6 +2,8 @@
     "VisitsSummary": {
         "AverageGenerationTime": "kohë mesatare krijimi",
         "AverageVisitDuration": "mesatare kohëzgjatje vizitash",
+        "ColumnNbUniqVisitorsEstimated": "Vizitorë unikë (afërsisht)",
+        "ColumnNbUsersEstimated": "Përdorues (afërsisht)",
         "GenerateQueries": "%s kërkesa të kryera",
         "GenerateTime": "%s sekonda për prodhimin e faqes",
         "MaxNbActions": "maksimum veprimesh në një vizitë",
@@ -16,7 +18,9 @@
         "NbUniqueOutlinksDescription": "lidhje për jashtë unike",
         "NbUniquePageviewsDescription": "parje unike faqesh",
         "NbUniqueVisitors": "vizitorë unikë",
+        "NbUniqueVisitorsEstimated": "vizitorë unikë (afërsisht)",
         "NbUsersDescription": "përdorues",
+        "NbUsersEstimatedDescription": "përdorues (afërsisht)",
         "NbVisitsBounced": "vizita të kthyera mbrapsht (e lanë sajtin pas një faqeje)",
         "NbVisitsDescription": "vizita",
         "PluginDescription": "Raporton vlera të përgjithshme analitike: vizita, vizitorë unikë, numër veprimesh, shkallë kthimi, etj.",

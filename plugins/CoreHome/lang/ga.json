@@ -12,6 +12,8 @@
         "ClickToEditX": "Cliceáil chun %s a chur in eagar",
         "ClickToSeeFullInformation": "Cliceáil chun an t-eolas iomlán a fheiceáil",
         "CloseWidgetDirections": "Is féidir leat an ghiuirléid seo a dhúnadh trí chliceáil ar an deilbhín 'X' ag barr na giuirléide.",
+        "ConsentState": "Stát toilithe",
+        "ConsentStateConsented": "Toiliú tugtha",
         "CopyModalNote": "%1$sNóta:%2$s B’fhéidir go mbeadh gá le coigeartuithe ar an %3$s cóipeáilte má tá tagairtí ann atá sainiúil don suíomh Gréasáin bunaidh. Athbhreithnigh na socruithe chun comhoiriúnacht a chinntiú.",
         "CopyX": "Cóipeáil %1$s",
         "CopyXDescription": "Roghnaigh an suíomh gréasáin ar mhaith leat an %1$s seo a chóipeáil chuige. Cruthóidh sé seo cóip chruinn, lena n-áirítear socruithe, sa suíomh roghnaithe.",

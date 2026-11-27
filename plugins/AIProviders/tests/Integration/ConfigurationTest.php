@@ -13,6 +13,8 @@ namespace Piwik\Plugins\AIProviders\tests\Integration;
 
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\Http\EgressBlockedException;
+use Piwik\Http\EgressHostValidator;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\AIProviders\AIProvidersList;
@@ -1162,6 +1164,86 @@ class ConfigurationTest extends IntegrationTestCase
         $this->assertContains('Authorization: Bearer managed-custom-key', $capturedHeaders);
     }
 
+    /**
+     * @dataProvider getRefusedEndpointUrls
+     * @param string[] $resolvedIps
+     */
+    public function testRefusedEndpointUrlGetsTheSameErrorWhateverTheReason(
+        string $endpointUrl,
+        array $resolvedIps,
+        string $proxyHost
+    ): void {
+        StaticContainer::getContainer()->set(
+            EgressHostValidator::class,
+            new EgressHostValidator(fn() => $resolvedIps, [])
+        );
+        Config::getInstance()->proxy = ['host' => $proxyHost] + Config::getInstance()->proxy;
+
+        $capturedUrl = null;
+        $capturedHeaders = null;
+        $this->mockModelListingResponse($capturedUrl, $capturedHeaders);
+
+        try {
+            $this->api->testConnection('custom-provider', (string) json_encode(['endpointUrl' => $endpointUrl]));
+            $this->fail('Expected the endpoint URL to be refused.');
+        } catch (AIProviderClientException $e) {
+            $this->assertInstanceOf(EgressBlockedException::class, $e->getPrevious());
+            $this->assertSame(
+                Piwik::translate(
+                    'AIProviders_ErrorEndpointEgressBlocked',
+                    ['Custom Provider', 'custom-providerEndpointUrl']
+                ),
+                $e->getMessage()
+            );
+        }
+
+        $this->assertNull($capturedUrl);
+    }
+
+    /**
+     * @return array<string, array{string, string[], string}>
+     */
+    public function getRefusedEndpointUrls(): array
+    {
+        return [
+            'private IP literal' => ['http://169.254.169.254/v1', [], ''],
+            'host on a private address' => ['https://llm.example.test/v1', ['10.0.0.5'], ''],
+            'host that does not resolve' => ['https://llm.example.test/v1', [], ''],
+            'public host behind a configured proxy' => [
+                'https://llm.example.test/v1',
+                ['93.184.215.14'],
+                'proxy.example.test',
+            ],
+        ];
+    }
+
+    public function testPrivateEndpointUrlFromTheServerConfigurationIsNotRefused(): void
+    {
+        Config::getInstance()->AIProviders = ['custom-providerEndpointUrl' => 'http://127.0.0.1:11434/v1'];
+
+        $capturedUrl = null;
+        $capturedHeaders = null;
+        $this->mockModelListingResponse($capturedUrl, $capturedHeaders);
+
+        $response = $this->api->testConnection('custom-provider');
+
+        $this->assertSame(['model-a'], $response['models']);
+        $this->assertSame('http://127.0.0.1:11434/v1/models', $capturedUrl);
+    }
+
+    public function testHostedProviderIsStillReachedThroughAConfiguredProxy(): void
+    {
+        Config::getInstance()->proxy = ['host' => 'proxy.example.test', 'port' => '3128'] + Config::getInstance()->proxy;
+
+        $capturedUrl = null;
+        $capturedHeaders = null;
+        $this->mockModelListingResponse($capturedUrl, $capturedHeaders);
+
+        $this->api->testConnection('openai', (string) json_encode(['apiKey' => 'secret-openai-key']));
+
+        $this->assertSame('https://api.openai.com/v1/models', $capturedUrl);
+    }
+
     public function testASubmittedApiKeyStillMayNotTestADifferentEndpointUrl(): void
     {
         $this->useManagedCustomProviderCredentials();
@@ -1933,6 +2015,8 @@ class ConfigurationTest extends IntegrationTestCase
     {
         return [
             'Piwik\Access' => new FakeAccess(),
+            // the *.example.test hosts don't resolve, so pretend every DNS name is public
+            EgressHostValidator::class => new EgressHostValidator(fn() => ['93.184.215.14'], []),
         ];
     }
 }

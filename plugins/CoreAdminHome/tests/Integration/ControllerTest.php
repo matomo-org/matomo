@@ -12,6 +12,7 @@ namespace Piwik\Plugins\CoreAdminHome\tests\Integration;
 use Piwik\Changes\Model as ChangesModel;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Plugins\CoreAdminHome\CoreAdminHome;
@@ -125,6 +126,85 @@ class ControllerTest extends IntegrationTestCase
         $this->assertSame('Acme <Team> & "post"', Config::getInstance()->General['noreply_email_name']);
     }
 
+    public function testSetMailSettingsKeepsTheOAuthSettingsFromTheConfigFile(): void
+    {
+        $oauthSettings = [
+            'oauth_token_url'            => 'https://login.example.test/token',
+            'oauth_client_id'            => 'the-client-id',
+            'oauth_scope'                => 'https://mail.example.test/.default',
+            'oauth_credential_type'      => 'certificate',
+            'oauth_client_secret'        => 'the-client-secret',
+            'oauth_certificate_path'     => '/etc/matomo/smtp.crt',
+            'oauth_private_key_path'     => '/etc/matomo/smtp.key',
+            'oauth_private_key_password' => 'the-key-password',
+        ];
+        Config::getInstance()->mail = $oauthSettings + ['host' => 'post.example.test'] + Config::getInstance()->mail;
+
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+        $_POST = $this->getMailSettingsRequest('post.example.test');
+
+        $this->getControllerSkippingTokenCheck()->setMailSettings();
+        $this->mailSettingsSaved = true;
+
+        $mailConfig = Config::getInstance()->mail;
+        $this->assertSame('smtp-user-post', $mailConfig['username']);
+        $this->assertSame($oauthSettings, array_intersect_key($mailConfig, $oauthSettings));
+    }
+
+    public function testSetMailSettingsDoesNotKeepTheOAuthCredentialsWhenTheHostChanges(): void
+    {
+        Config::getInstance()->mail = [
+            'host'                       => 'old.example.test',
+            'oauth_client_id'            => 'the-client-id',
+            'oauth_credential_type'      => 'certificate',
+            'oauth_client_secret'        => 'the-client-secret',
+            'oauth_certificate_path'     => '/etc/matomo/smtp.crt',
+            'oauth_private_key_path'     => '/etc/matomo/smtp.key',
+            'oauth_private_key_password' => 'the-key-password',
+        ] + Config::getInstance()->mail;
+
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+        $_POST = $this->getMailSettingsRequest('post.example.test');
+
+        $this->getControllerSkippingTokenCheck()->setMailSettings();
+        $this->mailSettingsSaved = true;
+
+        $mailConfig = Config::getInstance()->mail;
+        $this->assertSame('post.example.test', $mailConfig['host']);
+        $this->assertSame('the-client-id', $mailConfig['oauth_client_id']);
+        $this->assertSame('certificate', $mailConfig['oauth_credential_type']);
+        $this->assertSame('', $mailConfig['oauth_client_secret']);
+        $this->assertSame('', $mailConfig['oauth_certificate_path']);
+        $this->assertSame('', $mailConfig['oauth_private_key_path']);
+        $this->assertSame('', $mailConfig['oauth_private_key_password']);
+    }
+
+    public function testGeneralSettingsDoesNotSendTheOAuthSecretsToThePage(): void
+    {
+        Config::getInstance()->mail = [
+            'oauth_client_secret'        => 'the-client-secret',
+            'oauth_private_key_password' => 'the-key-password',
+        ] + Config::getInstance()->mail;
+
+        $page = StaticContainer::get(Controller::class)->generalSettings();
+
+        $this->assertStringNotContainsString('the-client-secret', $page);
+        $this->assertStringNotContainsString('the-key-password', $page);
+        $this->assertStringContainsString('oauth_client_secret&quot;:&quot;*****&quot;', $page);
+        $this->assertStringContainsString('oauth_private_key_password&quot;:&quot;*****&quot;', $page);
+    }
+
+    public function testGeneralSettingsListsOAuthAsAuthenticationTypeWhenItIsConfigured(): void
+    {
+        $label = 'OAuth 2.0 (set up in config.ini.php)';
+
+        $this->assertStringNotContainsString($label, StaticContainer::get(Controller::class)->generalSettings());
+
+        Config::getInstance()->mail = ['type' => 'Xoauth2'] + Config::getInstance()->mail;
+
+        $this->assertStringContainsString($label, StaticContainer::get(Controller::class)->generalSettings());
+    }
+
     public function testSetMailSettingsRejectsIncorrectPasswordConfirmation(): void
     {
         $originalHost = Config::getInstance()->mail['host'];
@@ -159,6 +239,88 @@ class ControllerTest extends IntegrationTestCase
         $this->assertStringContainsString(Piwik::translate('UsersManager_CurrentPasswordNotCorrect'), $response);
         // nothing must have been persisted
         $this->assertSame($originalHost, Config::getInstance()->mail['host']);
+    }
+
+    public function testSetMailSettingsPostsEventWithSavedSettingsAndWithoutPassword(): void
+    {
+        $postedSettings = [];
+        Piwik::addAction('CoreAdminHome.mailSettingsUpdated', function ($settings) use (&$postedSettings) {
+            $postedSettings[] = $settings;
+        });
+
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+        $_POST = $this->getMailSettingsRequest('event.example.test');
+        $_REQUEST = $_POST;
+
+        $controller = $this->getControllerSkippingTokenCheck();
+
+        $controller->setMailSettings();
+        $this->mailSettingsSaved = true;
+
+        $this->assertSame([[
+            'transport' => 'smtp',
+            'host' => 'event.example.test',
+            'port' => '25',
+            'type' => '',
+            'username' => 'smtp-user-event',
+            'encryption' => 'none',
+            'noreply_email_name' => 'Acme <Team> & "event"',
+            'noreply_email_address' => 'mail-event@example.test',
+            'password_set' => true,
+        ]], $postedSettings);
+    }
+
+    public function testSetMailSettingsDoesNotPostEventWhenSaveFails(): void
+    {
+        $eventCount = 0;
+        Piwik::addAction('CoreAdminHome.mailSettingsUpdated', function () use (&$eventCount) {
+            $eventCount++;
+        });
+
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+        $_POST = $this->getMailSettingsRequest('reject.example.test');
+        $_REQUEST = $_POST;
+
+        $controller = $this->getControllerSkippingTokenCheck($passwordCorrect = false);
+
+        $controller->setMailSettings();
+
+        $this->assertSame(0, $eventCount);
+    }
+
+    public function testSetMailSettingsPostsPasswordSetForPasswordZero(): void
+    {
+        $postedSettings = [];
+        Piwik::addAction('CoreAdminHome.mailSettingsUpdated', function ($settings) use (&$postedSettings) {
+            $postedSettings[] = $settings;
+        });
+
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+        $_POST = array_merge($this->getMailSettingsRequest('zero.example.test'), ['mailPassword' => '0']);
+        $_REQUEST = $_POST;
+
+        $this->getControllerSkippingTokenCheck()->setMailSettings();
+        $this->mailSettingsSaved = true;
+
+        $this->assertCount(1, $postedSettings);
+        $this->assertTrue($postedSettings[0]['password_set']);
+    }
+
+    public function testSetMailSettingsReportsSuccessWhenListenerFails(): void
+    {
+        Piwik::addAction('CoreAdminHome.mailSettingsUpdated', function () {
+            throw new \Exception('listener failed');
+        });
+
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+        $_POST = $this->getMailSettingsRequest('listener.example.test');
+        $_REQUEST = $_POST;
+
+        $response = $this->getControllerSkippingTokenCheck()->setMailSettings();
+        $this->mailSettingsSaved = true;
+
+        $this->assertStringContainsString('success', $response);
+        $this->assertSame('listener.example.test', Config::getInstance()->mail['host']);
     }
 
     public function testWhatIsNewDoesNotPrefixBundledPluginsAndPrefixesThirdPartyPlugins(): void

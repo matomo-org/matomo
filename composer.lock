@@ -214,29 +214,29 @@
         },
         {
             "name": "geoip2/geoip2",
-            "version": "v3.4.0",
+            "version": "v3.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/maxmind/GeoIP2-php.git",
-                "reference": "257a350e5e0cae57ac95417f32bb0aba285b2c0d"
+                "reference": "9d3d3b47fd84f4d1b06f8f2527c1c20aa8e0ed57"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/maxmind/GeoIP2-php/zipball/257a350e5e0cae57ac95417f32bb0aba285b2c0d",
-                "reference": "257a350e5e0cae57ac95417f32bb0aba285b2c0d",
+                "url": "https://api.github.com/repos/maxmind/GeoIP2-php/zipball/9d3d3b47fd84f4d1b06f8f2527c1c20aa8e0ed57",
+                "reference": "9d3d3b47fd84f4d1b06f8f2527c1c20aa8e0ed57",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "maxmind-db/reader": "^1.13.0",
-                "maxmind/web-service-common": "~0.11",
+                "maxmind-db/reader": "^1.15.0",
+                "maxmind/web-service-common": "~0.12",
                 "php": ">=8.1"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "3.*",
-                "phpstan/phpstan": "*",
+                "friendsofphp/php-cs-fixer": "^3.95",
+                "phpstan/phpstan": "^2.2",
                 "phpunit/phpunit": "^10.0",
-                "squizlabs/php_codesniffer": "4.*"
+                "squizlabs/php_codesniffer": "^4.0"
             },
             "type": "library",
             "autoload": {
@@ -266,10 +266,10 @@
             ],
             "support": {
                 "issues": "https://github.com/maxmind/GeoIP2-php/issues",
-                "source": "https://github.com/maxmind/GeoIP2-php/tree/v3.4.0"
+                "source": "https://github.com/maxmind/GeoIP2-php/tree/v3.5.0"
             },
-            "time": "2026-07-16T22:11:20+00:00",
-            "published-time": "2026-07-16T22:11:27+00:00"
+            "time": "2026-11-17T23:29:09+00:00",
+            "published-time": "2026-11-17T23:29:17+00:00"
         },
         {
             "name": "laravel/serializable-closure",
@@ -842,27 +842,27 @@
         },
         {
             "name": "maxmind-db/reader",
-            "version": "v1.14.0",
+            "version": "v1.15.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/maxmind/MaxMind-DB-Reader-php.git",
-                "reference": "f3c92f68b3bec42a9aa780368399e03dc6b91e89"
+                "reference": "135915ad1ce99520fccfebb8f4ce53cf848dcc78"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/maxmind/MaxMind-DB-Reader-php/zipball/f3c92f68b3bec42a9aa780368399e03dc6b91e89",
-                "reference": "f3c92f68b3bec42a9aa780368399e03dc6b91e89",
+                "url": "https://api.github.com/repos/maxmind/MaxMind-DB-Reader-php/zipball/135915ad1ce99520fccfebb8f4ce53cf848dcc78",
+                "reference": "135915ad1ce99520fccfebb8f4ce53cf848dcc78",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.2"
             },
             "conflict": {
-                "ext-maxminddb": "<1.14.0 || >=2.0.0"
+                "ext-maxminddb": "<1.15.0 || >=2.0.0"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "3.*",
-                "phpstan/phpstan": "*",
+                "phpstan/phpstan": "^1.12 || ^2.2",
                 "phpunit/phpunit": ">=8.0.0,<10.0.0",
                 "squizlabs/php_codesniffer": "4.*",
                 "symfony/polyfill-php80": "^1.33"
@@ -901,23 +901,23 @@
             ],
             "support": {
                 "issues": "https://github.com/maxmind/MaxMind-DB-Reader-php/issues",
-                "source": "https://github.com/maxmind/MaxMind-DB-Reader-php/tree/v1.14.0"
+                "source": "https://github.com/maxmind/MaxMind-DB-Reader-php/tree/v1.15.0"
             },
-            "time": "2026-09-10T22:02:38+00:00",
-            "published-time": "2026-09-10T22:02:45+00:00"
+            "time": "2026-11-17T21:46:48+00:00",
+            "published-time": "2026-11-17T21:46:54+00:00"
         },
         {
             "name": "maxmind/web-service-common",
-            "version": "v0.11.1",
+            "version": "v0.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/maxmind/web-service-common-php.git",
-                "reference": "c309236b5a5555b96cf560089ec3cead12d845d2"
+                "reference": "4d981ad2322068477cedf48d0464105fb32c6124"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/maxmind/web-service-common-php/zipball/c309236b5a5555b96cf560089ec3cead12d845d2",
-                "reference": "c309236b5a5555b96cf560089ec3cead12d845d2",
+                "url": "https://api.github.com/repos/maxmind/web-service-common-php/zipball/4d981ad2322068477cedf48d0464105fb32c6124",
+                "reference": "4d981ad2322068477cedf48d0464105fb32c6124",
                 "shasum": ""
             },
             "require": {
@@ -927,10 +927,11 @@
                 "php": ">=8.1"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "3.*",
-                "phpstan/phpstan": "*",
+                "friendsofphp/php-cs-fixer": "^3.95",
+                "phpstan/phpstan": "^2.2",
                 "phpunit/phpunit": "^10.0",
-                "squizlabs/php_codesniffer": "4.*"
+                "squizlabs/php_codesniffer": "^4.0",
+                "symfony/process": "^6.4 || ^7.0 || ^8.0"
             },
             "type": "library",
             "autoload": {
@@ -953,10 +954,10 @@
             "homepage": "https://github.com/maxmind/web-service-common-php",
             "support": {
                 "issues": "https://github.com/maxmind/web-service-common-php/issues",
-                "source": "https://github.com/maxmind/web-service-common-php/tree/v0.11.1"
+                "source": "https://github.com/maxmind/web-service-common-php/tree/v0.12.0"
             },
-            "time": "2026-01-13T17:56:03+00:00",
-            "published-time": "2026-01-13T17:57:30+00:00"
+            "time": "2026-11-17T22:59:02+00:00",
+            "published-time": "2026-11-17T23:14:41+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -4134,11 +4135,11 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "2.3.6",
+            "version": "2.3.7",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/00cedebb76cc82c1592414fa4f616cefdccda16f",
-                "reference": "00cedebb76cc82c1592414fa4f616cefdccda16f",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/90c91c2498849ab8cc4e873864bbf1cb2bf6ea12",
+                "reference": "90c91c2498849ab8cc4e873864bbf1cb2bf6ea12",
                 "shasum": ""
             },
             "require": {
@@ -4194,8 +4195,8 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-11-15T19:58:26+00:00",
-            "published-time": "2026-11-15T19:58:39+00:00"
+            "time": "2026-11-19T10:31:11+00:00",
+            "published-time": "2026-11-19T10:31:27+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",

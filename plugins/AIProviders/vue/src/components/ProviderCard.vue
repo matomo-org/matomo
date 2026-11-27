@@ -42,6 +42,7 @@
           :name="`endpointUrl-${provider.id}`"
           :title="translate(provider.endpointFieldTitle)"
           :placeholder="translate(provider.endpointFieldPlaceholder)"
+          :inline-help="provider.endpointFieldHelp ? translate(provider.endpointFieldHelp) : undefined"
           autocomplete="off"
           full-width
           uicontrol="text"

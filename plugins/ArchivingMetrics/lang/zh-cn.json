@@ -1,1 +1,5 @@
-{}
+{
+    "ArchivingMetrics": {
+        "PluginDescription": "记录有关归档性能的指标。"
+    }
+}

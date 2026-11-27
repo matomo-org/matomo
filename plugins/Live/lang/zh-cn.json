@@ -10,6 +10,10 @@
         "DisableVisitorProfile": "关闭访客个人资料",
         "DisableVisitorProfileDescription": "所有与访问日志相关的功能始终有效。",
         "DisableVisitsLogAndProfile": "关闭访问日志和访客档案",
+        "DisableVisitsLogAndProfileDescription2": "同时还会移除依赖于这些功能的功能，例如电子商务记录、细分后的访问日志或实时地图。实时小工具只显示汇总的访问次数。这可能是遵守当地隐私法律/准则所必需的。",
+        "DisableVisitsLogAndProfileImpact": "<strong>访客分析 &gt; 访问日志</strong>和访客资料视图不可用。",
+        "DisableVisitsLogAndProfileWhatItDoes": "访问日志和访客资料功能已停用。<br><br>这可以防止重建单个访客的浏览路径和详细的访问级行为。",
+        "ExportThisDatasetToXml": "将此数据集导出为 XML",
         "FirstVisit": "首次访问",
         "GoalType": "类型",
         "HideMap": "隐藏地图",
@@ -56,13 +60,16 @@
         "VisitorLog": "访问日志",
         "VisitorLogDocumentation": "此表显示所选日期范围内的最新访问。将鼠标悬停在访问日期上可了解最近一次访问发生的时间。 %1$s 如果日期范围包括今天，您可以实时看到您的访客。 %2$s 此处显示的数据始终是实时的，无论您是否使用归档 cron 作业以及使用频率如何。",
         "VisitorLogNoDataMessagePurged": "由于启用了对旧原始数据的定期删除且此报告的日期已超过%s天，因此可能已清除了数据。 管理员可以通过管理→隐私更改此设置。",
+        "VisitorLogPolicySettingRequirementNote": "必须停用访问日志。",
         "VisitorLogSubcategoryHelp1": "访问日志详细显示你的网站收到的每一次访问。了解每个访客做了哪些操作、他们是如何到达你的网站的、一些他们是谁的情况，以及更多（同时仍然遵守你当地的隐私法规）。",
         "VisitorLogSubcategoryHelp2": "Matomo的其他报告显示了你的访客在总体上的行为，而访问日志提供了细化的细节。你还可以使用分段来缩小访问的具体类型，以便更好地了解你的访客。",
         "VisitorLogSubcategoryHelp3": "在访问日志指南中了解更多信息。",
         "VisitorProfile": "访客资料",
+        "VisitorProfileNotFound": "找不到此访客。其访问数据可能已被删除。",
         "VisitorsInRealTime": "实时访问",
         "VisitorsLastVisit": "%s 天前也访问过。",
         "VisitsFrom": "%1$s%2$s 次访问%3$s 来自",
-        "VisitsLog": "访问日志"
+        "VisitsLog": "访问日志",
+        "VisitsLogAndProfileDisabledPolicySettingTitle": "已停用访问日志和访客资料"
     }
 }

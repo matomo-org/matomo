@@ -1,7 +1,7 @@
 {
     "General": {
-        "12HourClock": "orë 12-orëshe",
-        "24HourClock": "orë 24-orëshe",
+        "12HourClock": "sahat 12-orësh",
+        "24HourClock": "sahat 24-orësh",
         "AIAssistants": "Asistentë IA",
         "API": "API",
         "AbandonedCarts": "Shporta të Braktisura",
@@ -51,6 +51,7 @@
         "ChangeTagCloudView": "Ju lutemi, mbani parasysh që raportin mund ta shihni në mënyra të tjera nga re etiketash. Për ta bërë këtë, përdorni kontrollet në fund të raportit.",
         "ChooseDate": "Zgjidhni datë, data e përzgjedhur tani është: %s",
         "ChooseLanguage": "Zgjidhni gjuhën",
+        "ChooseMetrics": "Zgjidhni matje",
         "ChoosePeriod": "Zgjidhni periudhë",
         "Clear": "Spastroje",
         "ClickHere": "Për më tepër hollësi, klikoni këtu.",
@@ -99,6 +100,9 @@
         "ColumnPageGenerationTime": "Kohë Prodhimi Faqeje",
         "ColumnPageviews": "Parje faqesh",
         "ColumnPageviewsDocumentation": "Sa herë është vizituar kjo faqe.",
+        "ColumnPercentOfReportTotalDocumentation": "Përqindja e vlerës gjithsej %1$s të raportit që ky rresht përfaqëson.",
+        "ColumnPercentOfReportTotalShort": "%1$s (%%)",
+        "ColumnPercentOfReportTotalSymbol": "(%%)",
         "ColumnPercentageVisits": "%% Vizita",
         "ColumnPercentageVisitsDocumentation": "Përqindja e vizitave gjithsej.",
         "ColumnRevenue": "Të ardhura",
