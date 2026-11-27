@@ -451,6 +451,31 @@ class UrlTest extends \PHPUnit\Framework\TestCase
                 ['action' => 'getRows'],
                 '?module=CoreHome&action=getRows&idSites[]=1&idSites[]=2',
             ],
+            'drops percent-encoded variant' => [
+                'method=a&idSite=1&%6dethod=b',
+                ['method' => 'Live.getVisitorProfile'],
+                '?method=Live.getVisitorProfile&idSite=1',
+            ],
+            'drops subscripted variant' => [
+                'idSite=1&module[x]=a&module=CoreHome',
+                ['module' => 'API'],
+                '?idSite=1&module=API',
+            ],
+            'drops variant only the client-side parser reads as the key' => [
+                'idSite=1&module[%00]=a',
+                ['module' => 'API'],
+                '?idSite=1&module=API',
+            ],
+            'drops variant of a removed parameter' => [
+                'idSite=1&filter%5Fcolumn=label',
+                ['filter_column' => null],
+                '?idSite=1',
+            ],
+            'keeps unrelated encoded names' => [
+                'idSite=1&%6Dy%5Fparam=a&module=x',
+                ['module' => 'API'],
+                '?idSite=1&%6Dy%5Fparam=a&module=API',
+            ],
         ];
     }
 
