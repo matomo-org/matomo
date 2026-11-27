@@ -90,29 +90,6 @@ parameters:
 			count: 1
 			path: core/API/DataTablePostProcessor.php
 
-		-
-			message: '#^Call to an undefined method ReflectionType\:\:getName\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: core/API/Proxy.php
-
-		-
-			message: '#^Call to an undefined method ReflectionType\:\:isBuiltin\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: core/API/Proxy.php
-
-		-
-			message: '#^Strict comparison using \=\=\= between null and null will always evaluate to true\.$#'
-			identifier: identical.alwaysTrue
-			count: 1
-			path: core/API/Proxy.php
-
-		-
-			message: '#^Negated boolean expression is always true\.$#'
-			identifier: booleanNot.alwaysTrue
-			count: 1
-			path: core/API/Request.php
 
 		-
 			message: '#^Parameter \#2 \$columnToFilter of class Piwik\\DataTable\\Filter\\Pattern constructor expects string, array given\.$#'

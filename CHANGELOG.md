@@ -48,6 +48,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * `Piwik\DataAccess\Model::isSimilarArchiveInProgress()` is deprecated and will be removed in Matomo 7; use `Piwik\DataAccess\Model::isArchiveAlreadyInProgress()` instead.
 
 ### HTTP API
+* Plugin HTTP API methods with union or intersection parameter types are skipped during discovery. Other supported methods in the same API class remain available.
 * The `parts` parameter of `Transitions.getTransitionsForAction` accepts the new value `followingActionsWithoutLoops`: the following actions without page reloads, as in the full report.
 * `prettyDate` of `API.getProcessedReport` now names the period the report's rows were archived for:
   * For a relative date such as `today`, `yesterday`, `lastN` or `previousN` with the period `day`, `week`, `month` or `year` on a single site whose day differs from UTC's, it names the site's days instead of UTC's, and so do the date line and file name of the scheduled reports generated from it.
