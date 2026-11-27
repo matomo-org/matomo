@@ -48,8 +48,10 @@ describe("DashboardManager", function () {
         vot = await page.jQuery(modalSelector + ' .widgetpreview-widgetlist>li button:contains(Visits Over Time)');
         await vot.hover();
 
-        await page.waitForNetworkIdle();
+        // the preview only starts loading after the hover delay, so a network-idle wait alone can pass before it
         await page.waitForSelector(modalSelector + '  .widgetpreview-widgetlist>li.widgetpreview-choosen > button > .widgetpreview-add-hint', { visible: true });
+        await page.waitForSelector(modalSelector + ' .widgetpreview-preview .jqplot-event-canvas');
+        await page.waitForNetworkIdle();
 
         expect(await page.screenshotSelector(modalSelector)).to.matchImage('widget_preview');
     });

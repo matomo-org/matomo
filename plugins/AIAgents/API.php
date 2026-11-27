@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\AIAgents;
 
 use Piwik\API\Request;
+use Piwik\ArchiveProcessor\PluginsArchiver;
 use Piwik\DataTable;
 use Piwik\DataTable\DataTableInterface;
 use Piwik\Period;
@@ -19,6 +20,7 @@ use Piwik\Plugins\API\DataTable\MergeDataTables;
 use Piwik\Segment;
 use Piwik\Segment\SegmentExpression;
 use Piwik\Site;
+use Piwik\ViewDataTable\EstimatedUniques;
 
 /**
  * Provides reporting API methods for distinguishing AI agent traffic from human traffic.
@@ -77,6 +79,8 @@ class API extends PluginAPI
             self::HUMAN_COLUMN_SUFFIX    => self::HUMAN_SEGMENT,
         ];
 
+        $flagsToRemove = [];
+
         foreach ($clientTypes as $columnSuffix => $clientTypeSegment) {
             $modifiedSegment      = Segment::combine($segment, SegmentExpression::AND_DELIMITER, $clientTypeSegment);
             $columnsForClientType = empty($columns) ? [] : $this->filterColumnsBySuffix($columns, $columnSuffix);
@@ -85,6 +89,11 @@ class API extends PluginAPI
             // should fetch all columns) or if one of the columns that was passed in is for this client type
             if (!empty($columns) && empty($columnsForClientType)) {
                 continue;
+            }
+
+            // the graphs label the uniques from the flag, so fetch it and remove it once they have read it
+            if (EstimatedUniques::addFlagToRequestedColumns($columnsForClientType)) {
+                $flagsToRemove[] = PluginsArchiver::UNIQUES_ESTIMATED_METRIC . $columnSuffix;
             }
 
             $params = [
@@ -104,6 +113,10 @@ class API extends PluginAPI
 
             $merger = new MergeDataTables();
             $merger->mergeDataTables($resultSet, $response);
+        }
+
+        if (!empty($flagsToRemove)) {
+            $resultSet->queueFilter('ColumnDelete', [$flagsToRemove]);
         }
 
         return $resultSet;

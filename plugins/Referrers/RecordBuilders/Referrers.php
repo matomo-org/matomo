@@ -153,7 +153,9 @@ class Referrers extends RecordBuilder
 
             case Common::REFERRER_TYPE_SOCIAL_NETWORK:
                 $topLevelRow = $reports[Archiver::SOCIAL_NETWORKS_RECORD_NAME]->sumRowWithLabel($row['referer_name'], $columns);
-                $topLevelRow->sumRowWithLabelToSubtable($row['referer_url'], $columns);
+                if (!empty($row['referer_url'])) {
+                    $topLevelRow->sumRowWithLabelToSubtable($row['referer_url'], $columns);
+                }
                 break;
 
             case Common::REFERRER_TYPE_AI_ASSISTANT:
@@ -162,11 +164,13 @@ class Referrers extends RecordBuilder
 
             case Common::REFERRER_TYPE_WEBSITE:
                 $topLevelRow = $reports[Archiver::WEBSITES_RECORD_NAME]->sumRowWithLabel($row['referer_name'], $columns);
-                $topLevelRow->sumRowWithLabelToSubtable($row['referer_url'], $columns);
+                if (!empty($row['referer_url'])) {
+                    $topLevelRow->sumRowWithLabelToSubtable($row['referer_url'], $columns);
 
-                $urlHash = substr(md5($row['referer_url']), 0, 10);
-                if (!isset($distinctUrls[$urlHash])) {
-                    $distinctUrls[$urlHash] = true;
+                    $urlHash = substr(md5($row['referer_url']), 0, 10);
+                    if (!isset($distinctUrls[$urlHash])) {
+                        $distinctUrls[$urlHash] = true;
+                    }
                 }
                 break;
 

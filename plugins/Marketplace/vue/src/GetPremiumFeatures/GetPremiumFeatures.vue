@@ -15,7 +15,7 @@
       <div class="col s12 m12" v-if="index === 0">
         <h3 style="font-weight: bold;color: var(--theme-color-brand)" v-html="$sanitize(trialHintsText)"></h3>
         <h3 style="margin-bottom: 28px;color: var(--theme-color-brand)">
-          {{ translate('Marketplace_SupportMatomoThankYou') }} <i class='icon-heart red-text'></i>
+          {{ translate('Marketplace_SupportMatomoThankYou') }} <i class='icon-heart red-text' aria-hidden='true'></i>
         </h3>
       </div>
 

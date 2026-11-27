@@ -29,6 +29,11 @@ class CustomProvider extends AIProvider
         );
     }
 
+    public function getEndpointFieldHelp(): string
+    {
+        return 'AIProviders_CustomEndpointUrlHelp';
+    }
+
     /**
      * Custom servers are expected to be OpenAI-compatible. The configured base
      * URL must point at the API root (the part before `/chat/completions`),

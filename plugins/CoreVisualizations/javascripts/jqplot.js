@@ -1590,7 +1590,8 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
             c.markerRenderer.init();
 
             var position = series.gridData[tick];
-            if (typeof position !== 'undefined') {
+            // a missing value is a gap in the graph, so there is no point to highlight
+            if (typeof position !== 'undefined' && position[1] !== null) {
                 c.markerRenderer.draw(position[0], position[1], c.piwikHighlightCanvas._ctx);
 
                 var forecastValues = plot.options.forecastData && plot.options.forecastData[i];
@@ -2214,11 +2215,22 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
                     }
 
                     const markerOptions = opts.markerOptions || {};
-
-                    markerOptions.isIncomplete = opts.dataStates[i] && opts.dataStates[i] !== 'complete';
-                    markerOptions.incompleteFillColor = plot.grid.background;
+                    const isIncomplete = opts.dataStates[i] && opts.dataStates[i] !== 'complete';
+                    const markerStyle = markerOptions.style || this.markerRenderer.style;
 
                     this.markerRenderer.draw(gd[i][0], gd[i][1], ctx, markerOptions);
+
+                    if (isIncomplete && markerStyle.indexOf('ircle') !== -1) {
+                        // cover the graph lines reaching into the point with the background color
+                        ctx.save();
+                        ctx.beginPath();
+                        ctx.arc(gd[i][0], gd[i][1], this.markerRenderer.size / 16, 0, 2 * Math.PI, true);
+                        ctx.lineWidth = markerOptions.lineWidth || this.markerRenderer.lineWidth;
+                        ctx.lineCap = this.markerRenderer.shapeRenderer.lineCap;
+                        ctx.strokeStyle = plot.grid.background;
+                        ctx.stroke();
+                        ctx.restore();
+                    }
                 }
             }
 
@@ -2348,16 +2360,6 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
                 ctx.stroke();
             }
 
-            if (opts.isIncomplete && opts.incompleteFillColor) {
-                // graph lines reach into the point
-                // render inner point filled with background color to avoid showing them
-                ctx.beginPath();
-                ctx.arc(points[0], points[1], points[2] / 8, points[3], points[4], true);
-                ctx.strokeStyle = opts.incompleteFillColor;
-                ctx.stroke();
-                ctx.closePath();
-            }
-
             ctx.restore();
             return;
         }
@@ -2384,8 +2386,9 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         let move = true;
 
         for (let i = 0; i < points.length; i++) {
-            // skip to the first non-null point and move to it.
-            if (null === points[i][0] && null === points[i][1]) {
+            // skip missing points and start a new line after them, so the gap shows
+            if (null === points[i][0] || null === points[i][1]) {
+                move = true;
                 continue;
             }
 
@@ -2421,8 +2424,9 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         move = true;
 
         for (let i = 0; i < points.length; i++) {
-            // skip to the first non-null point and move to it.
-            if (points[i][0] === null && points[i][1] === null) {
+            // skip missing points and start a new line after them, so the gap shows
+            if (points[i][0] === null || points[i][1] === null) {
+                move = true;
                 continue;
             }
 
@@ -2487,8 +2491,9 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
                 let move = true;
 
                 for (let i = 0; i < points.length; i++) {
-                    // skip to the first non-null point and move to it.
-                    if (points[i][0] === null && points[i][1] === null) {
+                    // skip missing points and start a new line after them, so the gap shows
+                    if (points[i][0] === null || points[i][1] === null) {
+                        move = true;
                         continue;
                     }
 

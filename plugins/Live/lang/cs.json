@@ -32,6 +32,7 @@
         "NoMoreVisits": "Toto jsou všechny návštěvy tohoto návštěvníka.",
         "OnClickPause": "Funkce „%s“ běží… Kliknutím ji pozastavíte.",
         "OnClickStart": "Funkce „%s“ je zastavená. Kliknutím ji spustíte.",
+        "OnlyConsentedVisitsShown": "Zobrazují se pouze návštěvy návštěvníků, kteří udělili souhlas, protože zásady dodržování předpisů tohoto webu vypínají protokol návštěv.",
         "PageRefreshed": "Počet po sobě jdoucích zobrazení nebo obnovení této stránky.",
         "PluginDescription": "Poskytuje živý protokol návštěv a ve widgetu nástěnky umožňuje sledovat návštěvníky v reálném čase. Pro libovolného uživatele lze procházet profil návštěvníka.",
         "PreviousVisitor": "Předchozí návštěvník",

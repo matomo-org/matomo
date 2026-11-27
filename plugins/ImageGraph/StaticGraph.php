@@ -41,7 +41,7 @@ abstract class StaticGraph extends BaseFactory
     private $aliasedGraph;
 
     /**
-     * @var Image
+     * @var Image|null
      */
     protected $pImage;
     /**
@@ -362,6 +362,9 @@ abstract class StaticGraph extends BaseFactory
         $maxHeight = 0;
         foreach ($values as $data) {
             foreach ($data as $value) {
+                if ($value === VOID) {
+                    continue;
+                }
                 [$valueWidth, $valueHeight] = $this->getTextWidthHeight($value);
 
                 if ($valueWidth > $maxWidth) {

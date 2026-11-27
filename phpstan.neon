@@ -31,6 +31,8 @@ parameters:
         - plugins/VisitorGenerator
     bootstrapFiles:
         - bootstrap-phpstan.php
+    stubFiles:
+        - tests/PHPUnit/PHPStan/stubs/CpChartData.stub
     # Not reachable through the composer autoloader: it is a global class pulled in
     # via require_once, so PHPStan has to be pointed at the file explicitly.
     scanFiles:

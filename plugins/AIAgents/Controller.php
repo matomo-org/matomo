@@ -11,9 +11,11 @@ namespace Piwik\Plugins\AIAgents;
 
 use Piwik\Piwik;
 use Piwik\Plugin\Controller as PluginController;
+use Piwik\Plugins\AIAgents\Reports\Get;
 use Piwik\Request;
 use Piwik\SettingsPiwik;
 use Piwik\Translation\Translator;
+use Piwik\ViewDataTable\EstimatedUniques;
 
 class Controller extends PluginController
 {
@@ -41,7 +43,7 @@ class Controller extends PluginController
 
         $columnNames = ['nb_visits'];
 
-        if (SettingsPiwik::isUniqueVisitorsEnabled($period)) {
+        if (SettingsPiwik::isUniqueVisitorsTotalAvailable($period)) {
             $columnNames[] = 'nb_uniq_visitors';
         }
 
@@ -69,6 +71,10 @@ class Controller extends PluginController
 
         if (empty($view->config->columns_to_display)) {
             $view->config->columns_to_display = ['nb_visits' . API::AI_AGENT_COLUMN_SUFFIX];
+        }
+
+        if (SettingsPiwik::isUniqueVisitorsEstimated($period)) {
+            EstimatedUniques::labelFromData($view, Get::getEstimatedMetricTranslations() + EstimatedUniques::getMetricTranslations());
         }
 
         // Some plugins (e.g. Bandwidth) might have added new selectable columns to our

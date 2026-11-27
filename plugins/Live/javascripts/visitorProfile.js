@@ -45,7 +45,7 @@
      */
     VisitorProfileControl.showPopover = function (visitorId, idSite) {
 
-        if (!piwik.visitorProfileEnabled) {
+        if (!piwik.visitorProfileAvailable) {
             console.error('Visitor Profile was disabled in website settings');
             return;
         }

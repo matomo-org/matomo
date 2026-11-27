@@ -49,7 +49,7 @@
           />
 
           <label for="form_authcode">
-            <i class="icon-user icon"></i>
+            <i class="icon-user icon" aria-hidden="true"></i>
             {{ translate('TwoFactorAuth_AuthenticationCode') }}
           </label>
         </div>

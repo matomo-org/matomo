@@ -205,7 +205,8 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     {
         return $this->makeSetting('max_actions_allowed', $default = 0, FieldConfig::TYPE_INT, function (FieldConfig $field) {
             $field->title = Piwik::translate('TrackingSpamPrevention_SettingMaxActionsTitle');
-            $field->description = Piwik::translate('TrackingSpamPrevention_SettingMaxActionsDescription');
+            $field->description = Piwik::translate('TrackingSpamPrevention_SettingMaxActionsDescription') . ' '
+                . Piwik::translate('TrackingSpamPrevention_SettingMaxActionsCipDescription');
             $field->uiControl = FieldConfig::UI_CONTROL_TEXT;
         });
     }

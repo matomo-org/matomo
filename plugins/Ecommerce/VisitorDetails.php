@@ -15,7 +15,9 @@ use Piwik\DataAccess\LogAggregator;
 use Piwik\Date;
 use Piwik\DbHelper;
 use Piwik\Piwik;
+use Piwik\Plugins\CoreHome\Columns\Consent;
 use Piwik\Plugins\Ecommerce\Columns\ProductCategory;
+use Piwik\Plugins\Live\Live;
 use Piwik\Plugins\Live\Model;
 use Piwik\Plugins\Live\VisitorDetailsAbstract;
 use Piwik\Site;
@@ -145,8 +147,18 @@ class VisitorDetails extends VisitorDetailsAbstract
      */
     protected function queryEcommerceConversionsVisitorLifeTimeMetricsForVisitor($idSite, $idVisitor)
     {
-        $sql             = $this->getSqlEcommerceConversionsLifeTimeMetricsForIdGoal();
-        $lifeTimeStats = $this->getDb()->fetchAll($sql, array($idSite, @Common::hex2bin($idVisitor)));
+        // where the visits log only lists the visits of visitors who gave consent, the totals of a visitor only
+        // count those visits too, or they would reveal what the visitor did in the visits they did not consent to
+        $bind = array($idSite, @Common::hex2bin($idVisitor));
+
+        if (Live::isVisitorLogLimitedToConsentedVisits((int) $idSite)) {
+            $sql    = $this->getSqlEcommerceConversionsLifeTimeMetricsForConsentedVisits();
+            $bind[] = Consent::CONSENTED;
+        } else {
+            $sql = $this->getSqlEcommerceConversionsLifeTimeMetricsForIdGoal();
+        }
+
+        $lifeTimeStats = $this->getDb()->fetchAll($sql, $bind);
 
         $defaultStats = array_fill_keys([GoalManager::IDGOAL_CART, GoalManager::IDGOAL_ORDER], self::DEFAULT_LIFETIME_STAT);
 
@@ -177,6 +189,20 @@ class VisitorDetails extends VisitorDetailsAbstract
      */
     protected function getSqlEcommerceConversionsLifeTimeMetricsForIdGoal()
     {
+        return $this->buildSqlEcommerceConversionsLifeTimeMetrics(false);
+    }
+
+    /**
+     * As getSqlEcommerceConversionsLifeTimeMetricsForIdGoal(), counting only the visits of visitors who gave consent.
+     * The query takes one more bind value, Consent::CONSENTED.
+     */
+    private function getSqlEcommerceConversionsLifeTimeMetricsForConsentedVisits(): string
+    {
+        return $this->buildSqlEcommerceConversionsLifeTimeMetrics(true);
+    }
+
+    private function buildSqlEcommerceConversionsLifeTimeMetrics(bool $consentedVisitsOnly): string
+    {
         $sql = "SELECT
                     idgoal,
                     COALESCE(SUM(" . LogAggregator::getSqlRevenue('revenue') . "), 0) as lifeTimeRevenue,
@@ -189,6 +215,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 					        log_visit.idsite = ?
 					    AND log_visit.idvisitor = ?
 						AND log_conversion.idgoal IN ( " . GoalManager::IDGOAL_CART . ", " . GoalManager::IDGOAL_ORDER . " )
+						" . ($consentedVisitsOnly ? 'AND log_visit.consent = ?' : '') . "
                     GROUP BY idgoal
         ";
         return $sql;

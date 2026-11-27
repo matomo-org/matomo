@@ -1,6 +1,6 @@
 {
     "TwoFactorAuth": {
-        "AskSuperUserResetAuthenticationCode": "Cereți unui super utilizator să vă reseteze codul de autentificare",
+        "AskSuperUserResetAuthenticationCode": "Cereți unui superutilizator să vă reseteze codul de autentificare",
         "AuthenticationCode": "Cod de autentificare",
         "ConfigureDifferentDevice": "Configurați un dispozitiv nou",
         "ConfirmDisableTwoFA": "Dezactivați autentificarea cu doi factori pentru contul dumneavoastră? Aceasta va reduce securitatea contului.",

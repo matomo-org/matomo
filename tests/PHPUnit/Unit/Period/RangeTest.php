@@ -15,6 +15,7 @@ use Piwik\Period\Month;
 use Piwik\Period\Range;
 use Piwik\Period\Week;
 use Piwik\Period\Year;
+use Piwik\Site;
 
 /**
  * @group Core
@@ -54,6 +55,14 @@ class RangeTest extends BasePeriodTest
             ['2019-06-04,2019-06-09', '1', '2019-06-10,2019-06-15', 'range'],
             ['2019-06-10,2019-06-12', '1', '2019-06-13,2019-06-15', 'range'],
         ];
+    }
+
+    public function testGetRelativeToEndDateAcceptsTheGraphRelativeRange(): void
+    {
+        $site = $this->createMock(Site::class);
+        $site->method('getTimezone')->willReturn('Pacific/Auckland');
+
+        $this->assertSame('2019-05-13,2019-05-15', Range::getRelativeToEndDate('day', 'last3', '2019-05-15', $site));
     }
 
     // test range 1

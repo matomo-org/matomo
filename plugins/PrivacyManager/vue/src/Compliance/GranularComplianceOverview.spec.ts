@@ -122,4 +122,19 @@ describe('PrivacyManager/GranularComplianceOverview', () => {
 
     expect(requiresTypedDeletion(wrapper)).toBe(false);
   });
+
+  it('fetches the settings again in place when the page asks for a reload', async () => {
+    const wrapper = await mountOverview(setting('A.One', false));
+    const fetchMock = AjaxHelper.fetch as ReturnType<typeof vi.fn>;
+    const fetchCount = fetchMock.mock.calls.length;
+
+    await wrapper.setProps({ reloadCount: 1 });
+    await flushPromises();
+
+    expect(fetchMock.mock.calls.length).toBe(fetchCount + 1);
+    expect(fetchMock).toHaveBeenLastCalledWith(
+      expect.objectContaining({ idSite: '1', method: 'PrivacyManager.getCompliancePolicySettings' }),
+      expect.anything(),
+    );
+  });
 });

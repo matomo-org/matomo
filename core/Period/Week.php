@@ -64,9 +64,10 @@ class Week extends Period
 
         parent::generate();
         $date = $this->date;
+        $weekday = (int) $date->toString('N');
 
-        if ($date->toString('N') > 1) {
-            $date = $date->subDay($date->toString('N') - 1);
+        if ($weekday > 1) {
+            $date = $date->subDay($weekday - 1);
         }
 
         $startWeek = $date;
