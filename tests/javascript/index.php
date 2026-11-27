@@ -4661,7 +4661,7 @@ if ($mysql) {
 
     // heartbeat tests
     test("trackingHeartBeat", function () {
-        expect(13);
+        expect(14);
 
         var tokenBase = getHeartbeatToken();
 
@@ -4739,6 +4739,7 @@ if ($mysql) {
 
             requests = fetchTrackedRequests(token = 5 + tokenBase, true);
             ok(/ping=1/.test(requests[0]), "[token = 5] ping request sent on blur");
+            ok(/hb=1/.test(requests[0]), "[token = 5] heartbeat ping is marked with hb=1");
             equal(requests.length, 1, "[token = 5] one request is sent if window is blurred");
 
             requests = fetchTrackedRequests(token = 6 + tokenBase, true);
@@ -4747,6 +4748,114 @@ if ($mysql) {
             requests = fetchTrackedRequests(token = 7 + tokenBase, true);
             equal(requests.length, 0, "[token = 7] no ping request because of visit standard length");
 
+            start();
+        });
+    });
+
+    test("trackingHeartBeat closes a page view it already pinged for when the next page view is tracked", function () {
+        expect(19); // 16 below + 3 from the focus and blur events triggered on the window
+
+        var tokenBase = getHeartbeatToken();
+
+        var tracker = Piwik.getTracker();
+        tracker.setTrackerUrl("matomo.php");
+        tracker.setSiteId(1);
+        tracker.enableHeartBeatTimer(5);
+
+        // a manually set page view id is reused by the next page view, so no closing heartbeat is sent for it
+        var manualTracker = Piwik.getTracker();
+        manualTracker.setTrackerUrl("matomo.php");
+        manualTracker.setSiteId(1);
+        manualTracker.enableHeartBeatTimer(5);
+        manualTracker.setPageViewId('manual');
+
+        // gets its closing heartbeat when the page is hidden or unloads
+        var unloadTracker = Piwik.getTracker();
+        unloadTracker.setTrackerUrl("matomo.php");
+        unloadTracker.setSiteId(1);
+        unloadTracker.enableHeartBeatTimer(5);
+
+        stop();
+        Q.delay(1).then(function () {
+            tracker.setCustomData('token', 'a' + tokenBase);
+            tracker.trackPageView('closingFirst');
+            manualTracker.setCustomData('token', 'm' + tokenBase);
+            manualTracker.trackPageView('manualFirst');
+            unloadTracker.setCustomData('token', 'u' + tokenBase);
+            unloadTracker.trackPageView('unloadFirst');
+            triggerEvent(window, 'focus');
+
+            return Q.delay(5500);
+        }).then(function () {
+            triggerEvent(window, 'blur'); // heartbeat sent for the first page view
+
+            return Q.delay(5500);
+        }).then(function () {
+            // the visitor is back and a new page view starts, eg a route change in a single page app
+            tracker.setCustomData('token', 'b' + tokenBase);
+            triggerEvent(window, 'focus');
+            tracker.setPagePerformanceTiming(11, 22); // timings of the page view that starts now
+            tracker.trackPageView('closingSecond');
+            manualTracker.setCustomData('token', 'n' + tokenBase);
+            manualTracker.trackPageView('manualSecond');
+            manualTracker.disableHeartBeatTimer();
+
+            // the visitor is only just back, so without the earlier heartbeat no ping would be sent on unload
+            unloadTracker.setCustomData('token', 'v' + tokenBase);
+            unloadTracker.hook.test._beforeUnloadHandler();
+            unloadTracker.unsetPageIsUnloading();
+            unloadTracker.disableHeartBeatTimer();
+
+            return Q.delay(5500);
+        }).then(function () {
+            // the second page view never got a heartbeat, so nothing extra is sent for it
+            tracker.setCustomData('token', 'c' + tokenBase);
+            tracker.trackPageView('closingThird');
+            tracker.disableHeartBeatTimer();
+
+            return Q.delay(1500);
+        }).then(function () {
+            // never throws, a missing request has to fail an assertion and not stall the test run
+            function getPvId(request) {
+                var match = /pv_id=([^&<]+)/.exec(request || '');
+                return match ? match[1] : null;
+            }
+
+            var requests = fetchTrackedRequests('a' + tokenBase, true);
+            equal(requests.length, 2, "[a] page view and its heartbeat on blur");
+            var firstPvId = getPvId(requests[0]);
+            ok(/hb=1/.test(requests[1]) && getPvId(requests[1]) === firstPvId, "[a] heartbeat belongs to the first page view");
+
+            requests = fetchTrackedRequests('b' + tokenBase, true);
+            equal(requests.length, 2, "[b] closing heartbeat and the next page view");
+            // the two requests are sent back to back and can be stored in either order
+            var pingIndex = /ping=1/.test(requests[0]) ? 0 : 1;
+            ok(/ping=1/.test(requests[pingIndex]) && /hb=1/.test(requests[pingIndex]), "[b] a closing heartbeat is sent");
+            equal(getPvId(requests[pingIndex]), firstPvId, "[b] closing heartbeat carries the pv_id of the page view that ends");
+            ok(/action_name=closingSecond/.test(requests[1 - pingIndex]) && getPvId(requests[1 - pingIndex]) !== firstPvId, "[b] the page view gets a new pv_id");
+            ok(!/pf_net=/.test(requests[pingIndex]), "[b] closing heartbeat does not take the performance timings of the next page view");
+            ok(/pf_net=11/.test(requests[1 - pingIndex]) && /pf_srv=22/.test(requests[1 - pingIndex]), "[b] the page view carries its performance timings");
+
+            requests = fetchTrackedRequests('c' + tokenBase, true);
+            equal(requests.length, 1, "[c] no closing heartbeat for a page view that never had one");
+            ok(/action_name=closingThird/.test(requests[0]), "[c] only the page view is sent");
+
+            requests = fetchTrackedRequests('m' + tokenBase, true);
+            equal(requests.length, 2, "[manual] page view and its heartbeat on blur");
+            requests = fetchTrackedRequests('n' + tokenBase, true);
+            ok(requests.length === 1 && /action_name=manualSecond/.test(requests[0]), "[manual] no closing heartbeat when the page view id was set manually");
+
+            requests = fetchTrackedRequests('u' + tokenBase, true);
+            equal(requests.length, 2, "[unload] page view and its heartbeat on blur");
+            var unloadPvId = getPvId(requests[0]);
+            requests = fetchTrackedRequests('v' + tokenBase, true);
+            equal(requests.length, 1, "[unload] one closing heartbeat is sent on unload after a short refocus");
+            ok(/ping=1/.test(requests[0]) && /hb=1/.test(requests[0]), "[unload] the closing heartbeat is marked with hb=1");
+            equal(getPvId(requests[0]), unloadPvId, "[unload] closing heartbeat carries the pv_id of the page view");
+
+            start();
+        }).fail(function (error) {
+            ok(false, 'unexpected error: ' + error + ' ' + (error && error.stack));
             start();
         });
     });
@@ -5316,7 +5425,7 @@ if ($mysql) {
     });
 
     test("Test API - consent", function() {
-        expect(34);
+        expect(35);
 
         var queue;
         var tracker = Piwik.getTracker();
@@ -5384,6 +5493,7 @@ if ($mysql) {
                 strictEqual(true, results.indexOf('myFoo=bar&baz=1') > 0, "setConsentGiven does replay all queued requests" );
                 strictEqual(true, results.indexOf('myFoo=bar&baz=2') > 0, "setConsentGiven does replay all queued requests" );
                 strictEqual(true, results.indexOf('ping=1') > 0, "setConsentGiven does replay all queued requests" );// sent when enabling cookies as part of setConsentGiven. Called twice in total
+                strictEqual(-1, results.indexOf('hb=1'), "the consent ping is not marked as a heartbeat" );
                 strictEqual(4, (results.match(/consent=1/g) || []).length, "consent=1 parameter appears in URL when explicit consent given");
 
                 var results2 = fetchTrackedRequests(getConsentToken() + '2');

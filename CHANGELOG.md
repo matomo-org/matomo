@@ -39,6 +39,9 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * `Piwik\Plugins\Live\Live::isVisitorLogAvailable()` and `Piwik\Plugins\Live\Live::isVisitorProfileAvailable()`, and their `checkIs…()` variants, tell whether the visits log and the visitor profile can show visits, all of them or only those of visitors who gave consent (`Piwik\Plugins\Live\Live::isVisitorLogLimitedToConsentedVisits()`). `isVisitorLogEnabled()` and `isVisitorProfileEnabled()` are unchanged.
 * The new event `SitesManager.globalSettingsUpdated` is posted after the global website settings were saved on the global settings page. Its single array parameter holds the current settings after the save, with the same keys as the `SitesManager.getGlobalSettings` controller action, except `exclusionTypeForQueryParamsPolicyControlled`. If the save fails part way, the event is posted only if the values saved before the failure changed a setting.
 * The new event `CoreAdminHome.mailSettingsUpdated` is posted after the email server settings were saved on the general settings page. Its single array parameter holds the saved settings and `password_set`, but never the password.
+* New tracker request parameter `hb`: the JavaScript tracker sends `hb=1` with the `ping=1` request of its heartbeat timer (`enableHeartBeatTimer()`), and other tracking clients can send `ping=1&hb=1` with the pageview's `pv_id` to get the same behaviour.
+* A page time measured by a heartbeat is no longer raised by a later pageview in the same visit, only by requests with the same `pv_id`.
+* The `log_page_view_time` log table has a new `has_heartbeat` column.
 
 ### New commands
 * `core:archive-failures` lists the archives `core:archive` failed to process and resets them, so they are retried in the next run.

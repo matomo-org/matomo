@@ -350,6 +350,35 @@ class ActionReportsAccurateArchiveTest extends IntegrationTestCase
         $this->assertSame(40, (int) ($rows['https://example.org/frozen']['sum_time_spent'] ?? -1));
     }
 
+    public function testPageClosedByItsHeartbeatIsNotStretchedByALaterPageview(): void
+    {
+        $day = '2026-06-26';
+
+        $tracker = Fixture::getTracker($this->idSite, $day . ' 12:00:00', true, true);
+        $tracker->setTokenAuth(Fixture::getTokenAuth());
+        $tracker->setUrl('https://example.org/closed-tab');
+        $tracker->setPageviewId('aaaaaa');
+        Fixture::checkResponse($tracker->doTrackPageView('Closed tab'));
+
+        // The tab reports 14s when it closes.
+        $tracker->setForceVisitDateTime($day . ' 12:00:14');
+        $tracker->setDebugStringAppend('&hb=1');
+        Fixture::checkResponse($tracker->doPing());
+        $tracker->setDebugStringAppend('');
+
+        // A new tab 5 minutes later, in the same visit. Neither the writer nor the legacy
+        // time_spent_ref_action of this hit may credit the gap to the closed page.
+        $tracker->setForceVisitDateTime($day . ' 12:05:00');
+        $tracker->setUrl('https://example.org/new-tab');
+        $tracker->setPageviewId('bbbbbb');
+        Fixture::checkResponse($tracker->doTrackPageView('New tab'));
+
+        (new CronArchive())->main();
+
+        $rows = $this->readPageUrlRows('day', $day);
+        $this->assertSame(14, (int) ($rows['https://example.org/closed-tab']['sum_time_spent'] ?? -1));
+    }
+
     private function readSumTimeSpent(string $period, string $date): int
     {
         $rows = $this->readPageUrlRows($period, $date);

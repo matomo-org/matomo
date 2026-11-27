@@ -2466,6 +2466,9 @@ if (typeof window.Matomo !== 'object') {
                 hadWindowFocusAtLeastOnce = isInsideAnIframe(),
                 timeWindowLastFocused = null,
 
+                // pv_id of the page view the last heartbeat ping was sent for
+                heartBeatSentForIdPageView = null,
+
                 // Timestamp of last tracker request sent to Matomo
                 lastTrackerRequestTime = null,
 
@@ -3177,6 +3180,13 @@ if (typeof window.Matomo !== 'object') {
                 return !timeWindowLastFocused || (now - timeWindowLastFocused) > configHeartBeatDelay;
             }
 
+            function wasHeartBeatSentForCurrentPageView() {
+                // once the server received a heartbeat for a page view, only requests of that page view extend
+                // its time. so we send another one when the visitor leaves it, even shortly after refocusing.
+                // it is still skipped when another request was sent less than configHeartBeatDelay ago
+                return !!configIdPageView && heartBeatSentForIdPageView === configIdPageView;
+            }
+
             function heartBeatOnBlur() {
                 if (hadWindowMinimalFocusToConsiderViewed()) {
                     heartBeatPingIfActivityAlias();
@@ -3217,7 +3227,9 @@ if (typeof window.Matomo !== 'object') {
 
                         // we only send the heartbeat if onunload the user spent at least 15seconds since last focus
                         // or the configured heatbeat timer
-                        if (heartBeatSetUp && hadWindowMinimalFocusToConsiderViewed()) {
+                        if (heartBeatSetUp
+                            && (hadWindowMinimalFocusToConsiderViewed() || wasHeartBeatSentForCurrentPageView())
+                        ) {
                             heartBeatPingIfActivityAlias();
                         }
                     }
@@ -4386,7 +4398,10 @@ if (typeof window.Matomo !== 'object') {
                 }
 
                 if (lastTrackerRequestTime + configHeartBeatDelay <= now) {
-                    trackerInstance.ping();
+                    // hb=1 tells the server this ping reports the page losing focus or closing,
+                    // unlike a manual ping() or the one sent when cookie consent is given
+                    heartBeatSentForIdPageView = configIdPageView;
+                    trackerInstance.trackRequest('ping=1&hb=1', null, null, 'ping');
 
                     return true;
                 }
@@ -4478,6 +4493,17 @@ if (typeof window.Matomo !== 'object') {
              * Log the page view / visit
              */
             function logPageView(customTitle, customData, callback) {
+                // a manually set page view id is reused by the next page view, the ping could not be told apart
+                if (heartBeatSetUp && !configIdPageViewSetManually && wasHeartBeatSentForCurrentPageView()) {
+                    // eg a route change in a single page app: report the time of the page view that ends now.
+                    // performance timings that are waiting to be sent belong to the next page view
+                    // the ping may already carry the next page's url (setCustomUrl), like the pageview that follows it
+                    var wasPerformanceTracked = performanceTracked;
+                    performanceTracked = true;
+                    heartBeatPingIfActivityAlias();
+                    performanceTracked = wasPerformanceTracked;
+                }
+
                 if (!configIdPageViewSetManually) {
                     configIdPageView = generateUniqueId();
                 }
