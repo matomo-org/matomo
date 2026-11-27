@@ -200,6 +200,21 @@ class HandlerTest extends IntegrationTestCase
         yield 'php error' => [new \TypeError('type'), 500];
     }
 
+    public function testOnExceptionShouldStillOutputExceptionIfLoggerFails()
+    {
+        $logger = $this->createMock(LoggerInterface::class);
+        $logger->method('error')->willThrowException(new \UnexpectedValueException('log file not writable'));
+        StaticContainer::getContainer()->set(LoggerInterface::class, $logger);
+
+        $handler = new Handler();
+        $handler->setResponse($this->response);
+        $handler->onException($this->tracker, $this->requestSet, new Exception('MyMessage'));
+
+        $this->assertTrue($this->response->isExceptionOutput);
+        $this->assertSame(500, $this->response->statusCode);
+        $this->assertSame('MyMessage', $this->response->exception->getMessage());
+    }
+
     public function testOnExceptionShouldNotRethrowExceptionToExitTrackerImmediately()
     {
         self::expectNotToPerformAssertions();
