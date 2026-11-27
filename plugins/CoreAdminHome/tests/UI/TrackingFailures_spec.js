@@ -76,6 +76,44 @@ describe("TrackingFailures", function () {
         expect(await elem.screenshot()).to.matchImage('manage_with_failures_delete_one_confirmed');
     });
 
+    it('should mark the failures of a website that is excluded from the email', async function () {
+        const settings = '.trackingFailuresNotificationSettings';
+
+        // the test before deleted the only failure of an existing website
+        generateTrackingFailures();
+        await page.waitForTimeout(500);
+        await page.goto(manageUrl);
+        await page.waitForSelector(settings + '__siteAdd');
+
+        await page.click(settings + '__siteAdd');
+        await page.click(settings + ' .matomo-save-button .btn');
+        await page.waitForNetworkIdle();
+        await page.waitForSelector(settings + ' .matomo-save-button .btn:not([disabled])');
+
+        const excluded = await page.$$eval('.failureRow__excluded', (elements) => {
+            return elements.map((e) => e.closest('td').textContent.replace(/\s+/g, ' ').trim());
+        });
+        expect(excluded).to.deep.equal(['new site name (Id 1) Excluded from email notifications']);
+
+        expect(await (await page.$(settings)).screenshot()).to.matchImage('notification_settings');
+    });
+
+    it('should keep the excluded website after a reload and allow removing it', async function () {
+        const settings = '.trackingFailuresNotificationSettings';
+
+        await page.goto(manageUrl);
+        await page.waitForSelector('.failureRow__excluded');
+        expect(await page.$$eval(settings + '__siteItem', (e) => e.length)).to.equal(1);
+
+        await page.click(settings + '__siteRemove');
+        await page.click(settings + ' .matomo-save-button .btn');
+        await page.waitForNetworkIdle();
+        await page.waitForSelector(settings + ' .matomo-save-button .btn:not([disabled])');
+
+        expect(await page.$$eval('.failureRow__excluded', (e) => e.length)).to.equal(0);
+        expect(await page.$$eval(settings + '__siteItem', (e) => e.length)).to.equal(0);
+    });
+
     it('should show ask to confirm delete all', async function () {
         await page.click('.matomoTrackingFailures .deleteAllFailures');
         await page.waitForSelector('.modal.open');

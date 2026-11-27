@@ -15,7 +15,12 @@ use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Exception\MissingFilePermissionException;
+use Piwik\Http\BadRequestException;
 use Piwik\Plugins\CoreAdminHome\API;
+use Piwik\Plugins\CoreAdminHome\tests\Framework\Mock\FileBackedConfig;
+use Piwik\Plugins\CoreAdminHome\TrackingFailuresNotificationSettings;
+use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 
@@ -37,6 +42,9 @@ class APITest extends \Piwik\Tests\Framework\TestCase\IntegrationTestCase
      */
     private $api;
 
+    /** @var FileBackedConfig|null */
+    private $fileBackedConfig;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -44,6 +52,16 @@ class APITest extends \Piwik\Tests\Framework\TestCase\IntegrationTestCase
         for ($i = 0; $i < 5; $i++) {
             Fixture::createWebsite('2014-01-02 03:04:05');
         }
+    }
+
+    public function tearDown(): void
+    {
+        if ($this->fileBackedConfig !== null) {
+            $this->fileBackedConfig->deleteFile();
+            $this->fileBackedConfig = null;
+        }
+
+        parent::tearDown();
     }
 
     public function testGetTrackingFailuresFailsForViewUser()
@@ -62,6 +80,128 @@ class APITest extends \Piwik\Tests\Framework\TestCase\IntegrationTestCase
         $this->setSuperUser();
         $this->api->getTrackingFailures();
         $this->assertSame(array(), $this->api->getTrackingFailures());
+    }
+
+    public function testSetTrackingFailuresNotificationSettingsFailsForAdminUser()
+    {
+        $this->expectException(\Piwik\NoAccessException::class);
+        $this->expectExceptionMessage('checkUserHasSuperUserAccess');
+
+        $this->setAdminUser();
+        $this->api->setTrackingFailuresNotificationSettings(true, '1');
+    }
+
+    public function testSetTrackingFailuresNotificationSettingsStoresOnlyExistingSitesAndLeavesConfigAlone()
+    {
+        $numConfigSaves = 0;
+        $this->replaceConfigWithFileBackedConfig()->onSave(function () use (&$numConfigSaves) {
+            $numConfigSaves++;
+        });
+        $this->setSuperUser();
+
+        $this->api->setTrackingFailuresNotificationSettings(true, '2, 1,2,999');
+
+        $settings = new TrackingFailuresNotificationSettings();
+        $this->assertSame([2, 1], $settings->getExcludedSiteIds());
+        $this->assertTrue($settings->isEnabled());
+        $this->assertSame(0, $numConfigSaves);
+    }
+
+    /**
+     * @dataProvider getInvalidExcludedIdSites
+     */
+    public function testSetTrackingFailuresNotificationSettingsRejectsInvalidSiteIdsAndKeepsStoredList(
+        string $excludedIdSites
+    ) {
+        $this->setSuperUser();
+        $this->api->setTrackingFailuresNotificationSettings(true, '1,2');
+
+        try {
+            $this->api->setTrackingFailuresNotificationSettings(true, $excludedIdSites);
+            $this->fail('Expected a BadRequestException');
+        } catch (BadRequestException $e) {
+            $this->assertStringContainsString("'excludedIdSites='", $e->getMessage());
+            $this->assertSame([1, 2], (new TrackingFailuresNotificationSettings())->getExcludedSiteIds());
+        }
+    }
+
+    public function getInvalidExcludedIdSites(): array
+    {
+        return [['abc'], ['1,abc'], ['0'], ['1.5'], ['-2'], ['all']];
+    }
+
+    public function testSetTrackingFailuresNotificationSettingsReadsSiteIdsFromRequest()
+    {
+        $this->setSuperUser();
+
+        Request::processRequest('CoreAdminHome.setTrackingFailuresNotificationSettings', [
+            'enabled' => '1',
+            'excludedIdSites' => '3,4',
+        ]);
+
+        $this->assertSame([3, 4], (new TrackingFailuresNotificationSettings())->getExcludedSiteIds());
+    }
+
+    public function testSetTrackingFailuresNotificationSettingsReturnsTheSavedWebsites()
+    {
+        $this->setSuperUser();
+        SitesManagerAPI::getInstance()->updateSite(2, 'Site 2');
+
+        $saved = $this->api->setTrackingFailuresNotificationSettings(true, '2,999');
+
+        $this->assertSame([['id' => 2, 'name' => 'Site 2']], $saved);
+    }
+
+    public function testSetTrackingFailuresNotificationSettingsDisablesAndReEnablesTheEmailInConfig()
+    {
+        $config = $this->replaceConfigWithFileBackedConfig();
+        $this->setSuperUser();
+
+        $this->api->setTrackingFailuresNotificationSettings(false);
+
+        $this->assertEquals(0, $config->readFile()['General']['enable_tracking_failures_notification']);
+        $this->assertFalse((new TrackingFailuresNotificationSettings())->isEnabled());
+
+        $this->api->setTrackingFailuresNotificationSettings(true);
+
+        // defaults are not kept in the local config file
+        $this->assertArrayNotHasKey('enable_tracking_failures_notification', $config->readFile()['General'] ?? []);
+        $this->assertTrue((new TrackingFailuresNotificationSettings())->isEnabled());
+    }
+
+    public function testSetTrackingFailuresNotificationSettingsKeepsStoredListWhenConfigCannotBeSaved()
+    {
+        $this->setSuperUser();
+        $this->api->setTrackingFailuresNotificationSettings(true, '1');
+
+        $config = $this->replaceConfigWithFileBackedConfig();
+        $config->onSave(function () use ($config) {
+            throw $config->getConfigNotWritableException();
+        });
+
+        try {
+            $this->api->setTrackingFailuresNotificationSettings(false, '2,3');
+            $this->fail('Expected a MissingFilePermissionException');
+        } catch (MissingFilePermissionException $e) {
+            $this->assertSame([1], (new TrackingFailuresNotificationSettings())->getExcludedSiteIds());
+        }
+    }
+
+    public function testExcludedSiteIsNoLongerExcludedOnceItIsDeleted()
+    {
+        $this->setSuperUser();
+        $this->api->setTrackingFailuresNotificationSettings(true, '1,2');
+
+        SitesManagerAPI::getInstance()->deleteSite(2);
+
+        $this->assertSame([1], (new TrackingFailuresNotificationSettings())->getExcludedSiteIds());
+    }
+
+    private function replaceConfigWithFileBackedConfig(): FileBackedConfig
+    {
+        $this->fileBackedConfig = FileBackedConfig::replaceTestConfig();
+
+        return $this->fileBackedConfig;
     }
 
     public function testInvalidateArchivedReportsWarnsAboutGivenUpArchives()

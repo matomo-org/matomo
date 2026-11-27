@@ -13,6 +13,7 @@ use Exception;
 use Monolog\Handler\StreamHandler;
 use Piwik\API\Request;
 use Piwik\Changes\UserChanges;
+use Piwik\Http\BadRequestException;
 use Piwik\Log\Logger;
 use Piwik\Access;
 use Piwik\ArchiveProcessor\Rules;
@@ -53,16 +54,20 @@ class API extends \Piwik\Plugin\API
 
     private OptOutManager $optOutManager;
 
+    private TrackingFailuresNotificationSettings $trackingFailuresNotificationSettings;
+
     public function __construct(
         Scheduler $scheduler,
         ArchiveInvalidator $invalidator,
         Failures $trackingFailures,
-        OptOutManager $optOutManager
+        OptOutManager $optOutManager,
+        TrackingFailuresNotificationSettings $trackingFailuresNotificationSettings
     ) {
         $this->scheduler = $scheduler;
         $this->invalidator = $invalidator;
         $this->trackingFailures = $trackingFailures;
         $this->optOutManager = $optOutManager;
+        $this->trackingFailuresNotificationSettings = $trackingFailuresNotificationSettings;
     }
 
     /**
@@ -293,6 +298,40 @@ class API extends \Piwik\Plugin\API
         }
 
         return $failures;
+    }
+
+    /**
+     * Saves the settings of the weekly tracking failures email.
+     *
+     * @param bool $enabled Whether the email is sent.
+     * @param string $excludedIdSites Comma separated website IDs to leave out. Replaces the stored list.
+     * @return list<array{id: int, name: string}> The excluded websites after saving.
+     * @internal
+     */
+    public function setTrackingFailuresNotificationSettings(bool $enabled, string $excludedIdSites = ''): array
+    {
+        Piwik::checkUserHasSuperUserAccess();
+
+        // split here, so '0' is not read as an empty list
+        $excludedIdSites = explode(',', $excludedIdSites);
+
+        $invalidValueMessage = "The parameter 'excludedIdSites=' contains an invalid value.";
+
+        if ($excludedIdSites === ['all']) {
+            // same as switching the email off
+            throw new BadRequestException($invalidValueMessage);
+        }
+
+        try {
+            $excludedIdSites = Site::getIdSitesFromIdSitesString($excludedIdSites, false, true);
+        } catch (BadRequestException $e) {
+            // the original message names 'idSite'
+            throw new BadRequestException($invalidValueMessage);
+        }
+
+        $this->trackingFailuresNotificationSettings->save($enabled, $excludedIdSites);
+
+        return $this->trackingFailuresNotificationSettings->getExcludedSites();
     }
 
     /**

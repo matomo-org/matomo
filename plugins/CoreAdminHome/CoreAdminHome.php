@@ -140,6 +140,8 @@ class CoreAdminHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/Morpheus/stylesheets/main.less";
         $stylesheets[] = "plugins/CoreAdminHome/stylesheets/generalSettings.less";
         $stylesheets[] = "plugins/CoreAdminHome/vue/src/TrackingFailures/TrackingFailures.less";
+        $stylesheets[] = "plugins/CoreAdminHome/vue/src/TrackingFailures/FailureRow.less";
+        $stylesheets[] = "plugins/CoreAdminHome/vue/src/TrackingFailures/TrackingFailuresNotificationSettings.less";
         $stylesheets[] = "plugins/CoreAdminHome/stylesheets/whatIsNew.less";
         $stylesheets[] = "plugins/CoreAdminHome/stylesheets/trackingCodeGenerator.less";
     }
@@ -182,6 +184,7 @@ class CoreAdminHome extends \Piwik\Plugin
         $translationKeys[] = 'General_Action';
         $translationKeys[] = 'General_Delete';
         $translationKeys[] = 'General_Id';
+        $translationKeys[] = 'General_Add';
         $translationKeys[] = 'CoreHome_ClickToSeeFullInformation';
         $translationKeys[] = 'CoreAdminHome_LearnMore';
         $translationKeys[] = 'CoreAdminHome_ConfirmDeleteAllTrackingFailures';
@@ -192,6 +195,17 @@ class CoreAdminHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreAdminHome_Solution';
         $translationKeys[] = 'CoreAdminHome_TrackingFailures';
         $translationKeys[] = 'CoreAdminHome_TrackingFailuresIntroduction';
+        $translationKeys[] = 'CoreAdminHome_TrackingFailuresEmailNotifications';
+        $translationKeys[] = 'CoreAdminHome_TrackingFailuresEmailNotificationsIntro';
+        $translationKeys[] = 'CoreAdminHome_TrackingFailuresExcludedFromEmail';
+        $translationKeys[] = 'CoreAdminHome_TrackingFailuresExcludedWebsites';
+        $translationKeys[] = 'CoreAdminHome_TrackingFailuresExcludedWebsitesHelp';
+        $translationKeys[] = 'CoreAdminHome_TrackingFailuresNoExcludedWebsites';
+        $translationKeys[] = 'CoreAdminHome_TrackingFailuresRemoveExcludedWebsite';
+        $translationKeys[] = 'CoreAdminHome_TrackingFailuresSendEmails';
+        $translationKeys[] = 'CoreAdminHome_TrackingFailuresSendEmailsDisabled';
+        $translationKeys[] = 'CoreAdminHome_TrackingFailuresSendEmailsEnabled';
+        $translationKeys[] = 'CoreAdminHome_TrackingFailuresSendEmailsHelp';
         $translationKeys[] = 'CoreAdminHome_TrackingURL';
         $translationKeys[] = 'CoreAdminHome_NoKnownFailures';
         $translationKeys[] = 'CoreAdminHome_JSTracking_CodeNoteBeforeClosingHead';

@@ -6,6 +6,12 @@
 -->
 
 <template>
+  <TrackingFailuresNotificationSettings
+    v-if="isSuperUser"
+    :notifications-enabled="notificationsEnabled"
+    :excluded-sites="excludedSites"
+    @saved="excludedIdSites = $event"
+  />
   <ContentBlock
     class="matomoTrackingFailures"
     :content-title="translate('CoreAdminHome_TrackingFailures')"
@@ -48,6 +54,7 @@
         <tr v-for="(failure, index) in sortedFailures" :key="index">
           <FailureRow
             :failure="failure"
+            :is-excluded="excludedIdSites.includes(Number(failure.idsite))"
             @delete="deleteFailure($event.idSite, $event.idFailure)"
           />
         </tr>
@@ -89,7 +96,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import {
   AjaxHelper,
   ContentBlock,
@@ -97,20 +104,35 @@ import {
   ActivityIndicator,
   ContentTable,
 } from 'CoreHome';
+import type { SiteRef } from 'CoreHome';
 import FailureRow, { TrackingFailure } from './FailureRow.vue';
+import TrackingFailuresNotificationSettings from './TrackingFailuresNotificationSettings.vue';
 
 interface TrackingFailuresState {
   failures: TrackingFailure[];
   sortColumn: string;
   sortReverse: boolean;
   isLoading: boolean;
+  excludedIdSites: number[];
 }
 
 export default defineComponent({
+  props: {
+    isSuperUser: Boolean,
+    notificationsEnabled: {
+      type: Boolean,
+      default: true,
+    },
+    excludedSites: {
+      type: Array as PropType<SiteRef[]>,
+      default: () => [],
+    },
+  },
   components: {
     ContentBlock,
     ActivityIndicator,
     FailureRow,
+    TrackingFailuresNotificationSettings,
   },
   directives: {
     ContentTable,
@@ -121,6 +143,7 @@ export default defineComponent({
       sortColumn: 'idsite',
       sortReverse: false,
       isLoading: false,
+      excludedIdSites: this.excludedSites.map((site) => Number(site.id)),
     };
   },
   created() {

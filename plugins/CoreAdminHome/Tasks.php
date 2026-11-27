@@ -47,11 +47,18 @@ class Tasks extends \Piwik\Plugin\Tasks
 
     private Failures $trackingFailures;
 
-    public function __construct(ArchivePurger $archivePurger, LoggerInterface $logger, Failures $failures)
-    {
+    private TrackingFailuresNotificationSettings $trackingFailuresNotificationSettings;
+
+    public function __construct(
+        ArchivePurger $archivePurger,
+        LoggerInterface $logger,
+        Failures $failures,
+        TrackingFailuresNotificationSettings $trackingFailuresNotificationSettings
+    ) {
         $this->archivePurger = $archivePurger;
         $this->logger = $logger;
         $this->trackingFailures = $failures;
+        $this->trackingFailuresNotificationSettings = $trackingFailuresNotificationSettings;
     }
 
     public function schedule()
@@ -215,14 +222,27 @@ class Tasks extends \Piwik\Plugin\Tasks
     public function notifyTrackingFailures()
     {
         $this->cleanupTrackingFailures();
-        $failures = $this->trackingFailures->getAllFailures();
-        $general = Config::getInstance()->General;
-        if (!empty($failures) && $general['enable_tracking_failures_notification']) {
-            $superUsers = Piwik::getAllSuperUserAccessEmailAddresses();
-            foreach ($superUsers as $login => $email) {
-                $email = new TrackingFailuresEmail($login, $email, count($failures));
-                $email->send();
+
+        if (!$this->trackingFailuresNotificationSettings->isEnabled()) {
+            return;
+        }
+
+        $excludedIdSites = array_flip($this->trackingFailuresNotificationSettings->getExcludedSiteIds());
+        $numFailures = 0;
+        foreach ($this->trackingFailures->getAllFailures() as $failure) {
+            if (!isset($excludedIdSites[(int) $failure['idsite']])) {
+                $numFailures++;
             }
+        }
+
+        if ($numFailures === 0) {
+            return;
+        }
+
+        $superUsers = Piwik::getAllSuperUserAccessEmailAddresses();
+        foreach ($superUsers as $login => $email) {
+            $email = new TrackingFailuresEmail($login, $email, $numFailures);
+            $email->send();
         }
     }
 
