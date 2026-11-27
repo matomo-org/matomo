@@ -44,8 +44,8 @@
 			<row>
 				<label>ImageAd</label>
 				<nb_impressions>8</nb_impressions>
-				<nb_interactions>2</nb_interactions>
-				<interaction_rate>25%</interaction_rate>
+				<nb_interactions>4</nb_interactions>
+				<interaction_rate>50%</interaction_rate>
 			</row>
 			<row>
 				<label>Text Ad</label>
@@ -93,6 +93,6 @@
 		<nb_uniq_visitors>16</nb_uniq_visitors>
 		<nb_visits>16</nb_visits>
 		<nb_impressions>18</nb_impressions>
-		<nb_interactions>6</nb_interactions>
+		<nb_interactions>8</nb_interactions>
 	</reportTotal>
 </result>

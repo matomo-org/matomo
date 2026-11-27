@@ -101,6 +101,15 @@ class ContentsTest extends SystemTestCase
                 'setDateLastN' => false,
                 'testSuffix'   => '_contentInteractionMatch'),
             ),
+
+            array('Contents.getContentNames', array(
+                'idSite'                 => $idSite1,
+                'date'                   => $dateTime,
+                'periods'                => $dayPeriod,
+                'otherRequestParameters' => array('flat' => 1),
+                'setDateLastN'           => false,
+                'testSuffix'             => '_flat'),
+            ),
         );
 
         $apiToCallProcessedReportMetadata = array(

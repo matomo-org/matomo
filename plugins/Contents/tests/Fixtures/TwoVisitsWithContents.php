@@ -76,6 +76,7 @@ class TwoVisitsWithContents extends Fixture
         self::checkResponse($vis->doTrackContentImpression('ImageAd', '/path/ad.jpg', 'http://www.example.com'));
         self::checkResponse($vis->doTrackContentImpression('ImageAd', '/path/ad2.jpg', 'http://www.example.com'));
         self::checkResponse($vis->doTrackContentInteraction('submit', 'ImageAd', '/path/ad.jpg', 'http://www.example.com'));
+        self::checkResponse($vis->doTrackContentInteraction('submit', 'ImageAd', ''));
         $this->moveTimeForward($vis, 3);
         self::checkResponse($vis->doTrackContentImpression('Text Ad', 'Click to download Piwik now', 'http://piwik.org/download'));
         self::checkResponse($vis->doTrackContentImpression('Text Ad', 'Click NOW', 'http://piwik.org/'));

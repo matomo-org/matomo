@@ -206,26 +206,13 @@ class ContentRecords extends RecordBuilder
                 Metrics::INDEX_CONTENT_NB_INTERACTIONS => 0,
             ];
 
-            // content piece is optional
-            if (
-                $mainDimension == 'contentPiece'
-                && empty($mainLabel)
-            ) {
-                $mainLabel = Archiver::CONTENT_PIECE_NOT_SET;
-            }
+            $mainLabel = $this->labelEmptyContentPiece($mainDimension, $mainLabel);
+            $subLabel  = $this->labelEmptyContentPiece($subDimension, $subLabel);
 
             $topLevelRow = $table->sumRowWithLabel($mainLabel, $columns);
 
             if (empty($subLabel)) {
                 continue;
-            }
-
-            // content piece is optional
-            if (
-                $subDimension == 'contentPiece'
-                && empty($subLabel)
-            ) {
-                $subLabel = Archiver::CONTENT_PIECE_NOT_SET;
             }
 
             $topLevelRow->sumRowWithLabelToSubtable($subLabel, $columns);
@@ -248,6 +235,9 @@ class ContentRecords extends RecordBuilder
                 Metrics::INDEX_CONTENT_NB_INTERACTIONS => $row[Metrics::INDEX_CONTENT_NB_INTERACTIONS],
             ];
 
+            $mainLabel = $this->labelEmptyContentPiece($mainDimension, $mainLabel);
+            $subLabel  = $this->labelEmptyContentPiece($subDimension, $subLabel);
+
             // ignore interactions that do not have an impression
             if (!$table->getRowFromLabel($mainLabel)) {
                 continue;
@@ -261,6 +251,21 @@ class ContentRecords extends RecordBuilder
 
             $topLevelRow->sumRowWithLabelToSubtable($subLabel, $columns);
         }
+    }
+
+    /**
+     * Content piece is optional, so an empty piece gets its own "not set" row.
+     *
+     * @param string|null $label
+     * @return string|null
+     */
+    private function labelEmptyContentPiece(string $dimension, $label)
+    {
+        if ($dimension === 'contentPiece' && empty($label)) {
+            return Archiver::CONTENT_PIECE_NOT_SET;
+        }
+
+        return $label;
     }
 
     private function getRecordToDimensions(): array
