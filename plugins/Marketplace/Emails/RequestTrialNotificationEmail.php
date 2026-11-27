@@ -15,6 +15,8 @@ use Piwik\Container\StaticContainer;
 use Piwik\Email\ContentGenerator;
 use Piwik\Mail;
 use Piwik\Piwik;
+use Piwik\Plugins\Marketplace\PluginTrial\RequestHistory;
+use Piwik\Plugins\Marketplace\PluginTrial\Service as PluginTrialService;
 use Piwik\Plugins\Marketplace\PluginTrial\UnsubscribeToken;
 use Piwik\SettingsPiwik;
 use Piwik\View;
@@ -30,19 +32,25 @@ class RequestTrialNotificationEmail extends Mail
     private string $pluginName;
     private string $pluginDisplayName;
 
+    private bool $isInstallRequest;
+
     /**
      * @param string|null $unsubscribeToken always passed by core; null is kept for backward compatibility
      *                                      and signs one for `$login`, or leaves out the unsubscribe line if
      *                                      there is no such user
+     * @param string $requestType one of the RequestHistory::REQUEST_TYPE_* constants
      */
     public function __construct(
         string $login,
         string $emailAddress,
         string $pluginName,
         string $pluginDisplayName,
-        ?string $unsubscribeToken = null
+        ?string $unsubscribeToken = null,
+        string $requestType = RequestHistory::REQUEST_TYPE_TRIAL
     ) {
         parent::__construct();
+
+        $this->isInstallRequest = $requestType === RequestHistory::REQUEST_TYPE_INSTALL;
 
         $this->emailAddress = $emailAddress;
         $this->login = $login;
@@ -57,7 +65,9 @@ class RequestTrialNotificationEmail extends Mail
     protected function getDefaultSubject(): string
     {
         return Piwik::translate(
-            'Marketplace_RequestTrialNotificationEmailSubject',
+            $this->isInstallRequest
+                ? 'Marketplace_RequestInstallNotificationEmailSubject'
+                : 'Marketplace_RequestTrialNotificationEmailSubject',
             [
                 $this->pluginDisplayName,
             ]
@@ -70,7 +80,11 @@ class RequestTrialNotificationEmail extends Mail
         $view = new View('@Marketplace/_requestTrialNotificationEmail.twig');
 
         $view->login = $this->login;
-        $view->marketplaceLink = $piwikUrl . 'index.php?module=Marketplace&action=overview';
+        $view->isInstallRequest = $this->isInstallRequest;
+        $view->linksToManageRequests = !$this->isInstallRequest
+            && StaticContainer::get(PluginTrialService::class)->isEnabled();
+        $view->instanceLink = $piwikUrl . 'index.php?module=Marketplace&action='
+            . ($view->linksToManageRequests ? 'manageRequests' : 'overview');
         $view->pluginName = $this->pluginDisplayName;
 
         // @see JavaScript broadcast#propagateNewPopoverParameter

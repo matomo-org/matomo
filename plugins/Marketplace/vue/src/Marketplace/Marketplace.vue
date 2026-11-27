@@ -43,6 +43,7 @@
           :install-nonce="installNonce"
           :update-nonce="updateNonce"
           :num-users="numUsers"
+          :are-plugin-requests-active="arePluginRequestsActive"
           @back="closeDetails()"
           @requestTrial="showRequestTrialForPlugin = $event"
         />
@@ -312,6 +313,7 @@ export default defineComponent({
     isPluginsAdminEnabled: Boolean,
     isMultiServerEnvironment: Boolean,
     hasSomeAdminAccess: Boolean,
+    arePluginRequestsActive: Boolean,
     installNonce: { type: String, required: true },
     activateNonce: { type: String, required: true },
     deactivateNonce: { type: String, required: true },
@@ -518,6 +520,7 @@ export default defineComponent({
         isMultiServerEnvironment: this.isMultiServerEnvironment,
         isValidConsumer: this.isValidConsumer,
         isAutoUpdatePossible: this.isAutoUpdatePossible,
+        arePluginRequestsActive: this.arePluginRequestsActive,
         activateNonce: this.activateNonce,
         deactivateNonce: this.deactivateNonce,
         installNonce: this.installNonce,

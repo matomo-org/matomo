@@ -10,14 +10,23 @@
 namespace Piwik\Plugins\Marketplace\tests\Integration;
 
 use Exception;
+use Piwik\Exception\ThingNotFoundException;
 use Piwik\Cache;
+use Piwik\Common;
+use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\Db;
 use Piwik\Mail;
 use Piwik\Piwik;
 use Piwik\Plugins\Marketplace\API;
+use Piwik\Plugins\Marketplace\Api\Client;
 use Piwik\Plugins\Marketplace\Emails\RequestTrialNotificationEmail;
 use Piwik\Plugins\Marketplace\LicenseKey;
+use Piwik\Plugins\Marketplace\PluginTrial\RequestHistory;
+use Piwik\Plugins\Marketplace\PluginTrial\Storage;
+use Piwik\Plugins\Marketplace\PluginTrial\Service as PluginTrialService;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Service;
+use Piwik\Plugins\UsersManager\Model as UsersModel;
 use Piwik\Plugins\UsersManager\SystemSettings;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
@@ -256,6 +265,7 @@ class ApiTest extends IntegrationTestCase
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('Cannot request trial as a super user');
+        $this->expectExceptionCode(400);
 
         $this->api->requestTrial('testPlugin');
     }
@@ -269,10 +279,29 @@ class ApiTest extends IntegrationTestCase
         $this->api->requestTrial('testPlugin');
     }
 
+    /**
+     * A plugin the Marketplace does not know, eg after a stale page
+     */
+    public function testRequestTrialAnswersAPluginTheMarketplaceDoesNotKnowWithNotFound(): void
+    {
+        $this->setUser();
+        $service = $this->service;
+        $this->service->setOnDownloadCallback(static function () use ($service) {
+            return $service->getFixtureContent('emptyObjectResponse.json');
+        });
+
+        $this->expectException(ThingNotFoundException::class);
+        $this->expectExceptionCode(404);
+        $this->expectExceptionMessage('Unable to find plugin with given name: UnknownPlugin');
+
+        $this->api->requestTrial('UnknownPlugin');
+    }
+
     public function testRequestTrialRequiresValidPluginName(): void
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('Invalid plugin name given');
+        $this->expectExceptionCode(400);
 
         $this->setUser();
         $this->api->requestTrial('this/is/not/valid');
@@ -288,10 +317,10 @@ class ApiTest extends IntegrationTestCase
         $service = $this->service;
 
         $this->service->setOnDownloadCallback(static function ($action, $params, $postData) use ($service) {
-            return $service->getFixtureContent('v2.0_plugins_TreemapVisualization_info.json');
+            return $service->getFixtureContent('v2.0_plugins_PaidPlugin1_info.json');
         });
 
-        self::assertTrue($this->api->requestTrial('TreemapVisualization'));
+        self::assertTrue($this->api->requestTrial('PaidPlugin1'));
 
         self::assertNotNull($sentMail);
         self::assertInstanceOf(RequestTrialNotificationEmail::class, $sentMail);
@@ -306,6 +335,807 @@ class ApiTest extends IntegrationTestCase
             'Marketplace_RequestTrialNotificationEmailIntro',
             $sentMail->getBodyHtml()
         );
+    }
+
+    public function testRequestTrialStoresTheNote(): void
+    {
+        $this->setUser();
+        $this->returnPluginInfo('PaidPlugin1');
+
+        self::assertTrue($this->api->requestTrial('PaidPlugin1', '  We need this  '));
+
+        self::assertSame([['PaidPlugin1', 'trial', 'We need this']], $this->getStoredRequests());
+    }
+
+    public function testRequestTrialRejectsANoteOver1000Characters(): void
+    {
+        $this->setUser();
+        $this->returnPluginInfo('PaidPlugin1');
+
+        try {
+            $this->api->requestTrial('PaidPlugin1', str_repeat('é', 1001));
+            self::fail('A note over 1000 characters was accepted');
+        } catch (Exception $e) {
+            self::assertSame('General_ValidatorErrorCharacterTooLong', $e->getMessage());
+        }
+
+        self::assertSame([], $this->getStoredRequests());
+    }
+
+    public function testRequestInstallStoresAnInstallRequestWithItsNote(): void
+    {
+        $this->setUser();
+        $this->returnPluginInfo('Barometer');
+
+        self::assertTrue($this->api->requestInstall('Barometer', str_repeat('é', 1000)));
+
+        self::assertSame([['Barometer', 'install', str_repeat('é', 1000)]], $this->getStoredRequests());
+    }
+
+    public function testRequestInstallMailsSuperUsersAboutAnInstall(): void
+    {
+        Piwik::addAction('Mail.send', function (Mail $mail) use (&$sentMail) {
+            $sentMail = $mail;
+        });
+        Piwik::addAction('Marketplace.pluginTrialRequested', function () {
+            self::fail('An install request was announced as a trial request');
+        });
+        Piwik::addAction('Marketplace.pluginInstallRequested', function (...$args) use (&$eventArgs) {
+            $eventArgs = $args;
+        });
+
+        $this->setUser();
+        $this->returnPluginInfo('Barometer');
+
+        self::assertTrue($this->api->requestInstall('Barometer'));
+
+        self::assertSame(['Barometer', 'Barometer'], $eventArgs);
+        self::assertInstanceOf(RequestTrialNotificationEmail::class, $sentMail);
+        self::assertSame('Marketplace_RequestInstallNotificationEmailSubject', $sentMail->getSubject());
+        self::assertStringContainsString('Marketplace_RequestInstallNotificationEmailIntro', $sentMail->getBodyHtml());
+        self::assertStringContainsString('Marketplace_RequestInstallNotificationEmailHowToInstallStep3', $sentMail->getBodyHtml());
+        self::assertStringNotContainsString('Marketplace_RequestTrialNotificationEmailIntro', $sentMail->getBodyHtml());
+        self::assertStringNotContainsString('Marketplace_RequestTrialNotificationEmailHowToStartStep3', $sentMail->getBodyHtml());
+    }
+
+    public function testRequestTrialRefusesAFreePlugin(): void
+    {
+        $this->setUser();
+        $this->returnPluginInfo('Barometer');
+
+        try {
+            $this->api->requestTrial('Barometer');
+            self::fail('A trial of a free plugin was requested');
+        } catch (Exception $e) {
+            self::assertSame('Marketplace_FreePluginHasNoTrial', $e->getMessage());
+            self::assertSame(400, $e->getCode());
+        }
+
+        self::assertSame([], $this->getStoredRequests());
+    }
+
+    public function testRequestTrialIsRejectedWhenTheUserHasAlreadyRequestedThePlugin(): void
+    {
+        $this->setUser();
+        $this->returnPluginInfo('PaidPlugin1');
+        $this->api->requestTrial('PaidPlugin1', 'First');
+
+        try {
+            $this->api->requestTrial('PaidPlugin1', 'Second');
+            self::fail('A second request by the same user was accepted');
+        } catch (Exception $e) {
+            self::assertSame('Marketplace_PluginAlreadyRequested', $e->getMessage());
+            self::assertSame(400, $e->getCode());
+        }
+
+        self::assertSame([['PaidPlugin1', 'trial', 'First']], $this->getStoredRequests());
+    }
+
+    public function testRequestInstallIsRejectedWhenTheUsersRequestWasDeclined(): void
+    {
+        $this->setUser();
+        $this->returnPluginInfo('Barometer');
+        $this->api->requestInstall('Barometer');
+
+        $this->setSuperUser();
+        $this->api->declinePluginRequest('Barometer');
+
+        $this->setUser();
+        try {
+            $this->api->requestInstall('Barometer', 'Please reconsider');
+            self::fail('A request after a declined one by the same user was accepted');
+        } catch (Exception $e) {
+            self::assertSame('Marketplace_PluginAlreadyRequested', $e->getMessage());
+            self::assertSame(400, $e->getCode());
+        }
+
+        self::assertSame([['Barometer', 'install', null]], $this->getStoredRequests());
+    }
+
+    public function testRequestInstallRequiresRegularUserAccessIfSuperUser(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Cannot request install as a super user');
+        $this->expectExceptionCode(400);
+
+        $this->api->requestInstall('Barometer');
+    }
+
+    public function testRequestInstallRequiresRegularUserAccessIfAnonymous(): void
+    {
+        $this->setAnonymousUser();
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('General_YouMustBeLoggedIn');
+
+        $this->api->requestInstall('Barometer');
+    }
+
+    public function testRequestInstallIsRejectedForAPaidPlugin(): void
+    {
+        $this->setUser();
+        $this->returnPluginInfo('PaidPlugin1');
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Only free plugins can be requested for install');
+        $this->expectExceptionCode(400);
+
+        $this->api->requestInstall('PaidPlugin1');
+    }
+
+    public function testRequestInstallIsRejectedForAnInstalledPlugin(): void
+    {
+        $this->setUser();
+        // a free plugin's info under the name of one that is installed in every Matomo
+        $service = $this->service;
+        $this->service->setOnDownloadCallback(static function () use ($service) {
+            $info = json_decode($service->getFixtureContent('v2.0_plugins_Barometer_info.json'), true);
+            $info['name'] = 'Marketplace';
+
+            return json_encode($info);
+        });
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('The plugin is already installed: Marketplace');
+        $this->expectExceptionCode(400);
+
+        $this->api->requestInstall('Marketplace');
+    }
+
+    /**
+     * The Super User is shown such a plugin as "Cannot install", so could not approve the request
+     *
+     * @dataProvider dataPluginInfosNoSuperUserCanInstall
+     */
+    public function testRequestInstallIsRejectedForAPluginNoSuperUserCouldInstall(callable $changeInfo): void
+    {
+        $this->setUser();
+        $service = $this->service;
+        $this->service->setOnDownloadCallback(static function () use ($service, $changeInfo) {
+            $info = json_decode($service->getFixtureContent('v2.0_plugins_Barometer_info.json'), true);
+
+            return json_encode($changeInfo($info));
+        });
+
+        try {
+            $this->api->requestInstall('Barometer');
+            self::fail('A plugin no Super User could install was requested');
+        } catch (Exception $e) {
+            self::assertStringContainsString('The plugin cannot be installed on this Matomo, so cannot be requested', $e->getMessage());
+            self::assertSame(400, $e->getCode());
+        }
+
+        self::assertSame([], $this->getStoredRequests());
+    }
+
+    public function dataPluginInfosNoSuperUserCanInstall(): iterable
+    {
+        yield 'missing requirements' => [static function (array $info): array {
+            foreach ($info['versions'] as &$version) {
+                $version['requires'] = ['php' => '>=99.0.0'];
+            }
+
+            return $info;
+        }];
+        yield 'no download link' => [static function (array $info): array {
+            foreach ($info['versions'] as &$version) {
+                unset($version['download']);
+            }
+
+            return $info;
+        }];
+    }
+
+    public function testRequestInstallIsRejectedWhenPluginsCannotBeInstalled(): void
+    {
+        Config::getInstance()->General['enable_plugins_admin'] = 0;
+        $this->setUser();
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Plugins cannot be installed on this Matomo');
+        $this->expectExceptionCode(400);
+
+        $this->api->requestInstall('Barometer');
+    }
+
+    /**
+     * The Super User is shown "Cannot install" without auto update, so could not approve the request
+     *
+     * @dataProvider dataConfigsWithoutAutoUpdate
+     */
+    public function testRequestInstallIsRejectedWhenAutoUpdateIsNotPossible(string $setting, int $value): void
+    {
+        Config::getInstance()->General[$setting] = $value;
+        $this->setUser();
+        $this->returnPluginInfo('Barometer');
+
+        try {
+            $this->api->requestInstall('Barometer');
+            self::fail('A plugin was requested where no Super User could install it');
+        } catch (Exception $e) {
+            self::assertStringContainsString('The plugin cannot be installed on this Matomo, so cannot be requested', $e->getMessage());
+            self::assertSame(400, $e->getCode());
+        }
+
+        self::assertSame([], $this->getStoredRequests());
+    }
+
+    /**
+     * @dataProvider dataConfigsWithoutAutoUpdate
+     */
+    public function testGetPendingPluginRequestsMarksAPluginNotOnDiskAsNotInstallableWithoutAutoUpdate(
+        string $setting,
+        int $value
+    ): void {
+        $this->returnPluginInfos();
+        $this->setUser();
+        $this->api->requestInstall('Barometer');
+        Config::getInstance()->General[$setting] = $value;
+
+        $this->setSuperUser();
+        $pending = $this->api->getPendingPluginRequests();
+
+        self::assertTrue($pending[0]['isFree']);
+        self::assertFalse($pending[0]['canBeInstalled']);
+    }
+
+    public function dataConfigsWithoutAutoUpdate(): iterable
+    {
+        yield 'auto update disabled' => ['enable_auto_update', 0];
+        yield 'multi server environment' => ['multi_server_environment', 1];
+    }
+
+    public function testDeclinePluginRequestDeclinesAllPendingRequests(): void
+    {
+        $this->setUser();
+        $this->returnPluginInfo('Barometer');
+        $this->api->requestInstall('Barometer');
+
+        $this->setSuperUser();
+        self::assertSame(1, $this->api->declinePluginRequest('Barometer', 'Not now'));
+
+        self::assertSame(
+            [['Barometer', 'declined', 'Not now', 1]],
+            array_map(fn ($decision) => [$decision['plugin_name'], $decision['decision'], $decision['note'], (int) $decision['num_requests']], Db::fetchAll(
+                'SELECT plugin_name, decision, note, num_requests FROM ' . Common::prefixTable(RequestHistory::DECISION_TABLE_NAME)
+            ))
+        );
+    }
+
+    /**
+     * @dataProvider dataDecisionMethods
+     */
+    public function testDecisionsRequireSuperUserAccessIfUser(string $method): void
+    {
+        $this->setUser();
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('checkUserHasSuperUserAccess');
+
+        $this->api->$method('Barometer');
+    }
+
+    /**
+     * @dataProvider dataDecisionMethods
+     */
+    public function testDecisionsRequireSuperUserAccessIfAnonymous(string $method): void
+    {
+        $this->setAnonymousUser();
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('checkUserHasSuperUserAccess');
+
+        $this->api->$method('Barometer');
+    }
+
+    /**
+     * @dataProvider dataDecisionMethods
+     */
+    public function testDecisionsSayWhenThePluginHasNoPendingRequests(string $method): void
+    {
+        $this->service->setOnDownloadCallback(static function () {
+            self::fail('A trial was started');
+        });
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Marketplace_NoPendingPluginRequests');
+        $this->expectExceptionCode(400);
+
+        $this->api->$method('PaidPlugin1');
+    }
+
+    /**
+     * @dataProvider dataRequestsDisabledMethods
+     */
+    public function testMethodsAreRejectedWhileRequestsAreDisabledInTheConfig(string $method, bool $asSuperUser): void
+    {
+        $asSuperUser ? $this->setSuperUser() : $this->setUser();
+
+        $config = Config::getInstance();
+        $general = $config->General;
+        $config->General = array_merge($general, ['plugin_trial_request_expiration_in_days' => -1]);
+
+        try {
+            $this->api->$method('Barometer');
+            self::fail('The method ran while requests are disabled');
+        } catch (Exception $e) {
+            self::assertSame('Plugin requests are not enabled', $e->getMessage());
+            self::assertSame(403, $e->getCode());
+        } finally {
+            $config->General = $general;
+        }
+    }
+
+    public function dataRequestsDisabledMethods(): iterable
+    {
+        yield 'request install' => ['requestInstall', false];
+        yield 'decline' => ['declinePluginRequest', true];
+        yield 'approve trial' => ['approvePluginTrial', true];
+    }
+
+    public function dataDecisionMethods(): iterable
+    {
+        yield 'decline' => ['declinePluginRequest'];
+        yield 'approve trial' => ['approvePluginTrial'];
+    }
+
+    public function testApprovePluginTrialApprovesOnceTheTrialStarted(): void
+    {
+        $this->setUser();
+        $this->returnPluginInfo('PaidPlugin1');
+        $this->api->requestTrial('PaidPlugin1');
+
+        $this->setSuperUser();
+        $this->service->setOnDownloadCallback(static function () {
+            return ['status' => 201, 'headers' => [], 'data' => ''];
+        });
+
+        self::assertSame(1, $this->api->approvePluginTrial('PaidPlugin1'));
+        self::assertSame(['approved'], $this->getStoredDecisions());
+    }
+
+    public function testApprovePluginTrialIsRefusedWithMoreUsersThanTheShopSellsPlansFor(): void
+    {
+        // added first, as the number of users is counted once and then cached
+        for ($i = 0; $i <= API::SHOP_USER_LIMIT; $i++) {
+            (new UsersModel())->addUser('user' . $i, 'password', 'user' . $i . '@example.org', date('Y-m-d H:i:s'));
+        }
+        $this->setUser();
+        $this->returnPluginInfo('PaidPlugin1');
+        $this->api->requestTrial('PaidPlugin1');
+
+        $this->setSuperUser();
+        $this->service->setOnDownloadCallback(static function () {
+            self::fail('A trial was started for more users than the shop sells plans for');
+        });
+
+        try {
+            $this->api->approvePluginTrial('PaidPlugin1');
+            self::fail('The trial was approved for more users than the shop sells plans for');
+        } catch (Exception $e) {
+            self::assertSame(400, $e->getCode());
+        }
+
+        self::assertSame([], $this->getStoredDecisions());
+    }
+
+    public function testApprovePluginTrialRefusesAFreePluginAsFreeAboveTheShopUserLimit(): void
+    {
+        for ($i = 0; $i <= API::SHOP_USER_LIMIT; $i++) {
+            (new UsersModel())->addUser('user' . $i, 'password', 'user' . $i . '@example.org', date('Y-m-d H:i:s'));
+        }
+        $this->setUser();
+        (new Storage('Barometer'))->setRequested('Barometer', RequestHistory::REQUEST_TYPE_INSTALL);
+
+        $this->setSuperUser();
+        $this->returnPluginInfo('Barometer');
+
+        try {
+            $this->api->approvePluginTrial('Barometer');
+            self::fail('A free plugin was approved for a trial');
+        } catch (Exception $e) {
+            self::assertSame('Marketplace_FreePluginHasNoTrial', $e->getMessage());
+        }
+    }
+
+    /**
+     * @dataProvider dataFreePluginRequestTypes
+     */
+    public function testApprovePluginTrialRefusesAFreePluginWithoutStartingATrial(string $requestType): void
+    {
+        $this->setUser();
+        // stored directly, as requestTrial() refuses a free plugin, which a request made before it did is not
+        (new Storage('Barometer'))->setRequested('Barometer', $requestType);
+
+        $this->setSuperUser();
+        $service = $this->service;
+        $this->service->setOnDownloadCallback(static function ($action) use ($service) {
+            if (str_ends_with($action, '/freeTrial')) {
+                self::fail('A trial was started for a free plugin');
+            }
+            return $service->getFixtureContent('v2.0_plugins_Barometer_info.json');
+        });
+
+        try {
+            $this->api->approvePluginTrial('Barometer');
+            self::fail('A free plugin was approved for a trial');
+        } catch (Exception $e) {
+            self::assertSame('Marketplace_FreePluginHasNoTrial', $e->getMessage());
+            self::assertSame(400, $e->getCode());
+        }
+
+        self::assertSame([], $this->getStoredDecisions());
+        self::assertTrue((new Storage('Barometer'))->wasRequested());
+    }
+
+    public function dataFreePluginRequestTypes(): iterable
+    {
+        yield 'install request' => [RequestHistory::REQUEST_TYPE_INSTALL];
+        yield 'trial request' => [RequestHistory::REQUEST_TYPE_TRIAL];
+    }
+
+    /**
+     * Matomo before 6.1 approves nothing when it activates a plugin, so its requests stay pending if it still serves
+     * after the update, eg during a deployment
+     *
+     * @dataProvider dataDecisionMethods
+     */
+    public function testDecisionsApproveTheRequestsOfAnAlreadyActivatedPlugin(string $method): void
+    {
+        $this->setSuperUser();
+        StaticContainer::get(RequestHistory::class)->add('Marketplace', 'aUser', time());
+        $this->service->setOnDownloadCallback(static function () {
+            self::fail('The Marketplace was asked about an activated plugin');
+        });
+
+        try {
+            $this->api->$method('Marketplace');
+            self::fail('A decision was made for an activated plugin');
+        } catch (Exception $e) {
+            self::assertSame('Marketplace_PluginAlreadyActiveRequestsApproved', $e->getMessage());
+            self::assertSame(400, $e->getCode());
+        }
+
+        self::assertSame(['approved'], $this->getStoredDecisions());
+        self::assertFalse((new Storage('Marketplace'))->hasPendingRequests());
+    }
+
+    /**
+     * Over HTTP the Request.dispatch handler approves an activated plugin's requests before the API method runs
+     *
+     * @dataProvider dataDecisionMethods
+     */
+    public function testDecisionsSayAnActivatedPluginsRequestsWereApprovedOnceTheyAre(string $method): void
+    {
+        $this->setUser();
+        (new Storage('Marketplace'))->setRequested('Marketplace');
+        $this->setSuperUser();
+        StaticContainer::get(PluginTrialService::class)->createNotificationsIfNeeded();
+        self::assertSame(['approved'], $this->getStoredDecisions());
+
+        try {
+            $this->api->$method('Marketplace');
+            self::fail('A decision was made for an activated plugin');
+        } catch (Exception $e) {
+            self::assertSame('Marketplace_PluginAlreadyActiveRequestsApproved', $e->getMessage());
+            self::assertSame(400, $e->getCode());
+        }
+
+        self::assertSame(['approved'], $this->getStoredDecisions());
+    }
+
+    /**
+     * @dataProvider dataDecisionMethods
+     */
+    public function testDecisionsSayAnActivatedPluginNobodyRequestedHasNoPendingRequests(string $method): void
+    {
+        $this->setSuperUser();
+
+        $this->expectExceptionMessage('Marketplace_NoPendingPluginRequests');
+        $this->expectExceptionCode(400);
+        $this->api->$method('Marketplace');
+    }
+
+    public function testApprovePluginTrialKeepsTheRequestsPendingWhenTheTrialFails(): void
+    {
+        $this->setUser();
+        $this->returnPluginInfo('PaidPlugin1');
+        $this->api->requestTrial('PaidPlugin1');
+
+        $this->setSuperUser();
+        $this->service->setOnDownloadCallback(static function () {
+            return ['status' => 500, 'headers' => [], 'data' => ''];
+        });
+
+        try {
+            $this->api->approvePluginTrial('PaidPlugin1');
+            self::fail('A failed trial approved the requests');
+        } catch (Exception $e) {
+            self::assertSame('Marketplace_TrialStartErrorAPI', $e->getMessage());
+        }
+
+        self::assertSame([], $this->getStoredDecisions());
+        self::assertTrue((new Storage('PaidPlugin1'))->wasRequested());
+    }
+
+    public function testApprovePluginTrialReportsNoFailureWhenAnotherSuperUserDeclinedWhileTheTrialStarted(): void
+    {
+        $this->setUser();
+        $this->returnPluginInfo('PaidPlugin1');
+        $this->api->requestTrial('PaidPlugin1');
+
+        $this->setSuperUser();
+        $this->service->setOnDownloadCallback(static function () {
+            (new Storage('PaidPlugin1'))->setDecided(RequestHistory::DECISION_DECLINED);
+            Piwik::addAction('Marketplace.pluginRequestDecided', function () {
+                self::fail('An approval that ended no request posted the event');
+            });
+            return ['status' => 201, 'headers' => [], 'data' => ''];
+        });
+
+        self::assertSame(0, $this->api->approvePluginTrial('PaidPlugin1'));
+        self::assertSame(['declined'], $this->getStoredDecisions());
+    }
+
+    public function testGetMyPluginRequestsReturnsOnlyTheUsersOwnRequestsWithTheirStatus(): void
+    {
+        $this->returnPluginInfos();
+        $this->setUser();
+        $this->api->requestTrial('PaidPlugin1', 'For our team');
+        $this->api->requestInstall('Barometer');
+        $this->setUser('otherUser');
+        $this->api->requestTrial('PaidPlugin1', 'Another note');
+
+        $this->setSuperUser();
+        $this->api->declinePluginRequest('Barometer', 'Not now');
+
+        $this->setUser();
+        $requests = $this->api->getMyPluginRequests();
+
+        self::assertSame(
+            [
+                ['Barometer', 'install', null, 'declined', 'Not now'],
+                ['PaidPlugin1', 'trial', 'For our team', 'pending', null],
+            ],
+            $this->sortedRows(array_map(fn ($request) => [
+                $request['pluginName'],
+                $request['requestType'],
+                $request['message'],
+                $request['status'],
+                $request['decisionNote'],
+            ], $requests))
+        );
+        self::assertMatchesRegularExpression('/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/', $requests[0]['requestedAt']);
+    }
+
+    public function testGetMyPluginRequestsAsksTheMarketplaceForDisplayNamesItsCachedListsDoNotHold(): void
+    {
+        $this->returnPluginInfos();
+        $this->setUser();
+        $this->api->requestTrial('PaidPlugin1');
+        StaticContainer::get(Client::class)->clearAllCacheEntries();
+
+        self::assertSame('Paid Plugin 1', $this->api->getMyPluginRequests()[0]['displayName']);
+    }
+
+    public function testGetMyPluginRequestsShowsNoNoteForAnApprovedRequest(): void
+    {
+        $this->returnPluginInfos();
+        $this->setUser();
+        $this->api->requestInstall('Barometer');
+
+        $this->setSuperUser();
+        (new Storage('Barometer'))->setDecided(RequestHistory::DECISION_APPROVED, 'A note');
+
+        $this->setUser();
+        $requests = $this->api->getMyPluginRequests();
+
+        self::assertSame('approved', $requests[0]['status']);
+        self::assertNull($requests[0]['decisionNote']);
+    }
+
+    public function testGetMyPluginRequestsRequiresALoggedInUser(): void
+    {
+        $this->setAnonymousUser();
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('General_YouMustBeLoggedIn');
+
+        $this->api->getMyPluginRequests();
+    }
+
+    /**
+     * @dataProvider dataPluginRequestLists
+     */
+    public function testPluginRequestListsAreRejectedWhileRequestsAreDisabledInTheConfig(string $method): void
+    {
+        $this->disablePluginRequests();
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Plugin requests are not enabled');
+        $this->expectExceptionCode(403);
+
+        $this->api->$method();
+    }
+
+    public function dataPluginRequestLists(): iterable
+    {
+        yield 'own requests' => ['getMyPluginRequests'];
+        yield 'pending' => ['getPendingPluginRequests'];
+        yield 'history' => ['getPluginRequestHistory'];
+    }
+
+    /**
+     * @dataProvider dataSuperUserPluginRequestLists
+     */
+    public function testSuperUserPluginRequestListsRequireSuperUserAccessIfUser(string $method): void
+    {
+        $this->setUser();
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('checkUserHasSuperUserAccess');
+
+        $this->api->$method();
+    }
+
+    /**
+     * @dataProvider dataSuperUserPluginRequestLists
+     */
+    public function testSuperUserPluginRequestListsRequireSuperUserAccessIfAnonymous(string $method): void
+    {
+        $this->setAnonymousUser();
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('checkUserHasSuperUserAccess');
+
+        $this->api->$method();
+    }
+
+    public function dataSuperUserPluginRequestLists(): iterable
+    {
+        yield 'pending' => ['getPendingPluginRequests'];
+        yield 'history' => ['getPluginRequestHistory'];
+    }
+
+    public function testGetPendingPluginRequestsGroupsTheRequestsPerPluginWithTheirPrice(): void
+    {
+        $this->returnPluginInfos();
+        $this->setUser();
+        $this->api->requestTrial('PaidPlugin1', 'For our team');
+        $this->setUser('otherUser');
+        $this->api->requestTrial('PaidPlugin1');
+        $this->api->requestInstall('Barometer', 'Please');
+
+        $this->setSuperUser();
+        $pending = $this->api->getPendingPluginRequests();
+
+        self::assertSame(['Barometer', 'PaidPlugin1'], $this->sortedRows(array_column($pending, 'pluginName')));
+        $byPlugin = array_column($pending, null, 'pluginName');
+
+        self::assertSame('Paid Plugin 1', $byPlugin['PaidPlugin1']['displayName']);
+        self::assertFalse($byPlugin['PaidPlugin1']['isFree']);
+        self::assertSame('150', $byPlugin['PaidPlugin1']['priceFrom']['price']);
+        self::assertSame('EUR', $byPlugin['PaidPlugin1']['priceFrom']['currency']);
+        self::assertSame(2, $byPlugin['PaidPlugin1']['numRequests']);
+        self::assertSame('trial', $byPlugin['PaidPlugin1']['requestType']);
+        self::assertSame(
+            [['aUser', 'For our team'], ['otherUser', null]],
+            $this->sortedRows(array_map(fn ($requester) => [$requester['login'], $requester['message']], $byPlugin['PaidPlugin1']['requesters']))
+        );
+
+        self::assertFalse($byPlugin['PaidPlugin1']['canBeInstalled']);
+
+        self::assertTrue($byPlugin['Barometer']['isFree']);
+        self::assertTrue($byPlugin['Barometer']['canBeInstalled']);
+        self::assertNull($byPlugin['Barometer']['priceFrom']);
+        self::assertSame(1, $byPlugin['Barometer']['numRequests']);
+        self::assertSame('install', $byPlugin['Barometer']['requestType']);
+    }
+
+    public function testGetPendingPluginRequestsAsksAnUnreachableMarketplaceOnce(): void
+    {
+        $this->returnPluginInfos();
+        $this->setUser();
+        $this->api->requestTrial('PaidPlugin1');
+        $this->api->requestInstall('Barometer');
+
+        $this->setSuperUser();
+        // the requests above cached each plugin's info
+        StaticContainer::get(Client::class)->clearAllCacheEntries();
+        $numInfoRequests = 0;
+        $this->service->setOnDownloadCallback(static function () use (&$numInfoRequests) {
+            $numInfoRequests++;
+            throw new Exception('Marketplace unreachable');
+        });
+
+        $pending = $this->api->getPendingPluginRequests();
+
+        self::assertSame(1, $numInfoRequests);
+        self::assertSame(['Barometer', 'PaidPlugin1'], $this->sortedRows(array_column($pending, 'pluginName')));
+        foreach ($pending as $plugin) {
+            self::assertSame($plugin['pluginName'], $plugin['displayName']);
+            self::assertNull($plugin['isFree']);
+            self::assertNull($plugin['priceFrom']);
+        }
+    }
+
+    public function testGetPendingPluginRequestsLeavesOutDecidedRequests(): void
+    {
+        $this->returnPluginInfos();
+        $this->setUser();
+        $this->api->requestInstall('Barometer');
+
+        $this->setSuperUser();
+        $this->api->declinePluginRequest('Barometer');
+
+        self::assertSame([], $this->api->getPendingPluginRequests());
+    }
+
+    public function testGetPluginRequestHistoryReturnsOnePageOfDecisionsNewestFirst(): void
+    {
+        $this->returnPluginInfos();
+
+        foreach (['PaidPlugin1', 'Barometer', 'TreemapVisualization'] as $i => $pluginName) {
+            $this->setUser();
+            // stored directly, as only a plugin that is not installed can be requested through the API, and which ones
+            // are installed differs between environments
+            (new Storage($pluginName))->setRequested($pluginName);
+            $this->setSuperUser();
+            (new Storage($pluginName))->setDecided(RequestHistory::DECISION_DECLINED, 'Note ' . $i);
+        }
+
+        $page = $this->api->getPluginRequestHistory(1, 1);
+
+        self::assertSame(3, $page['total']);
+        self::assertCount(1, $page['decisions']);
+        self::assertSame('Barometer', $page['decisions'][0]['pluginName']);
+        self::assertSame(1, $page['decisions'][0]['numRequests']);
+        self::assertSame('declined', $page['decisions'][0]['decision']);
+        self::assertSame(FakeAccess::$superUserLogin, $page['decisions'][0]['decidedBy']);
+        self::assertSame('Note 1', $page['decisions'][0]['note']);
+        self::assertSame(
+            ['TreemapVisualization', 'Barometer', 'PaidPlugin1'],
+            array_column($this->api->getPluginRequestHistory(0, 100)['decisions'], 'pluginName')
+        );
+    }
+
+    /**
+     * @dataProvider dataInvalidHistoryPages
+     */
+    public function testGetPluginRequestHistoryRejectsAnInvalidPage(int $offset, int $limit): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('The offset must be 0 or more, and the limit between 1 and 100');
+        $this->expectExceptionCode(400);
+
+        $this->api->getPluginRequestHistory($offset, $limit);
+    }
+
+    public function dataInvalidHistoryPages(): iterable
+    {
+        yield 'negative offset' => [-1, 20];
+        yield 'zero limit' => [0, 0];
+        yield 'limit over 100' => [0, 101];
     }
 
     public function testSaveLicenseKeyRequiresSuperUserAccessIfUser()
@@ -513,18 +1343,77 @@ class ApiTest extends IntegrationTestCase
         FakeAccess::clearAccess(true);
     }
 
-    protected function setUser()
+    protected function setUser(string $login = 'aUser')
     {
         FakeAccess::clearAccess(false);
         FakeAccess::$idSitesView = array(1);
         FakeAccess::$idSitesAdmin = array();
-        FakeAccess::$identity = 'aUser';
+        FakeAccess::$identity = $login;
     }
 
     protected function setAnonymousUser()
     {
         FakeAccess::clearAccess();
         FakeAccess::$identity = 'anonymous';
+    }
+
+    private function disablePluginRequests(): void
+    {
+        Config::getInstance()->General['plugin_trial_request_expiration_in_days'] = -1;
+    }
+
+    /**
+     * Answers each plugin's info request with that plugin's fixture
+     */
+    private function returnPluginInfos(): void
+    {
+        $service = $this->service;
+        $this->service->setOnDownloadCallback(static function ($url) use ($service) {
+            if (preg_match('/plugins\/(\w+)\/info/', (string) $url, $matches)) {
+                return $service->getFixtureContent('v2.0_plugins_' . $matches[1] . '_info.json');
+            }
+
+            return json_encode(['plugins' => []]);
+        });
+    }
+
+    /**
+     * @param list<mixed> $rows
+     * @return list<mixed>
+     */
+    private function sortedRows(array $rows): array
+    {
+        sort($rows);
+
+        return $rows;
+    }
+
+    private function returnPluginInfo(string $pluginName): void
+    {
+        $service = $this->service;
+        $this->service->setOnDownloadCallback(static function () use ($service, $pluginName) {
+            return $service->getFixtureContent('v2.0_plugins_' . $pluginName . '_info.json');
+        });
+    }
+
+    /**
+     * @return list<array{string, string, string|null}> plugin name, request type and note of each stored request
+     */
+    private function getStoredRequests(): array
+    {
+        return array_map('array_values', Db::fetchAll(
+            'SELECT plugin_name, request_type, message FROM ' . Common::prefixTable(RequestHistory::TABLE_NAME) . ' ORDER BY idrequest'
+        ));
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getStoredDecisions(): array
+    {
+        return array_column(Db::fetchAll(
+            'SELECT decision FROM ' . Common::prefixTable(RequestHistory::DECISION_TABLE_NAME) . ' ORDER BY iddecision'
+        ), 'decision');
     }
 
     protected function buildLicenseKey()

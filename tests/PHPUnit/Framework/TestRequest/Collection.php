@@ -54,6 +54,10 @@ class Collection
         'API.getPagesComparisonsDisabledFor',
         'BotTracking',
         'AIProviders',
+        // about plugin requests rather than tracked data
+        'Marketplace.getMyPluginRequests',
+        'Marketplace.getPendingPluginRequests',
+        'Marketplace.getPluginRequestHistory',
         'PrivacyManager.getConsentAwareAnalytics',
     );
 

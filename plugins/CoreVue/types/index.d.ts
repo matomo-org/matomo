@@ -78,6 +78,8 @@ declare global {
   interface ModalConfirmOptions {
     onCloseEnd?: () => void;
     fixedFooter?: boolean;
+    classes?: string;
+    focusSelector?: string;
   }
 
   interface PiwikHelperGlobal {

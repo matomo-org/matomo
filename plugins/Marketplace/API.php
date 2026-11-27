@@ -10,15 +10,22 @@
 namespace Piwik\Plugins\Marketplace;
 
 use Exception;
+use Piwik\Exception\NoPrivilegesException;
+use Piwik\Exception\ThingNotFoundException;
+use Piwik\Http\BadRequestException;
 use Piwik\Piwik;
+use Piwik\Plugins\Marketplace\Plugins as MarketplacePlugins;
 use Piwik\Plugin\Manager as PluginManager;
+use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
 use Piwik\Plugins\Marketplace\Api\Client;
 use Piwik\Plugins\Marketplace\Api\Service;
 use Piwik\Plugins\Marketplace\Plugins\InvalidLicenses;
+use Piwik\Plugins\Marketplace\PluginTrial\RequestHistory;
 use Piwik\Plugins\Marketplace\PluginTrial\Service as PluginTrialService;
 use Piwik\Plugins\UsersManager\SystemSettings;
 use Piwik\Plugins\UsersManager\Validators\AllowedEmailDomain;
 use Piwik\Plugins\UsersManager\Validators\Email;
+use Piwik\Validators\CharacterLength;
 use Piwik\Validators\Exception as ValidatorException;
 use Piwik\Validators\NotEmpty;
 
@@ -29,6 +36,15 @@ use Piwik\Validators\NotEmpty;
  */
 class API extends \Piwik\Plugin\API
 {
+    private const MAX_NOTE_LENGTH = 1000;
+
+    private const MAX_HISTORY_LIMIT = 100;
+
+    /**
+     * @internal plans for more users are set up by the sales team, and the Marketplace gives no limit of its own
+     */
+    public const SHOP_USER_LIMIT = 50;
+
     private Client $marketplaceClient;
 
     private Service $marketplaceService;
@@ -41,13 +57,19 @@ class API extends \Piwik\Plugin\API
 
     private PluginTrialService $pluginTrialService;
 
+    private RequestHistory $requestHistory;
+
+    private MarketplacePlugins $marketplacePlugins;
+
     public function __construct(
         Service $service,
         Client $client,
         InvalidLicenses $expired,
         PluginManager $pluginManager,
         Environment $environment,
-        PluginTrialService $pluginTrialService
+        PluginTrialService $pluginTrialService,
+        RequestHistory $requestHistory,
+        MarketplacePlugins $marketplacePlugins
     ) {
         $this->marketplaceService = $service;
         $this->marketplaceClient  = $client;
@@ -55,6 +77,8 @@ class API extends \Piwik\Plugin\API
         $this->pluginManager = $pluginManager;
         $this->environment = $environment;
         $this->pluginTrialService = $pluginTrialService;
+        $this->requestHistory = $requestHistory;
+        $this->marketplacePlugins = $marketplacePlugins;
     }
 
     /**
@@ -152,27 +176,353 @@ class API extends \Piwik\Plugin\API
      * @unsanitized
      * @internal
      */
-    public function requestTrial(string $pluginName): bool
+    public function requestTrial(string $pluginName, string $message = ''): bool
     {
         Piwik::checkUserIsNotAnonymous();
 
         if (Piwik::hasUserSuperUserAccess()) {
-            throw new Exception('Cannot request trial as a super user');
+            throw new BadRequestException('Cannot request trial as a super user');
         }
 
-        if (!$this->pluginManager->isValidPluginName($pluginName)) {
-            throw new Exception('Invalid plugin name given ' . $pluginName);
+        $message = $this->checkNote($message);
+        $pluginInfo = $this->getRequestablePluginInfo($pluginName);
+
+        // a request no super user could approve, as only a paid plugin has a trial to start
+        if (!empty($pluginInfo['isFree'])) {
+            throw new BadRequestException(Piwik::translate('Marketplace_FreePluginHasNoTrial'));
         }
 
-        $pluginInfo = $this->marketplaceClient->getPluginInfo($pluginName);
+        $this->checkNotRequestedByCurrentUser($pluginInfo['name']);
 
-        if (empty($pluginInfo['name'])) {
-            throw new Exception('Unable to find plugin with given name: ' . $pluginName);
-        }
-
-        $this->pluginTrialService->request($pluginInfo['name'], $pluginInfo['displayName'] ?: $pluginInfo['name']);
+        $this->pluginTrialService->request(
+            $pluginInfo['name'],
+            $pluginInfo['displayName'] ?: $pluginInfo['name'],
+            RequestHistory::REQUEST_TYPE_TRIAL,
+            $message
+        );
 
         return true;
+    }
+
+    /**
+     * Asks the super users to install a free plugin.
+     *
+     * @unsanitized
+     * @internal
+     */
+    public function requestInstall(string $pluginName, string $message = ''): bool
+    {
+        Piwik::checkUserIsNotAnonymous();
+        $this->checkPluginRequestsActive();
+
+        if (Piwik::hasUserSuperUserAccess()) {
+            throw new BadRequestException('Cannot request install as a super user');
+        }
+
+        if (!CorePluginsAdmin::isPluginsAdminEnabled()) {
+            throw new BadRequestException('Plugins cannot be installed on this Matomo, so cannot be requested');
+        }
+
+        $message = $this->checkNote($message);
+        // with what the Super User's Install button needs, so the plugin is asked about once
+        $pluginInfo = $this->getRequestablePluginInfo($pluginName, true);
+
+        if (empty($pluginInfo['isFree'])) {
+            throw new BadRequestException('Only free plugins can be requested for install: ' . $pluginInfo['name']);
+        }
+
+        if ($this->pluginManager->isPluginInstalled($pluginInfo['name'], true)) {
+            throw new BadRequestException('The plugin is already installed: ' . $pluginInfo['name']);
+        }
+
+        // a Super User is shown such a plugin as "Cannot install", so could not approve the request
+        if (!MarketplacePlugins::canBeInstalledFromMarketplace($pluginInfo)) {
+            throw new BadRequestException('The plugin cannot be installed on this Matomo, so cannot be requested: ' . $pluginInfo['name']);
+        }
+
+        $this->checkNotRequestedByCurrentUser($pluginInfo['name']);
+
+        $this->pluginTrialService->request(
+            $pluginInfo['name'],
+            $pluginInfo['displayName'] ?: $pluginInfo['name'],
+            RequestHistory::REQUEST_TYPE_INSTALL,
+            $message
+        );
+
+        return true;
+    }
+
+    /**
+     * Declines all pending requests for a plugin.
+     *
+     * @unsanitized
+     * @internal
+     * @return int the number of requests declined
+     */
+    public function declinePluginRequest(string $pluginName, string $note = ''): int
+    {
+        Piwik::checkUserHasSuperUserAccess();
+        $this->checkPluginRequestsActive();
+
+        $note = $this->checkNote($note);
+        $this->checkHasPendingRequests($pluginName);
+
+        return $this->pluginTrialService->decide($pluginName, RequestHistory::DECISION_DECLINED, $note);
+    }
+
+    /**
+     * Starts a free trial of a requested plugin, and approves all of its pending requests once the trial started.
+     *
+     * @unsanitized
+     * @internal
+     * @return int the number of requests approved
+     */
+    public function approvePluginTrial(string $pluginName): int
+    {
+        Piwik::checkUserHasSuperUserAccess();
+        $this->checkPluginRequestsActive();
+        // checked first, so no trial is started for requests another super user has already decided on
+        $this->checkHasPendingRequests($pluginName);
+
+        // free plugins have no trial, and are installed instead
+        $pluginInfo = $this->marketplaceClient->getPluginInfo($pluginName);
+        if (!empty($pluginInfo['isFree'])) {
+            throw new BadRequestException(Piwik::translate('Marketplace_FreePluginHasNoTrial'));
+        }
+
+        $numUsers = $this->environment->getNumUsers();
+        if ($numUsers > self::SHOP_USER_LIMIT) {
+            throw new BadRequestException(Piwik::translate('Marketplace_ShopUserLimitExceeded', [$numUsers, self::SHOP_USER_LIMIT]));
+        }
+
+        $this->startFreeTrial($pluginName);
+
+        // the trial is running now, so the requests another super user declined while it was started are left declined
+        // rather than reporting a failure for a trial that started
+        return $this->pluginTrialService->decide($pluginName, RequestHistory::DECISION_APPROVED, null, false);
+    }
+
+    /**
+     * Returns the current user's plugin requests, newest first.
+     *
+     * @internal
+     * @return list<array{pluginName: string, displayName: string, requestType: string, requestedAt: string,
+     *                    message: string|null, status: string, decisionNote: string|null}>
+     *         requestedAt in UTC as `Y-m-d H:i:s`; status `pending`, `approved` or `declined`; decisionNote is the
+     *         Super User's note, only for a declined request
+     */
+    public function getMyPluginRequests(): array
+    {
+        Piwik::checkUserIsNotAnonymous();
+        $this->checkPluginRequestsActive();
+
+        $requests = $this->requestHistory->getRequestsOfLogin(Piwik::getCurrentUserLogin());
+        // a user requests few plugins, and the cached lists expire, or are not kept at all in development mode
+        $displayNames = $this->getDisplayNames(array_column($requests, 'plugin_name'), true);
+
+        return array_map(fn (array $request) => [
+            'pluginName' => $request['plugin_name'],
+            'displayName' => $displayNames[$request['plugin_name']],
+            'requestType' => $request['request_type'],
+            'requestedAt' => $request['ts_requested'],
+            'message' => $request['message'],
+            'status' => $request['decision'] ?? 'pending',
+            'decisionNote' => $request['decision'] === RequestHistory::DECISION_DECLINED ? $request['note'] : null,
+        ], $requests);
+    }
+
+    /**
+     * Returns the pending plugin requests, one entry per plugin with the most recently requested first.
+     *
+     * @internal
+     * @return list<array{pluginName: string, displayName: string, isFree: bool|null, priceFrom: array<string, mixed>|null,
+     *                    canBeInstalled: bool, requestType: string, numRequests: int, lastRequestedAt: string,
+     *                    requesters: list<array{login: string|null, email: string|null, requestedAt: string, message: string|null}>}>
+     *         isFree and priceFrom are null when the Marketplace cannot be reached or does not list the plugin;
+     *         priceFrom is the shop variation the plugin is sold from; canBeInstalled is whether a free plugin can be
+     *         installed and activated from Manage Requests; requestType is that of the latest request; a
+     *         deleted requester has no login or email; dates in UTC as `Y-m-d H:i:s`
+     */
+    public function getPendingPluginRequests(): array
+    {
+        Piwik::checkUserHasSuperUserAccess();
+        $this->checkPluginRequestsActive();
+
+        $plugins = [];
+        foreach ($this->requestHistory->getPendingRequests() as $request) {
+            $pluginName = $request['plugin_name'];
+
+            // newest first, so the first request seen of a plugin is its latest
+            $plugins[$pluginName] ??= [
+                'pluginName' => $pluginName,
+                'requestType' => $request['request_type'],
+                'lastRequestedAt' => $request['ts_requested'],
+                'requesters' => [],
+            ];
+            $plugins[$pluginName]['requesters'][] = [
+                'login' => $request['login'],
+                'email' => $request['email'],
+                'requestedAt' => $request['ts_requested'],
+                'message' => $request['message'],
+            ];
+        }
+
+        $pluginInfos = $this->marketplaceClient->getInfoOfPlugins(array_keys($plugins), true);
+
+        $pending = [];
+        foreach ($plugins as $pluginName => $plugin) {
+            $pluginInfo = $pluginInfos[$pluginName] ?? null;
+
+            $pending[] = [
+                'pluginName' => $pluginName,
+                'displayName' => ($pluginInfo['displayName'] ?? '') ?: $pluginName,
+                'isFree' => $pluginInfo === null ? null : !empty($pluginInfo['isFree']),
+                'priceFrom' => $pluginInfo === null ? null : MarketplacePlugins::getPriceFrom($pluginInfo),
+                'canBeInstalled' => $pluginInfo !== null && $this->marketplacePlugins->canRequestedPluginBeInstalled($pluginInfo),
+                'requestType' => $plugin['requestType'],
+                'numRequests' => count($plugin['requesters']),
+                'lastRequestedAt' => $plugin['lastRequestedAt'],
+                'requesters' => $plugin['requesters'],
+            ];
+        }
+
+        usort($pending, fn (array $a, array $b) => strcmp($b['lastRequestedAt'], $a['lastRequestedAt']));
+
+        return $pending;
+    }
+
+    /**
+     * Returns one page of the decisions on plugin requests, newest first.
+     *
+     * @internal
+     * @param int $offset the number of decisions to skip
+     * @param int $limit the number of decisions to return, at most 100
+     * @return array{total: int, decisions: list<array{pluginName: string, displayName: string, numRequests: int,
+     *                                                 decision: string, decidedBy: string|null, note: string|null,
+     *                                                 decidedAt: string}>}
+     *         decidedBy is null for a decision Matomo made when the plugin was activated, or by a deleted user;
+     *         decidedAt in UTC as `Y-m-d H:i:s`
+     */
+    public function getPluginRequestHistory(int $offset = 0, int $limit = 20): array
+    {
+        Piwik::checkUserHasSuperUserAccess();
+        $this->checkPluginRequestsActive();
+
+        if ($offset < 0 || $limit < 1 || $limit > self::MAX_HISTORY_LIMIT) {
+            throw new BadRequestException('The offset must be 0 or more, and the limit between 1 and ' . self::MAX_HISTORY_LIMIT);
+        }
+
+        $decisions = $this->requestHistory->getDecisions($offset, $limit);
+        $displayNames = $this->getDisplayNames(array_column($decisions, 'plugin_name'));
+
+        return [
+            'total' => $this->requestHistory->getNumDecisions(),
+            'decisions' => array_map(fn (array $decision) => [
+                'pluginName' => $decision['plugin_name'],
+                'displayName' => $displayNames[$decision['plugin_name']],
+                'numRequests' => (int) $decision['num_requests'],
+                'decision' => $decision['decision'],
+                'decidedBy' => $decision['decided_by'],
+                'note' => $decision['note'],
+                'decidedAt' => $decision['ts_decided'],
+            ], $decisions),
+        ];
+    }
+
+    /**
+     * @param string[] $pluginNames
+     * @param bool $fetchMissing also asks the Marketplace about plugins its cached lists do not hold, which a list of
+     *                           many plugins must not, as that is one request per plugin
+     * @return array<string, string> keyed by plugin name, the plugin name itself when no display name is known
+     */
+    private function getDisplayNames(array $pluginNames, bool $fetchMissing = false): array
+    {
+        $pluginInfos = $this->marketplaceClient->getInfoOfPlugins($pluginNames, $fetchMissing);
+
+        $displayNames = [];
+        foreach ($pluginNames as $pluginName) {
+            $displayNames[$pluginName] = ($pluginInfos[$pluginName]['displayName'] ?? '') ?: $pluginName;
+        }
+
+        return $displayNames;
+    }
+
+    /**
+     * Requests are also off when plugin_trial_request_expiration_in_days = -1, which stores none
+     */
+    private function checkPluginRequestsActive(): void
+    {
+        // a feature that is off, as the Manage Requests page answers it
+        if (!$this->pluginTrialService->isEnabled()) {
+            throw new NoPrivilegesException('Plugin requests are not enabled', 403);
+        }
+    }
+
+    private function checkValidPluginName(string $pluginName): void
+    {
+        if (!$this->pluginManager->isValidPluginName($pluginName)) {
+            throw new BadRequestException('Invalid plugin name given ' . $pluginName);
+        }
+    }
+
+    private function checkHasPendingRequests(string $pluginName): void
+    {
+        $this->checkValidPluginName($pluginName);
+
+        // requests Matomo did not approve on activation, eg as Matomo before 6.1 still served it, are approved now,
+        // which the super user deciding on them is told rather than that there were none. Over HTTP the Request.dispatch
+        // handler usually approved them before this runs, so any request of the plugin counts, not only a pending one.
+        if ($this->pluginManager->isPluginActivated($pluginName)) {
+            $this->pluginTrialService->cancelRequest($pluginName);
+
+            if ($this->pluginTrialService->hasRequests($pluginName)) {
+                throw new BadRequestException(Piwik::translate('Marketplace_PluginAlreadyActiveRequestsApproved'));
+            }
+        }
+
+        if (!$this->pluginTrialService->hasPendingRequests($pluginName)) {
+            throw new BadRequestException(Piwik::translate('Marketplace_NoPendingPluginRequests'));
+        }
+    }
+
+    /**
+     * A user requests each plugin once, also after their request was declined
+     */
+    private function checkNotRequestedByCurrentUser(string $pluginName): void
+    {
+        if ($this->pluginTrialService->wasRequested($pluginName)) {
+            throw new BadRequestException(Piwik::translate('Marketplace_PluginAlreadyRequested'));
+        }
+    }
+
+    /**
+     * @param bool $enriched also with what Matomo derives from it, eg whether it can be installed here
+     * @return array<string, mixed>
+     */
+    private function getRequestablePluginInfo(string $pluginName, bool $enriched = false): array
+    {
+        $this->checkValidPluginName($pluginName);
+
+        $pluginInfo = $enriched
+            ? $this->marketplacePlugins->getPluginInfo($pluginName)
+            : $this->marketplaceClient->getPluginInfo($pluginName);
+
+        if (empty($pluginInfo['name'])) {
+            throw new ThingNotFoundException('Unable to find plugin with given name: ' . $pluginName);
+        }
+
+        return $pluginInfo;
+    }
+
+    /**
+     * @return string|null null for an empty note
+     */
+    private function checkNote(string $note): ?string
+    {
+        $note = trim($note);
+        (new CharacterLength(null, self::MAX_NOTE_LENGTH))->validate($note);
+
+        return $note === '' ? null : $note;
     }
 
     /**

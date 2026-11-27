@@ -27,21 +27,21 @@ class UserSettingsTest extends IntegrationTestCase
         Fixture::createWebsite('2012-01-01 00:00:00');
     }
 
-    public function testSuperUsersSeeThePluginRequestSetting()
+    public function testSuperUsersSeeOnlyThePluginRequestSetting()
     {
         FakeAccess::$superUser = true;
         FakeAccess::$identity = 'superUserLogin';
 
-        self::assertContains('Marketplace', $this->getPluginsWithUserSettings());
+        self::assertSame(['notifyOnPluginRequest'], $this->getMarketplaceSettingNames());
     }
 
-    public function testOtherUsersDoNotSeeThePluginRequestSetting()
+    public function testOtherUsersSeeOnlyTheDecisionSetting()
     {
         FakeAccess::$superUser = false;
         FakeAccess::$identity = 'viewUser';
         FakeAccess::$idSitesView = [1];
 
-        self::assertNotContains('Marketplace', $this->getPluginsWithUserSettings());
+        self::assertSame(['notifyOnPluginRequestDecision'], $this->getMarketplaceSettingNames());
     }
 
     public function provideContainerConfig()
@@ -52,10 +52,16 @@ class UserSettingsTest extends IntegrationTestCase
     }
 
     /**
-     * @return string[]
+     * @return string[] the names of the Marketplace user settings the current user can see
      */
-    private function getPluginsWithUserSettings(): array
+    private function getMarketplaceSettingNames(): array
     {
-        return array_column(CorePluginsAdminApi::getInstance()->getUserSettings(), 'pluginName');
+        foreach (CorePluginsAdminApi::getInstance()->getUserSettings() as $pluginSettings) {
+            if ($pluginSettings['pluginName'] === 'Marketplace') {
+                return array_column($pluginSettings['settings'], 'name');
+            }
+        }
+
+        return [];
     }
 }

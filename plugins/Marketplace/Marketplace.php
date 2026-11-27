@@ -14,6 +14,7 @@ use Piwik\Log\LoggerInterface;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugins\Marketplace\Plugins\InvalidLicenses;
+use Piwik\Plugins\Marketplace\PluginTrial\DecisionNotifications;
 use Piwik\Plugins\Marketplace\PluginTrial\RequestHistory;
 use Piwik\Plugins\Marketplace\PluginTrial\Service as PluginTrialService;
 use Piwik\Plugins\Marketplace\PluginTrial\Storage;
@@ -172,6 +173,9 @@ class Marketplace extends \Piwik\Plugin
         $stylesheets[] = "plugins/Marketplace/vue/src/PluginDetails/PluginDetails.less";
         $stylesheets[] = "plugins/Marketplace/vue/src/PluginDetails/PluginDetailsSkeleton.less";
         $stylesheets[] = "plugins/Marketplace/vue/src/PluginDetails/ShopPricing.less";
+        $stylesheets[] = "plugins/Marketplace/vue/src/ManageRequests/ManageRequests.less";
+        $stylesheets[] = "plugins/Marketplace/vue/src/ManageRequestsSuperUser/ManageRequestsSuperUser.less";
+        $stylesheets[] = "plugins/Marketplace/vue/src/RequestTrial/RequestTrial.less";
     }
 
     public function getJsFiles(&$jsFiles)
@@ -262,10 +266,67 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'Marketplace_PluginUploadDisabled';
         $translationKeys[] = 'Marketplace_RemoveLicenseKey';
         $translationKeys[] = 'Marketplace_RequestTrial';
-        $translationKeys[] = 'Marketplace_RequestTrialConfirmAlreadyRequested';
-        $translationKeys[] = 'Marketplace_RequestTrialConfirmEmailWarning';
-        $translationKeys[] = 'Marketplace_RequestTrialConfirmTitle';
-        $translationKeys[] = 'Marketplace_RequestTrialSubmitted';
+        $translationKeys[] = 'Marketplace_RequestInstall';
+        $translationKeys[] = 'Marketplace_InstallRequested';
+        $translationKeys[] = 'Marketplace_TrialApproved';
+        $translationKeys[] = 'Marketplace_InstallApproved';
+        $translationKeys[] = 'Marketplace_TrialDeclined';
+        $translationKeys[] = 'Marketplace_InstallDeclined';
+        $translationKeys[] = 'Marketplace_TrialEnded';
+        $translationKeys[] = 'Marketplace_ViewRequest';
+        $translationKeys[] = 'Marketplace_RequestTrialTitle';
+        $translationKeys[] = 'Marketplace_RequestInstallTitle';
+        $translationKeys[] = 'Marketplace_RequestTrialIntro';
+        $translationKeys[] = 'Marketplace_RequestInstallIntro';
+        $translationKeys[] = 'Marketplace_RequestMessageLabel';
+        $translationKeys[] = 'Marketplace_RequestMessagePlaceholder';
+        $translationKeys[] = 'Marketplace_SendRequest';
+        $translationKeys[] = 'Marketplace_PluginRequestSent';
+        $translationKeys[] = 'Marketplace_ManageRequests';
+        $translationKeys[] = 'Marketplace_ManageRequestsIntro';
+        $translationKeys[] = 'Marketplace_ManageRequestsSuperUserIntro';
+        $translationKeys[] = 'Marketplace_RequestedOn';
+        $translationKeys[] = 'Marketplace_YourNote';
+        $translationKeys[] = 'Marketplace_SuperUserNote';
+        $translationKeys[] = 'Marketplace_RequestStatusPending';
+        $translationKeys[] = 'Marketplace_RequestStatusApproved';
+        $translationKeys[] = 'Marketplace_RequestStatusDeclined';
+        $translationKeys[] = 'Marketplace_NoPluginRequestsYet';
+        $translationKeys[] = 'Marketplace_NoPluginRequestsYetHelp';
+        $translationKeys[] = 'Marketplace_PendingRequestsTab';
+        $translationKeys[] = 'Marketplace_Requests';
+        $translationKeys[] = 'Marketplace_LastRequested';
+        $translationKeys[] = 'Marketplace_PriceFrom';
+        $translationKeys[] = 'Marketplace_ShowPluginRequesters';
+        $translationKeys[] = 'Marketplace_RequestedBy';
+        $translationKeys[] = 'Marketplace_Decision';
+        $translationKeys[] = 'Marketplace_DecidedBy';
+        $translationKeys[] = 'Marketplace_Decline';
+        $translationKeys[] = 'Marketplace_StartTrial30Days';
+        $translationKeys[] = 'Marketplace_ApproveAndInstall';
+        $translationKeys[] = 'Marketplace_InstallAllFree';
+        $translationKeys[] = 'Marketplace_ContactSales';
+        $translationKeys[] = 'Marketplace_ShopUserLimitExceeded';
+        $translationKeys[] = 'Marketplace_PendingRequestsEmpty';
+        $translationKeys[] = 'Marketplace_NoPluginRequestDecisions';
+        $translationKeys[] = 'Marketplace_DeclineRequestTitle';
+        $translationKeys[] = 'Marketplace_DeclineRequestTextOne';
+        $translationKeys[] = 'Marketplace_DeclineRequestTextMany';
+        $translationKeys[] = 'Marketplace_MessageToRequesters';
+        $translationKeys[] = 'Marketplace_MessageToRequestersPlaceholder';
+        $translationKeys[] = 'Marketplace_DeclineRequest';
+        $translationKeys[] = 'Marketplace_RequestDeclinedOne';
+        $translationKeys[] = 'Marketplace_RequestDeclinedMany';
+        $translationKeys[] = 'CorePluginsAdmin_History';
+        $translationKeys[] = 'General_Action';
+        $translationKeys[] = 'General_Price';
+        $translationKeys[] = 'General_Note';
+        $translationKeys[] = 'General_Date';
+        $translationKeys[] = 'General_Cancel';
+        $translationKeys[] = 'General_Next';
+        $translationKeys[] = 'General_Previous';
+        $translationKeys[] = 'General_Pagination';
+        $translationKeys[] = 'General_Unknown';
         $translationKeys[] = 'Marketplace_ResetFilters';
         $translationKeys[] = 'Marketplace_OneResultFoundFor';
         $translationKeys[] = 'Marketplace_ResultsFoundFor';
@@ -403,6 +464,9 @@ class Marketplace extends \Piwik\Plugin
         // each step catches its own failure, so one cannot skip the others, nor the UsersManager.deleteUser observers after this one
         $this->runTrialRequestCleanup(function () use ($userLogin) {
             StaticContainer::get(RequestHistory::class)->anonymizeLogin($userLogin);
+        });
+        $this->runTrialRequestCleanup(function () use ($userLogin) {
+            DecisionNotifications::forgetLogin($userLogin);
         });
         $this->runTrialRequestCleanup(function () use ($userLogin) {
             foreach (Storage::getPluginsInStorage() as $pluginName) {

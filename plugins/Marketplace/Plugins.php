@@ -15,9 +15,11 @@ use Piwik\NumberFormatter;
 use Piwik\ProfessionalServices\Advertising;
 use Piwik\Plugin\Dependency as PluginDependency;
 use Piwik\Plugin;
+use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
 use Piwik\Plugins\Marketplace\Input\PurchaseType;
 use Piwik\Plugins\Marketplace\Input\Sort;
 use Piwik\Piwik;
+use Piwik\SettingsPiwik;
 use Piwik\Url;
 use Piwik\Version;
 
@@ -367,6 +369,46 @@ class Plugins
         return $this->pluginManager->isPluginInstalled($pluginName, true);
     }
 
+    /**
+     * Returns whether a Super User could install the plugin from the Marketplace on this Matomo, as its Install button
+     * shows, so users are not offered to request a plugin the Super User is shown as "Cannot install"
+     *
+     * @param array<string, mixed> $plugin as enriched by {@link getPluginInfo()} or {@link searchPlugins()}
+     */
+    public static function canBeInstalledFromMarketplace(array $plugin): bool
+    {
+        return CorePluginsAdmin::isPluginsAdminEnabled()
+            && SettingsPiwik::isAutoUpdatePossible()
+            && empty($plugin['missingRequirements'])
+            && !empty($plugin['hasDownloadLink']);
+    }
+
+    /**
+     * Returns whether a Super User can install and activate a requested free plugin from Manage Requests: its
+     * requirements are met, and it is either on disk already or can be downloaded from the Marketplace
+     *
+     * @param array<string, mixed> $plugin the Marketplace's entry for the plugin, as listed or enriched
+     */
+    public function canRequestedPluginBeInstalled(array $plugin): bool
+    {
+        if (empty($plugin['name']) || empty($plugin['isFree']) || !CorePluginsAdmin::isPluginsAdminEnabled()) {
+            return false;
+        }
+
+        // a listed entry is not enriched, and an enriched one may predate a plugin activated since
+        if (!empty($this->addMissingRequirements($plugin)['missingRequirements'])) {
+            return false;
+        }
+
+        if ($this->pluginManager->isPluginInFilesystem($plugin['name'])) {
+            return true;
+        }
+
+        $latestVersion = !empty($plugin['versions']) && is_array($plugin['versions']) ? end($plugin['versions']) : [];
+
+        return SettingsPiwik::isAutoUpdatePossible() && !empty($latestVersion['download']);
+    }
+
     private function enrichPluginInformation($plugin, ?string $campaignMedium = null)
     {
         if (empty($plugin)) {
@@ -674,21 +716,30 @@ class Plugins
      */
     private function addPriceFrom(&$plugin): void
     {
+        $plugin['priceFrom'] = self::getPriceFrom($plugin);
+    }
+
+    /**
+     * Returns the shop variation the Marketplace flags as cheapest, else its first one, or null for a plugin not sold
+     *
+     * @param array<string, mixed> $plugin as the Marketplace returns it
+     * @return array<string, mixed>|null
+     */
+    public static function getPriceFrom(array $plugin): ?array
+    {
         $variations = $plugin['shop']['variations'] ?? [];
 
-        if (!count($variations)) {
-            $plugin['priceFrom'] = null;
-            return;
+        if (!is_array($variations) || !count($variations)) {
+            return null;
         }
-
-        $plugin['priceFrom'] = array_shift($variations); // use first as the default
 
         foreach ($variations as $variation) {
             if ($variation['cheapest'] ?? false) {
-                $plugin['priceFrom'] = $variation;
-                return;
+                return $variation;
             }
         }
+
+        return reset($variations); // use first as the default
     }
 
     /**

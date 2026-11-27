@@ -1,0 +1,397 @@
+.manageRequestsSuperUser__title {
+  margin: 0 0 8px;
+  padding: 0;
+  font-size: 24px;
+  line-height: 26px;
+  color: @theme-color-headline-alternative;
+}
+
+.manageRequestsSuperUser__intro {
+  margin: 0 0 12px;
+  font-size: 14px;
+  line-height: 20px;
+  color: @theme-color-text;
+}
+
+.manageRequestsSuperUser__tabList {
+  position: relative;
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid @theme-color-border;
+}
+
+.manageRequestsSuperUser__tabItem {
+  position: relative;
+  height: 40px;
+  padding: 8px 16px 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 19px;
+  white-space: nowrap;
+  color: @theme-color-text-lighter;
+}
+
+.manageRequestsSuperUser__tabItem--active {
+  font-weight: 600;
+  color: @theme-color-text-brand;
+
+  // sits over the tab list's 1px bottom border
+  &::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: -1px;
+    left: 0;
+    height: 2px;
+    border-radius: 16px;
+    background: @theme-color-text-brand;
+  }
+}
+
+.manageRequestsSuperUser__panel {
+  max-width: 1200px;
+  padding: 20px;
+  border: 1px solid @theme-color-border;
+  border-radius: 8px;
+  background: @theme-color-background-contrast;
+}
+
+.manageRequestsSuperUser__userLimit {
+  margin-bottom: 16px;
+}
+
+.manageRequestsSuperUser__userLimitText {
+  margin-bottom: 8px;
+}
+
+.manageRequestsSuperUser__userLimitContactSales {
+  text-decoration: underline;
+}
+
+.manageRequestsSuperUser__toolbar {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 16px;
+}
+
+.manageRequestsSuperUser__tableScroll {
+  overflow-x: auto;
+}
+
+.manageRequestsSuperUser__table {
+  width: 100%;
+}
+
+.manageRequestsSuperUser__headRow {
+  border-bottom: 1px solid @theme-color-border;
+}
+
+.manageRequestsSuperUser__headCell {
+  padding: 14px 16px;
+  background: @theme-color-background-base;
+  font-size: 12px;
+  font-weight: normal;
+  line-height: 20px;
+  text-align: left;
+  vertical-align: middle;
+  white-space: nowrap;
+  color: @theme-color-text-contrast;
+}
+
+.manageRequestsSuperUser__headCell--indented {
+  padding-left: 40px;
+}
+
+.manageRequestsSuperUser__headCell--alignEnd {
+  text-align: right;
+}
+
+.manageRequestsSuperUser__row,
+.manageRequestsSuperUser__decision {
+  border-bottom: 1px solid @theme-color-background-tinyContrast;
+}
+
+.manageRequestsSuperUser__cell {
+  height: 60px;
+  padding: 0 16px;
+  font-size: 13px;
+  line-height: 16px;
+  vertical-align: middle;
+  color: @theme-color-text;
+}
+
+.manageRequestsSuperUser__cell--flushStart {
+  padding-left: 0;
+}
+
+.manageRequestsSuperUser__pluginName {
+  display: flex;
+  align-items: safe center;
+}
+
+.manageRequestsSuperUser__toggle {
+  display: inline-flex;
+  flex: none;
+  align-items: safe center;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+}
+
+.manageRequestsSuperUser__pluginLink {
+  color: @theme-color-link;
+  text-decoration: underline;
+}
+
+// override: Materialize (`button:focus` teal background) and Morpheus (`button:focus` 1px outline)
+// style every focused button, even after a mouse click, and both outrank the single-class rules of
+// these text-like buttons; the focus ring is kept for keyboard focus only
+.manageRequestsSuperUser__toggle:focus,
+.manageRequestsSuperUser__decline:focus,
+.manageRequestsSuperUser__tabItem:focus {
+  outline: none;
+  background: none;
+}
+
+.manageRequestsSuperUser__toggle:focus-visible,
+.manageRequestsSuperUser__decline:focus-visible {
+  outline: 2px solid @theme-color-focus-ring;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.manageRequestsSuperUser__tabItem:focus-visible {
+  outline: 2px solid @theme-color-focus-ring;
+  outline-offset: -2px;
+}
+
+.manageRequestsSuperUser__toggleIcon {
+  flex: none;
+  width: 40px;
+  text-align: center;
+  color: @theme-color-text-lighter;
+}
+
+.manageRequestsSuperUser__actionList {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: safe center;
+  gap: 24px;
+}
+
+.manageRequestsSuperUser__decline {
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font-size: 13px;
+  line-height: 16px;
+  text-decoration: underline;
+  color: @theme-color-link;
+}
+
+.manageRequestsSuperUser__decline:disabled {
+  cursor: default;
+  opacity: .5;
+}
+
+.manageRequestsSuperUser__startTrial,
+.manageRequestsSuperUser__approveAndInstall,
+.manageRequestsSuperUser__contactSales,
+.manageRequestsSuperUser__installAllFree {
+  white-space: nowrap;
+}
+
+.manageRequestsSuperUser__requesterPanelCell {
+  padding: 0;
+}
+
+.manageRequestsSuperUser__requesterReveal {
+  display: grid;
+  grid-template-rows: 1fr;
+}
+
+.manageRequestsSuperUser__requesterRevealContent {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.manageRequestsSuperUser__requesterReveal--sliding {
+  transition: grid-template-rows .3s ease;
+}
+
+.manageRequestsSuperUser__requesterReveal--collapsed {
+  grid-template-rows: 0fr;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .manageRequestsSuperUser__requesterReveal--sliding {
+    transition: none;
+  }
+}
+
+.manageRequestsSuperUser__requesterTable {
+  width: 100%;
+}
+
+.manageRequestsSuperUser__requesterHeadRow {
+  border-bottom: 1px solid @theme-color-border;
+}
+
+.manageRequestsSuperUser__requesterRow {
+  border-bottom: 1px solid @theme-color-background-tinyContrast;
+}
+
+.manageRequestsSuperUser__requesterHeadCell {
+  padding: 8px 16px;
+  background: @theme-color-background-base;
+  font-size: 12px;
+  font-weight: normal;
+  line-height: 20px;
+  text-align: left;
+  color: @theme-color-text-contrast;
+}
+
+.manageRequestsSuperUser__requesterCell {
+  padding: 12px 16px;
+  font-size: 13px;
+  line-height: 16px;
+  vertical-align: top;
+  color: @theme-color-text;
+}
+
+.manageRequestsSuperUser__email {
+  display: block;
+  color: @theme-color-text-lighter;
+}
+
+// a long note would stretch its row, so it is cut after two lines and shown in full on hover
+.manageRequestsSuperUser__note {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  max-width: 320px;
+  overflow-wrap: anywhere;
+}
+
+.manageRequestsSuperUser__status {
+  font-weight: bold;
+}
+
+.manageRequestsSuperUser__status--approved {
+  color: @theme-color-success;
+}
+
+.manageRequestsSuperUser__status--declined {
+  color: @theme-color-warning;
+}
+
+.manageRequestsSuperUser__pagination {
+  display: flex;
+  justify-content: flex-end;
+  align-items: safe center;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.manageRequestsSuperUser__empty {
+  padding: 32px 0;
+  text-align: center;
+}
+
+// the Materialize modal the decline dialog is moved into: 600px wide, 32px padding and 24px between its parts
+.manageRequestsSuperUser__declineModal {
+  width: 600px;
+  max-width: 90%;
+  padding: 32px;
+  gap: 24px;
+  border-radius: 12px;
+  background: @theme-color-background-contrast;
+  // the shadow of Matomo's own modals (Morpheus ui/_modal.less)
+  box-shadow: @_modal_box-shadow;
+
+  .inDarkMode({
+    box-shadow: @_modal_box-shadow-dark;
+  });
+
+  // override: Materialize places the close button, pads the content and floats the footer buttons
+  .btn-close {
+    top: 24px;
+    right: 24px;
+  }
+
+  .modal-content {
+    padding: 0;
+    .vertical-scroll-shadows(@theme-color-background-contrast);
+  }
+
+  .modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    height: auto;
+    padding: 0;
+    background: @theme-color-background-contrast;
+
+    .modal-action {
+      float: none;
+      height: 36px;
+      margin: 0;
+      line-height: 34px;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .btn-flat {
+      color: @theme-color-brand;
+      border: 1px solid @theme-color-brand;
+      border-radius: 3px;
+    }
+  }
+}
+
+// the modal's padding is the only one: Dashboard pads every .ui-confirm
+.manageRequestsSuperUser__declineModal .manageRequestsSuperUser__declineDialog {
+  padding: 0;
+}
+
+.manageRequestsSuperUser__declineModal .manageRequestsSuperUser__declineTitle {
+  // room for the close button
+  padding-right: 24px;
+  margin: 0 0 24px;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 24px;
+  text-align: left;
+}
+
+.manageRequestsSuperUser__declineModal .manageRequestsSuperUser__declineIntro {
+  margin: 0 0 24px;
+  color: @theme-color-text-lighter;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  text-align: left;
+}
+
+.manageRequestsSuperUser__declineModal .manageRequestsSuperUser__declineLabel {
+  display: block;
+}
+
+// one underlined line, as the other fields
+.manageRequestsSuperUser__declineModal .manageRequestsSuperUser__declineInput {
+  min-height: 0;
+  height: 2.5rem;
+  margin: 0;
+  padding: 8px 0;
+  background: none;
+  resize: none;
+}

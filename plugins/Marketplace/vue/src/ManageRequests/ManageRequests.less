@@ -1,0 +1,34 @@
+.manageRequests__intro {
+  margin-bottom: 16px;
+}
+
+// a long note would stretch its row, so it is cut after two lines and shown in full on hover
+.manageRequests__note {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  max-width: 320px;
+  overflow-wrap: anywhere;
+}
+
+.manageRequests__status {
+  font-weight: bold;
+}
+
+.manageRequests__status--approved {
+  color: @theme-color-success;
+}
+
+.manageRequests__status--declined {
+  color: @theme-color-warning;
+}
+
+.manageRequests__empty {
+  padding: 32px 0;
+  text-align: center;
+}
+
+.manageRequests__emptyTitle {
+  margin-top: 0;
+}

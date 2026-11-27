@@ -86,9 +86,11 @@ export interface PluginCard {
   hasExceededLicense: boolean;
   isMissingLicense: boolean;
   isEligibleForFreeTrial: boolean;
-  isTrialRequested: boolean;
-  isTrialPending: boolean;
   canTrialBeRequested: boolean;
+  // the next three are only sent to users who are not super users, while plugin requests are active
+  canInstallBeRequested?: boolean;
+  requestType?: 'trial' | 'install' | null; // of the current user's request
+  requestStatus?: 'pending' | 'approved' | 'declined' | null;
   missingRequirements: TObjectArray;
   numDownloads: number | null;
   numDownloadsPretty: TNumberOrString;
@@ -122,6 +124,7 @@ export interface MarketplaceContext {
   isMultiServerEnvironment: boolean;
   isValidConsumer: boolean;
   isAutoUpdatePossible: boolean;
+  arePluginRequestsActive: boolean;
   activateNonce: string;
   deactivateNonce: string;
   installNonce: string;

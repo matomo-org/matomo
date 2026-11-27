@@ -5,14 +5,32 @@
 -->
 
 <template>
-  <div class="ui-confirm" ref="confirm">
-    <h2>{{ translate('Marketplace_RequestTrialConfirmTitle', plugin?.displayName) }}</h2>
-    <p v-if="plugin?.isTrialPending">
-      {{ translate('Marketplace_RequestTrialConfirmAlreadyRequested') }}
-    </p>
-    <p v-else>{{ translate('Marketplace_RequestTrialConfirmEmailWarning') }}</p>
-    <input role="yes" type="button" :value="translate('General_Yes')"/>
-    <input role="no" type="button" :value="translate('General_No')"/>
+  <div class="ui-confirm requestPlugin" ref="confirm">
+    <button
+      type="button"
+      class="btn-close modal-close"
+      :aria-label="translate('General_Close')"
+    ><span class="icon-close"></span></button>
+    <h2 class="requestPlugin__title">{{ translate(
+      isInstallRequest ? 'Marketplace_RequestInstallTitle' : 'Marketplace_RequestTrialTitle',
+      plugin?.displayName,
+    ) }}</h2>
+    <p class="requestPlugin__intro">{{ translate(
+      isInstallRequest ? 'Marketplace_RequestInstallIntro' : 'Marketplace_RequestTrialIntro',
+    ) }}</p>
+    <div class="requestPlugin__message">
+      <label class="requestPlugin__label" for="requestPluginMessage">{{ translate('Marketplace_RequestMessageLabel') }}</label>
+      <textarea
+        id="requestPluginMessage"
+        class="materialize-textarea requestPlugin__messageInput"
+        maxlength="1000"
+        :placeholder="translate('Marketplace_RequestMessagePlaceholder')"
+        v-model="message"
+      />
+    </div>
+    <input role="no" type="button" :value="translate('General_Cancel')"/>
+    <!-- a filled button rather than a footer link, which leaves closing the dialog to us -->
+    <input role="validation" type="button" :value="translate('Marketplace_SendRequest')"/>
   </div>
 </template>
 
@@ -26,6 +44,7 @@ import {
   translate,
 } from 'CoreHome';
 import { PluginCard } from '../types';
+import manageRequestsUrl from '../ManageRequests/manageRequestsUrl';
 
 export default defineComponent({
   props: {
@@ -35,16 +54,24 @@ export default defineComponent({
     },
   },
   emits: ['update:modelValue', 'trialRequested'],
+  data() {
+    return {
+      message: '',
+    };
+  },
   watch: {
     modelValue(newValue) {
       if (!newValue) {
         return;
       }
 
+      this.message = '';
+
       Matomo.helper.modalConfirm(
         this.$refs.confirm as HTMLElement,
         {
-          yes: () => {
+          validation: () => {
+            $(this.$refs.confirm as HTMLElement).closest('.modal').modal('close');
             this.requestTrial(newValue);
           },
         },
@@ -52,6 +79,9 @@ export default defineComponent({
           onCloseEnd: () => {
             this.$emit('update:modelValue', null);
           },
+          // the message box rather than the footer's last button, so typing does not end up there
+          focusSelector: '#requestPluginMessage',
+          classes: 'requestPluginModal',
         },
       );
     },
@@ -60,21 +90,22 @@ export default defineComponent({
     plugin(): PluginCard {
       return this.modelValue as PluginCard;
     },
+    /** The card offers an install to request rather than a trial. */
+    isInstallRequest(): boolean {
+      return !!this.plugin?.canInstallBeRequested;
+    },
   },
   methods: {
     requestTrial(plugin: PluginCard) {
       AjaxHelper.post(
         {
           module: 'API',
-          method: 'Marketplace.requestTrial',
+          method: this.isInstallRequest ? 'Marketplace.requestInstall' : 'Marketplace.requestTrial',
         },
-        { pluginName: plugin.name },
+        { pluginName: plugin.name, message: this.message },
       ).then(() => {
         const notificationInstanceId = NotificationsStore.show({
-          message: translate(
-            'Marketplace_RequestTrialSubmitted',
-            plugin.displayName,
-          ),
+          message: translate('Marketplace_PluginRequestSent', `<a href="${manageRequestsUrl()}">`, '</a>'),
           context: 'success',
           id: 'requestTrialSuccess',
           placeat: '#notificationContainer',

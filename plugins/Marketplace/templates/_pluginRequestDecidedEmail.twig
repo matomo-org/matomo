@@ -1,0 +1,14 @@
+{% set pluginLinkOpen = '<a href="' ~ pluginLink|e('html_attr') ~ '">' %}
+{% set pluginLinkClose = '</a>' %}
+
+<p>{{ 'General_HelloUser'|translate(login) }}</p>
+{% if isApproved %}
+<p>{{ 'Marketplace_PluginRequestApprovedEmailIntro'|translate(pluginName) }}</p>
+{% else %}
+<p>{{ 'Marketplace_PluginRequestDeclinedEmailIntro'|translate(pluginName) }}</p>
+{% if note is not empty %}
+<p>{{ 'Marketplace_PluginRequestDeclinedEmailNote'|translate }}</p>
+<blockquote>{{ note|nl2br }}</blockquote>
+{% endif %}
+{% endif %}
+<p>{{ 'Marketplace_RequestTrialNotificationEmailMoreInfo'|translate(pluginName|escape, pluginLinkOpen, pluginLinkClose)|raw }}</p>

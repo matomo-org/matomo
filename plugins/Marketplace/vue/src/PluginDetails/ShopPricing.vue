@@ -117,7 +117,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
-import { NumberFormatter, translate } from 'CoreHome';
+import { translate } from 'CoreHome';
 import { IPluginShopVariation, PluginDetails } from '../types';
 import {
   PERIOD_ANNUAL,
@@ -126,6 +126,7 @@ import {
   annualSavings,
   distinctCurrencies,
   distinctTiers,
+  formatAmount,
   freeMonths,
   monthlyAmount,
   tierKey,
@@ -141,17 +142,6 @@ export interface ShopPricingState {
   currentCurrency: string;
   currentPeriod: ShopPeriod | '';
   periodGroupName: string;
-}
-
-/**
- * A price normalised to a month rarely divides evenly, so allow decimals without forcing
- * them onto amounts that are already whole. An amount with cents shows both digits, as money
- * does: 43.80 rather than 43.8.
- */
-function formatAmount(amount: number): string {
-  const rounded = Math.round(amount * 100) / 100;
-
-  return NumberFormatter.formatNumber(rounded, 2, Number.isInteger(rounded) ? 0 : 2);
 }
 
 export default defineComponent({

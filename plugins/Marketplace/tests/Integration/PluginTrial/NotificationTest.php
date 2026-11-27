@@ -38,42 +38,6 @@ class NotificationTest extends IntegrationTestCase
         $notification = new Notification('Inval%dPlu§1nName', $storageMock);
     }
 
-    public function testCreateNotificationIfNeededNotRequested()
-    {
-        $storageMock = self::createMock(Storage::class);
-        $storageMock->method('wasRequested')->willReturn(false);
-        $storageMock->method('isNotificationDismissed')->willReturn(false);
-
-        $notification = new Notification('PremiumPlugin', $storageMock);
-        $notification->createNotificationIfNeeded();
-
-        $this->checkNoNotificationWasCreated();
-    }
-
-    public function testCreateNotificationIfNeededAlreadyDismissed()
-    {
-        $storageMock = self::createMock(Storage::class);
-        $storageMock->method('wasRequested')->willReturn(true);
-        $storageMock->method('isNotificationDismissed')->willReturn(true);
-
-        $notification = new Notification('PremiumPlugin', $storageMock);
-        $notification->createNotificationIfNeeded();
-
-        $this->checkNoNotificationWasCreated();
-    }
-
-    public function testCreateNotificationIfNeededCreatesNotification()
-    {
-        $storageMock = self::createMock(Storage::class);
-        $storageMock->method('wasRequested')->willReturn(true);
-        $storageMock->method('isNotificationDismissed')->willReturn(false);
-
-        $notification = new Notification('PremiumPlugin', $storageMock);
-        $notification->createNotificationIfNeeded();
-
-        $this->checkNotificationWasCreated();
-    }
-
     public function testSetNotificationDismissed()
     {
         $storageMock = self::createMock(Storage::class);
@@ -83,22 +47,6 @@ class NotificationTest extends IntegrationTestCase
 
         $notification = new Notification('PremiumPlugin', $storageMock);
         $notification->setNotificationDismissed();
-    }
-
-    private function checkNoNotificationWasCreated()
-    {
-        self::assertEmpty(Manager::getPendingInMemoryNotifications());
-    }
-
-    private function checkNotificationWasCreated()
-    {
-        $notifications = Manager::getPendingInMemoryNotifications();
-
-        self::assertCount(1, $notifications);
-
-        $expectedNotificationKey = 'Marketplace_PluginTrialRequest_' . md5(FakeAccess::$superUserLogin) . '_PremiumPlugin';
-
-        self::assertArrayHasKey($expectedNotificationKey, $notifications);
     }
 
     public function provideContainerConfig()

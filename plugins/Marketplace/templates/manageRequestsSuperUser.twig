@@ -1,0 +1,19 @@
+{% extends 'admin.twig' %}
+
+{% set title %}{{ 'Marketplace_ManageRequests'|translate }}{% endset %}
+
+{% block content %}
+
+    <div
+        vue-entry="Marketplace.ManageRequestsSuperUser"
+        pending-requests="{{ pendingRequests|json_encode }}"
+        history="{{ history|json_encode }}"
+        history-page-size="{{ historyPageSize|json_encode }}"
+        is-valid-consumer="{{ isValidConsumer|json_encode }}"
+        current-user-email="{{ currentUserEmail|default(false)|json_encode }}"
+        install-requested-nonce="{{ installRequestedNonce|json_encode }}"
+        num-users="{{ numUsers|json_encode }}"
+        shop-user-limit="{{ shopUserLimit|json_encode }}"
+    ></div>
+
+{% endblock %}
