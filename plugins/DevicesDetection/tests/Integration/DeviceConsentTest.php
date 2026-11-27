@@ -367,9 +367,13 @@ class DeviceConsentTest extends IntegrationTestCase
     }
 
     /**
+     * Several sites, or all of them, keep what the instance-wide setting says: looking for one
+     * that stores the model would read, and where cold build, every site's tracker cache each
+     * time reports are listed.
+     *
      * @dataProvider getRequestedSitesForReportVisibility
      */
-    public function testTheDeviceModelReportIsOfferedWhereARequestedSiteHasOptedIn($requested, bool $expected): void
+    public function testTheDeviceModelReportIsOfferedOnlyForASingleRequestedSiteThatHasOptedIn($requested, bool $expected): void
     {
         PolicyManager::setPolicyActiveStatus(CnilPolicy::class, true);
 
@@ -384,8 +388,11 @@ class DeviceConsentTest extends IntegrationTestCase
     {
         yield 'opted-in site' => ['1', true];
         yield 'site not opted in' => ['2', false];
-        yield 'list including an opted-in site' => ['2,1', true];
+        yield 'list including an opted-in site' => ['2,1', false];
+        yield 'list of opted-in sites only' => ['1,1', false];
+        yield 'all sites' => ['all', false];
         yield 'invalid' => ['abc', false];
+        yield 'opted-in site with trailing text' => ['1abc', false];
         yield 'no site' => [null, false];
     }
 
