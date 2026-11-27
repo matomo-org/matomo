@@ -58,6 +58,7 @@ class Collection
         'Marketplace.getMyPluginRequests',
         'Marketplace.getPendingPluginRequests',
         'Marketplace.getPluginRequestHistory',
+        'PrivacyManager.getConsentAwareAnalytics',
     );
 
     /**

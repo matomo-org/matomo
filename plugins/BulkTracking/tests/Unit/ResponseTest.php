@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\BulkTracking\tests\Unit;
 
+use Piwik\Common;
 use Piwik\Plugins\BulkTracking\Tracker\Response;
 use Piwik\Tests\Framework\Mock\Tracker;
 use Piwik\Tests\Framework\TestCase\UnitTestCase;
@@ -30,6 +31,7 @@ class ResponseTest extends UnitTestCase
     {
         parent::setUp();
 
+        Common::$headersSentInTests = [];
         $mock = self::getMockBuilder(Response::class)->onlyMethods(['logExceptionToErrorLog']);
         $this->response = $mock->getMock();
         $this->response->init(new Tracker());
@@ -64,6 +66,53 @@ class ResponseTest extends UnitTestCase
         $content = $this->response->getOutput();
 
         $this->assertEquals('{"status":"success","tracked":5,"invalid":0}', $content);
+    }
+
+    public function testOutputResponseShouldAnswer503IfTrackerIsDisabled()
+    {
+        $tracker = new Tracker();
+        $tracker->disableShouldRecordStatistics();
+
+        $this->response->outputResponse($tracker);
+
+        $this->assertEquals('{"status":"error","tracked":0,"invalid":0}', $this->response->getOutput());
+        $this->assertSame(['HTTP/1.1 503 Service Unavailable'], $this->getSentStatusLines());
+    }
+
+    public function testOutputResponseShouldAnswer503WithoutBodyIfTrackerIsDisabledAndNoResponseIsRequested()
+    {
+        $tracker = new Tracker();
+        $tracker->disableShouldRecordStatistics();
+        $this->response->setShouldSendResponse(false);
+
+        $this->response->outputResponse($tracker);
+
+        $this->assertEquals('', $this->response->getOutput());
+        $this->assertSame(['HTTP/1.1 503 Service Unavailable'], $this->getSentStatusLines());
+    }
+
+    public function testOutputResponseShouldAnswer503IfTrackerIsDisabledAndDebugOutputWasPrinted()
+    {
+        $tracker = new Tracker();
+        $tracker->disableShouldRecordStatistics();
+
+        echo 'debug output';
+        $this->response->outputResponse($tracker);
+
+        $this->assertEquals('debug output', $this->response->getOutput());
+        $this->assertSame(['HTTP/1.1 503 Service Unavailable'], $this->getSentStatusLines());
+    }
+
+    public function testOutputResponseShouldKeepTheExceptionResponseIfTrackerIsDisabled()
+    {
+        $tracker = new Tracker();
+        $tracker->disableShouldRecordStatistics();
+
+        $this->response->outputException($tracker, new Exception('My Custom Message'), 500);
+        $this->response->outputResponse($tracker);
+
+        $this->assertEquals('{"status":"error","tracked":0,"invalid":0}', $this->response->getOutput());
+        $this->assertSame(['HTTP/1.1 500 Internal Server Error'], $this->getSentStatusLines());
     }
 
     public function testOutputResponseShouldNotOutputAnythingIfExceptionResponseAlreadySent()
@@ -110,6 +159,16 @@ class ResponseTest extends UnitTestCase
         $content = $this->response->getOutput();
 
         $this->assertEquals('{"status":"success","tracked":5,"invalid":3,"invalid_indices":[5,63,72]}', $content);
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getSentStatusLines(): array
+    {
+        return array_values(array_filter(array_keys(Common::$headersSentInTests), function ($header) {
+            return str_starts_with($header, 'HTTP/');
+        }));
     }
 
     private function getTrackerWithCountedRequests()

@@ -14,7 +14,7 @@
         "ConfirmDeleteThisTrackingFailure": "Är du säker på att du vill radera detta misslyckade spårningsförsöket?",
         "Cors": "CORS",
         "CorsDomains": "Cross-Origin Resource Sharing (CORS) domäner",
-        "CorsDomainsHelp": "Du kan definiera domäner eller underdomäner som http://example.com eller http://stats.example.com. Eller för att tillåta att förfrågningar via korsdomän sker från alla domäner så lägger du bara till en *",
+        "CorsDomainsHelp": "Du kan definiera domäner eller underdomäner som http://exempel.se eller http://stats.exempel.se. Eller för att tillåta att förfrågningar via korsdomän sker från alla domäner så lägger du bara till en *",
         "CustomLogoFeedbackInfo": "Om du anpassar Matomo's logotyp, kanske du också är intresserad av att dölja %1$s länken i toppmenyn. För att göra detta kan du inaktivera pluginen Feedback på sidan %2$sHantera Plugins%3$s.",
         "CustomLogoHelpText": "Du kan anpassa Matomo's logotyp som kommer att visas i användargränssnittet och i e-postrapporter.",
         "DeclineInvite": "Tacka nej till inbjudan",

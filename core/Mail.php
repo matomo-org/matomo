@@ -9,7 +9,6 @@
 
 namespace Piwik;
 
-use PHPMailer\PHPMailer\Exception;
 use Piwik\Exception\DI\NotFoundException;
 use Piwik\Exception\DI\DependencyException;
 use Piwik\Container\StaticContainer;
@@ -274,9 +273,6 @@ class Mail
      * Sends the mail
      *
      * @return bool|null returns null if sending the mail was aborted by the Mail.send event
-     * @throws DependencyException
-     * @throws NotFoundException
-     * @throws Exception
      */
     public function send()
     {

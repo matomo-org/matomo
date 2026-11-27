@@ -113,6 +113,23 @@ class TrackerTest extends SystemTestCase
         }
     }
 
+    public function testResponseShouldSend503ResponseCodeIfTrackingIsDisabled()
+    {
+        $testingEnvironment = new TestingEnvironmentVariables();
+        $testingEnvironment->overrideConfig('Tracker', 'record_statistics', 0);
+        $testingEnvironment->save();
+
+        try {
+            $response = $this->sendBulkRequest('{"requests":["?idsite=1&rec=1&url=http%3A%2F%2Fexample.org%2F"]}');
+        } finally {
+            $testingEnvironment->removeOverriddenConfig('Tracker', 'record_statistics');
+            $testingEnvironment->save();
+        }
+
+        $this->assertEquals(503, $response['status']);
+        $this->assertEquals('{"status":"error","tracked":0,"invalid":0}', $response['data']);
+    }
+
     private function sendBulkRequest(string $body): array
     {
         return Http::sendHttpRequestBy(

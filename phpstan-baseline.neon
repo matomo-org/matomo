@@ -913,24 +913,6 @@ parameters:
 			path: core/NumberFormatter.php
 
 		-
-			message: '#^If condition is always false\.$#'
-			identifier: if.alwaysFalse
-			count: 1
-			path: core/Period/Range.php
-
-		-
-			message: '#^Parameter \#2 \$strDate of class Piwik\\Period\\Range constructor expects string, int given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Period/Range.php
-
-		-
-			message: '#^Binary operation "\-" between string and 1 results in an error\.$#'
-			identifier: binaryOp.invalid
-			count: 1
-			path: core/Period/Week.php
-
-		-
 			message: '#^Call to function is_numeric\(\) with float\|int will always evaluate to true\.$#'
 			identifier: function.alreadyNarrowedType
 			count: 3
@@ -2527,12 +2509,6 @@ parameters:
 			path: plugins/CoreVisualizations/Visualizations/HtmlTable/RequestConfig.php
 
 		-
-			message: '#^Parameter \#2 \$lastN of static method Piwik\\Period\\Range\:\:getRelativeToEndDate\(\) expects int, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: plugins/CoreVisualizations/Visualizations/JqplotGraph/Evolution.php
-
-		-
 			message: '#^Call to an undefined method Piwik\\DataTable\\DataTableInterface\:\:getMetadata\(\)\.$#'
 			identifier: method.notFound
 			count: 1
@@ -2951,12 +2927,6 @@ parameters:
 			identifier: function.alreadyNarrowedType
 			count: 1
 			path: plugins/Goals/VisitorDetails.php
-
-		-
-			message: '#^Parameter \#2 \$lastN of static method Piwik\\Period\\Range\:\:getRelativeToEndDate\(\) expects int, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: plugins/ImageGraph/ImageGraph.php
 
 		-
 			message: '#^Negated boolean expression is always false\.$#'
@@ -3743,12 +3713,6 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: plugins/VisitTime/RecordBuilders/Base.php
-
-		-
-			message: '#^Parameter \#1 \$array \(array\{''nb_uniq_visitors'', ''nb_users'', ''nb_visits'', ''nb_actions'', ''nb_visits_converted'', ''bounce_count'', ''sum_visit_length'', ''max_actions''\}\|array\{''nb_visits'', ''nb_actions'', ''nb_visits_converted'', ''bounce_count'', ''sum_visit_length'', ''max_actions''\}\) of array_values is already a list, call has no effect\.$#'
-			identifier: arrayValues.list
-			count: 1
-			path: plugins/VisitsSummary/API.php
 
 		-
 			message: '#^Call to Piwik\\Plugin\\Report\:\:init\(\) on a separate line has no effect\.$#'

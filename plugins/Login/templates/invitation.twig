@@ -28,7 +28,7 @@
                                         <input type="text" name="email" id="email" value="{{ user.email }}" size="20" readonly="readonly"
                                                tabindex="0"/>
                                         <label for="email">
-                                            <i class="icon-email icon"></i> {{ 'UsersManager_Email'|translate }}
+                                            <i class="icon-email icon" aria-hidden="true"></i> {{ 'UsersManager_Email'|translate }}
                                         </label>
                                     </div>
                                 </div>
@@ -50,7 +50,7 @@
                                              validation-rules="{{ passwordStrengthValidationRules|json_encode }}"
                                         ></div>
                                         <label for="password">
-                                            <i class="icon-locked icon"></i> {{ 'General_Password'|translate }}
+                                            <i class="icon-locked icon" aria-hidden="true"></i> {{ 'General_Password'|translate }}
                                         </label>
                                     </div>
                                 </div>
@@ -72,7 +72,7 @@
                                              validation-rules="{{ passwordStrengthValidationRules|json_encode }}"
                                         ></div>
                                         <label for="password_confirm">
-                                            <i class="icon-locked icon"></i> {{ 'General_PasswordConfirmation'|translate }}
+                                            <i class="icon-locked icon" aria-hidden="true"></i> {{ 'General_PasswordConfirmation'|translate }}
                                         </label>
                                     </div>
                                 </div>

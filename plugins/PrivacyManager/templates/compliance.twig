@@ -6,5 +6,6 @@
         class="compliance"
         vue-entry="PrivacyManager.Compliance"
         granular-compliance-enabled="{{ granularComplianceEnabled|default(false)|json_encode }}"
+        hybrid-tracking-enabled="{{ hybridTrackingEnabled|default(false)|json_encode }}"
     ></div>
 {% endblock %}

@@ -230,6 +230,10 @@ class TrackerResponseTest extends SystemTestCase
         $url = $url . "&forceEnableTrackerMaintenanceMode=1";
         $response = $this->sendHttpRequest($url);
         $this->assertEquals(503, $response['status']);
+
+        $response = $this->sendHttpRequest($url . '&send_image=0');
+        $this->assertEquals(503, $response['status']);
+        $this->assertSame('', $response['data']);
     }
 
     protected function sendHttpRequest($url)

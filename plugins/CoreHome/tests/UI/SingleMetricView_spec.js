@@ -143,6 +143,19 @@ describe('SingleMetricView', function () {
         expect(evolution.className).to.contain('evolution-down');
     });
 
+    it('should show the evolution with both decimals unrounded', async function () {
+        // 8 visits against 11 the day before is -27.2727 %, which used to show as -27.30 %
+        var dayUrl = "?module=Widgetize&action=iframe&idSite=1&period=day&date=2012-08-10&moduleToWidgetize=Dashboard&"
+            + "actionToWidgetize=index&idDashboard=1";
+        await page.goto(dayUrl);
+        await page.waitForNetworkIdle();
+
+        var evolution = await selectMetricAndReadEvolution('Visits');
+
+        expect(evolution).to.not.equal(null);
+        expect(evolution.text).to.equal('-27.27 %');
+    });
+
     it('should show a message when the selected metric has no data for the period', async function () {
         // unique visitors are not archived for year periods (enable_processing_unique_visitors_year=0),
         // so a KPI widget pinned to that metric must show the "unavailable" message instead of a "0".

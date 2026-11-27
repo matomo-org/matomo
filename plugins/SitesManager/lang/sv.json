@@ -90,7 +90,7 @@
         "NotFound": "Inga webbplatser funna",
         "OnlyMatchedUrlsAllowed": "Spåra endast besök och händelser när en händelse-URL börjar med någon av ovan URL'er.",
         "OnlyMatchedUrlsAllowedHelp": "När aktiverat så kommer Matomo endast spåra interna händelser när sid-URL'en är någon av de kända URL'er för din webbplats. Detta förhindrar folk från att spamma din statistik med URL'er för andra webbplatser.",
-        "OnlyMatchedUrlsAllowedHelpExamples": "Domänen och sökvägen måste stämma överens exakt och varje giltig underdomän måste anges separat. Till exempel när de kända webbadresserna är 'http://example.com/path' och 'http://good.example.com', så ignoreras spårningsförfrågningar för 'http://example.com/otherpath' eller 'http://bad.example.com '.",
+        "OnlyMatchedUrlsAllowedHelpExamples": "Domänen och sökvägen måste stämma överens exakt och varje giltig underdomän måste anges separat. Till exempel när de kända webbadresserna är 'http://exempel.se/path' och 'http://good.exempel.se', så ignoreras spårningsförfrågningar för 'http://exempel.se/otherpath' eller 'http://bad.exempel.se '.",
         "OnlyOneSiteAtTime": "Du kan endast redigera en webbplats åt gången. Vänligen spara eller avbryt dina ändringar för denna webbplats (%s).",
         "OtherWaysTabDescription": "Även om lösningarna i de andra flikarna inte var rätt för dig kan du enkelt sätta upp Matomo med en av nedan metoder. Du kan behöva följande information:",
         "PiwikOffersEcommerceAnalytics": "Matomo möjliggör för avancerad e-handelsspårning och rapportering. Läs mer om %1$s E-handelsspårning%2$s.",

@@ -1,6 +1,8 @@
 {
     "WebsiteMeasurable": {
         "Website": "Website",
+        "WebsiteDescription": "Un site este format din pagini web, de obicei servite de pe un singur domeniu web.",
+        "WebsiteLongDescription": "Urmăriți interacțiunile vizitatorilor, precum vizualizările de pagină, clicurile, descărcările și evenimentele, pe un site public. Un singur element măsurabil poate include mai multe domenii și subdomenii, sau puteți crea elemente măsurabile separate pentru fiecare.",
         "Websites": "Siteuri"
     }
 }

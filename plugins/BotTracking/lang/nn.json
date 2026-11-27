@@ -81,7 +81,6 @@
         "NoDataCloudflareInstructions3": "Knyt Worker-en til sona eller ruta di, slik at han køyrer saman med førespurnadene.",
         "NoDataCloudflareInstructions4": "Kontroller oppsettet ved å sjekke at treff frå KI-chatbotar blir viste i sporingsrapportane.",
         "NoDataHttpTrackingApi": "HTTP-sporings-API",
-        "NoDataHttpTrackingApiDescription": "Med HTTP-sporings-API-et kan du spore førespurnader frå KI-chatbotar direkte når du treng ein eigendefinert integrasjon. Byrj med %1$skunnskapsbasen for sporings-API-et%2$s, og bruk %3$sreferansen for HTTP-sporings-API-et%4$s for dei nyaste parameterane og åtferda for botsporing.",
         "NoDataLinkKnowledgeBase": "Dokumentasjon: %1$sMatomo-kunnskapsbasen%2$s",
         "NoDataLinkSourceCode": "Kjeldekode: %1$sGitHub-repositoriet%2$s",
         "NoDataMissingOneContactUs": "Saknar du ein? Kontakt oss",
@@ -112,6 +111,11 @@
         "AIChatbotTrafficRatioBelowValue": "&lt;%1$s×",
         "AIChatbotTrafficRatioValue": "%1$s×",
         "ColumnAIChatbotTrafficRatio": "Trafikkforhold for KI-chatbotar",
-        "ColumnAIChatbotTrafficRatioDocumentation": "Forholdet mellom førespurnader frå KI-chatbotar og sidevisingar frå menneske, direkte eller via KI-agentar. Ein verdi på 2.0× tyder at det var dobbelt så mange førespurnader frå KI-chatbotar som sidevisingar."
+        "ColumnAIChatbotTrafficRatioDocumentation": "Forholdet mellom førespurnader frå KI-chatbotar og sidevisingar frå menneske, direkte eller via KI-agentar. Ein verdi på 2.0× tyder at det var dobbelt så mange førespurnader frå KI-chatbotar som sidevisingar.",
+        "NoDataHttpTrackingApiInstructions1": "HTTP Tracking API lèt deg spore førespurnader frå KI-chatbotar direkte i Matomo når du treng ei eigendefinert integrasjon. Send oppdaga førespurnader frå KI-chatbotar til Matomo med dei nødvendige sporingsparametrane for botar.",
+        "NoDataHttpTrackingApiInstructions2": "Identifiser førespurnader frå KI-chatbotar i applikasjonen eller på tenaren din.",
+        "NoDataHttpTrackingApiInstructions3": "Send førespurnadene til Matomo med HTTP Tracking API, saman med Matomo-nettstad-ID-en din og dei nødvendige sporingsparametrane for botar.",
+        "NoDataHttpTrackingApiInstructions4": "Når alt er sett opp og det førekjem aktivitet frå KI-chatbotar, kontrollerer du at han blir vist i rapportane for KI-chatbotar.",
+        "NoDataLinkApiReference": "API-referanse: %1$sReferanse for HTTP Tracking API%2$s"
     }
 }
