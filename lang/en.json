@@ -233,6 +233,7 @@
         "ExceptionDatabaseVersionNewerThanCodebase": "Your Matomo codebase is running the old version %1$s and we have detected that your Matomo Database has already been upgraded to the newer version %2$s.",
         "ExceptionDatabaseVersionNewerThanCodebaseWait": "Maybe your Matomo administrators are currently finishing the upgrade process. Please try again in a few minutes.",
         "ExceptionDirectoryToDelete": "Directory to delete: %s",
+        "ExceptionEmailNotSent": "The email could not be sent. For details, enable file logging or run %s.",
         "ExceptionFileIntegrity": "Integrity check failed: %s",
         "ExceptionFileToDelete": "File to delete: %s",
         "ExceptionFilesizeMismatch": "File size mismatch: %1$s (expected length: %2$s, found: %3$s)",
