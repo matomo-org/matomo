@@ -62,10 +62,12 @@ class Cache
     }
 
     /**
-     * Returns array containing data about the website: goals, URLs, etc.
+     * Returns the cached tracker data of a website: goals, URLs, and what plugins add through the
+     * `Tracker.Cache.getSiteAttributes` event.
      *
-     * @param int $idSite
-     * @return array
+     * @param int $idSite The ID of the website.
+     * @return array The cached site attributes, built and stored on the first call.
+     * @api
      */
     public static function getCacheWebsiteAttributes($idSite)
     {
@@ -255,9 +257,11 @@ class Cache
     }
 
     /**
-     * Delete existing Tracker cache
+     * Deletes the cached tracker data of a website. Call it after changing data a plugin exposes through the
+     * `Tracker.Cache.getSiteAttributes` event.
      *
-     * @param string|int $idSite website ID of the site to clear cache for
+     * @param string|int $idSite The ID of the website to clear the cache for.
+     * @api
      */
     public static function deleteCacheWebsiteAttributes($idSite)
     {

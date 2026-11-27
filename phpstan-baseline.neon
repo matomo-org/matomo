@@ -1525,7 +1525,7 @@ parameters:
 			path: core/Tracker/Handler/Factory.php
 
 		-
-			message: '#^Method Piwik\\Tracker\\LogTable\:\:getLinkTableToBeAbleToJoinOnVisit\(\) should return string but empty return statement found\.$#'
+			message: '#^Method Piwik\\Tracker\\LogTable\:\:getLinkTableToBeAbleToJoinOnVisit\(\) should return string\|null but empty return statement found\.$#'
 			identifier: return.empty
 			count: 1
 			path: core/Tracker/LogTable.php

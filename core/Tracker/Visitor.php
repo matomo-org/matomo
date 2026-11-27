@@ -43,6 +43,13 @@ class Visitor
         $this->visitProperties->setProperty($column, $value);
     }
 
+    /**
+     * Returns the value of a visit column of the current visit.
+     *
+     * @param string $column The `log_visit` column name.
+     * @return mixed The value, or false if the column is not set.
+     * @api
+     */
     public function getVisitorColumn($column)
     {
         if (array_key_exists($column, $this->visitProperties->getProperties())) {

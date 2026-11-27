@@ -579,11 +579,12 @@ if (!class_exists('Piwik\Plugin')) {
         /**
          * Override this method in your plugin class if you want your plugin to be loaded during tracking.
          *
-         * Note: If you define your own dimension or handle a tracker event, your plugin will automatically
-         * be detected as a tracker plugin.
+         * Plugins that define visit, action or conversion dimensions, or that listen to a `Tracker.*` event or
+         * to `Request.initAuthenticationObject`, are detected as tracker plugins automatically.
+         * Override it, for example, if your plugin only provides a {@link \Piwik\Tracker\RequestProcessor}.
          *
-         * @return bool
-         * @internal
+         * @return bool Return true to load the plugin during tracking requests.
+         * @api
          */
         public function isTrackerPlugin()
         {

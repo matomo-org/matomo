@@ -429,6 +429,16 @@ class Request
         return Common::getRequestVar('revenue', $defaultGoalRevenue, 'float', $this->params);
     }
 
+    /**
+     * Returns the value of a Tracking API parameter, sanitized and cast to its expected type. The parameter's default is returned if it is not set or has the wrong type.
+     *
+     * Only the standard Tracking API parameters are supported; an exception is thrown for any other name.
+     * Use {@link getParams()} to read custom parameters; those values are not sanitized.
+     *
+     * @param string $name The parameter name, eg `'url'` or `'action_name'`.
+     * @return mixed The parameter value.
+     * @api
+     */
     public function getParam($name)
     {
         static $supportedParams = array(
@@ -525,6 +535,16 @@ class Request
         return $this->paramsCache[$name];
     }
 
+    /**
+     * Sets a request parameter. Meant to be used in {@link RequestProcessor::manipulateRequest()}.
+     *
+     * Changing `idsite` has no effect on {@link getIdSite()}, as the site is resolved when the request is created; use the
+     * `Tracker.Request.getIdSite` event for that.
+     *
+     * @param string $name The parameter name.
+     * @param mixed $value The new value.
+     * @api
+     */
     public function setParam($name, $value)
     {
         $this->params[$name] = $value;
@@ -545,13 +565,22 @@ class Request
     }
 
     /**
-     * @return array<string, mixed>
+     * Returns all parameters of the tracking request.
+     *
+     * @return array<string, mixed> The request parameters by name, as sent (not sanitized or cast).
+     * @api
      */
     public function getParams()
     {
         return $this->params;
     }
 
+    /**
+     * Returns the timestamp the request is tracked with: the custom time (`cdt`/`cdo`) if one was sent and accepted, otherwise the time the request was received. An exception is thrown for a custom time that is not allowed.
+     *
+     * @return int The Unix timestamp.
+     * @api
+     */
     public function getCurrentTimestamp()
     {
         if (!isset($this->cdtCache)) {
@@ -691,7 +720,10 @@ class Request
     }
 
     /**
-     * @return int
+     * Returns the ID of the website the request is tracked for.
+     *
+     * @return int The ID of the website, as validated and possibly changed through the `Tracker.Request.getIdSite` event.
+     * @api
      */
     public function getIdSite()
     {
@@ -720,6 +752,12 @@ class Request
         return $idSite;
     }
 
+    /**
+     * Returns the user agent of the visitor, preferring the `ua` parameter over the request header.
+     *
+     * @return string The user agent (sanitized), or an empty string if none is available.
+     * @api
+     */
     public function getUserAgent()
     {
         $default = false;
@@ -1070,8 +1108,11 @@ class Request
     }
 
     /**
-     * @return mixed|string
+     * Returns the IP address of the visitor: the `cip` parameter if set, which requires an authenticated request (an exception is thrown otherwise), else the IP address of the HTTP request.
+     *
+     * @return string The IP address.
      * @throws Exception
+     * @api
      */
     public function getIpString()
     {
@@ -1093,8 +1134,9 @@ class Request
      * Set a request metadata value.
      *
      * @param string $pluginName eg, `'Actions'`, `'Goals'`, `'YourPlugin'`
-     * @param string $key
-     * @param mixed $value
+     * @param string $key The metadata key.
+     * @param mixed $value The metadata value.
+     * @api
      */
     public function setMetadata($pluginName, $key, $value)
     {
@@ -1105,8 +1147,9 @@ class Request
      * Get a request metadata value. Returns `null` if none exists.
      *
      * @param string $pluginName eg, `'Actions'`, `'Goals'`, `'YourPlugin'`
-     * @param string $key
-     * @return mixed
+     * @param string $key The metadata key.
+     * @return mixed The metadata value, or null if none is set.
+     * @api
      */
     public function getMetadata($pluginName, $key)
     {

@@ -33,7 +33,17 @@ class GoalManager
     public const ITEM_IDORDER_ABANDONED_CART = 0;
 
     // log_conversion.idgoal special values
+    /**
+     * Value of the `log_conversion.idgoal` column for an abandoned cart.
+     *
+     * @api
+     */
     public const IDGOAL_CART = -1;
+    /**
+     * Value of the `log_conversion.idgoal` column for an ecommerce order.
+     *
+     * @api
+     */
     public const IDGOAL_ORDER = 0;
 
     public const REVENUE_PRECISION = 2;

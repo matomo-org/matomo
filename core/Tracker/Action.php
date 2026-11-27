@@ -23,24 +23,99 @@ use Piwik\Log\LoggerInterface;
  */
 abstract class Action
 {
+    /**
+     * Value of the `log_action.type` column for a page URL.
+     *
+     * @api
+     */
     public const TYPE_PAGE_URL   = 1;
+    /**
+     * Value of the `log_action.type` column for a link to an external website.
+     *
+     * @api
+     */
     public const TYPE_OUTLINK    = 2;
+    /**
+     * Value of the `log_action.type` column for a file download.
+     *
+     * @api
+     */
     public const TYPE_DOWNLOAD   = 3;
+    /**
+     * Value of the `log_action.type` column for a page title.
+     *
+     * @api
+     */
     public const TYPE_PAGE_TITLE = 4;
+    /**
+     * Value of the `log_action.type` column for an ecommerce item SKU.
+     *
+     * @api
+     */
     public const TYPE_ECOMMERCE_ITEM_SKU  = 5;
+    /**
+     * Value of the `log_action.type` column for an ecommerce item name.
+     *
+     * @api
+     */
     public const TYPE_ECOMMERCE_ITEM_NAME = 6;
+    /**
+     * Value of the `log_action.type` column for an ecommerce item category.
+     *
+     * @api
+     */
     public const TYPE_ECOMMERCE_ITEM_CATEGORY = 7;
+    /**
+     * Value of the `log_action.type` column for an internal site search keyword.
+     *
+     * @api
+     */
     public const TYPE_SITE_SEARCH = 8;
 
     public const TYPE_EVENT          = 10; // Alias TYPE_EVENT_CATEGORY
+    /**
+     * Value of the `log_action.type` column for an event category.
+     *
+     * @api
+     */
     public const TYPE_EVENT_CATEGORY = 10;
+    /**
+     * Value of the `log_action.type` column for an event action.
+     *
+     * @api
+     */
     public const TYPE_EVENT_ACTION   = 11;
+    /**
+     * Value of the `log_action.type` column for an event name.
+     *
+     * @api
+     */
     public const TYPE_EVENT_NAME     = 12;
 
     public const TYPE_CONTENT             = 13; // Alias TYPE_CONTENT_NAME
+    /**
+     * Value of the `log_action.type` column for a content name.
+     *
+     * @api
+     */
     public const TYPE_CONTENT_NAME        = 13;
+    /**
+     * Value of the `log_action.type` column for a content piece.
+     *
+     * @api
+     */
     public const TYPE_CONTENT_PIECE       = 14;
+    /**
+     * Value of the `log_action.type` column for a content target.
+     *
+     * @api
+     */
     public const TYPE_CONTENT_TARGET      = 15;
+    /**
+     * Value of the `log_action.type` column for a content interaction.
+     *
+     * @api
+     */
     public const TYPE_CONTENT_INTERACTION = 16;
 
     public const DB_COLUMN_CUSTOM_FLOAT = 'custom_float';
