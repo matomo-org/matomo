@@ -14,7 +14,7 @@
 				<pageIdAction>2</pageIdAction>
 				
 				
-				<pageId>14</pageId>
+				<pageId>15</pageId>
 				<pageLoadTime>1.15s</pageLoadTime>
 				<bandwidth />
 				<timeSpent>270</timeSpent>
@@ -35,7 +35,7 @@
 				<pageIdAction>3</pageIdAction>
 				
 				
-				<pageId>15</pageId>
+				<pageId>16</pageId>
 				<contentName>ImageAd</contentName>
 				<contentPiece>Unknown</contentPiece>
 				<contentTarget />
@@ -56,7 +56,7 @@
 				<pageIdAction>3</pageIdAction>
 				
 				
-				<pageId>16</pageId>
+				<pageId>17</pageId>
 				<contentName>ImageAd</contentName>
 				<contentPiece />
 				<contentTarget />
@@ -77,7 +77,7 @@
 				<pageIdAction>3</pageIdAction>
 				
 				
-				<pageId>17</pageId>
+				<pageId>18</pageId>
 				<contentName>ImageAd</contentName>
 				<contentPiece>/path/ad.jpg</contentPiece>
 				<contentTarget>http://www.example.com</contentTarget>
@@ -98,7 +98,7 @@
 				<pageIdAction>3</pageIdAction>
 				
 				
-				<pageId>18</pageId>
+				<pageId>19</pageId>
 				<contentName>ImageAd</contentName>
 				<contentPiece>/path/ad2.jpg</contentPiece>
 				<contentTarget>http://www.example.com</contentTarget>
@@ -119,7 +119,7 @@
 				<pageIdAction>3</pageIdAction>
 				
 				
-				<pageId>19</pageId>
+				<pageId>20</pageId>
 				<contentName>ImageAd</contentName>
 				<contentPiece>/path/ad.jpg</contentPiece>
 				<contentTarget>http://www.example.com</contentTarget>
@@ -140,7 +140,28 @@
 				<pageIdAction>3</pageIdAction>
 				
 				
-				<pageId>20</pageId>
+				<pageId>21</pageId>
+				<contentName>ImageAd</contentName>
+				<contentPiece />
+				<contentTarget />
+				<contentInteraction>submit</contentInteraction>
+				<bandwidth />
+				<pageviewPosition>1</pageviewPosition>
+				<icon>plugins/Morpheus/images/contentinteraction.png</icon>
+				<iconSVG>plugins/Morpheus/images/contentinteraction.svg</iconSVG>
+				<title>Content Interaction (submit)</title>
+				<subtitle>ImageAd</subtitle>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>13</type>
+				<url>http://www.example.org/page</url>
+				<pageTitle />
+				<pageIdAction>3</pageIdAction>
+				
+				
+				<pageId>22</pageId>
 				<contentName>Text Ad</contentName>
 				<contentPiece>Click to download Piwik now</contentPiece>
 				<contentTarget>http://piwik.org/download</contentTarget>
@@ -161,7 +182,7 @@
 				<pageIdAction>3</pageIdAction>
 				
 				
-				<pageId>21</pageId>
+				<pageId>23</pageId>
 				<contentName>Text Ad</contentName>
 				<contentPiece>Click NOW</contentPiece>
 				<contentTarget>http://piwik.org/</contentTarget>
@@ -182,7 +203,7 @@
 				<pageIdAction>3</pageIdAction>
 				
 				
-				<pageId>22</pageId>
+				<pageId>24</pageId>
 				<contentName>Text Ad</contentName>
 				<contentPiece>Click to download Piwik now</contentPiece>
 				<contentTarget>http://piwik.org/download</contentTarget>
@@ -203,7 +224,7 @@
 				<pageIdAction>3</pageIdAction>
 				
 				
-				<pageId>23</pageId>
+				<pageId>25</pageId>
 				<contentName>Text Ad</contentName>
 				<contentPiece>Click NOW</contentPiece>
 				<contentTarget>http://piwik.org/download</contentTarget>
@@ -224,7 +245,7 @@
 				<pageIdAction>3</pageIdAction>
 				
 				
-				<pageId>24</pageId>
+				<pageId>26</pageId>
 				<contentName>Text Ad</contentName>
 				<contentPiece>Click to download Piwik now</contentPiece>
 				<contentTarget />
@@ -245,7 +266,7 @@
 				<pageIdAction>3</pageIdAction>
 				
 				
-				<pageId>25</pageId>
+				<pageId>27</pageId>
 				<contentName>Video Ad</contentName>
 				<contentPiece>movie.mov</contentPiece>
 				<contentTarget />
@@ -266,7 +287,7 @@
 				<pageIdAction>18</pageIdAction>
 				
 				
-				<pageId>26</pageId>
+				<pageId>28</pageId>
 				<contentName>Video Ad</contentName>
 				<contentPiece>movie.mov</contentPiece>
 				<contentTarget />
@@ -510,6 +531,27 @@
 				
 				
 				<pageId>7</pageId>
+				<contentName>ImageAd</contentName>
+				<contentPiece />
+				<contentTarget />
+				<contentInteraction>submit</contentInteraction>
+				<bandwidth />
+				<pageviewPosition>1</pageviewPosition>
+				<icon>plugins/Morpheus/images/contentinteraction.png</icon>
+				<iconSVG>plugins/Morpheus/images/contentinteraction.svg</iconSVG>
+				<title>Content Interaction (submit)</title>
+				<subtitle>ImageAd</subtitle>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>13</type>
+				<url>http://www.example.org/page</url>
+				<pageTitle />
+				<pageIdAction>3</pageIdAction>
+				
+				
+				<pageId>8</pageId>
 				<contentName>Text Ad</contentName>
 				<contentPiece>Click to download Piwik now</contentPiece>
 				<contentTarget>http://piwik.org/download</contentTarget>
@@ -530,7 +572,7 @@
 				<pageIdAction>3</pageIdAction>
 				
 				
-				<pageId>8</pageId>
+				<pageId>9</pageId>
 				<contentName>Text Ad</contentName>
 				<contentPiece>Click NOW</contentPiece>
 				<contentTarget>http://piwik.org/</contentTarget>
@@ -551,7 +593,7 @@
 				<pageIdAction>3</pageIdAction>
 				
 				
-				<pageId>9</pageId>
+				<pageId>10</pageId>
 				<contentName>Text Ad</contentName>
 				<contentPiece>Click to download Piwik now</contentPiece>
 				<contentTarget>http://piwik.org/download</contentTarget>
@@ -572,7 +614,7 @@
 				<pageIdAction>3</pageIdAction>
 				
 				
-				<pageId>10</pageId>
+				<pageId>11</pageId>
 				<contentName>Text Ad</contentName>
 				<contentPiece>Click NOW</contentPiece>
 				<contentTarget>http://piwik.org/download</contentTarget>
@@ -593,7 +635,7 @@
 				<pageIdAction>3</pageIdAction>
 				
 				
-				<pageId>11</pageId>
+				<pageId>12</pageId>
 				<contentName>Text Ad</contentName>
 				<contentPiece>Click to download Piwik now</contentPiece>
 				<contentTarget />
@@ -614,7 +656,7 @@
 				<pageIdAction>3</pageIdAction>
 				
 				
-				<pageId>12</pageId>
+				<pageId>13</pageId>
 				<contentName>Video Ad</contentName>
 				<contentPiece>movie.mov</contentPiece>
 				<contentTarget />
@@ -635,7 +677,7 @@
 				<pageIdAction>18</pageIdAction>
 				
 				
-				<pageId>13</pageId>
+				<pageId>14</pageId>
 				<contentName>Video Ad</contentName>
 				<contentPiece>movie.mov</contentPiece>
 				<contentTarget />

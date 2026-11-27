@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>Text Ad - Click to download Piwik now</label>
+		<nb_uniq_visitors>4</nb_uniq_visitors>
+		<nb_visits>4</nb_visits>
+		<nb_impressions>4</nb_impressions>
+		<nb_interactions>2</nb_interactions>
+		<nb_visits_percent_of_total>25%</nb_visits_percent_of_total>
+		<interaction_rate>50%</interaction_rate>
+		<Contents_ContentName>Text Ad - Click to download Piwik now</Contents_ContentName>
+		<segment>contentName==Text+Ad</segment>
+	</row>
+	<row>
+		<label>ImageAd - /path/ad.jpg</label>
+		<nb_uniq_visitors>2</nb_uniq_visitors>
+		<nb_visits>2</nb_visits>
+		<nb_impressions>2</nb_impressions>
+		<nb_interactions>2</nb_interactions>
+		<nb_visits_percent_of_total>12.5%</nb_visits_percent_of_total>
+		<interaction_rate>100%</interaction_rate>
+		<Contents_ContentName>ImageAd - /path/ad.jpg</Contents_ContentName>
+		<segment>contentName==ImageAd</segment>
+	</row>
+	<row>
+		<label>ImageAd - /path/ad2.jpg</label>
+		<nb_uniq_visitors>2</nb_uniq_visitors>
+		<nb_visits>2</nb_visits>
+		<nb_impressions>2</nb_impressions>
+		<nb_interactions>0</nb_interactions>
+		<nb_visits_percent_of_total>12.5%</nb_visits_percent_of_total>
+		<interaction_rate>0%</interaction_rate>
+		<Contents_ContentName>ImageAd - /path/ad2.jpg</Contents_ContentName>
+		<segment>contentName==ImageAd</segment>
+	</row>
+	<row>
+		<label>ImageAd - Content Piece not defined</label>
+		<nb_uniq_visitors>2</nb_uniq_visitors>
+		<nb_visits>2</nb_visits>
+		<nb_impressions>2</nb_impressions>
+		<nb_interactions>2</nb_interactions>
+		<nb_visits_percent_of_total>12.5%</nb_visits_percent_of_total>
+		<interaction_rate>100%</interaction_rate>
+		<Contents_ContentName>ImageAd - Content Piece not defined</Contents_ContentName>
+		<segment>contentName==ImageAd</segment>
+	</row>
+	<row>
+		<label>ImageAd - Unknown</label>
+		<nb_uniq_visitors>2</nb_uniq_visitors>
+		<nb_visits>2</nb_visits>
+		<nb_impressions>2</nb_impressions>
+		<nb_interactions>0</nb_interactions>
+		<nb_visits_percent_of_total>12.5%</nb_visits_percent_of_total>
+		<interaction_rate>0%</interaction_rate>
+		<Contents_ContentName>ImageAd - Unknown</Contents_ContentName>
+		<segment>contentName==ImageAd</segment>
+	</row>
+	<row>
+		<label>Text Ad - Click NOW</label>
+		<nb_uniq_visitors>2</nb_uniq_visitors>
+		<nb_visits>2</nb_visits>
+		<nb_impressions>2</nb_impressions>
+		<nb_interactions>2</nb_interactions>
+		<nb_visits_percent_of_total>12.5%</nb_visits_percent_of_total>
+		<interaction_rate>100%</interaction_rate>
+		<Contents_ContentName>Text Ad - Click NOW</Contents_ContentName>
+		<segment>contentName==Text+Ad</segment>
+	</row>
+	<row>
+		<label>Video Ad - movie.mov</label>
+		<nb_uniq_visitors>2</nb_uniq_visitors>
+		<nb_visits>2</nb_visits>
+		<nb_impressions>4</nb_impressions>
+		<nb_interactions>0</nb_interactions>
+		<nb_visits_percent_of_total>12.5%</nb_visits_percent_of_total>
+		<interaction_rate>0%</interaction_rate>
+		<Contents_ContentName>Video Ad - movie.mov</Contents_ContentName>
+		<segment>contentName==Video+Ad</segment>
+	</row>
+</result>
