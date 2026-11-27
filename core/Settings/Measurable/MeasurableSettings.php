@@ -32,7 +32,10 @@ use Exception;
 abstract class MeasurableSettings extends Settings
 {
     /**
+     * The id of the site the settings belong to, 0 if the site is not created yet.
+     *
      * @var int
+     * @api
      */
     protected $idSite;
 
@@ -63,6 +66,13 @@ abstract class MeasurableSettings extends Settings
         $this->init();
     }
 
+    /**
+     * Returns whether the measurable type of these settings equals the given type.
+     *
+     * @param string $typeId The measurable type id to compare with.
+     * @return bool True if the types are identical.
+     * @api
+     */
     protected function hasMeasurableType($typeId)
     {
         return $typeId === $this->idMeasurableType;
@@ -83,6 +93,7 @@ abstract class MeasurableSettings extends Settings
      *                             UI to define the value for this setting
      * @return MeasurableSetting   Returns an instance of the created measurable setting.
      * @throws Exception
+     * @api
      */
     protected function makeSetting($name, $defaultValue, $type, $fieldConfigCallback)
     {

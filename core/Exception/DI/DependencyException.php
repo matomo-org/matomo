@@ -9,6 +9,11 @@
 
 namespace Piwik\Exception\DI;
 
+/**
+ * Thrown when a container entry exists but cannot be created, e.g. because a dependency fails to resolve.
+ *
+ * @api
+ */
 class DependencyException extends \DI\DependencyException
 {
 }

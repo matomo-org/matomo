@@ -12,8 +12,10 @@ namespace Piwik\View;
 use Piwik\Config;
 
 /**
- * Content Security Policy HTTP Header management class
+ * Content Security Policy HTTP Header management class.
  *
+ * Plugins extend the Content-Security-Policy by decorating the `Piwik\View\SecurityPolicy` DI entry with `DI::decorate()`
+ * in their `config/config.php` and calling {@link addPolicy()} on the previous instance.
  */
 class SecurityPolicy
 {
@@ -47,6 +49,8 @@ class SecurityPolicy
     /**
      * Appends a policy to a directive.
      *
+     * @param string $directive The directive name, e.g. `default-src`.
+     * @param string $value The source expression to append, e.g. a host name.
      * @api
      */
     public function addPolicy($directive, $value)
@@ -61,6 +65,7 @@ class SecurityPolicy
     /**
      * Removes a directive.
      *
+     * @param string $directive The directive name, e.g. `default-src`.
      * @api
      */
     public function removeDirective($directive)
@@ -73,6 +78,8 @@ class SecurityPolicy
     /**
      * Overrides a directive.
      *
+     * @param string $directive The directive name, e.g. `default-src`.
+     * @param string $value The new value of the directive.
      * @api
      */
     public function overridePolicy($directive, $value)

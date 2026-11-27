@@ -15,6 +15,11 @@ use Piwik\Url;
 
 class Write extends Role
 {
+    /**
+     * The ID of the write role.
+     *
+     * @api
+     */
     public const ID = 'write';
 
     public function getName(): string

@@ -15,6 +15,11 @@ use Piwik\Piwik;
 use Piwik\Session\SessionNamespace;
 use Piwik\Url;
 
+/**
+ * Verifies the password of the current user and requires a recent verification before sensitive actions.
+ *
+ * Get an instance via dependency injection.
+ */
 class PasswordVerifier
 {
     public const VERIFY_VALID_FOR_MINUTES = 30;
@@ -138,7 +143,11 @@ class PasswordVerifier
     }
 
     /**
-     * @return bool
+     * Returns whether the current user confirmed the password within the last 30 minutes after being asked to by
+     * {@link requirePasswordVerifiedRecently()}.
+     *
+     * @return bool True if the confirmation is still valid.
+     * @api
      */
     public function hasBeenVerified()
     {
@@ -184,10 +193,11 @@ class PasswordVerifier
     /**
      * Checks if the user has verified the password within the last 15 minutes. If not, the user will be redirected.
      * The password verify will be valid for at least another 15 minutes giving the user some time to perform an action.
-     * See  {@link requirePasswordVerified}
      *
-     * @param array $redirectParams
+     * @param array $redirectParams The query parameters (e.g. module and action) of the page the user is sent to after
+     *                              confirming the password. Must not be empty.
      * @return null|true if password has been verified recently, will redirect if not
+     * @api
      */
     public function requirePasswordVerifiedRecently($redirectParams)
     {

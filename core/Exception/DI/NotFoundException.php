@@ -9,6 +9,11 @@
 
 namespace Piwik\Exception\DI;
 
+/**
+ * Thrown when no container entry is registered under the requested name.
+ *
+ * @api
+ */
 class NotFoundException extends \DI\NotFoundException
 {
 }

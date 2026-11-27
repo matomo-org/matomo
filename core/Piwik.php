@@ -524,9 +524,13 @@ class Piwik
     }
 
     /**
-     * Checks whether the user has the given capability or not.
-     * @param int|array|string $idSites
-     * @param string $capability
+     * Checks that the current user has the given capability for the given sites and throws a `NoAccessException`
+     * otherwise. Super users always pass; other users need the capability and at least view access for every given site.
+     *
+     * @param int|array|string $idSites A site ID, a list of site IDs, a comma separated string of site IDs or 'all'
+     *                                  (all sites the user has at least view access to).
+     * @param string $capability The ID of the capability, eg 'tagmanager_write'.
+     * @api
      */
     public static function checkUserHasCapability($idSites, $capability)
     {

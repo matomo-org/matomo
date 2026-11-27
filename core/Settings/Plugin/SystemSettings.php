@@ -48,7 +48,8 @@ abstract class SystemSettings extends Settings
      *                             Use one of FieldConfig::TYPE_* constants
      * @param \Closure $fieldConfigCallback   A callback method to configure the field that shall be displayed in the
      *                             UI to define the value for this setting
-     * @return SystemSetting   Returns an instance of the created measurable setting.
+     * @return SystemSetting   Returns an instance of the created system setting.
+     * @api
      */
     protected function makeSetting($name, $defaultValue, $type, $fieldConfigCallback)
     {
@@ -59,16 +60,17 @@ abstract class SystemSettings extends Settings
     }
 
     /**
-     * This is only meant for some core features used by some core plugins that are shipped with Piwik
-     * @internal
-     * @ignore
-     * @param string $configSectionName
-     * @param $name
-     * @param $defaultValue
-     * @param $type
-     * @param $fieldConfigCallback
-     * @return SystemSetting
+     * Creates a new system setting whose value is stored in the given section of the config file instead of the database.
+     *
+     * @param string $configSectionName The name of the config section that holds the value.
+     * @param string $name The name of the setting, also used as the key in the config section.
+     * @param mixed $defaultValue The default value for this setting.
+     * @param string $type The PHP internal type the value of this setting should have.
+     *                     Use one of FieldConfig::TYPE_* constants.
+     * @param \Closure $fieldConfigCallback A callback method to configure the field that describes the setting.
+     * @return \Piwik\Settings\Plugin\SystemConfigSetting The created setting.
      * @throws \Exception
+     * @api
      */
     protected function makeSettingManagedInConfigOnly($configSectionName, $name, $defaultValue, $type, $fieldConfigCallback)
     {

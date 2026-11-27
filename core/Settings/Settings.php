@@ -29,6 +29,7 @@ abstract class Settings
      * By default the plugin name is shown in the UI when managing plugin settings. However, you can overwrite
      *  the displayed title by specifying a title.
      * @var string
+     * @api
      */
     protected $title = '';
 
@@ -56,7 +57,10 @@ abstract class Settings
     }
 
     /**
-     * @ignore
+     * Returns the name of the plugin the settings belong to.
+     *
+     * @return string The plugin name.
+     * @api
      */
     public function getPluginName()
     {
@@ -64,8 +68,11 @@ abstract class Settings
     }
 
     /**
-     * @ignore
-     * @return ?Setting
+     * Returns the setting with the given name, or null if no such setting was added.
+     *
+     * @param string $name The setting name.
+     * @return ?Setting The setting, or null if there is none.
+     * @api
      */
     public function getSetting($name)
     {
@@ -77,9 +84,11 @@ abstract class Settings
     }
 
     /**
-     * Implemented by descendants. This method should define plugin settings (via the
-     * {@link addSetting()}) method and set the introduction text (via the
-     * {@link setIntroduction()}).
+     * Implemented by descendants to define the settings, usually by calling `makeSetting()`.
+     *
+     * Called from the constructor of the system, user and measurable settings classes.
+     *
+     * @api
      */
     abstract protected function init();
 

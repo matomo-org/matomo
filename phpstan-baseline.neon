@@ -1249,12 +1249,6 @@ parameters:
 			path: core/Session/SessionAuth.php
 
 		-
-			message: '#^Method Piwik\\Settings\\Plugin\\SystemSettings\:\:makeSettingManagedInConfigOnly\(\) should return Piwik\\Settings\\Plugin\\SystemSetting but returns Piwik\\Settings\\Plugin\\SystemConfigSetting\.$#'
-			identifier: return.type
-			count: 1
-			path: core/Settings/Plugin/SystemSettings.php
-
-		-
 			message: '#^Instanceof between Closure and Closure will always evaluate to true\.$#'
 			identifier: instanceof.alwaysTrue
 			count: 3

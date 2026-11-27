@@ -15,6 +15,11 @@ use Piwik\Url;
 
 class View extends Role
 {
+    /**
+     * The ID of the view role.
+     *
+     * @api
+     */
     public const ID = 'view';
 
     public function getName(): string

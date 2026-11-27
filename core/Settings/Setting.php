@@ -116,9 +116,10 @@ class Setting
     }
 
     /**
-     * @internal
-     * @ignore
-     * @param $callback
+     * Sets the callback that configures the field displayed in the UI for this setting.
+     *
+     * @param \Closure $callback Receives the FieldConfig instance to configure.
+     * @api
      */
     public function setConfigureCallback($callback)
     {
@@ -152,10 +153,11 @@ class Setting
     }
 
     /**
-     * @internal
-     * @ignore
-     * @return FieldConfig
+     * Returns the field configuration of this setting, creating it via the configure callback if needed.
+     *
+     * @return FieldConfig The configured field.
      * @throws Exception
+     * @api
      */
     public function configureField()
     {

@@ -15,6 +15,11 @@ use Piwik\Url;
 
 class Admin extends Role
 {
+    /**
+     * The ID of the admin role.
+     *
+     * @api
+     */
     public const ID = 'admin';
 
     public function getName(): string

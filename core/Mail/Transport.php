@@ -20,12 +20,18 @@ use Piwik\Mail\OAuth\SmtpTokenProvider;
 use Piwik\Mail\OAuth\XOAuth2Authenticator;
 use Piwik\Piwik;
 
+/**
+ * Sends mails. Replace this class via dependency injection to send mails in a different way.
+ *
+ * @api
+ */
 class Transport
 {
     /**
-     * Sends the given mail
+     * Sends the given mail. Throws an exception if the mail could not be sent.
      *
-     * @return bool
+     * @param Mail $mail The mail to send.
+     * @return bool True if the mail was sent.
      */
     public function send(Mail $mail)
     {
