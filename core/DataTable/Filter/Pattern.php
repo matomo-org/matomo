@@ -34,7 +34,7 @@ class Pattern extends BaseFilter
 
     /**
      * @param DataTable $table The table to eventually filter.
-     * @param string $columnToFilter The column to match with the `$patternToSearch` pattern.
+     * @param string|string[] $columnToFilter One column for a DataTable, or the columns to match when filtering an array.
      * @param string $patternToSearch The regex pattern to use.
      * @param bool $invertedMatch Whether to invert the pattern or not. If true, will remove
      *                            rows if they match the pattern.

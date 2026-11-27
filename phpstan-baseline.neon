@@ -115,18 +115,6 @@ parameters:
 			path: core/API/Request.php
 
 		-
-			message: '#^Parameter \#2 \$columnToFilter of class Piwik\\DataTable\\Filter\\Pattern constructor expects string, array given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/API/ResponseBuilder.php
-
-		-
-			message: '#^Property Piwik\\API\\ResponseBuilder\:\:\$outputFormat is never read, only written\.$#'
-			identifier: property.onlyWritten
-			count: 1
-			path: core/API/ResponseBuilder.php
-
-		-
 			message: '#^Method Piwik\\Archive\\ArchiveInvalidator\:\:getSegmentArchiving\(\) is unused\.$#'
 			identifier: method.unused
 			count: 1
@@ -587,12 +575,6 @@ parameters:
 			identifier: function.alreadyNarrowedType
 			count: 1
 			path: core/DataTable/Filter/ColumnCallbackDeleteRow.php
-
-		-
-			message: '#^Property Piwik\\DataTable\\Filter\\Pattern\:\:\$columnToFilter \(array\|string\) is never assigned array so it can be removed from the property type\.$#'
-			identifier: property.unusedType
-			count: 1
-			path: core/DataTable/Filter/Pattern.php
 
 		-
 			message: '#^Property Piwik\\DataTable\\Filter\\Pattern\:\:\$patternToSearch is never read, only written\.$#'
