@@ -126,7 +126,9 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns visit information grouped by device model.
      *
-     * This report is unavailable when device model detection is disabled by compliance policy.
+     * This report is unavailable when device model detection is disabled by compliance policy,
+     * unless the site measures consent-aware analytics, in which case it shows the device models
+     * of visitors who have given their consent.
      *
      * @param int|string|int[] $idSite Website ID(s) to query.
      *                                 - Single site ID (e.g. 1)

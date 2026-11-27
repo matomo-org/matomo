@@ -397,8 +397,8 @@ class DeviceConsentTest extends IntegrationTestCase
     }
 
     /**
-     * Report metadata is asked for a site that need not be the one in the request, as when a
-     * scheduled report is sent from the command line.
+     * Report metadata is asked for a site that need not be the one in the request, as when it is
+     * requested with idSites rather than idSite.
      *
      * @dataProvider getReportMetadataRequests
      */

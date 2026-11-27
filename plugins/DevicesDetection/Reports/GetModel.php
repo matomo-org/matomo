@@ -44,7 +44,7 @@ class GetModel extends Base
     public function configureReportMetadata(&$availableReports, $infos)
     {
         // report metadata describes the site it is asked for, which need not be the one in the
-        // request, as when a scheduled report is sent
+        // request, as when it is requested with idSites rather than idSite
         if (!$this->isEnabledForSite($infos['idSite'] ?? '')) {
             return;
         }
