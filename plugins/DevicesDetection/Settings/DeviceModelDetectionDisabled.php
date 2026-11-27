@@ -3,6 +3,7 @@
 namespace Piwik\Plugins\DevicesDetection\Settings;
 
 use Piwik\Piwik;
+use Piwik\Plugins\PrivacyManager\Settings\ConsentAwareAnalytics;
 use Piwik\Plugins\PrivacyManager\Settings\CompliancePolicyEnforcedSetting;
 use Piwik\Policy\CnilPolicy;
 
@@ -15,12 +16,12 @@ class DeviceModelDetectionDisabled extends CompliancePolicyEnforcedSetting
 
     public static function getWhatItDoes(?int $idSite = null): string
     {
-        return Piwik::translate('DevicesDetection_DeviceModelDetectionDisabledWhatItDoes');
+        return ConsentAwareAnalytics::translateForScope($idSite, 'DevicesDetection_DeviceModelDetectionDisabledWhatItDoes');
     }
 
     public static function getImpact(?int $idSite = null): string
     {
-        return Piwik::translate('DevicesDetection_DeviceModelDetectionDisabledImpact');
+        return ConsentAwareAnalytics::translateForScope($idSite, 'DevicesDetection_DeviceModelDetectionDisabledImpact');
     }
 
     public static function getComplianceRequirementNote(?int $idSite = null): string

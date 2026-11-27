@@ -3,6 +3,7 @@
 namespace Piwik\Plugins\DevicesDetection\Settings;
 
 use Piwik\Piwik;
+use Piwik\Plugins\PrivacyManager\Settings\ConsentAwareAnalytics;
 use Piwik\Policy\CnilPolicy;
 use Piwik\Settings\Interfaces\PolicyComparisonInterface;
 use Piwik\Settings\Interfaces\SettingValueInterface;
@@ -38,12 +39,12 @@ class OnlyMajorVersions implements
 
     public static function getWhatItDoes(?int $idSite = null): string
     {
-        return Piwik::translate('DevicesDetection_OnlyMajorVersionsSettingWhatItDoes');
+        return ConsentAwareAnalytics::translateForScope($idSite, 'DevicesDetection_OnlyMajorVersionsSettingWhatItDoes');
     }
 
     public static function getImpact(?int $idSite = null): string
     {
-        return Piwik::translate('DevicesDetection_OnlyMajorVersionsSettingImpact');
+        return ConsentAwareAnalytics::translateForScope($idSite, 'DevicesDetection_OnlyMajorVersionsSettingImpact');
     }
 
     public static function getInstance(?int $idSite = null): self

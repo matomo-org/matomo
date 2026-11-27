@@ -40,7 +40,9 @@
         "FeaturePhone": "Feature phone",
         "OnlyMajorVersionsSettingTitle": "Major Browser and OS Versions",
         "OnlyMajorVersionsSettingWhatItDoes": "Only major browser and operating system versions are stored. Minor and patch versions are removed. For example, Chrome 136 or iOS 18 may be stored, but not Chrome 136.0.7103 or iOS 18.5.1.<br><br>This reduces the risk of identifying visitors using detailed browser and operating system information.",
+        "OnlyMajorVersionsSettingWhatItDoesConsentAware": "For visitors who have not given their consent, only major browser and operating system versions are stored. Minor and patch versions are removed. For example, Chrome 136 or iOS 18 may be stored, but not Chrome 136.0.7103 or iOS 18.5.1.<br><br>This reduces the risk of identifying visitors using detailed browser and operating system information. Where a visitor has given their consent, the full versions are stored.",
         "OnlyMajorVersionsSettingImpact": "Browser and operating system version reports under <strong>Visitors > Software</strong> only show major versions. Detailed version analysis and segmentation are unavailable.",
+        "OnlyMajorVersionsSettingImpactConsentAware": "For visitors who have not given their consent, browser and operating system version reports under <strong>Visitors > Software</strong> only show major versions, and detailed version analysis and segmentation are unavailable for them.",
         "OnlyMajorVersionsSettingRequirementNote": "Only Major OS and browser versions are stored.",
         "OperatingSystemFamilies": "Operating System families",
         "OperatingSystemFamily": "Operating system family",
@@ -74,7 +76,9 @@
         "WidgetBrowserVersionsDocumentation": "This report contains information about what kind of browser your visitors were using. Each browser version is listed separately.",
         "DeviceModelDetectionDisabled": "Device Model Detection Disabled",
         "DeviceModelDetectionDisabledWhatItDoes": "Device model detection is disabled.<br><br>This reduces the risk of identifying visitors based on their specific device characteristics.",
+        "DeviceModelDetectionDisabledWhatItDoesConsentAware": "Device model detection is disabled for visitors who have not given their consent.<br><br>This reduces the risk of identifying visitors based on their specific device characteristics. Where a visitor has given their consent, their device model is detected and stored.",
         "DeviceModelDetectionDisabledImpact": "The <strong>Visitors > Devices > Device Model</strong> report is unavailable, and device model information is not collected.",
+        "DeviceModelDetectionDisabledImpactConsentAware": "Device model information is not collected for visitors who have not given their consent. The <strong>Visitors > Devices > Device Model</strong> report only shows the device models of visitors who have given their consent.",
         "DeviceModelDetectionDisabledRequirementNote": "Device model detection and device model report must be disabled.",
         "DeviceModelReportDisabledByCompliancePolicy": "Device model report is disabled by compliance policy."
     }
