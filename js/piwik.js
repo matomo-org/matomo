@@ -6666,7 +6666,10 @@ if (typeof window.Matomo !== 'object') {
                     return false;
                 }
 
-                this.disableCookies();
+                // as in requireCookieConsent(), don't call this.disableCookies() as that deletes the existing
+                // cookies right away, and the user might call `setConsentGiven` next. Cookies are deleted on the
+                // next tracking request otherwise
+                configCookiesDisabled = true;
 
                 return true;
             };
@@ -6697,7 +6700,9 @@ if (typeof window.Matomo !== 'object') {
                 if (this.getRememberedCookieConsent()) {
                     return false;
                 }
-                this.disableCookies();
+                // we won't call this.disableCookies() since we don't want to delete any cookies just yet
+                // user might call `setCookieConsentGiven` next. Cookies are deleted on the next tracking request otherwise
+                configCookiesDisabled = true;
                 return true;
             };
 

@@ -5439,6 +5439,90 @@ if ($mysql) {
 
     // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
     // assertion count for this test is not stable
+    test("Test API - requireCookieConsent keeps existing visitor ID cookie when consent is given", function() {
+        // the site ID is already known when requireCookieConsent is called, as it is for trackers added via addTracker
+        var tracker = Piwik.getTracker();
+        var visitorCookieName = tracker.hook.test._getCookieName('id');
+        var existingCookieValue = '1234567890abcdef.1600000000.';
+        tracker.hook.test._setCookie(visitorCookieName, existingCookieValue, 86400000);
+        strictEqual(tracker.hook.test._getCookie(visitorCookieName), existingCookieValue, 'visitor ID cookie exists before requiring cookie consent');
+
+        ok(tracker.requireCookieConsent(), 'requireCookieConsent disabled cookies');
+        tracker.setCookieConsentGiven();
+        strictEqual(tracker.hook.test._getCookie(visitorCookieName), existingCookieValue, 'existing visitor ID cookie is kept when cookie consent is given');
+        strictEqual(tracker.getVisitorId(), '1234567890abcdef', 'existing visitor ID is still used when cookie consent is given');
+
+        tracker.disableCookies();
+        strictEqual(document.cookie.indexOf(visitorCookieName + '='), -1, 'disableCookies still deletes the visitor ID cookie');
+        deleteCookies();
+    });
+
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
+    test("Test API - requireCookieConsent deletes existing cookies on the next request when consent is never given", function() {
+        var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection();
+        // a token of its own, so this request is not counted by tests that fetch the default token's requests
+        tracker.setCustomData('token', getCookieConsentToken() + 'neverconsented');
+        var visitorCookieName = tracker.hook.test._getCookieName('id');
+        var existingCookieValue = '1234567890abcdef.1600000000.';
+        tracker.hook.test._setCookie(visitorCookieName, existingCookieValue, 86400000);
+
+        ok(tracker.requireCookieConsent(), 'requireCookieConsent disabled cookies');
+        // read document.cookie directly, as the tracker reports no cookies at all while cookies are disabled
+        ok(document.cookie.indexOf(visitorCookieName + '=' + existingCookieValue) !== -1, 'existing visitor ID cookie is kept until the next request');
+
+        tracker.trackRequest('myFoo=withoutCookieConsent');
+        strictEqual(document.cookie.indexOf(visitorCookieName + '='), -1, 'the visitor ID cookie is deleted on the next request without cookie consent');
+        ok(!tracker.areCookiesEnabled(), 'cookies are still disabled after the request');
+
+        deleteCookies();
+    });
+
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
+    test("Test API - requireConsentForRestrictedData keeps existing visitor ID cookie when consent is given", function() {
+        // the site ID is already known when requireConsentForRestrictedData is called, as it is for trackers
+        // added via addTracker and for the Tag Manager Matomo tag
+        var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection();
+        tracker.setCustomData('token', getConsentToken() + 'keepcookie');
+        var visitorCookieName = tracker.hook.test._getCookieName('id');
+        var existingCookieValue = '1234567890abcdef.1600000000.';
+        tracker.hook.test._setCookie(visitorCookieName, existingCookieValue, 86400000);
+
+        ok(tracker.requireConsentForRestrictedData(), 'requireConsentForRestrictedData disabled cookies');
+        tracker.setConsentGiven();
+        strictEqual(tracker.hook.test._getCookie(visitorCookieName), existingCookieValue, 'existing visitor ID cookie is kept when consent is given');
+        strictEqual(tracker.getVisitorId(), '1234567890abcdef', 'existing visitor ID is still used when consent is given');
+
+        deleteCookies();
+    });
+
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
+    test("Test API - requireConsentForRestrictedData deletes existing cookies on the next request when consent is never given", function() {
+        var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection();
+        // a token of its own, so this request is not counted by tests that fetch the default token's requests
+        tracker.setCustomData('token', getConsentToken() + 'neverconsented');
+        var visitorCookieName = tracker.hook.test._getCookieName('id');
+        var existingCookieValue = '1234567890abcdef.1600000000.';
+        tracker.hook.test._setCookie(visitorCookieName, existingCookieValue, 86400000);
+
+        ok(tracker.requireConsentForRestrictedData(), 'requireConsentForRestrictedData disabled cookies');
+        // read document.cookie directly, as the tracker reports no cookies at all while cookies are disabled
+        ok(document.cookie.indexOf(visitorCookieName + '=' + existingCookieValue) !== -1, 'existing visitor ID cookie is kept until the next request');
+
+        tracker.trackRequest('myFoo=withoutConsent');
+        strictEqual(document.cookie.indexOf(visitorCookieName + '='), -1, 'the visitor ID cookie is deleted on the next request without consent');
+        ok(!tracker.areCookiesEnabled(), 'cookies are still disabled after the request');
+
+        deleteCookies();
+    });
+
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
     test("Test API - cookie consent is not reported as consent to being tracked", function() {
         stop();
 
