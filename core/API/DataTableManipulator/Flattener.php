@@ -188,7 +188,6 @@ class Flattener extends DataTableManipulator
             $row->setMetadata('logo', $logo);
         }
 
-        /** @var DataTable $subTable */
         $subTable = $row->getSubtable();
 
         if ($subTable) {
