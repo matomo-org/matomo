@@ -65,7 +65,7 @@
         "PagesSubcategoryHelp1": "Denne rapport indeholder oplysninger om de side-URL'er, der er blevet besøgt.",
         "PagesSubcategoryHelp2": "Tabellen er organiseret hierarkisk, og URL'erne vises som en mappestruktur.",
         "PagesSubcategoryHelp3": "Brug plus og minus ikonerne til venstre til at navigere.",
-        "PluginDescription": "Rapporter om sidevisninger og sidetitler. Gør det muligt at måle det interne websted søgemaskine. Sporer automatisk klik på eksterne links og filhentninger.",
+        "PluginDescription": "Rapporter om sidevisninger og sidetitler. Lader dig måle din hjemmesides interne søgemaskine. Sporer automatisk klik på eksterne links og fildownloads.",
         "RevisitedPages": "Sider vist mere end én gang",
         "SearchesSegmentHelp": "For at vælge alle besøg, der brugte den interne webstedssøgning, skal du bruge: %s",
         "SiteSearchCategories": "Kategorier (Sitesøgning)",
