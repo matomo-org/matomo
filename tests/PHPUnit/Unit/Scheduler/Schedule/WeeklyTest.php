@@ -147,7 +147,7 @@ class WeeklyTest extends \PHPUnit\Framework\TestCase
 
         $mock->setTimezone('Pacific/Auckland');
         $timeAuckland = $mock->getRescheduledTime();
-        $this->assertEquals(-13 * $oneHourInSeconds, $timeAuckland - $timeUTC);
+        $this->assertEquals(-12 * $oneHourInSeconds, $timeAuckland - $timeUTC);
 
         $mock->setTimezone('America/Los_Angeles');
         $timeLosAngeles = $mock->getRescheduledTime();

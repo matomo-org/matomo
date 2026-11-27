@@ -96,11 +96,25 @@ class DailyTest extends \PHPUnit\Framework\TestCase
 
         $mock->setTimezone('Pacific/Auckland');
         $timeAuckland = $mock->getRescheduledTime();
-        $this->assertEquals(-13 * $oneHourInSeconds, $timeAuckland - $timeUTC);
+        $this->assertEquals(-12 * $oneHourInSeconds, $timeAuckland - $timeUTC);
 
         $mock->setTimezone('America/Los_Angeles');
         $timeLosAngeles = $mock->getRescheduledTime();
         $this->assertEquals(8 * $oneHourInSeconds, $timeLosAngeles - $timeUTC);
+    }
+
+    public function testSetTimezoneShouldUseOffsetOfRescheduledDate()
+    {
+        $mock = $this->getDailyMock(mktime(6, 0, 0, 1, 15, 2026));
+        $mock->setTimezone('Pacific/Auckland');
+        $this->assertEquals(mktime(11, 0, 0, 1, 15, 2026), $mock->getRescheduledTime());
+
+        $mock = $this->getDailyMock(mktime(6, 0, 0, 7, 15, 2026));
+        $mock->setTimezone('Pacific/Auckland');
+        $this->assertEquals(mktime(12, 0, 0, 7, 15, 2026), $mock->getRescheduledTime());
+
+        $mock->setTimezone('America/New_York');
+        $this->assertEquals(mktime(4, 0, 0, 7, 16, 2026), $mock->getRescheduledTime());
     }
 
     /**

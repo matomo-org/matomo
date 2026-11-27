@@ -130,12 +130,12 @@ abstract class Schedule
             return $rescheduledTime;
         }
 
-        $arbitraryDateInUTC = Date::factory('2011-01-01');
-        $dateInTimezone     = Date::factory('2011-01-01', $this->timezone);
+        $dateInUTC      = strtotime(date('Y-m-d', $rescheduledTime));
+        $dateInTimezone = Date::adjustForTimezone($dateInUTC, $this->timezone);
 
-        $midnightInTimezone = date('H', $dateInTimezone->getTimestamp());
+        $midnightInTimezone = date('H', $dateInTimezone);
 
-        if ($arbitraryDateInUTC->isEarlier($dateInTimezone)) {
+        if ($dateInUTC < $dateInTimezone) {
             $hoursDifference = 0 - $midnightInTimezone;
         } else {
             $hoursDifference = 24 - $midnightInTimezone;
