@@ -68,6 +68,81 @@ class ExceptionHandlerTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($expectedMessage, $result);
     }
 
+    /**
+     * @runInSeparateProcess SettingsPiwik holds the salt as a static value.
+     */
+    public function testReplaceSensitiveValuesCanLeaveCredentialsUntouched()
+    {
+        StaticContainer::get('Piwik\Access')->setTokenAuth('myTestToken');
+        Config::getInstance()->General['salt'] = 'myTestSalt';
+        Config::getInstance()->database['username'] = 'myTestDbUser';
+        Config::getInstance()->database['password'] = 'myTestDbPass';
+        Config::getInstance()->mail['username'] = 'myTestSmtpUser';
+        Config::getInstance()->mail['password'] = 'myTestSmtpPass';
+        Config::getInstance()->mail['oauth_client_secret'] = 'myTestOAuthSecret';
+        Config::getInstance()->mail['oauth_private_key_password'] = 'myTestKeyPass';
+
+        $credentials = 'myTestDbUser, myTestDbPass, myTestSmtpUser, myTestSmtpPass, myTestOAuthSecret, myTestKeyPass';
+        $testMessage = 'Error in ' . PIWIK_DOCUMENT_ROOT . "/index.php containing myTestToken, myTestSalt, $credentials";
+
+        $this->assertSame(
+            "Error in /index.php containing tokenauth, generalSalt, $credentials",
+            \Piwik\ExceptionHandler::replaceSensitiveValues($testMessage, false)
+        );
+        $this->assertSame(
+            'Error in /index.php containing tokenauth, generalSalt, dbuser, dbpass, smtpuser, smtppass, '
+                . 'smtpoauthclientsecret, smtpoauthprivatekeypassword',
+            \Piwik\ExceptionHandler::replaceSensitiveValues($testMessage)
+        );
+    }
+
+    /**
+     * @dataProvider getMessagesForResponseData
+     * @runInSeparateProcess SettingsPiwik holds the salt as a static value.
+     */
+    public function testGetMessageForResponse(string $message, string $expected)
+    {
+        StaticContainer::get('Piwik\Access')->setTokenAuth('myTestToken');
+        Config::getInstance()->General['salt'] = 'myTestSalt';
+        Config::getInstance()->database['username'] = 'myTestDbUser';
+        Config::getInstance()->database['password'] = 'myTestDbPass';
+        Config::getInstance()->mail['username'] = 'myTestSmtpUser';
+        Config::getInstance()->mail['password'] = 'myTestSmtpPass';
+        Config::getInstance()->mail['oauth_client_secret'] = 'myTestOAuthSecret';
+        Config::getInstance()->mail['oauth_private_key_password'] = 'myTestKeyPass';
+
+        $this->assertSame($expected, \Piwik\ExceptionHandler::getMessageForResponse(new \Exception($message)));
+        $this->assertSame($expected, \Piwik\ExceptionHandler::getMessageForResponse(new \PDOException($message)));
+    }
+
+    public function getMessagesForResponseData(): array
+    {
+        return [
+            'access denied' => [
+                "SQLSTATE[HY000] [1045] Access denied for user 'some'@'localhost' (using password: YES)",
+                "SQLSTATE[HY000] [1045] Access denied for user 'dbuser'@'localhost' (using password: YES)",
+            ],
+            'command denied' => [
+                "SELECT command denied to user 'myTestDbUser'@'10.0.0.5' for table 't'",
+                "SELECT command denied to user 'dbuser'@'10.0.0.5' for table 't'",
+            ],
+            'command denied in another language' => [
+                "SQLSTATE[42000]: 1142 SELECT Befehl nicht erlaubt f\u{FC}r Benutzer 'some'@'localhost' auf Tabelle 't'",
+                "SQLSTATE[42000]: 1142 SELECT Befehl nicht erlaubt f\u{FC}r Benutzer 'dbuser'@'localhost' auf Tabelle 't'",
+            ],
+            'token, salt and root path' => [
+                'Error in ' . PIWIK_DOCUMENT_ROOT . '/index.php containing myTestToken and myTestSalt',
+                'Error in /index.php containing tokenauth and generalSalt',
+            ],
+            'other text' => [
+                "Something failed for 'myTestDbUser', myTestDbPass, myTestSmtpUser, myTestSmtpPass, "
+                    . 'myTestOAuthSecret and myTestKeyPass.',
+                "Something failed for 'myTestDbUser', myTestDbPass, myTestSmtpUser, myTestSmtpPass, "
+                    . 'myTestOAuthSecret and myTestKeyPass.',
+            ],
+        ];
+    }
+
     public function getSensitiveValuesData(): array
     {
         return [

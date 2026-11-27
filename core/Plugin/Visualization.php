@@ -20,6 +20,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\DataTable\DataTableInterface;
 use Piwik\Date;
+use Piwik\ExceptionHandler;
 use Piwik\Http\BadRequestException;
 use Piwik\Log;
 use Piwik\Metrics\Formatter\Html as HtmlFormatter;
@@ -207,7 +208,11 @@ class Visualization extends ViewDataTable
                 'ignoreInScreenWriter' => true,
             ]);
 
-            $message = ExceptionToTextProcessor::getMessageAndWholeBacktrace($e);
+            if (ExceptionHandler::shouldPrintBackTraceWithMessage()) {
+                $message = ExceptionToTextProcessor::getMessageAndWholeBacktrace($e, true);
+            } else {
+                $message = ExceptionHandler::getMessageForResponse($e);
+            }
 
             $loadingError = array('message' => $message);
         }

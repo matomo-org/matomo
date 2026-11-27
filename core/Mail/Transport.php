@@ -12,9 +12,11 @@ namespace Piwik\Mail;
 use PHPMailer\PHPMailer\Exception as PHPMailerException;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
+use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Http\OAuth\TokenRequestFailedException;
+use Piwik\Log\LoggerInterface;
 use Piwik\Mail;
 use Piwik\Mail\OAuth\SmtpTokenProvider;
 use Piwik\Mail\OAuth\XOAuth2Authenticator;
@@ -119,7 +121,21 @@ class Transport
                 StaticContainer::get(SmtpTokenProvider::class)->forgetAccessToken();
             }
 
-            throw $e;
+            if (Common::isPhpCliMode()) {
+                throw $e;
+            }
+
+            StaticContainer::get(LoggerInterface::class)->error('Could not send email: {exception}', [
+                'exception' => $e,
+                'ignoreInScreenWriter' => true,
+            ]);
+
+            // the mail library appends the reply of the mail server, which is only written to the log
+            throw new PHPMailerException(
+                Piwik::translate('General_ExceptionEmailNotSent', ['core:test-email']),
+                $e->getCode(),
+                $e
+            );
         }
     }
 
