@@ -99,26 +99,12 @@ class ThirdPartyCookies implements
 
     public static function getWhatItDoes(?int $idSite = null): string
     {
-        // as for the other settings consent lifts: the consent-aware wording describes a site
-        // that measures consent-aware analytics, and where it is not turned on every visitor is
-        // treated the same
-        if (ConsentAwareAnalytics::isEnabledForScope($idSite)) {
-            return Piwik::translate('General_ThirdPartyCookieSettingWhatItDoesConsentAware');
-        }
-
-        return Piwik::translate('General_ThirdPartyCookieSettingWhatItDoes');
+        return ConsentAwareAnalytics::translateForScope($idSite, 'General_ThirdPartyCookieSettingWhatItDoes');
     }
 
     public static function getImpact(?int $idSite = null): string
     {
-        // as for the other settings consent lifts: the consent-aware wording describes a site
-        // that measures consent-aware analytics, and where it is not turned on every visitor is
-        // treated the same
-        if (ConsentAwareAnalytics::isEnabledForScope($idSite)) {
-            return Piwik::translate('General_ThirdPartyCookieSettingImpactConsentAware');
-        }
-
-        return Piwik::translate('General_ThirdPartyCookieSettingImpact');
+        return ConsentAwareAnalytics::translateForScope($idSite, 'General_ThirdPartyCookieSettingImpact');
     }
 
     public static function getInstance(?int $idSite = null): self
