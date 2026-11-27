@@ -529,6 +529,8 @@
         "ThirdPartyCookieSettingTitle": "Third-Party Cookies Disabled",
         "ThirdPartyCookieSettingWhatItDoes": "Third-party cookies are disabled. Matomo uses first-party cookies so that cookie-based visitor identifiers remain limited to the website that created them.<br><br>This prevents cookie-based identification of visitors across unrelated websites.",
         "ThirdPartyCookieSettingImpact": "Matomo cannot use third-party cookies for cross-site visitor recognition. Visitor identifiers remain limited to the current website or first-party cookie scope.",
+        "ThirdPartyCookieSettingWhatItDoesConsentAware": "Third-party cookies are disabled for visitors who have not given their consent. Matomo uses first-party cookies so that their cookie-based visitor identifiers remain limited to the website that created them.<br><br>This prevents cookie-based identification of those visitors across unrelated websites. Where a visitor has given their consent, the third-party cookie is set if it is enabled in the Matomo configuration.",
+        "ThirdPartyCookieSettingImpactConsentAware": "For visitors who have not given their consent, Matomo cannot use third-party cookies for cross-site visitor recognition, and their visitor identifiers remain limited to the current website or first-party cookie scope.",
         "ThirdPartyCookieSettingNote": "Third-party cookies must be disabled",
         "TimeAgo": "%s ago",
         "TimeFormat": "Time format",

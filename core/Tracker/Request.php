@@ -25,12 +25,14 @@ use Piwik\Http\BadRequestException;
 use Piwik\IP;
 use Matomo\Network\IPUtils;
 use Piwik\Piwik;
+use Piwik\Policy\PolicyEnforcementBypass;
 use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\ProxyHttp;
 use Piwik\Segment\SegmentExpression;
 use Piwik\Tracker;
 use Piwik\Cache as PiwikCache;
 use Piwik\Tracker\Cache as TrackerCache;
+use Piwik\Tracker\Config\ThirdPartyCookies;
 use Piwik\Plugins\PrivacyManager\Settings\ConsentAwareAnalytics;
 use Piwik\Plugins\UserId\Settings\UserIdDisabled;
 
@@ -745,6 +747,42 @@ class Request
         return TrackerConfig::getConfigValue('use_third_party_id_cookie', $this->getIdSiteIfExists());
     }
 
+    /**
+     * As shouldUseThirdPartyCookie(), for a caller that knows whether the request has the
+     * visitor's consent.
+     *
+     * Where it does, on a site that measures consent-aware analytics, a compliance policy no
+     * longer keeps the third-party cookie off: the value the admin configured applies instead.
+     * Consent never turns the cookie on where the admin left it off.
+     *
+     * The consent is the request's own, not the visit's. The cookie is stored in the visitor's
+     * browser rather than measured against the visit, so it follows what the visitor states on
+     * this request: a later request in the same visit that does not repeat the flag does not
+     * write it, and a consent ping landing on a visit measured before consent does, as the
+     * consented visit that ping goes on to start would. It is not read back to recognise the
+     * visitor where a policy keeps it off, see getVisitorId().
+     *
+     * This is a method of its own so that shouldUseThirdPartyCookie() keeps the signature a
+     * plugin replacing or extending this class may already be overriding.
+     *
+     * @return mixed
+     */
+    public function shouldUseThirdPartyCookieForConsent(bool $hasConsent)
+    {
+        if (!$hasConsent || !$this->measuresConsentAwareAnalytics()) {
+            return $this->shouldUseThirdPartyCookie();
+        }
+
+        $idSite = (int) $this->getIdSiteIfExists();
+
+        // the bypass sets aside every policy requirement on this setting, which is what consent
+        // lifts: should a policy ever require it off whatever the visitor consents to, it has to
+        // be kept here
+        return PolicyEnforcementBypass::run(function () use ($idSite) {
+            return ThirdPartyCookies::getInstance($idSite)->getValue();
+        });
+    }
+
     public function getThirdPartyCookieVisitorId()
     {
         $cookie = $this->makeThirdPartyCookieUID();
@@ -763,7 +801,7 @@ class Request
      */
     public function setThirdPartyCookie($idVisitor)
     {
-        if (!$this->shouldUseThirdPartyCookie()) {
+        if (!$this->shouldUseThirdPartyCookieForConsent($this->hasConsent())) {
             return;
         }
 
@@ -869,6 +907,9 @@ class Request
         if (!$privacyConfig->forceCookielessTracking) {
             // - If set to use 3rd party cookies for Visit ID, read the cookie
             if (!$found) {
+                // Not lifted by consent, unlike where the cookie is written: as with the User ID
+                // above, a visitor's identifier may not change with the consent a request reports,
+                // or the same browser is one visitor with the flag and another without it.
                 $useThirdPartyCookie = $this->shouldUseThirdPartyCookie();
                 if ($useThirdPartyCookie) {
                     $idVisitor = $this->getThirdPartyCookieVisitorId();
@@ -902,7 +943,7 @@ class Request
 
         // For 3rd party cookies, priority is on re-using the existing 3rd party cookie value
         if (!$found) {
-            $useThirdPartyCookie = $this->shouldUseThirdPartyCookie();
+            $useThirdPartyCookie = $this->shouldUseThirdPartyCookieForConsent($this->hasConsent());
             if ($useThirdPartyCookie) {
                 $idVisitor = $this->getThirdPartyCookieVisitorId();
                 if (!empty($idVisitor)) {

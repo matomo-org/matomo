@@ -29,6 +29,7 @@ use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tracker\Cache as TrackerCache;
+use Piwik\Tracker\Config\ThirdPartyCookies;
 
 /**
  * Consent-aware analytics is turned on from the Compliance page, for the instance or for a site.
@@ -113,6 +114,7 @@ class ConsentAwareAnalyticsSettingTest extends IntegrationTestCase
             CampaignParameterValuesMasked::class => 'PrivacyManager_CampaignParameterValuesMaskedSetting',
             ReferrerAnonymisation::class => 'PrivacyManager_ReferrerAnonymizationSetting',
             UserIdDisabled::class => 'UserId_UserIdDisabledSetting',
+            ThirdPartyCookies::class => 'General_ThirdPartyCookieSetting',
         ];
 
         foreach ($settings as $class => $keyPrefix) {

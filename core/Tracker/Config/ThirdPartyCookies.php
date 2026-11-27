@@ -3,6 +3,7 @@
 namespace Piwik\Tracker\Config;
 
 use Piwik\Piwik;
+use Piwik\Plugins\PrivacyManager\Settings\ConsentAwareAnalytics;
 use Piwik\Settings\Interfaces\ConfigSettingInterface;
 use Piwik\Settings\Interfaces\PolicyComparisonInterface;
 use Piwik\Settings\Interfaces\SettingValueInterface;
@@ -98,12 +99,12 @@ class ThirdPartyCookies implements
 
     public static function getWhatItDoes(?int $idSite = null): string
     {
-        return Piwik::translate('General_ThirdPartyCookieSettingWhatItDoes');
+        return ConsentAwareAnalytics::translateForScope($idSite, 'General_ThirdPartyCookieSettingWhatItDoes');
     }
 
     public static function getImpact(?int $idSite = null): string
     {
-        return Piwik::translate('General_ThirdPartyCookieSettingImpact');
+        return ConsentAwareAnalytics::translateForScope($idSite, 'General_ThirdPartyCookieSettingImpact');
     }
 
     public static function getInstance(?int $idSite = null): self

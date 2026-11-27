@@ -201,6 +201,9 @@ class ConsentAwareAnalytics implements SystemSettingInterface, MeasurableSetting
             return true;
         }
 
+        // The third-party cookie is deliberately not counted: consent lifts it per request (see
+        // Request::shouldUseThirdPartyCookieForConsent()) and nothing stored on the visit depends on it.
+
         // every privacy setting consent lifts back to the admin's own value
         return (new PrivacyManagerConfig($idSite))->isConfiguredValueOverriddenByPolicy();
     }
