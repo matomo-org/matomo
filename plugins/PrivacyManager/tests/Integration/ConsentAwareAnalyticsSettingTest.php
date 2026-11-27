@@ -19,6 +19,8 @@ use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\NoAccessException;
 use Piwik\Piwik;
 use Piwik\Plugins\PrivacyManager\API;
+use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
+use Piwik\Plugins\PrivacyManager\ReferrerAnonymizer;
 use Piwik\Plugins\PrivacyManager\Settings\CampaignParameterValuesMasked;
 use Piwik\Plugins\PrivacyManager\Settings\ConsentAwareAnalytics;
 use Piwik\Plugins\PrivacyManager\Settings\ReferrerAnonymisation;
@@ -26,6 +28,7 @@ use Piwik\Plugins\UserId\Settings\UserIdDisabled;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Tracker\Cache as TrackerCache;
 use Piwik\Tracker\Config\ThirdPartyCookies;
 
 /**
@@ -365,6 +368,85 @@ class ConsentAwareAnalyticsSettingTest extends IntegrationTestCase
         $this->api->setConsentAwareAnalytics($this->idSite, '1');
 
         $this->assertTrue(ConsentAwareAnalytics::isEnabledForSite($this->idSite));
+    }
+
+    /**
+     * @return iterable<string, array{0: bool, 1: bool, 2: bool}>
+     */
+    public function getMeasuredForSiteCases(): iterable
+    {
+        // turned on, cookieless tracking forced, measured
+        yield 'turned on' => [true, false, true];
+        yield 'turned on, but cookieless tracking is forced' => [true, true, false];
+        yield 'not turned on' => [false, false, false];
+    }
+
+    /**
+     * What a report or segment offers for consented visits must follow what tracking stores for
+     * them, so this gives the answer a request on the site would.
+     *
+     * @dataProvider getMeasuredForSiteCases
+     */
+    public function testASiteIsMeasuredForConsentExactlyWhereItsRequestsAre(
+        bool $enabled,
+        bool $forceCookieless,
+        bool $expected
+    ): void {
+        ConsentAwareAnalytics::setEnabled($enabled, $this->idSite);
+        $privacyConfig = new PrivacyManagerConfig();
+        $privacyConfig->forceCookielessTracking = $forceCookieless;
+        TrackerCache::deleteTrackerCache();
+
+        $request = new \Piwik\Tracker\Request(['idsite' => $this->idSite, 'rec' => 1]);
+
+        $this->assertSame($expected, ConsentAwareAnalytics::isMeasuredForSite($this->idSite));
+        $this->assertSame($expected, $request->measuresConsentAwareAnalytics());
+        $this->assertFalse(ConsentAwareAnalytics::isMeasuredForSite(0));
+
+        $privacyConfig->forceCookielessTracking = false;
+    }
+
+    /**
+     * @return iterable<string, array{0: string, 1: ?string, 2: bool}>
+     */
+    public function getConfiguredValueRestrictionCases(): iterable
+    {
+        // enforced referrer anonymisation, the admin's own (null: not in the cache), relaxable
+        yield 'a policy enforcing more than the admin configured' => [ReferrerAnonymizer::EXCLUDE_PATH, ReferrerAnonymizer::EXCLUDE_QUERY, true];
+        yield 'the admin\'s own value, nothing enforced over it' => [ReferrerAnonymizer::EXCLUDE_PATH, ReferrerAnonymizer::EXCLUDE_PATH, false];
+        yield 'a cache written before the admin\'s own value was kept' => [ReferrerAnonymizer::EXCLUDE_PATH, null, false];
+    }
+
+    /**
+     * A privacy setting consent lifts back to the admin's own value is something to relax only
+     * where a policy enforces more than that value. Every other setting is held unrestricted here.
+     *
+     * @dataProvider getConfiguredValueRestrictionCases
+     */
+    public function testASettingEnforcedOverTheAdminsOwnValueIsARelaxableRestriction(
+        string $enforced,
+        ?string $configured,
+        bool $expected
+    ): void {
+        $siteCache = TrackerCache::getCacheWebsiteAttributes($this->idSite);
+
+        $siteCache[CampaignParameterValuesMasked::class] = false;
+        $siteCache[UserIdDisabled::class] = false;
+        $siteCache[UserIdDisabled::CONFIGURED_VALUE_CACHE_KEY] = false;
+        $siteCache['PrivacyManager.anonymizeReferrer'] = $enforced;
+        unset($siteCache['PrivacyManager.anonymizeReferrerConfiguredValue']);
+        if (null !== $configured) {
+            $siteCache['PrivacyManager.anonymizeReferrerConfiguredValue'] = $configured;
+        }
+
+        TrackerCache::$cache->save($this->idSite, $siteCache);
+
+        // a cache written before the configured value was kept lacks it in the general cache too
+        $generalCache = TrackerCache::getCacheGeneral();
+        unset($generalCache['PrivacyManager.anonymizeReferrerConfiguredValue']);
+        TrackerCache::setCacheGeneral($generalCache);
+
+        $this->assertSame($expected, ConsentAwareAnalytics::hasRelaxableRestriction($this->idSite));
     }
 
     public function provideContainerConfig()

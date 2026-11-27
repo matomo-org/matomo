@@ -208,6 +208,32 @@ class Consent extends VisitDimension
     }
 
     /**
+     * Whether the visit's consent may relax what this request writes to the visit.
+     *
+     * This is {@see visitHasConsent()}, except for a consent this visit may not use at all: a
+     * consent ping landing on a visit measured before any was given belongs to the visit it goes
+     * on to start, not to this one. A visit being created now is the one the request starts, so
+     * that question does not arise there.
+     *
+     * Ask it once whether the request starts a new visit is settled, that is from a dimension's
+     * onNewVisit() / onExistingVisit() or a request processor's afterRequestProcessed() on.
+     *
+     * @param Action|null $action
+     */
+    public static function visitConsentApplies(Request $request, Visitor $visitor, $action = null): bool
+    {
+        if (!self::visitHasConsent($request, $visitor)) {
+            return false;
+        }
+
+        if (!$request->hasConsent() || $request->getMetadata('CoreHome', 'isNewVisit')) {
+            return true;
+        }
+
+        return self::appliesToVisit($request, $visitor, $action);
+    }
+
+    /**
      * Whether consent was already recorded for this visit, as stored before the current request.
      */
     public static function hasVisitConsented(Visitor $visitor): bool
