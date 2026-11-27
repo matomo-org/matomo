@@ -407,6 +407,79 @@ class UrlTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @dataProvider getCurrentQueryStringsWithModifiedParameters
+     */
+    public function testGetCurrentQueryStringWithParametersModified(string $currentQueryString, array $params, string $expected)
+    {
+        $_SERVER['QUERY_STRING'] = $currentQueryString;
+
+        $result = Url::getCurrentQueryStringWithParametersModified($params);
+        $this->assertSame($expected, $result);
+
+        parse_str(ltrim($result, '?'), $parsed);
+        foreach ($params as $name => $value) {
+            if ($value === null) {
+                $this->assertArrayNotHasKey($name, $parsed);
+            } else {
+                $this->assertSame((string) $value, $parsed[$name]);
+            }
+        }
+    }
+
+    public function getCurrentQueryStringsWithModifiedParameters(): array
+    {
+        $currentQueryString = 'module=CoreHome&action=index&idSite=1&period=day&date=today';
+
+        return [
+            'overwrites parameters in place' => [
+                $currentQueryString,
+                ['module' => 'API', 'action' => 'getReport'],
+                '?module=API&action=getReport&idSite=1&period=day&date=today',
+            ],
+            'appends new parameters' => [
+                $currentQueryString,
+                ['method' => 'VisitsSummary.get', 'format' => 'XML'],
+                '?module=CoreHome&action=index&idSite=1&period=day&date=today&method=VisitsSummary.get&format=XML',
+            ],
+            'removes parameters set to null' => [
+                $currentQueryString,
+                ['period' => null, 'date' => null],
+                '?module=CoreHome&action=index&idSite=1',
+            ],
+            'keeps array parameters' => [
+                'module=CoreHome&action=index&idSites[]=1&idSites[]=2',
+                ['action' => 'getRows'],
+                '?module=CoreHome&action=getRows&idSites[]=1&idSites[]=2',
+            ],
+            'drops percent-encoded variant' => [
+                'method=a&idSite=1&%6dethod=b',
+                ['method' => 'Live.getVisitorProfile'],
+                '?method=Live.getVisitorProfile&idSite=1',
+            ],
+            'drops subscripted variant' => [
+                'idSite=1&module[x]=a&module=CoreHome',
+                ['module' => 'API'],
+                '?idSite=1&module=API',
+            ],
+            'drops variant only the client-side parser reads as the key' => [
+                'idSite=1&module[%00]=a',
+                ['module' => 'API'],
+                '?idSite=1&module=API',
+            ],
+            'drops variant of a removed parameter' => [
+                'idSite=1&filter%5Fcolumn=label',
+                ['filter_column' => null],
+                '?idSite=1',
+            ],
+            'keeps unrelated encoded names' => [
+                'idSite=1&%6Dy%5Fparam=a&module=x',
+                ['module' => 'API'],
+                '?idSite=1&%6Dy%5Fparam=a&module=API',
+            ],
+        ];
+    }
+
+    /**
      * @dataProvider getHostsFromUrl
      */
     public function testGetHostsFromUrl($url, $expectedHost)
