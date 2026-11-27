@@ -59,6 +59,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ### HTTP Tracking API
 * With `[Tracker] record_statistics = 0`, the tracking endpoint now also answers requests with `send_image=0` with `503` instead of `204`, and bulk requests with `503` and `"status":"error"` instead of a success response.
+* An exception implementing `Piwik\Http\HttpCodeException` thrown while tracking, except `PluginDeactivatedException` and `PluginNotFoundException`, is now answered with its `4xx` or `5xx` status code instead of `500` (or `400` for an invalid request parameter); in a bulk request, a `4xx` code other than `408` and `429` counts the request as invalid, while `408`, `429` and `5xx` fail the whole bulk request.
 
 ### Archiving
 * Different `core:archive` processes can now archive "All visits" and segments of the same site and an overlapping period at the same time. State that an archiver shares across a site's segments must therefore also be safe to use while the "All visits" archive is processed.
