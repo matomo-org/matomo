@@ -111,6 +111,11 @@
         "AIChatbotTrafficRatioValue": "%1$s×",
         "ColumnAIChatbotTrafficRatio": "Trafikforhold for AI-chatbots",
         "ColumnAIChatbotTrafficRatioDocumentation": "Forholdet mellem anmodninger fra AI-chatbots og sidevisninger foretaget af mennesker, direkte eller via AI-agenter. En værdi på 2,0× betyder, at der var dobbelt så mange anmodninger fra AI-chatbots som sidevisninger.",
-        "ColumnAcquiredVisitsDocumentation": "Besøg, der startede, efter at nogen klikkede fra en AI-chatbot (Henvisninger → AI-assistenter)."
+        "ColumnAcquiredVisitsDocumentation": "Besøg, der startede, efter at nogen klikkede fra en AI-chatbot (Henvisninger → AI-assistenter).",
+        "NoDataHttpTrackingApiInstructions1": "HTTP Tracking API lader dig spore anmodninger fra AI-chatbots direkte i Matomo, når du har brug for en brugerdefineret integration. Send registrerede anmodninger fra AI-chatbots til Matomo med de påkrævede parametre til botsporing.",
+        "NoDataHttpTrackingApiInstructions2": "Identificer anmodninger fra AI-chatbots i din applikation eller på din server.",
+        "NoDataHttpTrackingApiInstructions3": "Send anmodningerne til Matomo via HTTP Tracking API med dit Matomo-hjemmeside-id og de påkrævede parametre til botsporing.",
+        "NoDataHttpTrackingApiInstructions4": "Når konfigurationen er færdig, og der forekommer aktivitet fra AI-chatbots, skal du kontrollere, at den vises i rapporterne om AI-chatbots.",
+        "NoDataLinkApiReference": "API-reference: %1$sReference til HTTP Tracking API%2$s"
     }
 }
