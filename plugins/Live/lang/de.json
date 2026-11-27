@@ -32,6 +32,7 @@
         "NoMoreVisits": "Für diesen Besucher sind keine weiteren Besuche vorhanden.",
         "OnClickPause": "%s läuft. Klicken Sie zum Pausieren.",
         "OnClickStart": "%s ist gestoppt. Klicken Sie zum Starten.",
+        "OnlyConsentedVisitsShown": "Es werden nur Besuche von Personen angezeigt, die eingewilligt haben, da die Compliance-Richtlinie dieser Website das Besucherprotokoll deaktiviert.",
         "PageRefreshed": "Die Anzahl, wie oft diese Seite hintereinander angeschaut/aktualisiert worden ist.",
         "PluginDescription": "Unterstützt das Echtzeit-Besuchsprotokoll und lässt Sie Ihre Besucher live im Echtzeit-Dashboard-Widget anzeigen. Ein Besucherprofil kann für jeden beliebigen Benutzer angezeigt werden.",
         "PreviousVisitor": "Vorheriger Besucher",
