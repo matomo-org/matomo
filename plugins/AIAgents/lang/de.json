@@ -33,6 +33,10 @@
         "ColumnAIAgentUsers": "KI-Agenten-Benutzer",
         "AIAgentsOverview": "KI-Agenten-Übersicht",
         "AIAgentsOverviewSubcategoryDescription": "Verschaffen Sie sich auf einen Blick einen Überblick darüber, wie KI-Agenten und menschliche Besucher mit Ihrer Seite interagieren. Diese Übersicht zeigt zusammengefasste Metriken und Trends an, sodass Sie Veränderungen schnell erkennen können, bevor Sie sich die detaillierten Berichte ansehen.",
-        "SparklineAIAgentBounceRate": "Die Absprungrate bei Besuchen durch KI-Agenten ist gestiegen (Besucher haben die Website nach dem Aufrufen einer Seite wieder verlassen)"
+        "SparklineAIAgentBounceRate": "Die Absprungrate bei Besuchen durch KI-Agenten ist gestiegen (Besucher haben die Website nach dem Aufrufen einer Seite wieder verlassen)",
+        "ColumnAIAgentUniqueVisitorsEstimated": "Eindeutige KI-Agenten-Besucher (geschätzt)",
+        "ColumnAIAgentUsersEstimated": "KI-Agenten-Benutzer (geschätzt)",
+        "ColumnHumanUniqueVisitorsEstimated": "Einzigartige menschliche Besucher (geschätzt)",
+        "ColumnHumanUsersEstimated": "Menschliche Benutzer (geschätzt)"
     }
 }
