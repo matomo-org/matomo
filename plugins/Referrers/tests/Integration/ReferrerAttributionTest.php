@@ -11,6 +11,9 @@ namespace Piwik\Plugins\Referrers\tests\Integration;
 
 use Piwik\Common;
 use Piwik\Db;
+use Piwik\Metrics;
+use Piwik\Plugins\Goals\API as GoalsAPI;
+use Piwik\Plugins\Referrers\API as ReferrersAPI;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -324,6 +327,43 @@ class ReferrerAttributionTest extends IntegrationTestCase
             'referer_name' => 'some_sale',
             'referer_keyword' => '',
         ]]);
+    }
+
+    public function testConversionKeepsCaseOfCampaignStoredOnVisit(): void
+    {
+        $idSite = Fixture::createWebsite('2020-01-01 02:00:00', true, 'test', 'https://matomo.org/');
+        $idGoal = GoalsAPI::getInstance()->addGoal($idSite, 'Goal', 'manually', '', 'contains');
+        $tracker = Fixture::getTracker($idSite, '2020-01-01 05:00:00');
+
+        $tracker->setUrl('https://matomo.org/landing?utm_campaign=QA-Spring&utm_term=Spring-KW');
+        Fixture::checkResponse($tracker->doTrackPageView('Landing'));
+
+        // A plugin such as MarketingCampaignsReporting may store the campaign on the visit in its original case
+        Db::query(
+            'UPDATE ' . Common::prefixTable('log_visit') . ' SET referer_name = ?, referer_keyword = ?',
+            ['QA-Spring', 'Spring-KW']
+        );
+
+        $tracker->setForceVisitDateTime('2020-01-01 05:05:00');
+        $tracker->setCustomTrackingParameter('_rcn', 'QA-Spring');
+        $tracker->setCustomTrackingParameter('_rck', 'Spring-KW');
+        Fixture::checkResponse($tracker->doTrackGoal($idGoal, 10));
+
+        $tracker->setForceVisitDateTime('2020-01-01 05:06:00');
+        Fixture::checkResponse($tracker->doTrackEcommerceOrder('TestingOrder', 124.5));
+
+        $expectedConversion = [
+            'idvisit' => 1,
+            'referer_type' => Common::REFERRER_TYPE_CAMPAIGN,
+            'referer_name' => 'QA-Spring',
+            'referer_keyword' => 'Spring-KW',
+        ];
+        $this->assertConversionReferrers([$expectedConversion, $expectedConversion]);
+
+        $campaigns = ReferrersAPI::getInstance()->getCampaigns($idSite, 'day', '2020-01-01');
+        self::assertSame(['QA-Spring'], $campaigns->getColumn('label'));
+        self::assertEquals(1, $campaigns->getFirstRow()->getColumn(Metrics::INDEX_NB_VISITS));
+        self::assertEquals(2, $campaigns->getFirstRow()->getColumn(Metrics::INDEX_NB_CONVERSIONS));
     }
 
     public function getReferrerAttributionUsingLastReferrerTestCases(): iterable
