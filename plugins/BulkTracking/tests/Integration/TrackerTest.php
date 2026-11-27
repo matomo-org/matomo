@@ -12,7 +12,7 @@ namespace Piwik\Plugins\BulkTracking\tests\Integration;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\EventDispatcher;
-use Piwik\Plugins\BulkTracking\tests\Framework\Mock\Tracker\Response;
+use Piwik\Plugins\BulkTracking\Tracker\Response;
 use Piwik\Plugins\BulkTracking\tests\Framework\TestCase\BulkTrackingTestCase;
 use Piwik\Plugins\BulkTracking\Tracker\Handler;
 use Piwik\Tests\Framework\DbErrorRaiser;
