@@ -2,10 +2,13 @@
 
 use Piwik\Container\Container;
 
-function isTrackerDebugEnabled(Container $c)
-{
-    $trackerDebug = $c->get("ini.Tracker.debug");
-    return ($trackerDebug == 1 || !empty($GLOBALS['PIWIK_TRACKER_DEBUG']));
+// the config file is loaded again for each tracker environment built in the same process
+if (!function_exists('isTrackerDebugEnabled')) {
+    function isTrackerDebugEnabled(Container $c)
+    {
+        $trackerDebug = $c->get("ini.Tracker.debug");
+        return ($trackerDebug == 1 || !empty($GLOBALS['PIWIK_TRACKER_DEBUG']));
+    }
 }
 
 return array(

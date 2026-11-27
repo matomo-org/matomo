@@ -11,7 +11,11 @@ namespace Piwik\Plugins\BulkTracking\tests\Integration;
 
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\EventDispatcher;
+use Piwik\Exception\ThingNotFoundException;
+use Piwik\Http\BadRequestException;
+use Piwik\Log\LoggerInterface;
 use Piwik\Plugins\BulkTracking\tests\Framework\Mock\Tracker\Response;
 use Piwik\Plugins\BulkTracking\tests\Framework\TestCase\BulkTrackingTestCase;
 use Piwik\Plugins\BulkTracking\Tracker\Handler;
@@ -19,6 +23,7 @@ use Piwik\Tests\Framework\DbErrorRaiser;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tracker;
 use Piwik\Tests\Framework\Mock\Tracker\RequestSet;
+use Psr\Log\LogLevel;
 
 /**
  * @group TrackerTest
@@ -186,6 +191,87 @@ class TrackerTest extends BulkTrackingTestCase
         $this->assertStringStartsWith('{"status":"success"', $response);
         $this->assertNotEmpty($this->getIdVisit(1));
         $this->assertEmpty($this->getIdVisit(2));
+    }
+
+    public function testMainCountsARequestRejectedWithAClientErrorStatusAsInvalid()
+    {
+        EventDispatcher::getInstance()->addObserver('Tracker.isExcludedVisit', function (&$excluded, Tracker\Request $request) {
+            if ($request->getIdSite() === 2) {
+                throw new ThingNotFoundException('Form not found');
+            }
+        });
+
+        $response = $this->trackBulkRequest();
+
+        $this->assertSame('{"status":"success","tracked":1,"invalid":1}', $response);
+        $this->assertNotEmpty($this->getIdVisit(1));
+        $this->assertEmpty($this->getIdVisit(2));
+    }
+
+    /**
+     * @dataProvider getStatusCodesThatFailTheBatch
+     */
+    public function testMainFailsTheBatchSoItIsRetriedForAnHttpCodeExceptionWithStatusCode(int $code, string $statusLine)
+    {
+        EventDispatcher::getInstance()->addObserver('Tracker.isExcludedVisit', function (&$excluded, Tracker\Request $request) use ($code) {
+            if ($request->getIdSite() === 2) {
+                throw new BadRequestException('Try again later', $code);
+            }
+        });
+        Common::$headersSentInTests = [];
+
+        $response = $this->trackBulkRequest();
+
+        $this->assertSame('error', json_decode($response, true)['status'] ?? null, 'Expected a single JSON error response: ' . $response);
+        $this->assertArrayHasKey($statusLine, Common::$headersSentInTests);
+        $this->assertEmpty($this->getIdVisit(1), 'The request tracked before the error must be rolled back too');
+        $this->assertEmpty($this->getIdVisit(2));
+    }
+
+    public function getStatusCodesThatFailTheBatch(): iterable
+    {
+        yield 'request timeout' => [408, 'HTTP/1.1 408 Request Timeout'];
+        yield 'too many requests' => [429, 'HTTP/1.1 429 Too Many Requests'];
+        yield 'service unavailable' => [503, 'HTTP/1.1 503 Service Unavailable'];
+    }
+
+    public function testMainRollsBackAndAnswersWithOneErrorResponseWhenAPhpErrorIsThrown()
+    {
+        EventDispatcher::getInstance()->addObserver('Tracker.isExcludedVisit', function (&$excluded, Tracker\Request $request) {
+            if ($request->getIdSite() === 2) {
+                throw new \TypeError('my type error');
+            }
+        });
+
+        $response = $this->trackBulkRequest();
+
+        $this->assertSame('error', json_decode($response, true)['status'] ?? null, 'Expected a single JSON error response: ' . $response);
+        $this->assertEmpty($this->getIdVisit(1), 'The request tracked before the error must be rolled back too');
+        $this->assertEmpty($this->getIdVisit(2));
+    }
+
+    public function testMainKeepsSuccessResponseWhenTrackerEndFailsAfterTheCommit()
+    {
+        EventDispatcher::getInstance()->addObserver('Tracker.end', function () {
+            throw new \RuntimeException('end failed');
+        });
+
+        $logger = $this->createMock(LoggerInterface::class);
+        $logger->expects($this->once())->method('log')->with(
+            LogLevel::ERROR,
+            'Exception: {exception}',
+            $this->callback(function (array $context) {
+                return $context['exception'] instanceof \RuntimeException && $context['exception']->getMessage() === 'end failed';
+            })
+        );
+        StaticContainer::getContainer()->set(LoggerInterface::class, $logger);
+        $this->tracker = new Tracker();
+
+        $response = $this->trackBulkRequest();
+
+        $this->assertSame('{"status":"success","tracked":2,"invalid":0}', $response);
+        $this->assertNotEmpty($this->getIdVisit(1));
+        $this->assertNotEmpty($this->getIdVisit(2));
     }
 
     private function raiseErrorWhenTrackingSite(int $idSite, int $errorNumber, string $message, bool $isCaught): void

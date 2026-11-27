@@ -63,7 +63,13 @@ class Handler extends Tracker\Handler
             } catch (InvalidRequestParameterException $ex) {
                 $invalidRequests[] = $index;
             } catch (Exception $e) {
-                if (TransactionErrors::isStatementOnly(Tracker::getDatabase(), $e)) {
+                $statusCode = self::getStatusCodeForException($e);
+                // eg an HttpCodeException with a client error status thrown by a plugin; a status the client
+                // should retry fails the batch instead
+                if ($statusCode < 500 && !in_array($statusCode, [408, 429], true)) {
+                    Common::printDebug('Request ' . $index . ' is invalid: ' . $e->getMessage());
+                    $invalidRequests[] = $index;
+                } elseif (TransactionErrors::isStatementOnly(Tracker::getDatabase(), $e)) {
                     continue;
                 } else {
                     throw $e;
