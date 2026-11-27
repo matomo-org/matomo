@@ -39,26 +39,12 @@ class OnlyMajorVersions implements
 
     public static function getWhatItDoes(?int $idSite = null): string
     {
-        // the consent-aware wording describes what a site measuring consent-aware analytics
-        // does. It is off by default, and a site that has not opted in treats every visitor the
-        // same, so the plain wording is what is true there
-        if (null !== $idSite && ConsentAwareAnalytics::isEnabledForSite($idSite)) {
-            return Piwik::translate('DevicesDetection_OnlyMajorVersionsSettingWhatItDoesConsentAware');
-        }
-
-        return Piwik::translate('DevicesDetection_OnlyMajorVersionsSettingWhatItDoes');
+        return ConsentAwareAnalytics::translateForScope($idSite, 'DevicesDetection_OnlyMajorVersionsSettingWhatItDoes');
     }
 
     public static function getImpact(?int $idSite = null): string
     {
-        // the consent-aware wording describes what a site measuring consent-aware analytics
-        // does. It is off by default, and a site that has not opted in treats every visitor the
-        // same, so the plain wording is what is true there
-        if (null !== $idSite && ConsentAwareAnalytics::isEnabledForSite($idSite)) {
-            return Piwik::translate('DevicesDetection_OnlyMajorVersionsSettingImpactConsentAware');
-        }
-
-        return Piwik::translate('DevicesDetection_OnlyMajorVersionsSettingImpact');
+        return ConsentAwareAnalytics::translateForScope($idSite, 'DevicesDetection_OnlyMajorVersionsSettingImpact');
     }
 
     public static function getInstance(?int $idSite = null): self

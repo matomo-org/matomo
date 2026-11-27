@@ -514,6 +514,28 @@ class DeviceConsentTest extends IntegrationTestCase
         }
     }
 
+    public function testTheInstanceComplianceWordingDescribesConsentWhereTheInstanceHasOptedIn(): void
+    {
+        ConsentAwareAnalyticsSetting::setEnabled(true);
+
+        $this->assertSame(
+            'DevicesDetection_DeviceModelDetectionDisabledWhatItDoesConsentAware',
+            $this->translationKey(DeviceModelDetectionDisabled::getWhatItDoes(null))
+        );
+        $this->assertSame(
+            'DevicesDetection_DeviceModelDetectionDisabledImpactConsentAware',
+            $this->translationKey(DeviceModelDetectionDisabled::getImpact(null))
+        );
+        $this->assertSame(
+            'DevicesDetection_OnlyMajorVersionsSettingWhatItDoesConsentAware',
+            $this->translationKey(OnlyMajorVersions::getWhatItDoes(null))
+        );
+        $this->assertSame(
+            'DevicesDetection_OnlyMajorVersionsSettingImpactConsentAware',
+            $this->translationKey(OnlyMajorVersions::getImpact(null))
+        );
+    }
+
     private function translationKey(string $text): string
     {
         $translations = json_decode(

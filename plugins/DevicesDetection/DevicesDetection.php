@@ -11,7 +11,6 @@ namespace Piwik\Plugins\DevicesDetection;
 
 use Piwik\Plugins\DevicesDetection\Settings\OnlyMajorVersions;
 use Piwik\Plugins\DevicesDetection\Settings\DeviceModelDetectionDisabled;
-use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
 use Piwik\Plugins\PrivacyManager\Settings\ConsentAwareAnalytics;
 use Piwik\Plugins\SegmentEditor\Settings\LimitSegments;
 use Piwik\Segment\SegmentsList;
@@ -115,8 +114,7 @@ class DevicesDetection extends \Piwik\Plugin
     public static function isDeviceModelStoredForConsentedVisits(int $idSite): bool
     {
         return self::isDeviceModelDetectionDisabledByCompliancePolicy($idSite)
-            && ConsentAwareAnalytics::isEnabled($idSite)
-            && !(new PrivacyManagerConfig($idSite))->forceCookielessTracking;
+            && ConsentAwareAnalytics::isMeasuredForSite($idSite);
     }
 
     public function filterSegments(SegmentsList &$list, array $idSites)
