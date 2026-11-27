@@ -191,6 +191,11 @@ abstract class GridGraph extends StaticGraph
                     // measured using a picture editing software
                     $iconOffsetAboveLabelSymmetryAxis = 3;
                     break;
+
+                default:
+                    $bulletWidth = null;
+                    $iconOffsetAboveLabelSymmetryAxis = 0;
+                    break;
             }
 
             // pChart requires two coordinates to draw the legend $legendTopLeftXValue & $legendTopLeftYValue
@@ -412,7 +417,7 @@ abstract class GridGraph extends StaticGraph
 
         if ($labelWidth > $labelWidthLimit) {
             $averageCharWidth = $labelWidth / strlen($label);
-            $charsToKeep = floor(($labelWidthLimit - $truncationTextWidth) / $averageCharWidth);
+            $charsToKeep = (int) floor(($labelWidthLimit - $truncationTextWidth) / $averageCharWidth);
             $label = substr($label, 0, $charsToKeep) . self::TRUNCATION_TEXT;
         }
         return $label;
