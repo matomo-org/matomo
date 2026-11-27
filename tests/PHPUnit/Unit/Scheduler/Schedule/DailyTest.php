@@ -115,6 +115,15 @@ class DailyTest extends \PHPUnit\Framework\TestCase
 
         $mock->setTimezone('America/New_York');
         $this->assertEquals(mktime(4, 0, 0, 7, 16, 2026), $mock->getRescheduledTime());
+
+        $mock = $this->getDailyMock(mktime(18, 0, 0, 3, 7, 2026));
+        $mock->setHour(12);
+        $mock->setTimezone('America/New_York');
+        $this->assertEquals(mktime(16, 0, 0, 3, 8, 2026), $mock->getRescheduledTime());
+
+        $mock = $this->getDailyMock(mktime(6, 0, 0, 1, 15, 2026));
+        $mock->setTimezone('UTC+5.5');
+        $this->assertEquals(mktime(18, 30, 0, 1, 15, 2026), $mock->getRescheduledTime());
     }
 
     /**
