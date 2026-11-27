@@ -279,6 +279,8 @@
         "FileIntegrityWarningReuploadBis": "Versuche, die Matomo-Dateien im BINARY-Modus neu hochzuladen.",
         "FilteredTotal": "Insgesamt gefiltert",
         "FilteredTotalMatchingFilter": "Zum aktuellen Tabellenfilter passend",
+        "FilteredTotalOfReportTotal": "von insgesamt %1$s im Bericht",
+        "FilteredTotalOverall": "insgesamt %1$s",
         "FilteredTotalsNote": "Hinweis: Es werden gefilterte Ergebnisse angezeigt. Aggregierte Zeilenwerte sind Gesamtzahlen für die vollständige Gruppe und werden durch den Filter nicht neu berechnet. Übereinstimmende Werte werden in der Zeile %1$s zusammengefasst.",
         "First": "Anfang",
         "Flatten": "Flach anzeigen",
