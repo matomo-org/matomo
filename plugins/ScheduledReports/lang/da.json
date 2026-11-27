@@ -68,7 +68,7 @@
         "ReportUnsubscribe": "Afmeld en rapport",
         "ReportUpdated": "Rapport opdateret",
         "ReportWillBeSentAt": "Rapporten sendes på den valgte time i din lokale tidszone.",
-        "ReportsIncluded": "Statikker inkluderet",
+        "ReportsIncluded": "Vælg de rapporter, der skal medtages",
         "ReportsIncludedHelp": "Vælg mindst én rapport, der skal medtages i denne planlagte rapport.",
         "ScheduleReportPeriodHelp": "Den periode, som dataene i denne rapport dækker. Som standard er den den samme som rapportens tidsplan, så hvis rapporten sendes ugentligt, indeholder den oplysninger om den seneste uge.",
         "ScheduleReportPeriodHelp2": "Du kan dog ændre dette, hvis du vil se andre oplysninger og stadig beholde rapportens tidsplan. Hvis rapportens tidsplan for eksempel er ugentlig, og rapportperioden er 'dag', får du oplysninger for den seneste dag hver uge.",
