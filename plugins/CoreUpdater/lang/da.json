@@ -37,7 +37,7 @@
         "FeedbackRequest": "Du er velkommen til at dele dine ideer og forslag med Matomo Teamet her:",
         "HelpMessageContent": "se %1$s Matomo FAQ %2$s som forklarer de mest almindelige fejl om opdateringer. %3$s Spørg systemadministratoren - vedkommende kan måske hjælpe med fejlen som sandsynligvis skyldes server eller MySQL-opsætning.",
         "HelpMessageIntroductionWhenError": "Ovenstående vises fejlmeddelelsen. Den bør hjælpe med at forklare årsagen, men hvis der behøves mere hjælp:",
-        "HelpMessageIntroductionWhenWarning": "Opdateringen er fuldført, men det var nogle småproblemer under processen. Læs detaljerne ovenfor. For yderligere hjælp:",
+        "HelpMessageIntroductionWhenWarning": "Opdateringen blev fuldført, men der opstod problemer undervejs. Læs beskrivelserne ovenfor for flere oplysninger. For yderligere hjælp:",
         "HighTrafficPiwikServerEnableMaintenance": "Hvis du administrerer en Matomo server med høj trafik, anbefaler vi at du %1$s midlertidigt deaktivere sporing af besøgende og sætte Matomo brugergrænseflade i vedligeholdelsestilstand%2$s",
         "IncompatbilePluginsWillBeDisabledInfo": "Bemærk: Nogle udvidelsesmoduler er ikke kompatible med Matomo %s. Vi opdaterer dem, hvis der findes en opdatering på markedspladsen, ellers deaktiverer vi dem, når du opgraderer:",
         "InstallingTheLatestVersion": "Installerer den seneste version",
