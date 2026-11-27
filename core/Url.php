@@ -510,6 +510,10 @@ class Url
         $urlValues = self::getArrayFromCurrentQueryString();
         foreach ($urlValues as $name => $value) {
             $name = (string) $name;
+            // PHP and broadcast.js read a plain name only as itself
+            if (preg_match('/^[A-Za-z0-9_-]+$/D', $name)) {
+                continue;
+            }
             $queryName = is_array($value) ? $name . '[]' : $name;
             foreach (array_keys($params) as $key) {
                 $key = (string) $key;
@@ -531,13 +535,18 @@ class Url
 
     private static function isReadAsParameter(string $queryName, string $parameter): bool
     {
+        // read as $parameter by PHP (parse_str)
         parse_str($parameter . '=1', $own);
         @parse_str($parameter . '=1&' . $queryName . '=', $parsed);
         if (($own[$parameter] ?? null) === '1' && ($parsed[$parameter] ?? null) !== '1') {
             return true;
         }
-        foreach (explode('&', str_replace('%5B%5D', '[]', $queryName)) as $name) {
-            if (preg_replace('/\[.*?]$/', '', $name) === $parameter) {
+        // read as $parameter by broadcast.js (extractKeyValuePairsFromQueryString)
+        foreach (explode('&', str_replace('%5B%5D', '[]', $queryName)) as $part) {
+            if (str_ends_with($part, ']') && ($pos = strpos($part, '[')) !== false) {
+                $part = substr($part, 0, $pos);
+            }
+            if ($part === $parameter) {
                 return true;
             }
         }
