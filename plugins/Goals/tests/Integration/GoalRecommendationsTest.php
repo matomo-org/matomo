@@ -32,6 +32,7 @@ use Piwik\Request;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Psr\Log\LoggerInterface;
 
 /**
  * @group Goals
@@ -545,6 +546,62 @@ class GoalRecommendationsTest extends IntegrationTestCase
         $this->assertSame(Piwik::translate('Goals_RecommendationAiRequestFailed'), $result['aiError']);
     }
 
+    /** @dataProvider getFailedScanScenarios */
+    public function testFailedScanLogsReason(array $response, ?\Exception $exception, bool $internetEnabled, string $expectedReason): void
+    {
+        Config::getInstance()->General['enable_internet_features'] = (int) $internetEnabled;
+        $validator = $this->createMock(\Piwik\Http\EgressHostValidator::class);
+        $validator->method('resolveTarget')->willReturn(['example.org', '93.184.216.34']);
+        StaticContainer::getContainer()->set(\Piwik\Http\EgressHostValidator::class, $validator);
+        Piwik::addAction('Http.sendHttpRequest', function ($url, $params, &$body, &$status, &$headers) use ($response, $exception) {
+            if ($exception !== null) {
+                throw $exception;
+            }
+            $body = $response['data'];
+            $status = $response['status'];
+            $headers = $response['headers'];
+        });
+
+        $logger = $this->createMock(LoggerInterface::class);
+        $logger->expects($this->once())->method('warning')->with(
+            'Goals recommendations: scan failed for site {idSite}: {reason}',
+            ['idSite' => $this->idSite, 'reason' => $expectedReason]
+        );
+        StaticContainer::getContainer()->set(LoggerInterface::class, $logger);
+
+        $result = $this->makeRecommendationService(
+            $this->createMock(AiRecommender::class),
+            null,
+            new HomepageAnalyzer()
+        )->getRecommendations($this->idSite, false);
+
+        // This is the condition Cloud's scanned KPI uses to report "failed".
+        $this->assertNull($result['generatedAt']);
+        $this->assertSame([], $result['goals']);
+    }
+
+    public function getFailedScanScenarios(): array
+    {
+        $ok = ['status' => 200, 'headers' => [], 'data' => '<html></html>'];
+
+        return [
+            'internet disabled' => [$ok, null, false, 'Internet features are disabled.'],
+            'bot protection' => [array_merge($ok, ['status' => 403]), null, true, 'The homepage returned HTTP 403.'],
+            'server error' => [array_merge($ok, ['status' => 500]), null, true, 'The homepage returned HTTP 500.'],
+            'non HTML' => [array_merge($ok, ['headers' => ['Content-Type' => 'application/json']]), null, true, 'The homepage returned non-HTML content (HTTP 200).'],
+            'empty body' => [array_merge($ok, ['data' => '']), null, true, 'The homepage returned an empty body (HTTP 200).'],
+            'egress blocked' => [
+                $ok, new \Piwik\Http\EgressBlockedException('Refusing to fetch: host could not be resolved.'), true,
+                'Homepage request refused: Piwik\\Http\\EgressBlockedException: Refusing to fetch: host could not be resolved.',
+            ],
+            'timeout' => [$ok, new \Exception('curl_exec: Operation timed out'), true, 'Homepage request failed: Exception: curl_exec: Operation timed out'],
+            'sensitive URL and newline' => [
+                $ok, new \Exception("Failed fetching https://user:password@example.org/private?token=secret\nTry again"), true,
+                'Homepage request failed: Exception: Failed fetching [redacted URL] Try again',
+            ],
+        ];
+    }
+
     /**
      * @dataProvider getThinResultScenarios
      */
@@ -559,6 +616,9 @@ class GoalRecommendationsTest extends IntegrationTestCase
         $analyzer->method('getLastCrawlStats')->willReturn(
             $analysis['crawl'] ?? ['blockedPages' => 1, 'failedFetches' => 0, 'clientSideRenderedPages' => 0, 'deadlineReached' => false]
         );
+        $logger = $this->createMock(LoggerInterface::class);
+        $logger->expects($analysis === null ? $this->once() : $this->never())->method('warning');
+        StaticContainer::getContainer()->set(LoggerInterface::class, $logger);
         $deterministic = $this->createMock(DeterministicRecommender::class);
         $deterministic->method('recommend')->willReturn($goals);
         $manual = $this->createMock(ManualSuggestionRecommender::class);
@@ -635,10 +695,13 @@ class GoalRecommendationsTest extends IntegrationTestCase
 
     private function makeRecommendationService(
         AiRecommender $aiRecommender,
-        ?LockBackend $lockBackend = null
+        ?LockBackend $lockBackend = null,
+        ?HomepageAnalyzer $analyzer = null
     ): GoalRecommendationService {
-        $analyzer = $this->createMock(HomepageAnalyzer::class);
-        $analyzer->method('analyze')->willReturn(['url' => 'https://example.org']);
+        if ($analyzer === null) {
+            $analyzer = $this->createMock(HomepageAnalyzer::class);
+            $analyzer->method('analyze')->willReturn(['url' => 'https://example.org']);
+        }
 
         $deterministic = $this->createMock(DeterministicRecommender::class);
         $deterministic->method('recommend')->willReturn([]);
