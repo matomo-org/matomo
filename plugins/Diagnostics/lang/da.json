@@ -1,6 +1,8 @@
 {
     "Diagnostics": {
         "AllPrivateDirectoriesAreInaccessible": "Alle private mapper er utilgængelige fra internettet.",
+        "ArchivingFailuresCheck": "Mislykkede arkiver",
+        "ArchivingFailuresComment": "%1$s arkiver kunne ikke behandles og venter på et nyt forsøg, og %2$s arkiver blev opgivet efter at have nået det maksimale antal forsøg. Rapporter for opgivne arkiver og for de perioder, der indeholder dem, opdateres ikke, før de forsøges behandlet igen. Den ældste fejl opstod den %3$s. Brug konsolkommandoen %4$s til at se fejlene og forsøge igen.",
         "BrowserAndAutoArchivingEnabledComment": "Det ser ud til, at både browserarkivering og automatisk arkivering er aktiveret. Automatisk arkivering blev senest startet for %3$s siden. Hvis %1$sautomatisk arkivering%2$s er aktiveret, bør du deaktivere browserarkivering under \"Generelle indstillinger\".",
         "BrowserAndAutoArchivingEnabledLabel": "Browserarkivering og automatisk arkivering aktiveret",
         "BrowserTriggeredArchivingEnabled": "For optimal ydelse og en hurtig Matomo anbefales det stærkt at opsætte en crontab, der automatisk arkiverer dine rapporter, og at deaktivere udløsning fra browseren i Matomo-indstillingerne. %1$sLæs mere.%2$s",
