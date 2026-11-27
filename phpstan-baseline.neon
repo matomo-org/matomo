@@ -42,7 +42,6 @@ parameters:
 			count: 1
 			path: core/API/DataTableManipulator/Flattener.php
 
-
 		-
 			message: '#^Call to an undefined method Piwik\\DataTable\\DataTableInterface\:\:getRows\(\)\.$#'
 			identifier: method.notFound
