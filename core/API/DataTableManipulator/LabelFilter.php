@@ -77,7 +77,9 @@ class LabelFilter extends DataTableManipulator
 
         $labelSeries = Common::getRequestVar('labelSeries', '', 'string', $this->request);
         $labelSeries = explode(',', $labelSeries);
-        $labelSeries = array_filter($labelSeries, 'strlen');
+        $labelSeries = array_filter($labelSeries, static function (string $series): bool {
+            return $series !== '';
+        });
         $this->labelSeries = $labelSeries;
 
         $result = $this->manipulate($dataTable);
