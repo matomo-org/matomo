@@ -51,8 +51,11 @@ class Config
     public const CONFIGURED_VALUE_CACHE_SUFFIX = 'ConfiguredValue';
 
     /**
-     * Settings the tracker needs the configured value of, alongside the enforced one. Caching it
-     * for every setting would only duplicate entries a policy can never override.
+     * Settings that consent lifts back to the value the admin configured themselves. The tracker
+     * needs that configured value alongside the enforced one, and
+     * ConsentAwareAnalytics::hasRelaxableRestriction() counts each of them where a policy enforces
+     * something else, so adding a setting here is all either needs. Caching it for every setting
+     * would only duplicate entries a policy can never override.
      */
     private const CACHE_CONFIGURED_VALUE_FOR = ['anonymizeReferrer'];
 
@@ -236,7 +239,28 @@ class Config
             throw new \Exception(sprintf('The configured value of %s is not available to the tracker', $name));
         }
 
-        return $this->getFromTrackerCache($name . self::CONFIGURED_VALUE_CACHE_SUFFIX, $this->getPropertyConfig($name));
+        // a tracker cache written before this value was cached in it says nothing about what the
+        // admin configured, so the enforced value stands rather than the setting's default, which
+        // may be less strict than what the admin chose
+        $config = $this->getPropertyConfig($name);
+        $config['default'] = $this->__get($name);
+
+        return $this->getFromTrackerCache($name . self::CONFIGURED_VALUE_CACHE_SUFFIX, $config);
+    }
+
+    /**
+     * Whether a compliance policy enforces, for any setting consent lifts, something other than
+     * what the admin configured themselves. Reads the tracker cache, so it is safe while tracking.
+     */
+    public function isConfiguredValueOverriddenByPolicy(): bool
+    {
+        foreach (self::CACHE_CONFIGURED_VALUE_FOR as $name) {
+            if ($this->__get($name) !== $this->getConfiguredValue($name)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public function getConfigPropertyNames(): array

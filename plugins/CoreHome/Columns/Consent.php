@@ -208,6 +208,56 @@ class Consent extends VisitDimension
     }
 
     /**
+     * Whether the visit's consent may relax what this request writes to the visit.
+     *
+     * This is {@see visitHasConsent()}, except for a consent this visit may not use at all: a
+     * consent ping landing on a visit measured before any was given belongs to the visit it goes
+     * on to start, not to this one. A visit being created now is the one the request starts, so
+     * that question does not arise there.
+     *
+     * Ask it once whether the request starts a new visit is settled, that is from a dimension's
+     * onNewVisit() / onExistingVisit() or a request processor's afterRequestProcessed() on.
+     *
+     * @param Action|null $action
+     */
+    public static function visitConsentApplies(Request $request, Visitor $visitor, $action = null): bool
+    {
+        if (!self::visitHasConsent($request, $visitor)) {
+            return false;
+        }
+
+        if (!$request->hasConsent() || $request->getMetadata('CoreHome', 'isNewVisit')) {
+            return true;
+        }
+
+        return self::appliesToVisit($request, $visitor, $action);
+    }
+
+    /**
+     * Whether this request is the one bringing consent into a visit that was measured without it,
+     * on a site where that consent lifts something a policy enforced.
+     *
+     * Where nothing is enforced for consent to lift, the visit was measured just as a consented one
+     * would have been, and there is nothing to fill in. Otherwise this happens only while the
+     * visitor is still on the page the visit arrived on - consent reaching the visit anywhere else
+     * starts a visit of its own.
+     *
+     * @param Action|null $action
+     */
+    public static function isBroughtIntoVisitBy(Request $request, Visitor $visitor, $action = null): bool
+    {
+        if (!$request->hasConsent() || self::hasVisitConsented($visitor)) {
+            return false;
+        }
+
+        if (!ConsentAwareAnalytics::hasRelaxableRestriction((int) $request->getIdSiteIfExists())) {
+            return false;
+        }
+
+        return true === EntryPage::isRequestOnEntryPage($visitor, $action, $request);
+    }
+
+    /**
      * Whether consent was already recorded for this visit, as stored before the current request.
      */
     public static function hasVisitConsented(Visitor $visitor): bool
