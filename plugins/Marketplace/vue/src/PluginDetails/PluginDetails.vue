@@ -60,28 +60,46 @@
               </span>
             </span>
 
-            <template v-if="showReviews">
-              <span class="marketplacePluginDetails__rating">
-                <span class="marketplacePluginDetails__ratingStar" aria-hidden="true">★</span>
-                {{ pluginReviews.averageRating }}
-              </span>
-              <button
-                class="marketplacePluginDetails__reviewsLink"
-                type="button"
-                v-if="reviewCountLabel"
-                @click="scrollElementIntoView('.marketplacePluginDetails__reviews')"
-              >{{ reviewCountLabel }}</button>
-            </template>
-
             <span
-              class="marketplacePluginDetails__fact"
-              v-if="(plugin.numDownloads || 0) > 0"
-            >{{ translate('Marketplace_NumDownloads', String(plugin.numDownloadsPretty)) }}</span>
+              class="marketplacePluginDetails__stats"
+              v-if="showReviews || hasDownloads || showUpdated"
+            >
+              <template v-if="showReviews">
+                <span class="marketplacePluginDetails__rating">
+                  <span class="marketplacePluginDetails__ratingStar" aria-hidden="true">★</span>
+                  {{ pluginReviews.averageRating }}
+                </span>
+                <button
+                  class="marketplacePluginDetails__reviewsLink"
+                  type="button"
+                  v-if="reviewCountLabel"
+                  @click="scrollElementIntoView('.marketplacePluginDetails__reviews')"
+                >{{ reviewCountLabel }}</button>
+              </template>
 
-            <span
-              class="marketplacePluginDetails__fact"
-              v-if="plugin.lastUpdated && !plugin.isBundle"
-            >{{ translate('Marketplace_UpdatedOn', plugin.lastUpdated) }}</span>
+              <template v-if="hasDownloads">
+                <span
+                  class="marketplacePluginDetails__factSeparator"
+                  aria-hidden="true"
+                  v-if="showReviews"
+                >·</span>
+                <span class="marketplacePluginDetails__fact">
+                  {{ translate('Marketplace_NumDownloads', String(plugin.numDownloadsPretty)) }}
+                </span>
+              </template>
+
+              <template v-if="showUpdated">
+                <span
+                  class="marketplacePluginDetails__factSeparator"
+                  aria-hidden="true"
+                  v-if="showReviews || hasDownloads"
+                >·</span>
+                <span class="marketplacePluginDetails__fact marketplacePluginDetails__fact--updated">
+                  <span class="icon-clock" aria-hidden="true" />
+                  {{ translate('Marketplace_UpdatedOn', plugin.lastUpdated) }}
+                </span>
+              </template>
+            </span>
           </div>
         </div>
       </section>
@@ -686,6 +704,12 @@ export default defineComponent({
         && this.pluginReviews.embedUrl
         && this.pluginReviews.averageRating
       );
+    },
+    hasDownloads(): boolean {
+      return (this.plugin.numDownloads || 0) > 0;
+    },
+    showUpdated(): boolean {
+      return !!this.plugin.lastUpdated && !this.plugin.isBundle;
     },
     showMissingLicenseDescription(): boolean {
       return this.hasSomeAdminAccess && this.plugin.isMissingLicense;

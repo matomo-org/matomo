@@ -41,7 +41,9 @@
     padding: 15px;
 }
 
-.admin p, .admin section {
+// Components that set their own spacing are excluded here; `:where()` adds no specificity
+.admin p:where(:not(.marketplaceHero__subtitle, .pluginCard__description, .marketplaceEmptyState__message, .marketplacePluginDetails__lede)),
+.admin section:where(:not(.marketplaceHero, .pluginSection, .marketplacePluginDetails__head, .marketplacePluginDetails__card)) {
     margin-top: 10px;
     line-height: 140%;
     padding-bottom: 10px;

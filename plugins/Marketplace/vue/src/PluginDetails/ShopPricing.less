@@ -44,14 +44,17 @@
         font-weight: 600;
         line-height: 30px;
         letter-spacing: -0.3px;
+        color: @theme-color-text;
     }
 
     .shopPricing__amountPeriod {
         line-height: 16px;
+        color: @theme-color-text-lighter;
     }
 
     .shopPricing__billing {
         line-height: 14px;
+        color: @theme-color-text-lighter;
     }
 
     .shopPricing__cta {
@@ -60,9 +63,12 @@
         gap: 16px;
     }
 
-    .shopPricing__addToCart {
+    // override: the design's button is flat; Materialize adds a z-depth shadow
+    .shopPricing__addToCart,
+    .shopPricing__addToCart:hover {
         display: block;
         width: 100%;
+        box-shadow: none;
     }
 }
 
@@ -83,9 +89,10 @@
         align-items: safe center;
         gap: 2px;
         flex: none;
-        padding: 2px;
+        padding: 1px;
         border: 1px solid @theme-color-border;
         border-radius: @_control-radius;
+        background-color: @theme-color-background-contrast;
         box-sizing: border-box;
     }
 
@@ -98,7 +105,7 @@
         padding: 0 16px;
         border: 1px solid transparent;
         border-radius: @_control-radius;
-        color: @theme-color-text-light;
+        color: @theme-color-text-lighter;
         font-size: 14px;
         line-height: 20px;
         white-space: nowrap;
@@ -106,10 +113,11 @@
     }
 
     .shopPricing__period:hover {
-        color: @theme-color-text-contrast;
+        background-color: @theme-color-background-base;
     }
 
-    .shopPricing__period--selected {
+    .shopPricing__period--selected,
+    .shopPricing__period--selected:hover {
         border-color: @theme-color-brand;
         background-color: @theme-color-background-brand-lowContrast;
         color: @theme-color-text;

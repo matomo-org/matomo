@@ -13,7 +13,7 @@
   flex-wrap: wrap;
   align-items: safe center;
   justify-content: space-between;
-  gap: 8px;
+  gap: 8px 24px;
 }
 
 // Sized and coloured as the card's meta row is - "Installed" sits directly under "Updated ..." on
@@ -21,15 +21,17 @@
 .ctaStatus__label {
   display: flex;
   align-items: safe center;
-  gap: 8px;
+  gap: 6px;
+  flex: 1 1 0;
   min-width: 0;
-  font-size: 11px;
+  font-size: 12px;
+  line-height: 14px;
   color: @theme-color-text-lighter;
 }
 
 .ctaStatus__icon {
   flex: none;
-  font-size: 11px;
+  font-size: 16px;
   line-height: 1;
 }
 
@@ -41,21 +43,21 @@
   color: @theme-color-warning;
 }
 
-// The label is coloured here as well as the icon, so this has to be the semantic token rather than
-// the flat @color-red-matomo, which has no dark pair and reads at ~3.2:1 on a dark card.
-.ctaStatus--danger .ctaStatus__icon,
-.ctaStatus--danger .ctaStatus__label {
+// the semantic token rather than the flat @color-red-matomo, which has no dark pair
+.ctaStatus--danger .ctaStatus__icon {
   color: @theme-color-danger;
 }
 
-// Right-aligned by the auto margin, also once it has wrapped under the label. It can shrink to its
-// widest button: on a card too narrow for both side by side, they wrap, the box takes the whole row
-// and the centring puts each one in the middle of it.
+// Sized to its buttons and right-aligned, so a longer translation keeps its button on one line.
+// It may shrink to the row, so two buttons (More Details and Download) wrap rather than overflow
+// the card, and the whole action drops under the label when the row is too narrow for both.
 .ctaStatus__action {
   display: flex;
+  flex: 0 1 auto;
   flex-wrap: wrap;
-  justify-content: safe center;
+  justify-content: flex-end;
   gap: 8px;
+  max-width: 100%;
   margin-left: auto;
 
   // override: Materialize sizes .btn-block to the full row; a status line only wants the label's
@@ -63,6 +65,7 @@
   .btn.btn-block {
     width: auto;
     min-width: 110px;
+    white-space: nowrap;
   }
 }
 
