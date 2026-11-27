@@ -5,13 +5,13 @@
         "GenerateVisits": "Hvis du ikke har data for i dag, kan du generere nogle med udvidelsesmodulet %1$s ved at gå til 'Udvikling → Besøgsgenerator' i Matomos administrationsområde.",
         "Glossary": "Ordliste",
         "KeepTokenSecret": "Token_auth er ligeså hemmeligt som brugernavn og adgangskode, %1$sdel det ikke ud%2$s!",
-        "LearnAboutCommonlyUsedTerms2": "Forstå de hyppigst anvendte ord for at få mest muligt ud af Matomo.",
-        "LoadedAPIs": "%s APIs indlæst",
+        "LearnAboutCommonlyUsedTerms2": "Læs om almindeligt anvendte begreber for at få mest muligt ud af Matomos analyser.",
+        "LoadedAPIs": "Indlæste %s API'er",
         "MainMetricsReportDocumentation": "Denne rapport giver et overblik over de vigtigste målinger på tværs af alle kategorier og udvidelsesmoduler.",
-        "MoreInformation": "Mere information om Matomo API'er, findes på %1$sIntroduktion til Matomo API%2$s og %3$sMatomo API Reference%4$s.",
-        "PluginDescription": "Alle data i Matomo er tilgængelig gennem enkle API'er. Denne udvidelse er en webservice indgang, som kaldes for at få Web Analytics-data i xml, JSON, php, csv etc.",
+        "MoreInformation": "Flere oplysninger om Matomos API'er findes i %1$sIntroduktion til Matomos API%2$s og %3$sMatomos API-reference%4$s.",
+        "PluginDescription": "Alle data i Matomo er tilgængelige via enkle API'er. Dette plugin er indgangspunktet til webtjenesten, som du kan kalde for at hente dine webanalysedata i XML, JSON, PHP, CSV osv.",
         "ReportingApiReference": "Rapporterings API Reference",
-        "TopLinkTooltip": "Få adgang til dine webanalyse data programmeringsmæssigt gennem en simpel API i JSON, XML, etc.",
+        "TopLinkTooltip": "Få programmatisk adgang til dine webanalysedata via et enkelt API i JSON, XML osv.",
         "UserAuthentication": "Brugergodkendelse",
         "UsingTokenAuth": "Hvis du vil %1$shente data i et script, et crontab osv.%2$s, skal du tilføje URL-parameteren '%3$s' til API-kaldene for URL'er, der kræver godkendelse."
     }
