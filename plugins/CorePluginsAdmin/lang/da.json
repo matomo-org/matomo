@@ -79,7 +79,7 @@
         "ThemesDescription": "Temaer kan ændre udseendet af Matomo brugergrænsefladen,og giver en helt ny visuel oplevelse af dine analytiske rapporter.",
         "ThemesManagement": "Administrer temaer",
         "TypeWordToConfirm": "Skriv %1$s for at bekræfte, at disse data bliver slettet permanent.",
-        "UninstallConfirm": "Du er ved at afinstallere et udvidelsesmodul %s. Udvidelsesmodulet vil blive fjernet helt fra dit system og vil ikke kunne genskabes. Er du sikker på du vil gøre det?",
+        "UninstallConfirm": "Du er ved at afinstallere pluginet %s. Pluginet og alle de data, det har indsamlet, fjernes fuldstændigt fra din platform og kan ikke gendannes. Er du sikker på, at du vil gøre dette?",
         "UpdateSelected": "Opdater valgte",
         "Version": "Version",
         "ViewAllMarketplacePlugins": "Se alle udvidelsesmoduler på markedspladsen",
