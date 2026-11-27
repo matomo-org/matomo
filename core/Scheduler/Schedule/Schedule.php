@@ -130,27 +130,25 @@ abstract class Schedule
             return $rescheduledTime;
         }
 
-        $arbitraryDateInUTC = Date::factory('2011-01-01');
-        $dateInTimezone     = Date::factory('2011-01-01', $this->timezone);
+        $adjustedTime = $this->convertToTimezone($rescheduledTime);
 
-        $midnightInTimezone = date('H', $dateInTimezone->getTimestamp());
-
-        if ($arbitraryDateInUTC->isEarlier($dateInTimezone)) {
-            $hoursDifference = 0 - $midnightInTimezone;
-        } else {
-            $hoursDifference = 24 - $midnightInTimezone;
-        }
-
-        $hoursDifference  = $hoursDifference % 24;
-
-        $rescheduledTime += (3600 * $hoursDifference);
-
-        if ($this->getTime() > $rescheduledTime) {
+        if ($this->getTime() > $adjustedTime) {
             // make sure the rescheduled date is in the future
-            $rescheduledTime = (24 * 3600) + $rescheduledTime;
+            $adjustedTime = $this->convertToTimezone((24 * 3600) + $rescheduledTime);
         }
 
-        return $rescheduledTime;
+        return $adjustedTime;
+    }
+
+    private function convertToTimezone($time)
+    {
+        $offset  = Date::adjustForTimezone($time, $this->timezone) - $time;
+        $dueTime = $time - $offset;
+
+        // read the offset again at the due time, it differs when a DST change falls in between
+        $offset = Date::adjustForTimezone($dueTime, $this->timezone) - $dueTime;
+
+        return $time - $offset;
     }
 
     /**
