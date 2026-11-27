@@ -419,14 +419,16 @@ class TrackerCodeGenerator
         if ($mergeSubdomains && !empty($firstHost)) {
             $options .= '  _paq.push(["setCookieDomain", '
                 . json_encode(
-                    '*.' . $firstHost,
+                    '*.' . self::stripWwwPrefix($firstHost),
                     JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_INVALID_UTF8_SUBSTITUTE
                 ) . ']);' . "\n";
         }
         if ($mergeAliasUrls && !empty($websiteHosts)) {
             $urls = array_map(static function ($host) {
-                return '*.' . $host;
+                return '*.' . self::stripWwwPrefix($host);
             }, $websiteHosts);
+            // a site may list the same host with and without the `www.` prefix
+            $urls = array_values(array_unique($urls));
             $options .= '  _paq.push(["setDomains", '
                 . json_encode(
                     $urls,
@@ -434,6 +436,16 @@ class TrackerCodeGenerator
                 ) . ']);' . "\n";
         }
         return $options;
+    }
+
+    /**
+     * `www.` is an alias of the main host rather than a subdomain of it, so a wildcard built from a host
+     * that still contains the prefix (e.g. `*.www.example.org`) would not match the host itself or any of
+     * its actual subdomains.
+     */
+    private static function stripWwwPrefix(string $host): string
+    {
+        return (string) preg_replace('~^www\.~i', '', $host);
     }
 
     /**

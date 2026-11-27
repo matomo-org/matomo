@@ -555,6 +555,16 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
             ['_paq.push(["setCookieDomain", "*.example.org"]);'],
         ];
 
+        yield 'mergeSubdomains with www url' => [
+            ['createSiteWithUrls' => ['http://www.example.org'], 'mergeSubdomains' => true],
+            ['_paq.push(["setCookieDomain", "*.example.org"]);'],
+        ];
+
+        yield 'mergeAliasUrls with www urls' => [
+            ['createSiteWithUrls' => ['http://example.org', 'http://www.example.org'], 'mergeAliasUrls' => true],
+            ['_paq.push(["setDomains", ["*.example.org"]);'],
+        ];
+
         yield 'mergeAliasUrls' => [
             ['createSiteWithUrls' => $urls, 'mergeAliasUrls' => true],
             ['_paq.push(["setDomains", ["*.example.org","*.example.com/path","*.sub.example.net"]]);'],
