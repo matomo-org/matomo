@@ -16,10 +16,7 @@ use Piwik\Option;
 use Piwik\Plugins\SitesManager\Model as SitesModel;
 
 /**
- * Settings for the weekly tracking failures email sent to super users.
- *
- * Whether the email is sent at all is the `[General] enable_tracking_failures_notification` config
- * setting. Websites whose failures should not count towards the email are stored as an option.
+ * Settings of the weekly tracking failures email. The switch is a config setting, the excluded websites an option.
  */
 class TrackingFailuresNotificationSettings
 {
@@ -30,32 +27,41 @@ class TrackingFailuresNotificationSettings
         return (bool) Config::getInstance()->General['enable_tracking_failures_notification'];
     }
 
-    /**
-     * Deleted websites are left out, so their ID counts towards the email again if it is still tracked.
-     *
-     * @return list<int>
-     */
+    /** @return list<int> Deleted websites are left out. */
     public function getExcludedSiteIds(): array
     {
-        $stored = json_decode((string) Option::get(self::OPTION_EXCLUDED_SITES), true);
-
-        return is_array($stored) ? $this->keepExistingSiteIds($stored) : [];
+        return $this->keepExistingSiteIds($this->getStoredSiteIds());
     }
 
-    /**
-     * @param array<mixed> $excludedIdSites IDs of websites that no longer exist are dropped.
-     * @throws \Piwik\Exception\MissingFilePermissionException if the email is switched on or off
-     *                                                          and the config file is not writable.
-     */
+    /** @return list<array{id: int, name: string}> Names are HTML entity encoded, as stored. */
+    public function getExcludedSites(): array
+    {
+        $sites = [];
+        foreach ((new SitesModel())->getSitesFromIds($this->getStoredSiteIds()) as $site) {
+            $sites[] = ['id' => (int) $site['idsite'], 'name' => (string) $site['name']];
+        }
+
+        return $sites;
+    }
+
+    /** @param array<mixed> $excludedIdSites Unknown IDs are dropped. */
     public function save(bool $enabled, array $excludedIdSites): void
     {
         if ($enabled !== $this->isEnabled()) {
-            // written first, so a config file that cannot be written does not leave the settings half saved
+            // config first, so a failed write saves nothing
             Config::setSetting('General', 'enable_tracking_failures_notification', $enabled ? 1 : 0);
             Config::getInstance()->forceSave();
         }
 
         Option::set(self::OPTION_EXCLUDED_SITES, json_encode($this->keepExistingSiteIds($excludedIdSites)));
+    }
+
+    /** @return list<int> */
+    private function getStoredSiteIds(): array
+    {
+        $stored = json_decode((string) Option::get(self::OPTION_EXCLUDED_SITES), true);
+
+        return is_array($stored) ? array_values(array_map('intval', array_filter($stored, 'is_numeric'))) : [];
     }
 
     /**
@@ -65,7 +71,11 @@ class TrackingFailuresNotificationSettings
     private function keepExistingSiteIds(array $idSites): array
     {
         $idSites = array_map('intval', array_filter($idSites, 'is_numeric'));
-        $existing = array_map('intval', (new SitesModel())->getSitesId());
+        if (empty($idSites)) {
+            return [];
+        }
+
+        $existing = array_map('intval', array_column((new SitesModel())->getSitesFromIds($idSites), 'idsite'));
 
         return array_values(array_unique(array_intersect($idSites, $existing)));
     }

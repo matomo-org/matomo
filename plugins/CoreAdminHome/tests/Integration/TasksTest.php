@@ -283,6 +283,7 @@ class TasksTest extends IntegrationTestCase
         $this->tasks->notifyTrackingFailures();
 
         $this->assertNull($this->mail);
+        $this->assertCount(1, (new Failures())->getAllFailures());
     }
 
     public function testNotifyTrackingFailuresDoesNotCountFailuresOfExcludedSites()

@@ -3,7 +3,7 @@
     {{ failure.site_name }} ({{ translate('General_Id') }} {{ failure.idsite }})
     <div
       v-if="isExcluded"
-      class="matomoTrackingFailures__excluded"
+      class="failureRow__excluded"
     >{{ translate('CoreAdminHome_TrackingFailuresExcludedFromEmail') }}</div>
   </td>
   <td>{{ failure.problem }}</td>
@@ -13,8 +13,8 @@
     :href="failure.solution_url"
   >{{ translate('CoreAdminHome_LearnMore') }}</a></td>
   <td class="datetime">{{ failure.pretty_date_first_occurred }}</td>
-  <td>{{ failure.url }}</td>
-  <td>
+  <td class="failureRow__url">{{ failure.url }}</td>
+  <td class="failureRow__url">
     <span
       v-show="!showFullRequestUrl"
       @click="showFullRequestUrl = true"

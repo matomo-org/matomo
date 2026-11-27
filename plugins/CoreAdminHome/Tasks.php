@@ -227,10 +227,10 @@ class Tasks extends \Piwik\Plugin\Tasks
             return;
         }
 
-        $excludedIdSites = $this->trackingFailuresNotificationSettings->getExcludedSiteIds();
+        $excludedIdSites = array_flip($this->trackingFailuresNotificationSettings->getExcludedSiteIds());
         $numFailures = 0;
         foreach ($this->trackingFailures->getAllFailures() as $failure) {
-            if (!in_array((int) $failure['idsite'], $excludedIdSites, true)) {
+            if (!isset($excludedIdSites[(int) $failure['idsite']])) {
                 $numFailures++;
             }
         }

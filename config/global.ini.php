@@ -976,7 +976,6 @@ data_comparison_period_limit = 5
 custom_cacert_pem=
 
 ; Whether or not to send weekly emails to superusers about tracking failures.
-; Super Users can also change this setting in the UI, on the "Tracking failures" page.
 ; Default is 1.
 enable_tracking_failures_notification = 1
 

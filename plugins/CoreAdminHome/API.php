@@ -13,6 +13,7 @@ use Exception;
 use Monolog\Handler\StreamHandler;
 use Piwik\API\Request;
 use Piwik\Changes\UserChanges;
+use Piwik\Http\BadRequestException;
 use Piwik\Log\Logger;
 use Piwik\Access;
 use Piwik\ArchiveProcessor\Rules;
@@ -85,6 +86,7 @@ class API extends \Piwik\Plugin\API
     /**
      * @param bool|string $enableBrowserTriggerArchiving
      * @param int|string $todayArchiveTimeToLive
+     * @return true
      * @internal
      */
     public function setArchiveSettings($enableBrowserTriggerArchiving, $todayArchiveTimeToLive): bool
@@ -104,6 +106,7 @@ class API extends \Piwik\Plugin\API
     /**
      * @param string[] $trustedHosts
      * @param string|null $passwordConfirmation Current user's password confirmation when required by session auth.
+     * @return true
      * @internal
      */
     public function setTrustedHosts(
@@ -298,23 +301,37 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Saves the settings of the weekly tracking failures email for the whole instance.
+     * Saves the settings of the weekly tracking failures email.
      *
-     * @param bool $enabled Whether the email is sent to super users at all.
-     * @param string $excludedIdSites Comma separated IDs of the websites whose failures do not count towards
-     *                                the email. Replaces the stored list, so leaving it out removes all
-     *                                exclusions. IDs of websites that do not exist are ignored.
-     * @throws \Piwik\Http\BadRequestException if an ID is not a positive whole number.
+     * @param bool $enabled Whether the email is sent.
+     * @param string $excludedIdSites Comma separated website IDs to leave out. Replaces the stored list.
+     * @return list<array{id: int, name: string}> The excluded websites after saving.
      * @internal
      */
-    public function setTrackingFailuresNotificationSettings(bool $enabled, string $excludedIdSites = ''): void
+    public function setTrackingFailuresNotificationSettings(bool $enabled, string $excludedIdSites = ''): array
     {
         Piwik::checkUserHasSuperUserAccess();
 
-        // split here, so a lone '0' is rejected like any other invalid ID instead of being read as an empty list
-        $excludedIdSites = Site::getIdSitesFromIdSitesString(explode(',', $excludedIdSites), false, true);
+        // split here, so '0' is not read as an empty list
+        $excludedIdSites = explode(',', $excludedIdSites);
+
+        $invalidValueMessage = "The parameter 'excludedIdSites=' contains an invalid value.";
+
+        if ($excludedIdSites === ['all']) {
+            // same as switching the email off
+            throw new BadRequestException($invalidValueMessage);
+        }
+
+        try {
+            $excludedIdSites = Site::getIdSitesFromIdSitesString($excludedIdSites, false, true);
+        } catch (BadRequestException $e) {
+            // the original message names 'idSite'
+            throw new BadRequestException($invalidValueMessage);
+        }
 
         $this->trackingFailuresNotificationSettings->save($enabled, $excludedIdSites);
+
+        return $this->trackingFailuresNotificationSettings->getExcludedSites();
     }
 
     /**

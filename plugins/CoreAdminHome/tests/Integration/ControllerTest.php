@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\CoreAdminHome\tests\Integration;
 
+use Piwik\API\Request;
 use Piwik\Changes\Model as ChangesModel;
 use Piwik\Common;
 use Piwik\Config;
@@ -18,6 +19,7 @@ use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Plugins\CoreAdminHome\CoreAdminHome;
 use Piwik\Plugins\CoreAdminHome\Controller;
 use Piwik\Plugins\CoreAdminHome\OptOutManager;
+use Piwik\Plugins\CoreAdminHome\TrackingFailuresNotificationSettings;
 use Piwik\Piwik;
 use Piwik\Plugins\Login\PasswordVerifier;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
@@ -203,6 +205,33 @@ class ControllerTest extends IntegrationTestCase
         Config::getInstance()->mail = ['type' => 'Xoauth2'] + Config::getInstance()->mail;
 
         $this->assertStringContainsString($label, StaticContainer::get(Controller::class)->generalSettings());
+    }
+
+    public function testTrackingFailuresShowsAnAdminOnlyTheExcludedWebsitesTheyManage(): void
+    {
+        // a request stores the name HTML entity encoded
+        Request::processRequest('SitesManager.updateSite', ['idSite' => 1, 'siteName' => 'A & B'], []);
+        (new TrackingFailuresNotificationSettings())->save(true, [1, 2]);
+
+        $output = $this->controller->trackingFailures();
+        $this->assertSame('true', $this->getVueEntryAttribute($output, 'is-super-user'));
+        $this->assertCount(2, json_decode($this->getVueEntryAttribute($output, 'excluded-sites'), true));
+
+        FakeAccess::clearAccess($superUser = false, $idSitesAdmin = [1], $idSitesView = [1, 2]);
+
+        $output = $this->controller->trackingFailures();
+        $this->assertSame('false', $this->getVueEntryAttribute($output, 'is-super-user'));
+        $this->assertSame(
+            [['id' => 1, 'name' => 'A & B']],
+            json_decode($this->getVueEntryAttribute($output, 'excluded-sites'), true)
+        );
+    }
+
+    private function getVueEntryAttribute(string $output, string $attribute): string
+    {
+        $this->assertSame(1, preg_match('/ ' . preg_quote($attribute, '/') . '="([^"]*)"/', $output, $matches));
+
+        return html_entity_decode($matches[1], ENT_QUOTES, 'UTF-8');
     }
 
     public function testSetMailSettingsRejectsIncorrectPasswordConfirmation(): void

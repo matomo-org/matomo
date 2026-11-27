@@ -161,6 +161,7 @@
         "TrackingFailuresExcludedWebsitesHelp": "Failures for these websites stay in the list below, but they do not trigger or contribute to notification emails.",
         "TrackingFailuresIntroduction": "This page lists tracking failures that happened during the last %s days. Please note that only the most common kind of tracking failures are recorded and not all of them.",
         "TrackingFailuresNoExcludedWebsites": "No websites are excluded.",
+        "TrackingFailuresRemoveExcludedWebsite": "Remove %s from the excluded websites",
         "TrackingFailuresSendEmails": "Send tracking failure emails",
         "TrackingFailuresSendEmailsDisabled": "Disabled for this Matomo instance",
         "TrackingFailuresSendEmailsEnabled": "Enabled for this Matomo instance",

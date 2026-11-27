@@ -106,16 +106,14 @@ class Controller extends ControllerAdmin
         Piwik::checkUserHasSomeAdminAccess();
 
         $settings = new TrackingFailuresNotificationSettings();
-        $excludedIdSites = $settings->getExcludedSiteIds();
-
-        if (!Piwik::hasUserSuperUserAccess()) {
-            // an admin only learns about the websites they manage
-            $excludedIdSites = array_intersect($excludedIdSites, Access::getInstance()->getSitesIdWithAdminAccess());
-        }
+        $adminIdSites = Piwik::hasUserSuperUserAccess() ? null : Access::getInstance()->getSitesIdWithAdminAccess();
 
         $excludedSites = [];
-        foreach ($excludedIdSites as $idSite) {
-            $excludedSites[] = ['id' => $idSite, 'name' => Site::getNameFor($idSite)];
+        foreach ($settings->getExcludedSites() as $site) {
+            // admins only see the websites they manage
+            if ($adminIdSites === null || in_array($site['id'], $adminIdSites)) {
+                $excludedSites[] = ['id' => $site['id'], 'name' => Common::unsanitizeInputValue($site['name'])];
+            }
         }
 
         return $this->renderTemplate('trackingFailures', [

@@ -42,9 +42,7 @@ class APITest extends \Piwik\Tests\Framework\TestCase\IntegrationTestCase
      */
     private $api;
 
-    /**
-     * @var FileBackedConfig|null
-     */
+    /** @var FileBackedConfig|null */
     private $fileBackedConfig;
 
     public function setUp(): void
@@ -122,13 +120,14 @@ class APITest extends \Piwik\Tests\Framework\TestCase\IntegrationTestCase
             $this->api->setTrackingFailuresNotificationSettings(true, $excludedIdSites);
             $this->fail('Expected a BadRequestException');
         } catch (BadRequestException $e) {
+            $this->assertStringContainsString("'excludedIdSites='", $e->getMessage());
             $this->assertSame([1, 2], (new TrackingFailuresNotificationSettings())->getExcludedSiteIds());
         }
     }
 
     public function getInvalidExcludedIdSites(): array
     {
-        return [['abc'], ['1,abc'], ['0'], ['1.5'], ['-2']];
+        return [['abc'], ['1,abc'], ['0'], ['1.5'], ['-2'], ['all']];
     }
 
     public function testSetTrackingFailuresNotificationSettingsReadsSiteIdsFromRequest()
@@ -143,6 +142,16 @@ class APITest extends \Piwik\Tests\Framework\TestCase\IntegrationTestCase
         $this->assertSame([3, 4], (new TrackingFailuresNotificationSettings())->getExcludedSiteIds());
     }
 
+    public function testSetTrackingFailuresNotificationSettingsReturnsTheSavedWebsites()
+    {
+        $this->setSuperUser();
+        SitesManagerAPI::getInstance()->updateSite(2, 'Site 2');
+
+        $saved = $this->api->setTrackingFailuresNotificationSettings(true, '2,999');
+
+        $this->assertSame([['id' => 2, 'name' => 'Site 2']], $saved);
+    }
+
     public function testSetTrackingFailuresNotificationSettingsDisablesAndReEnablesTheEmailInConfig()
     {
         $config = $this->replaceConfigWithFileBackedConfig();
@@ -155,7 +164,7 @@ class APITest extends \Piwik\Tests\Framework\TestCase\IntegrationTestCase
 
         $this->api->setTrackingFailuresNotificationSettings(true);
 
-        // back to the default value, so the setting is no longer in the local config file
+        // defaults are not kept in the local config file
         $this->assertArrayNotHasKey('enable_tracking_failures_notification', $config->readFile()['General'] ?? []);
         $this->assertTrue((new TrackingFailuresNotificationSettings())->isEnabled());
     }

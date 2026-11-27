@@ -59,8 +59,8 @@
             <button
               type="button"
               class="trackingFailuresNotificationSettings__siteRemove icon-close"
-              :title="translate('General_Remove')"
-              :aria-label="translate('General_Remove')"
+              :title="removeText(site)"
+              :aria-label="removeText(site)"
               :disabled="isSaving"
               @click="removeSite(site)"
             />
@@ -73,6 +73,7 @@
               :show-selected-site="true"
               :show-all-sites-item="false"
               :switch-site-on-select="false"
+              :default-to-first-site="true"
             />
           </div>
           <button
@@ -155,19 +156,24 @@ export default defineComponent({
         this.sites.push({ ...this.selectedSite });
       }
     },
+    removeText(site: SiteRef): string {
+      return translate('CoreAdminHome_TrackingFailuresRemoveExcludedWebsite', site.name);
+    },
     removeSite(site: SiteRef) {
       this.sites = this.sites.filter((s) => s !== site);
     },
     save() {
       this.isSaving = true;
 
-      AjaxHelper.post(
+      AjaxHelper.post<SiteRef[]>(
         { module: 'API', method: 'CoreAdminHome.setTrackingFailuresNotificationSettings' },
         {
           enabled: this.enabled ? 1 : 0,
           excludedIdSites: this.sites.map((site) => site.id).join(','),
         },
-      ).then(() => {
+      ).then((savedSites) => {
+        // the server leaves out websites that were deleted in the meantime
+        this.sites = savedSites.map((site) => ({ id: site.id, name: site.name }));
         this.$emit('saved', this.sites.map((site) => Number(site.id)));
 
         const notificationId = NotificationsStore.show({
@@ -177,6 +183,8 @@ export default defineComponent({
           context: 'success',
         });
         NotificationsStore.scrollToNotification(notificationId);
+      }).catch(() => {
+        // AjaxHelper already shows the error
       }).finally(() => {
         this.isSaving = false;
       });
