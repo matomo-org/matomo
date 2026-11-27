@@ -15,9 +15,9 @@ use Piwik\AssetManager\UIAssetFetcher\PluginUmdAssetFetcher;
 use Piwik\Exception\ThingNotFoundException;
 use Piwik\Filesystem;
 use Piwik\Plugin\Manager;
-use Piwik\Tests\Framework\TestCase\UnitTestCase;
+use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
-class PluginUmdAssetFetcherTest extends UnitTestCase
+class PluginUmdAssetFetcherTest extends IntegrationTestCase
 {
     public const TEST_PLUGINS_DIR = __DIR__ . '/plugins';
 
@@ -508,7 +508,7 @@ class PluginUmdAssetFetcherTest extends UnitTestCase
         return $relativeRoot . '/' . $pluginName . '/vue/dist/' . $pluginName . '.umd.min.js';
     }
 
-    protected function provideContainerConfig()
+    public function provideContainerConfig()
     {
         return [
             'plugins.shouldLoadOnDemand' => \Piwik\DI::add(array_keys(self::TEST_PLUGIN_DEPENDENCIES_ON_DEMAND)),
