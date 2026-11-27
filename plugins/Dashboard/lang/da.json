@@ -1,6 +1,6 @@
 {
     "Dashboard": {
-        "AddAWidget": "Tilføj modul",
+        "AddAWidget": "Tilføj modul til dette kontrolpanel",
         "AddPreviewedWidget": "Tilføj forhåndsvist modul til kontrolpanelet",
         "ChangeDashboardLayout": "Skift udformning på kontrolpanel",
         "CopyDashboardToUser": "Kopier kontrolpanel til bruger",
