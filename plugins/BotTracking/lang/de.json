@@ -107,6 +107,15 @@
         "TopPageUrlsLast30MinutesDocumentation": "Zeigt die URLs der Seiten an, die in den letzten 30 Minuten von KI-Chatbots angefordert wurden, sortiert nach der Anzahl der Chatbot-Anfragen.",
         "TopPageUrlsLast30MinutesTitle": "URLs der meistbesuchten Seiten – letzte 30 Minuten",
         "TopPageUrlsLast8HoursDocumentation": "Zeigt die URLs der Seiten an, die in den letzten 8 Stunden von KI-Chatbots aufgerufen wurden, sortiert nach der Anzahl der Chatbot-Anfragen.",
-        "TopPageUrlsLast8HoursTitle": "URLs der meistbesuchten Seiten – letzte 8 Stunden"
+        "TopPageUrlsLast8HoursTitle": "URLs der meistbesuchten Seiten – letzte 8 Stunden",
+        "AIChatbotTrafficRatioBelowValue": "&lt;%1$s×",
+        "AIChatbotTrafficRatioValue": "%1$s×",
+        "ColumnAIChatbotTrafficRatio": "Traffic-Verhältnis von KI-Chatbots",
+        "ColumnAIChatbotTrafficRatioDocumentation": "Das Verhältnis von KI-Chatbot-Anfragen zu Seitenansichten durch Menschen, direkt oder über KI-Agenten. Ein Wert von 2,0× bedeutet, dass es doppelt so viele KI-Chatbot-Anfragen wie Seitenansichten gab.",
+        "NoDataHttpTrackingApiInstructions1": "Mit der HTTP Tracking API können Sie KI-Chatbot-Anfragen direkt in Matomo tracken, wenn Sie eine benutzerdefinierte Integration benötigen. Senden Sie erkannte KI-Chatbot-Anfragen mit den erforderlichen Bot-Tracking-Parametern an Matomo.",
+        "NoDataHttpTrackingApiInstructions2": "Erkennen Sie KI-Chatbot-Anfragen in Ihrer Anwendung oder auf Ihrem Server.",
+        "NoDataHttpTrackingApiInstructions3": "Senden Sie die Anfragen mit der HTTP Tracking API unter Angabe Ihrer Matomo-Website-ID und der erforderlichen Bot-Tracking-Parameter an Matomo.",
+        "NoDataHttpTrackingApiInstructions4": "Prüfen Sie nach der Konfiguration und sobald KI-Chatbot-Aktivität auftritt, ob sie in den KI-Chatbot-Berichten erscheint.",
+        "NoDataLinkApiReference": "API-Referenz: %1$sReferenz zur HTTP Tracking API%2$s"
     }
 }
