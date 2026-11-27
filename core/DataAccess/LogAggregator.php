@@ -75,36 +75,6 @@ use Piwik\Log\LoggerInterface;
  *
  *         // ... do something w/ calculated metrics ...
  *     }
- *
- * **Aggregating conversion data**
- *
- *     $archiveProcessor = // ...
- *     $logAggregator = $archiveProcessor->getLogAggregator();
- *
- *     // get metrics for ecommerce conversions for each country
- *     $query = $logAggregator->queryConversionsByDimension(
- *         $dimensions = array('log_conversion.location_country'),
- *         $where = 'log_conversion.idgoal = 0', // 0 is the special ecommerceOrder idGoal value in the table
- *
- *         // also calculate average tax and max shipping per country
- *         $additionalSelects = array(
- *             'AVG(log_conversion.revenue_tax) as avg_tax',
- *             'MAX(log_conversion.revenue_shipping) as max_shipping'
- *         )
- *     );
- *     if ($query === false) {
- *         return;
- *     }
- *
- *     while ($row = $query->fetch()) {
- *         $country = $row['location_country'];
- *         $numEcommerceSales = $row[Metrics::INDEX_GOAL_NB_CONVERSIONS];
- *         $numVisitsWithEcommerceSales = $row[Metrics::INDEX_GOAL_NB_VISITS_CONVERTED];
- *         $avgTaxForCountry = $row['avg_tax'];
- *         $maxShippingForCountry = $row['max_shipping'];
- *
- *         // ... do something with aggregated data ...
- *     }
  */
 class LogAggregator
 {
@@ -350,19 +320,24 @@ class LogAggregator
     }
 
     /**
-     * Generate a SQL query from the supplied parameters
+     * Generates a SQL query from the supplied parameters. The active segment, and the joins it needs,
+     * are added to the query.
      *
-     * @param string $select
-     * @param string|array<string|array{table: string, tableAlias?: string, join?: string}> $from
-     * @param string $where
-     * @param string|false $groupBy
-     * @param string|false $orderBy
-     * @param int $limit
-     * @param int $offset
+     * @param string $select The `SELECT` clause, without the keyword.
+     * @param string|array<string|array{table: string, tableAlias?: string, join?: string, joinOn?: string}> $from The table to select from
+     *                                                                                           or a list of tables to join.
+     * @param string $where The `WHERE` clause, without the keyword. It must start with the condition returned by
+     *                      {@link getWhereStatement()}, as its bind values are always added.
+     * @param string|false $groupBy The `GROUP BY` clause, without the keywords, or `false` for none.
+     * @param string|false $orderBy The `ORDER BY` clause, without the keywords, or `false` for none.
+     * @param int $limit The maximum number of rows, or `0` for no limit.
+     * @param int $offset The number of rows to skip. Only applies when `$limit` is greater than `0`.
+     * @param bool $withRollup Whether to add `WITH ROLLUP` to the `GROUP BY` clause.
      *
-     * @return array{sql: string, bind: array<scalar>}
+     * @return array{sql: string, bind: array<scalar>} The SQL and the values to bind to it.
      * @throws \Piwik\Exception\DI\DependencyException
      * @throws \Piwik\Exception\DI\NotFoundException
+     * @api
      */
     public function generateQuery($select, $from, $where, $groupBy, $orderBy, $limit = 0, $offset = 0, bool $withRollup = false)
     {
@@ -982,7 +957,18 @@ class LogAggregator
     }
 
     /**
-     * @return string
+     * Returns a `WHERE` condition limiting a log table to the datetime range and sites being archived.
+     *
+     * The condition contains two datetime placeholders followed by one placeholder per site, in the order
+     * of {@link getGeneralQueryBindParams()}. `$extraWhere` is passed through `sprintf()` with the table name
+     * as both arguments, so it may contain at most two `%s` placeholders, which are replaced by the table name, and
+     * a literal `%` must be written `%%`.
+     *
+     * @param string $tableName The log table name.
+     * @param string $datetimeField The datetime column of the table.
+     * @param string|false $extraWhere An additional condition, or `false` for none.
+     * @return string The `WHERE` condition, without the keyword.
+     * @api
      */
     public function getWhereStatement($tableName, $datetimeField, $extraWhere = false)
     {
@@ -1010,7 +996,8 @@ class LogAggregator
      * Returns general bind parameters for all log aggregation queries. This includes the datetime
      * start of entities, datetime end of entities and IDs of all sites.
      *
-     * @return array
+     * @return array<int, string|int> The start datetime, end datetime and site IDs.
+     * @api
      */
     public function getGeneralQueryBindParams()
     {
@@ -1588,7 +1575,11 @@ class LogAggregator
     }
 
     /**
-     * @return ArchivingDbAdapter
+     * Returns the database adapter to run archiving queries with. It uses the reader database if one is
+     * configured.
+     *
+     * @return ArchivingDbAdapter The database adapter for archiving queries.
+     * @api
      */
     public function getDb()
     {

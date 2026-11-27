@@ -652,7 +652,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      *                           `->filter('Piwik\DataTable\Filter\Limit')` that filter will be executed. See it as a
      *                           feature.
      * @return void
-     * @ignore
+     * @api
      */
     public function disableFilter($className)
     {
@@ -965,8 +965,10 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     }
 
     /**
-     * @return Row[]
-     * @ignore
+     * Returns the rows of the table without the summary row.
+     *
+     * @return Row[] The rows indexed by row ID, excluding the summary row.
+     * @api
      */
     public function getRowsWithoutSummaryRow()
     {
@@ -2344,11 +2346,17 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         return $existingRow;
     }
 
+    /**
+     * @internal
+     */
     public function setAsBuiltWithoutArchives(bool $flag): void
     {
         $this->isBuiltWithoutArchives = $flag;
     }
 
+    /**
+     * @internal
+     */
     public function wasBuiltWithoutArchives(): bool
     {
         return $this->isBuiltWithoutArchives;

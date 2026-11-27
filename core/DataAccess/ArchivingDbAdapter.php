@@ -15,6 +15,10 @@ use Piwik\DbHelper;
 use Piwik\Log\LoggerInterface;
 use Exception;
 
+/**
+ * Wraps a database adapter for archiving queries. It adds the configured maximum execution time hint (if any)
+ * to each query and logs the SQL on debug level.
+ */
 class ArchivingDbAdapter
 {
     /**
@@ -32,6 +36,9 @@ class ArchivingDbAdapter
      */
     private $maxExecutionTime;
 
+    /**
+     * @internal
+     */
     public function __construct($wrapped, ?LoggerInterface $logger = null)
     {
         $this->wrapped = $wrapped;
@@ -39,11 +46,17 @@ class ArchivingDbAdapter
         $this->maxExecutionTime = (float) Config::getInstance()->General['archiving_query_max_execution_time'];
     }
 
+    /**
+     * @internal
+     */
     public function __call($name, $arguments)
     {
         return call_user_func_array([$this->wrapped, $name], $arguments);
     }
 
+    /**
+     * @internal
+     */
     public function exec($sql, ...$params)
     {
         $sql = DbHelper::addMaxExecutionTimeHintToQuery($sql, $this->maxExecutionTime);
@@ -52,6 +65,14 @@ class ArchivingDbAdapter
         return $this->callFunction(__FUNCTION__, $sql, ...$params);
     }
 
+    /**
+     * Executes an SQL query and returns the statement.
+     *
+     * @param string $sql The SQL query.
+     * @param mixed ...$params Optionally an array of values to bind in the query.
+     * @return mixed The statement returned by the database adapter.
+     * @api
+     */
     public function query($sql, ...$params)
     {
         $sql = DbHelper::addMaxExecutionTimeHintToQuery($sql, $this->maxExecutionTime);
@@ -60,6 +81,14 @@ class ArchivingDbAdapter
         return $this->callFunction(__FUNCTION__, $sql, ...$params);
     }
 
+    /**
+     * Executes an SQL `SELECT` statement and returns all rows.
+     *
+     * @param string $sql The SQL query.
+     * @param mixed ...$params Optionally an array of values to bind in the query.
+     * @return array The result rows.
+     * @api
+     */
     public function fetchAll($sql, ...$params)
     {
         $sql = DbHelper::addMaxExecutionTimeHintToQuery($sql, $this->maxExecutionTime);
@@ -68,6 +97,14 @@ class ArchivingDbAdapter
         return $this->callFunction(__FUNCTION__, $sql, ...$params);
     }
 
+    /**
+     * Executes an SQL `SELECT` statement and returns the first row.
+     *
+     * @param string $sql The SQL query.
+     * @param mixed ...$params Optionally an array of values to bind in the query.
+     * @return array|false The first row, `false` if there is none.
+     * @api
+     */
     public function fetchRow($sql, ...$params)
     {
         $sql = DbHelper::addMaxExecutionTimeHintToQuery($sql, $this->maxExecutionTime);
@@ -76,6 +113,14 @@ class ArchivingDbAdapter
         return $this->callFunction(__FUNCTION__, $sql, ...$params);
     }
 
+    /**
+     * Executes an SQL `SELECT` statement and returns the first column of the first row.
+     *
+     * @param string $sql The SQL query.
+     * @param mixed ...$params Optionally an array of values to bind in the query.
+     * @return string|int|float|null|false The first column of the first row, or `false` if there is none.
+     * @api
+     */
     public function fetchOne($sql, ...$params)
     {
         $sql = DbHelper::addMaxExecutionTimeHintToQuery($sql, $this->maxExecutionTime);
@@ -84,6 +129,14 @@ class ArchivingDbAdapter
         return $this->callFunction(__FUNCTION__, $sql, ...$params);
     }
 
+    /**
+     * Executes an SQL `SELECT` statement and returns all rows indexed by the first selected column.
+     *
+     * @param string $sql The SQL query.
+     * @param mixed ...$params Optionally an array of values to bind in the query.
+     * @return array The rows indexed by the first selected column.
+     * @api
+     */
     public function fetchAssoc($sql, ...$params)
     {
         $sql = DbHelper::addMaxExecutionTimeHintToQuery($sql, $this->maxExecutionTime);
@@ -98,6 +151,7 @@ class ArchivingDbAdapter
      * @param Exception $e
      * @param int|string $errno
      * @return bool
+     * @internal
      */
     public function isErrNo($e, $errno)
     {

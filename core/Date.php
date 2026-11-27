@@ -176,13 +176,15 @@ class Date
     }
 
     /**
-     * Returns Date w/ UTC timestamp of time $dateString/$timezone.
-     * (Only applies to special strings, like 'now','today','yesterday','yesterdaySameTime'.
+     * Returns a Date with the UTC timestamp of the given date string in the given timezone.
      *
-     * @param string $dateString
-     * @param string $timezone
-     * @return Date
-     * @ignore
+     * Only accepts `'now'`, `'today'`, `'yesterday'`, `'yesterdaySameTime'`, `'lastWeek'`, `'lastMonth'` and
+     * `'lastYear'`; throws for any other string.
+     *
+     * @param string $dateString One of the strings above.
+     * @param string $timezone The timezone, eg, `'Europe/Berlin'`.
+     * @return Date The date.
+     * @api
      */
     public static function factoryInTimezone($dateString, $timezone)
     {

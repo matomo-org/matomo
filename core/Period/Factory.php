@@ -23,7 +23,8 @@ use Piwik\Plugin;
  * ## Custom Periods
  *
  * Plugins can define their own period factories to define new period types, in addition
- * to "day", "week", "month", "year" and "range".
+ * to "day", "week", "month", "year" and "range". Custom period factories are not part of the
+ * plugin API yet: the methods a factory implements may change.
  *
  * To define a new period type:
  *
@@ -60,12 +61,13 @@ abstract class Factory
     abstract public function make($strPeriod, $date, $timezone);
 
     /**
-     * Creates a new Period instance with a period ID and {@link Date} instance.
+     * Creates a new Period instance from a period label and a date. Throws if the period type is not enabled for the API.
      *
      * @param string $period `"day"`, `"week"`, `"month"`, `"year"`, `"range"`.
      * @param Date|string $date A date within the period or the range of dates.
      * @param string $timezone Optional timezone that will be used only when $period is 'range' or $date is 'last|previous'
      * @return \Piwik\Period
+     * @api
      */
     public static function build($period, $date, $timezone = 'UTC')
     {
@@ -144,12 +146,13 @@ abstract class Factory
     /**
      * Creates a Period instance using a period, date and timezone.
      *
-     * @param string $timezone The timezone of the date. Only used if `$date` is `'now'`, `'today'`,
-     *                         `'yesterday'` or `'yesterdaySameTime'`.
+     * @param string $timezone The timezone used to resolve relative dates (`'now'`, `'today'`, `'lastWeek'`, ...)
+     *                         and range periods; UTC if empty.
      * @param string $period The period string: `"day"`, `"week"`, `"month"`, `"year"`, `"range"`.
      * @param string|Date $date The date or date range string. Can be a special value including
      *                     `'now'`, `'today'`, `'yesterday'`, `'yesterdaySameTime'`.
      * @return \Piwik\Period
+     * @api
      */
     public static function makePeriodFromQueryParams($timezone, $period, $date)
     {

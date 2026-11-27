@@ -13,8 +13,16 @@ use Exception;
 use Piwik\Date;
 use Piwik\Period;
 
+/**
+ * Represents a single day period.
+ *
+ * @api
+ */
 class Day extends Period
 {
+    /**
+     * The ID of the day period.
+     */
     public const PERIOD_ID = 1;
 
     protected $label = 'day';
@@ -73,6 +81,7 @@ class Day extends Period
      *
      * @param $date
      * @throws Exception
+     * @ignore
      */
     public function addSubperiod($date)
     {
@@ -82,7 +91,7 @@ class Day extends Period
     /**
      * Returns the day of the period in the given format
      *
-     * @param string $format
+     * @param string $format The date format, as accepted by {@link \Piwik\Date::toString()}.
      * @return string
      */
     public function toString($format = "Y-m-d")
@@ -90,16 +99,27 @@ class Day extends Period
         return $this->date->toString($format);
     }
 
+    /**
+     * Returns the day in the format `Y-m-d`.
+     *
+     * @return string The day in `Y-m-d` format.
+     */
     public function __toString()
     {
         return $this->toString();
     }
 
+    /**
+     * @ignore
+     */
     public function getImmediateChildPeriodLabel()
     {
         return null;
     }
 
+    /**
+     * @ignore
+     */
     public function getParentPeriodLabel()
     {
         return 'week';

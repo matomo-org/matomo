@@ -12,8 +12,16 @@ namespace Piwik\Period;
 use Piwik\Date;
 use Piwik\Period;
 
+/**
+ * Represents a single month period.
+ *
+ * @api
+ */
 class Month extends Period
 {
+    /**
+     * The ID of the month period.
+     */
     public const PERIOD_ID = 3;
 
     protected $label = 'month';
@@ -115,11 +123,17 @@ class Month extends Period
         }
     }
 
+    /**
+     * @ignore
+     */
     public function getImmediateChildPeriodLabel()
     {
         return 'week';
     }
 
+    /**
+     * @ignore
+     */
     public function getParentPeriodLabel()
     {
         return 'year';
