@@ -523,16 +523,22 @@ class CronArchive
             $dateStr = $archive['period'] == Range::PERIOD_ID ? ($archive['date1'] . ',' . $archive['date2']) : $archive['date1'];
             $period = PeriodFactory::build($this->periodIdsToLabels[$archive['period']], $dateStr);
             $site = new Site($idSite);
-            $params = new Parameters(
-                $site,
-                $period,
-                new Segment(
+
+            try {
+                $segmentObj = new Segment(
                     $segment,
                     [$idSite],
                     $period->getDateTimeStart()->setTimezone($site->getTimezone()),
                     $period->getDateTimeEnd()->setTimezone($site->getTimezone())
-                )
-            );
+                );
+            } catch (\Throwable $e) {
+                $this->logError("Segment '$segment' could not be prepared for site $idSite, period $dateStr: " . $e->getMessage());
+                $this->model->releaseInProgressInvalidations([$archive['idinvalidation']]);
+                $queueConsumer->ignoreIdInvalidation($archive['idinvalidation']);
+                continue;
+            }
+
+            $params = new Parameters($site, $period, $segmentObj);
 
             if (!empty($plugin)) {
                 $params->setRequestedPlugin($plugin);
@@ -1090,12 +1096,17 @@ class CronArchive
                     continue;
                 }
 
-                $segmentObj = new Segment(
-                    $segmentDefinition,
-                    [$idSite],
-                    $periodObj->getDateTimeStart()->setTimezone($site->getTimezone()),
-                    $periodObj->getDateTimeEnd()->setTimezone($site->getTimezone())
-                );
+                try {
+                    $segmentObj = new Segment(
+                        $segmentDefinition,
+                        [$idSite],
+                        $periodObj->getDateTimeStart()->setTimezone($site->getTimezone()),
+                        $periodObj->getDateTimeEnd()->setTimezone($site->getTimezone())
+                    );
+                } catch (\Throwable $e) {
+                    $this->logError("Segment '$segmentDefinition' could not be prepared for site $idSite: " . $e->getMessage());
+                    continue;
+                }
 
                 $params = new Parameters(
                     $site,
