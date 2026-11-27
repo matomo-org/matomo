@@ -298,7 +298,7 @@ class DataTablePostProcessor
                 $totalsCalculator->calculateFilteredTotals($table);
             });
 
-            $genericFilter->filter($dataTable);
+            $dataTable->filter($genericFilter->filter(...));
 
             // when the percent-of-total columns were computed before the generic filters ran,
             // the Truncate filter summed the per row quotients into its summary row
@@ -385,8 +385,9 @@ class DataTablePostProcessor
     }
 
     /**
-     * @param DataTableInterface $dataTable
-     * @return DataTableInterface
+     * @template T of DataTableInterface
+     * @param T $dataTable
+     * @return T
      */
     public function applyQueuedFilters($dataTable)
     {
@@ -537,9 +538,10 @@ class DataTablePostProcessor
     }
 
     /**
-     * @param DataTableInterface $dataTable
+     * @template T of DataTableInterface
+     * @param T $dataTable
      * @param bool $forceFormatting if set to true, all metrics will be formatted and request parameter will be ignored
-     * @return DataTableInterface
+     * @return T
      */
     public function applyMetricsFormatting($dataTable, bool $forceFormatting = false)
     {

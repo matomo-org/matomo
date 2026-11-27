@@ -27,7 +27,7 @@ use Piwik\Plugin\ReportsProvider;
 class ReportTotalsCalculator extends DataTableManipulator
 {
     /**
-     * @var Report
+     * @var Report|null
      */
     private $report;
 
@@ -44,8 +44,8 @@ class ReportTotalsCalculator extends DataTableManipulator
     }
 
     /**
-     * @param  DataTable $table
-     * @return \Piwik\DataTable|\Piwik\DataTable\Map
+     * @param DataTable\DataTableInterface $table
+     * @return DataTable\DataTableInterface
      */
     public function calculate($table)
     {

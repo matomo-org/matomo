@@ -1,34 +1,5 @@
 parameters:
 	ignoreErrors:
-		-
-			message: '#^Instanceof between Piwik\\DataTable and Piwik\\DataTable\\Map will always evaluate to false\.$#'
-			identifier: instanceof.alwaysFalse
-			count: 1
-			path: core/API/DataTableGenericFilter.php
-
-		-
-			message: '#^Instanceof between Piwik\\Plugin\\ProcessedMetric and Piwik\\Plugin\\ProcessedMetric will always evaluate to true\.$#'
-			identifier: instanceof.alwaysTrue
-			count: 1
-			path: core/API/DataTableGenericFilter.php
-
-		-
-			message: '#^Left side of && is always true\.$#'
-			identifier: booleanAnd.leftAlwaysTrue
-			count: 1
-			path: core/API/DataTableGenericFilter.php
-
-		-
-			message: '#^If condition is always true\.$#'
-			identifier: if.alwaysTrue
-			count: 1
-			path: core/API/DataTableManipulator.php
-
-		-
-			message: '#^Instanceof between Piwik\\DataTable and Piwik\\DataTable will always evaluate to true\.$#'
-			identifier: instanceof.alwaysTrue
-			count: 1
-			path: core/API/DataTableManipulator.php
 
 		-
 			message: '#^If condition is always true\.$#'
@@ -48,47 +19,6 @@ parameters:
 			count: 1
 			path: core/API/DataTableManipulator/LabelFilter.php
 
-		-
-			message: '#^Call to an undefined method Piwik\\DataTable\\DataTableInterface\:\:getRows\(\)\.$#'
-			identifier: method.notFound
-			count: 2
-			path: core/API/DataTableManipulator/ReportTotalsCalculator.php
-
-		-
-			message: '#^Left side of && is always true\.$#'
-			identifier: booleanAnd.leftAlwaysTrue
-			count: 1
-			path: core/API/DataTableManipulator/ReportTotalsCalculator.php
-
-		-
-			message: '#^Property Piwik\\API\\DataTableManipulator\\ReportTotalsCalculator\:\:\$report \(Piwik\\Plugin\\Report\) in empty\(\) is not falsy\.$#'
-			identifier: empty.property
-			count: 1
-			path: core/API/DataTableManipulator/ReportTotalsCalculator.php
-
-		-
-			message: '#^Parameter \#1 \$dataTable of method Piwik\\API\\DataTableManipulator\\Flattener\:\:flatten\(\) expects Piwik\\DataTable, Piwik\\DataTable\\DataTableInterface given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/API/DataTablePostProcessor.php
-
-		-
-			message: '#^Parameter \#1 \$table of method Piwik\\API\\DataTableGenericFilter\:\:filter\(\) expects Piwik\\DataTable, Piwik\\DataTable\\DataTableInterface given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/API/DataTablePostProcessor.php
-
-		-
-			message: '#^Parameter \#1 \$table of method Piwik\\API\\DataTableManipulator\\ReportTotalsCalculator\:\:calculate\(\) expects Piwik\\DataTable, Piwik\\DataTable\\DataTableInterface given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/API/DataTablePostProcessor.php
-
-		-
-			message: '#^Parameter \#2 \$dataTable of method Piwik\\API\\DataTableManipulator\\LabelFilter\:\:filter\(\) expects Piwik\\DataTable, Piwik\\DataTable\\DataTableInterface given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/API/DataTablePostProcessor.php
 
 		-
 			message: '#^Call to an undefined method ReflectionType\:\:getName\(\)\.$#'
