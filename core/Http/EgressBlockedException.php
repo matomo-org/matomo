@@ -17,6 +17,8 @@ use Exception;
  * Thrown when the SSRF-safe fetch path in {@see \Piwik\Http} refuses a request: a non-public target,
  * or an unmet precondition (curl, an http(s) scheme, no forward proxy). Distinct from a transient
  * network failure, so callers can surface it to the admin, who can act on it.
+ *
+ * @api
  */
 class EgressBlockedException extends Exception
 {

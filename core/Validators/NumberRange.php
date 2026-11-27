@@ -11,24 +11,31 @@ namespace Piwik\Validators;
 
 use Piwik\Piwik;
 
+/**
+ * Validator that fails for a non-numeric value or a number outside the optional minimum and maximum. Empty values (`false`, `null`, `''`) pass.
+ *
+ * @api
+ */
 class NumberRange extends BaseValidator
 {
+    /** Maximum value of an unsigned SMALLINT database column. */
     public const MAX_SMALL_INT_UNSIGNED = 65535;
+    /** Maximum value of an unsigned MEDIUMINT database column. */
     public const MAX_MEDIUM_INT_UNSIGNED = 16777215;
 
     /**
-     * @var null|int
+     * @var int|float|null
      */
     private $min;
 
     /**
-     * @var null|int
+     * @var int|float|null
      */
     private $max;
 
     /**
-     * @param null|int $min
-     * @param null|int $max
+     * @param int|float|null $min The minimum allowed value, or null for no minimum.
+     * @param int|float|null $max The maximum allowed value, or null for no maximum.
      */
     public function __construct($min = null, $max = null)
     {
@@ -36,6 +43,11 @@ class NumberRange extends BaseValidator
         $this->max = $max;
     }
 
+    /**
+     * Validates the given value and throws an exception if it is invalid.
+     *
+     * @param mixed $value The value to validate.
+     */
     public function validate($value)
     {
         if ($this->isValueBare($value)) {

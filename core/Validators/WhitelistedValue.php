@@ -11,12 +11,17 @@ namespace Piwik\Validators;
 
 use Piwik\Piwik;
 
+/**
+ * Validator that fails for a value that is not one of the allowed values. Values are compared strictly, so an empty value fails unless it is allowed.
+ *
+ * @api
+ */
 class WhitelistedValue extends BaseValidator
 {
     private $whitelisted = array();
 
     /**
-     * @param array $whitelistedValues
+     * @param array $whitelistedValues The allowed values.
      */
     public function __construct($whitelistedValues)
     {
@@ -26,6 +31,11 @@ class WhitelistedValue extends BaseValidator
         $this->whitelisted = $whitelistedValues;
     }
 
+    /**
+     * Validates the given value and throws an exception if it is invalid.
+     *
+     * @param mixed $value The value to validate.
+     */
     public function validate($value)
     {
         if (!in_array($value, $this->whitelisted, true)) {

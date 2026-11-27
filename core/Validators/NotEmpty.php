@@ -11,8 +11,18 @@ namespace Piwik\Validators;
 
 use Piwik\Piwik;
 
+/**
+ * Validator that fails for a value PHP's `empty()` treats as empty, which includes `0`, `'0'` and an empty array.
+ *
+ * @api
+ */
 class NotEmpty extends BaseValidator
 {
+    /**
+     * Validates the given value and throws an exception if it is invalid.
+     *
+     * @param mixed $value The value to validate.
+     */
     public function validate($value)
     {
         if (empty($value)) {

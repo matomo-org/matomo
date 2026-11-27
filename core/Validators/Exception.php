@@ -9,6 +9,11 @@
 
 namespace Piwik\Validators;
 
+/**
+ * Exception thrown by validators when a value is invalid.
+ *
+ * @api
+ */
 class Exception extends \InvalidArgumentException
 {
 }

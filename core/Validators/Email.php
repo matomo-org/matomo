@@ -11,8 +11,18 @@ namespace Piwik\Validators;
 
 use Piwik\Piwik;
 
+/**
+ * Validator that fails for a value that is not a valid email address. Empty values (`false`, `null`, `''`) pass.
+ *
+ * @api
+ */
 class Email extends BaseValidator
 {
+    /**
+     * Validates the given value and throws an exception if it is invalid.
+     *
+     * @param mixed $value The value to validate.
+     */
     public function validate($value)
     {
         if ($this->isValueBare($value)) {

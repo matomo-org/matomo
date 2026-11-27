@@ -34,7 +34,7 @@ use Attribute;
  * must re-declare `#[JsonResponse]`. (An inherited action the subclass does not override still
  * resolves to the parent's attributed declaration and keeps working.)
  *
- * These requirements are enforced by dedicated PHPStan rules.
+ * Matomo core enforces these requirements with PHPStan rules.
  *
  * Example:
  *
@@ -43,6 +43,8 @@ use Attribute;
  *     {
  *         return json_encode($this->buildData());
  *     }
+ *
+ * @api
  */
 #[Attribute(Attribute::TARGET_METHOD)]
 class JsonResponse
