@@ -9,13 +9,17 @@
 
 namespace Piwik\Plugins\TrackingSpamPrevention\tests\Integration\Tracker;
 
+use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Plugins\TrackingSpamPrevention\BlockedIpRanges;
 use Piwik\Plugins\TrackingSpamPrevention\Configuration;
 use Piwik\Plugins\TrackingSpamPrevention\SystemSettings;
 use Piwik\Plugins\TrackingSpamPrevention\Tracker\RequestProcessor;
+use Piwik\Plugins\UsersManager\Model as UsersModel;
+use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tracker\Request;
+use Piwik\Tracker\TrackerConfig;
 use Piwik\Tracker\Visit\VisitProperties;
 
 /**
@@ -77,6 +81,107 @@ class RequestProcessorTest extends IntegrationTestCase
         $this->assertSame(['11.' => ['11.12.13.14/32']], $this->ranges->getBlockedRanges());
     }
 
+    public function testUpdateBlockedIpRangesMaxActionsEnabledLimitReachedShouldStopRequestButNotBanCustomIpOfWriteUser()
+    {
+        $this->settings->max_actions->setValue(200);
+
+        $request = new Request(['idsite' => 1, 'cip' => '11.12.13.14', 'token_auth' => $this->createWriteUserTokenForSite(1)]);
+        $this->assertTrue($request->isAuthenticated());
+
+        $this->assertTrue($this->processor->afterRequestProcessed($this->makeVisit(200), $request));
+        $this->assertSame([], $this->ranges->getBlockedRanges());
+    }
+
+    public function testUpdateBlockedIpRangesMaxActionsEnabledLimitReachedShouldStopRequestButNotBanCustomIpOfAdminUser()
+    {
+        $this->settings->max_actions->setValue(200);
+
+        $request = new Request(['idsite' => 1, 'cip' => '11.12.13.14', 'token_auth' => $this->createUserTokenForSite('adminuser', 'admin', 1)]);
+        $this->assertTrue($request->isAuthenticated());
+
+        $this->assertTrue($this->processor->afterRequestProcessed($this->makeVisit(200), $request));
+        $this->assertSame([], $this->ranges->getBlockedRanges());
+    }
+
+    /**
+     * @dataProvider getAccessLevelsBelowSuperUser
+     */
+    public function testUpdateBlockedIpRangesMaxActionsEnabledLimitReachedShouldStopRequestButNotBanCustomIpOfSuperUserTokenWithLowerAccessLevel(string $accessLevel)
+    {
+        $this->settings->max_actions->setValue(200);
+
+        $request = new Request(['idsite' => 1, 'cip' => '11.12.13.14', 'token_auth' => $this->createSuperUserTokenWithAccessLevel($accessLevel)]);
+        $this->assertTrue($request->isAuthenticated());
+
+        $this->assertTrue($this->processor->afterRequestProcessed($this->makeVisit(200), $request));
+        $this->assertSame([], $this->ranges->getBlockedRanges());
+    }
+
+    public function getAccessLevelsBelowSuperUser(): iterable
+    {
+        // a Super User token limited to view cannot use cip, the tracker rejects it before it gets here
+        yield 'write' => ['write'];
+        yield 'admin' => ['admin'];
+    }
+
+    public function testUpdateBlockedIpRangesMaxActionsEnabledLimitReachedShouldBanCustomIpOfSuperUserTokenWithSuperUserAccessLevel()
+    {
+        $this->settings->max_actions->setValue(200);
+
+        $request = new Request(['idsite' => 1, 'cip' => '11.12.13.14', 'token_auth' => $this->createSuperUserTokenWithAccessLevel('superuser')]);
+        $this->assertTrue($request->isAuthenticated());
+
+        $this->assertTrue($this->processor->afterRequestProcessed($this->makeVisit(200), $request));
+        $this->assertSame(['11.' => ['11.12.13.14/32']], $this->ranges->getBlockedRanges());
+    }
+
+    public function testUpdateBlockedIpRangesMaxActionsEnabledLimitReachedShouldRejectCustomIpWithInvalidToken()
+    {
+        $this->settings->max_actions->setValue(200);
+
+        $request = new Request(['idsite' => 1, 'cip' => '11.12.13.14', 'token_auth' => 'invalidtokenauthinvalidtokenauth']);
+
+        try {
+            // the tracker rejects such a request before it gets here, when it reads the IP
+            $this->processor->afterRequestProcessed($this->makeVisit(200), $request);
+            $this->fail('Expected the request to be rejected');
+        } catch (InvalidRequestParameterException $e) {
+            $this->assertStringContainsString('requires valid token_auth', $e->getMessage());
+        }
+
+        $this->assertSame([], $this->ranges->getBlockedRanges());
+    }
+
+    public function testUpdateBlockedIpRangesMaxActionsEnabledLimitReachedShouldStopRequestButNotBanCustomIpWithoutTokenWhenAuthenticationNotRequired()
+    {
+        $this->settings->max_actions->setValue(200);
+
+        $this->withTrackerAuthenticationNotRequired(function () {
+            $request = new Request(['idsite' => 1, 'cip' => '11.12.13.14']);
+            $this->assertTrue($request->isAuthenticated());
+
+            $this->assertTrue($this->processor->afterRequestProcessed($this->makeVisit(200), $request));
+            $this->assertSame([], $this->ranges->getBlockedRanges());
+        });
+    }
+
+    public function testUpdateBlockedIpRangesMaxActionsEnabledLimitReachedShouldOnlyBanCustomIpOfSuperUserTokenPassedLikeBulkTracking()
+    {
+        $this->settings->max_actions->setValue(200);
+        $writeUserToken = $this->createWriteUserTokenForSite(1);
+
+        $this->withTrackerAuthenticationNotRequired(function () use ($writeUserToken) {
+            // BulkTracking passes the token to the constructor instead of as a request parameter
+            $writeUserRequest = new Request(['idsite' => 1, 'cip' => '11.12.13.14'], $writeUserToken);
+            $this->assertTrue($this->processor->afterRequestProcessed($this->makeVisit(200), $writeUserRequest));
+            $this->assertSame([], $this->ranges->getBlockedRanges());
+
+            $superUserRequest = new Request(['idsite' => 1, 'cip' => '11.12.13.14'], Fixture::getTokenAuth());
+            $this->assertTrue($this->processor->afterRequestProcessed($this->makeVisit(200), $superUserRequest));
+            $this->assertSame(['11.' => ['11.12.13.14/32']], $this->ranges->getBlockedRanges());
+        });
+    }
+
     public function testUpdateBlockedIpRangesMaxActionsEnabledLimitReachedShouldIgnoreAllowedIp()
     {
         $this->settings->ipAllowList->setValue(['10.12.13.14/32', 'f::f/52', '', '11.12.13.14/21', '12.14.15.16', 'f::f']);
@@ -95,6 +200,17 @@ class RequestProcessorTest extends IntegrationTestCase
         $this->assertSame([], $this->ranges->getBlockedRanges());
     }
 
+    public function testUpdateBlockedIpRangesMaxActionsEnabledLimitReachedShouldIgnoreAllowedCustomIpOfWriteUser()
+    {
+        $this->settings->ipAllowList->setValue(['11.12.13.14/32']);
+        $this->settings->max_actions->setValue(200);
+
+        $request = new Request(['idsite' => 1, 'cip' => '11.12.13.14', 'token_auth' => $this->createWriteUserTokenForSite(1)]);
+
+        $this->assertFalse($this->processor->afterRequestProcessed($this->makeVisit(200), $request));
+        $this->assertSame([], $this->ranges->getBlockedRanges());
+    }
+
     private function makeVisit($actions)
     {
         $visit = new VisitProperties();
@@ -107,5 +223,43 @@ class RequestProcessorTest extends IntegrationTestCase
         $req = new Request(array('idsite' => 1, 'cip' => '11.12.13.14', 'token_auth' => Fixture::getTokenAuth()));
         $req->isAuthenticated();
         return $req;
+    }
+
+    private function withTrackerAuthenticationNotRequired(callable $callback): void
+    {
+        $oldConfig = TrackerConfig::getConfigValue('tracking_requests_require_authentication');
+        TrackerConfig::setConfigValue('tracking_requests_require_authentication', 0);
+
+        try {
+            $callback();
+        } finally {
+            TrackerConfig::setConfigValue('tracking_requests_require_authentication', $oldConfig);
+        }
+    }
+
+    private function createWriteUserTokenForSite(int $idSite): string
+    {
+        return $this->createUserTokenForSite('writeuser', 'write', $idSite);
+    }
+
+    private function createUserTokenForSite(string $login, string $access, int $idSite): string
+    {
+        $model = new UsersModel();
+        $token = $model->generateRandomTokenAuth();
+
+        $model->addUser($login, UsersManager::getPasswordHash('password'), $login . '@example.com', '2020-12-12 00:00:00');
+        $model->addUserAccess($login, $access, [$idSite]);
+        $model->addTokenAuth($login, $token, $access . ' user token', '2020-12-12 00:00:00');
+
+        return $token;
+    }
+
+    private function createSuperUserTokenWithAccessLevel(string $accessLevel): string
+    {
+        $model = new UsersModel();
+        $token = $model->generateRandomTokenAuth();
+        $model->addTokenAuth(Fixture::ADMIN_USER_LOGIN, $token, 'limited super user token', '2020-12-12 00:00:00', null, false, false, $accessLevel);
+
+        return $token;
     }
 }
