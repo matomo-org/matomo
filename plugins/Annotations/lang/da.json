@@ -9,6 +9,7 @@
         "ClickToStarOrUnstar": "Klik for at markere eller fjerne markering af anmærkningen.",
         "CreateNewAnnotation": "Opret ny annotation…",
         "EnterAnnotationText": "Indtast din note…",
+        "HideAnnotations": "Skjul annotationer",
         "HideAnnotationsFor": "Skjul annotationer for %s…",
         "IconDesc": "Vis noter for dette tidsrum.",
         "IconDescHideNotes": "Skjul noter for dette tidsrum.",
@@ -16,6 +17,7 @@
         "LoginToAnnotate": "Log på for at oprette en anmærkning",
         "NoAnnotations": "Der er ingen anmærkninger for datointervallet.",
         "PluginDescription": "Giver mulighed for at knytte bemærkninger til forskellige dage, så du kan huske, hvorfor data ser ud som de gør.",
+        "ShowAnnotations": "Vis annotationer",
         "ViewAndAddAnnotations": "Vis og tilføj annotationer for %s…",
         "YouCannotModifyThisNote": "Du kan ikke ændre denne annotation, da du ikke har oprettet den eller har administrator adgang."
     }
