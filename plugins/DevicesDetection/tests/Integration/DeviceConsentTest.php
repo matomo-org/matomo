@@ -21,6 +21,7 @@ use Piwik\Plugins\DevicesDetection\Reports\GetModel;
 use Piwik\Plugins\DevicesDetection\Settings\DeviceModelDetectionDisabled;
 use Piwik\Plugins\DevicesDetection\Settings\OnlyMajorVersions;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
+use Piwik\Plugins\PrivacyManager\Settings\CampaignParameterValuesMasked;
 use Piwik\Plugins\PrivacyManager\Settings\ConsentAwareAnalytics as ConsentAwareAnalyticsSetting;
 use Piwik\Policy\CnilPolicy;
 use Piwik\Policy\PolicyManager;
@@ -534,6 +535,30 @@ class DeviceConsentTest extends IntegrationTestCase
             'DevicesDetection_OnlyMajorVersionsSettingImpactConsentAware',
             $this->translationKey(OnlyMajorVersions::getImpact(null))
         );
+    }
+
+    /**
+     * A consent request is kept away from a visit measured before consent only while a
+     * restriction that ConsentAwareAnalytics::hasRelaxableRestriction() looks at is in force.
+     * It does not look at the device settings, so a policy withholding device details without
+     * also masking campaigns would let a later page's consent upgrade the earlier visit.
+     */
+    public function testEveryPolicyWithholdingDeviceDetailsAlsoMasksCampaigns(): void
+    {
+        $masking = CampaignParameterValuesMasked::getPolicyRequirements();
+
+        foreach ([DeviceModelDetectionDisabled::class, OnlyMajorVersions::class] as $setting) {
+            foreach ($setting::getPolicyRequirements() as $policy => $required) {
+                if (true !== $required) {
+                    continue;
+                }
+
+                $this->assertTrue(
+                    $masking[$policy] ?? false,
+                    $policy . ' requires ' . $setting . ' but not campaign masking'
+                );
+            }
+        }
     }
 
     private function translationKey(string $text): string

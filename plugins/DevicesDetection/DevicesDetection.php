@@ -124,8 +124,9 @@ class DevicesDetection extends \Piwik\Plugin
             $limitSegmentsSettingEnabled = LimitSegments::getInstance()->getValue();
         } else {
             foreach ($idSites as $idsite) {
-                // a site storing the device model for consented visitors keeps the segment, as
-                // long as nothing but the policy's device model restriction would hide it
+                // a site storing the device model for consented visitors keeps the segment
+                // although the policy limits segments there, since it has consented visits to
+                // segment by; the other limited segments stay hidden
                 $limitSegmentsSettingEnabled |= LimitSegments::getInstance($idsite)->getValue()
                     && !self::isDeviceModelStoredForConsentedVisits((int) $idsite);
             }
