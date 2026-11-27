@@ -29,6 +29,11 @@ use Piwik\Plugins\CoreVisualizations\Metrics\MetricTotalsTreatment;
  */
 class HtmlTable extends Visualization
 {
+    /**
+     * The visualization ID, used in Report::configureView() and getDefaultTypeViewDataTable().
+     *
+     * @api
+     */
     public const ID = 'table';
     public const TEMPLATE_FILE     = "@CoreVisualizations/_dataTableViz_htmlTable.twig";
     public const FOOTER_ICON       = 'icon-table';

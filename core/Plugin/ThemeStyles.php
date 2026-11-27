@@ -11,10 +11,31 @@ namespace Piwik\Plugin;
 
 use Piwik\Piwik;
 
+/**
+ * Holds the theme variables. An instance is passed to the `Theme.configureThemeVariables` event and
+ * its public properties are the theme variables a theme can override.
+ *
+ * @api
+ */
 class ThemeStyles
 {
+    /**
+     * Theme mode that follows the user's system color scheme.
+     *
+     * @internal
+     */
     public const AUTO_MODE = 'auto';
+    /**
+     * Theme mode that always uses the light variants.
+     *
+     * @internal
+     */
     public const LIGHT_MODE = 'light';
+    /**
+     * Theme mode that always uses the dark variants.
+     *
+     * @internal
+     */
     public const DARK_MODE = 'dark';
 
     // to maintain BC w/ old names that were defined in LESS
@@ -89,16 +110,22 @@ class ThemeStyles
     protected $themeMode = self::AUTO_MODE;
 
     /**
+     * Font family used for the text of the user interface.
+     *
      * @var string|array<string>
      */
     public $fontFamilyBase = '-apple-system, BlinkMacSystemFont, \'Segoe UI\', Roboto, Oxygen-Sans, Cantarell, \'Helvetica Neue\', sans-serif';
 
     /**
+     * Brand color, used for primary buttons and highlights.
+     *
      * @var string|array<string>
      */
     public $colorBrand = ['#00b4be', '#00d7e3'];
 
     /**
+     * Color of text and icons placed on top of $colorBrand.
+     *
      * @var string|array<string>
      */
     public $colorBrandContrast = ['#fff', '#ffffff'];
@@ -158,72 +185,100 @@ class ThemeStyles
     public $colorNeutral;
 
     /**
+     * Color of the focus outline of interactive elements.
+     *
      * @var string|array<string>
      */
     public $colorFocusRing = '#0969da';
 
     /**
+     * Alternative focus outline color, for elements where $colorFocusRing is hard to see.
+     *
      * @var string|array<string>
      */
     public $colorFocusRingAlternative = '#00b4bE';
 
     /**
+     * Text color with the highest contrast against the page background.
+     *
      * @var string|array<string>
      */
     public $colorTextHighContrast = ['#000', '#d9d9d9'];
 
     /**
+     * Default text color.
+     *
      * @var string|array<string>
      */
     public $colorText = ['#212121', '#ccc'];
 
     /**
+     * Secondary text color, slightly softer than $colorText.
+     *
      * @var string|array<string>
      */
     public $colorTextContrast = ['#37474f', '#bbb'];
 
     /**
+     * Lighter text color, for secondary text.
+     *
      * @var string|array<string>
      */
     public $colorTextLight = ['#444', '#aaa'];
 
     /**
+     * Lightest regular text color, for tertiary text such as hints and captions.
+     *
      * @var string|array<string>
      */
     public $colorTextLighter = ['#646464', '#999'];
 
     /**
+     * Text color for text placed on a disabled element.
+     *
      * @var string|array<string>
      */
     public $colorTextOnDisabled = ['#666666', '#999'];
 
     /**
+     * Text color of input placeholders.
+     *
      * @var string|array<string>
      * @since Matomo 5.12.0
      */
     public $colorTextPlaceholder = ['#d1d1d1', '#565656'];
 
     /**
+     * Text color for dark surfaces in light mode and light surfaces in dark mode.
+     *
      * @var string|array<string>
      */
     public $colorTextInvert = ['#ccc', '#555'];
 
     /**
+     * Higher contrast variant of $colorTextInvert.
+     *
      * @var string|array<string>
      */
     public $colorTextInvertContrast = ['#fff', '#000'];
 
     /**
+     * Lighter variant of $colorTextInvert; not used by core stylesheets.
+     *
      * @var string|array<string>
      */
     public $colorTextInvertLight = ['#b9b9b9', '#666'];
 
     /**
+     * Text color of disabled elements.
+     *
      * @var string|array<string>
      */
     public $colorTextDisabled = ['#aaa', '#666'];
 
     /**
+     * Color of links.
+     *
      * @var string|array<string>
      */
     public $colorLink = ['#1976D2', '#778fd4'];
@@ -238,26 +293,36 @@ class ThemeStyles
     public $colorTextBrand = ['#186f72', '#4ad3dc'];
 
     /**
+     * Exposed to themes as the LESS variable `@theme-color-base-series`; not used by core stylesheets.
+     *
      * @var string|array<string>
      */
     public $colorBaseSeries = '#ee3024';
 
     /**
+     * Alternative color for headlines.
+     *
      * @var string|array<string>
      */
     public $colorHeadlineAlternative = ['#4E4E4E', '#aaa'];
 
     /**
+     * Background color of the page header. Defaults to $colorBackgroundContrast.
+     *
      * @var string|array<string>
      */
     public $colorHeaderBackground;
 
     /**
+     * Text color of the page header. Defaults to $colorTextLighter.
+     *
      * @var string|array<string>
      */
     public $colorHeaderText;
 
     /**
+     * Color of the menu dropdown caret.
+     *
      * @var string|array<string>
      * @deprecated since Matomo 6.0.0, will be removed in Matomo 7 (`@theme-color-menu-contrast-text`)
      *             - component-oriented naming. Despite the name this no longer colours menu item
@@ -267,6 +332,8 @@ class ThemeStyles
     public $colorMenuContrastText;
 
     /**
+     * Not used by core stylesheets.
+     *
      * @var string|array<string>
      * @deprecated since Matomo 6.0.0, will be removed in Matomo 7
      *             (`@theme-color-menu-contrast-textSelected`) - component-oriented naming. No core
@@ -275,6 +342,8 @@ class ThemeStyles
     public $colorMenuContrastTextSelected;
 
     /**
+     * Accent color of hovered, focused and active elements.
+     *
      * @var string|array<string>
      * @deprecated since Matomo 6.0.0, will be removed in Matomo 7
      *             (`@theme-color-menu-contrast-textActive`) - component-oriented naming. In practice
@@ -284,6 +353,8 @@ class ThemeStyles
     public $colorMenuContrastTextActive = ['#1976D2', '#fff'];
 
     /**
+     * Hover and focus background of rows on the navigation surface.
+     *
      * @var string|array<string>
      * @deprecated since Matomo 6.0.0, will be removed in Matomo 7
      *             (`@theme-color-menu-contrast-backgroundHover`) - component-oriented naming. In
@@ -293,6 +364,8 @@ class ThemeStyles
     public $colorMenuContrastBackgroundHover = ['#eff0f1', '#151819'];
 
     /**
+     * Background color of the navigation surface.
+     *
      * @var string|array<string>
      * @deprecated since Matomo 6.0.0, will be removed in Matomo 7
      *             (`@theme-color-menu-contrast-background`) - component-oriented naming. In practice
@@ -302,6 +375,8 @@ class ThemeStyles
     public $colorMenuContrastBackground;
 
     /**
+     * Page background color of exported and embedded widgets.
+     *
      * @var string|array<string>
      * @deprecated since Matomo 6.0.0, will be removed in Matomo 7
      *             (`@theme-color-widget-exported-background-base`) - component-oriented naming, and
@@ -313,6 +388,8 @@ class ThemeStyles
     public $colorWidgetExportedBackgroundBase;
 
     /**
+     * Text color of the widget and report header strip.
+     *
      * @var string|array<string>
      * @deprecated since Matomo 6.0.0, will be removed in Matomo 7 (`@theme-color-widget-title-text`)
      *             - component-oriented naming. In practice this is the text of the widget and report
@@ -322,6 +399,8 @@ class ThemeStyles
     public $colorWidgetTitleText;
 
     /**
+     * Background color of the widget and report header strip.
+     *
      * @var string|array<string>
      * @deprecated since Matomo 6.0.0, will be removed in Matomo 7
      *             (`@theme-color-widget-title-background`) - component-oriented naming. In practice
@@ -332,31 +411,43 @@ class ThemeStyles
     public $colorWidgetTitleBackground;
 
     /**
+     * Background color of the page.
+     *
      * @var string|array<string>
      */
     public $colorBackgroundBase = ['#f5f5f5', '#151819'];
 
     /**
+     * Background color that differs only slightly from the surface it is placed on.
+     *
      * @var string|array<string>
      */
     public $colorBackgroundTinyContrast = ['#f2f2f2', '#182c32'];
 
     /**
+     * Background color with a low contrast to the surface it is placed on.
+     *
      * @var string|array<string>
      */
     public $colorBackgroundLowContrast = ['#d9d9d9', '#192d33'];
 
     /**
+     * Background color of elevated surfaces such as cards and panels.
+     *
      * @var string|array<string>
      */
     public $colorBackgroundContrast = ['#fff', '#202329'];
 
     /**
+     * Background color with a high contrast to the page background, such as tooltips.
+     *
      * @var string|array<string>
      */
     public $colorBackgroundHighContrast = ['#202020', '#404349'];
 
     /**
+     * Background color of disabled elements.
+     *
      * @var string|array<string>
      */
     public $colorBackgroundDisabled = ['#d9d9d9', '#303339'];
@@ -372,12 +463,16 @@ class ThemeStyles
     public $colorBackgroundBrandTinyContrast = ['#f3fdff', '#152e2d'];
 
     /**
+     * Brand-tinted background with a higher contrast than $colorBackgroundBrandTinyContrast.
+     *
      * @var string|array<string>
      * @since Matomo 6.0.0
      */
     public $colorBackgroundBrandLowContrast = ['#e1fbfb', '#16302f'];
 
     /**
+     * Border color used for some separators and input outlines.
+     *
      * @var string|array<string>
      */
     public $colorBorderLight = ['#a9a399', '#645e54'];
@@ -399,6 +494,8 @@ class ThemeStyles
     public $colorBorder = ['#e0e0e0', '#555555'];
 
     /**
+     * Not used by core stylesheets.
+     *
      * @var string|array<string>
      * @deprecated since Matomo 6.0.0, will be removed in Matomo 7 (`@theme-color-border-alternative`)
      *             - use $colorBorder (`@theme-color-border`) instead, which now carries this value.
@@ -407,26 +504,36 @@ class ThemeStyles
     public $colorBorderAlternative;
 
     /**
+     * Color of box shadows.
+     *
      * @var string|array<string>
      */
     public $colorBoxShadow = ['rgba(0, 0, 0, 0.1)', 'rgba(0, 0, 0, 0.1)'];
 
     /**
+     * Box shadow of overlays such as dialogs and dropdowns.
+     *
      * @var string|array<string>
      */
     public $shadowOverlay = ['0 0 3px #A5B1CA4D, 0 10px 40px #A5B1CA4D', '0 0 3px #00000080, 0 10px 40px #00000080'];
 
     /**
+     * Text color of code blocks.
+     *
      * @var string|array<string>
      */
     public $colorCode = '#f3f3f3';
 
     /**
+     * Background color of code blocks.
+     *
      * @var string|array<string>
      */
     public $colorCodeBackground = '#4d4d4d';
 
     /**
+     * Background color of elevated content surfaces.
+     *
      * @var string|array<string>
      * @deprecated since Matomo 6.0.0, will be removed in Matomo 7 (`@theme-color-widget-background`)
      *             - component-oriented naming. This is the generic elevated content surface and is
@@ -436,6 +543,8 @@ class ThemeStyles
     public $colorWidgetBackground;
 
     /**
+     * Not used by core stylesheets.
+     *
      * @var string|array<string>
      * @deprecated since Matomo 6.0.0, will be removed in Matomo 7 (`@theme-color-widget-border`)
      *             - component-oriented naming. No core stylesheet reads this variable, so setting it
@@ -445,10 +554,15 @@ class ThemeStyles
     public $colorWidgetBorder;
 
     /**
+     * CSS filter applied to illustrations, to adapt them to the theme mode.
+     *
      * @var string|array<string>
      */
     public $filterOnIllustration = ['none', 'brightness(89%) invert(100%) hue-rotate(180deg)'];
 
+    /**
+     * @internal
+     */
     public function __construct(string $themeMode)
     {
         $this->themeMode = $themeMode;
@@ -467,35 +581,74 @@ class ThemeStyles
     }
 
     /**
+     * @param string $mode The theme mode: auto, light or dark.
      * @return ThemeStyles
+     * @internal
      */
     public static function get(string $mode = self::AUTO_MODE)
     {
         $result = new self($mode);
 
         /**
-         * @ignore
+         * Triggered when the theme variables are created, so themes can change colors and fonts.
+         *
+         * A value is either one string for both modes or an array of the light and the dark mode value.
+         *
+         * **Example**
+         *
+         *     public function configureThemeVariables(ThemeStyles $vars): void
+         *     {
+         *         $vars->fontFamilyBase = 'Arial, Verdana, sans-serif';
+         *         $vars->colorBrand = ['#5793d4', '#5793d4'];
+         *     }
+         *
+         * @param ThemeStyles $vars The theme variables to change.
          */
         Piwik::postEvent('Theme.configureThemeVariables', [$result]);
 
         return $result;
     }
 
+    /**
+     * Returns whether the theme mode is light.
+     *
+     * @return bool True if the theme mode is light.
+     * @internal
+     */
     public function getIsLightMode(): bool
     {
         return $this->themeMode === self::LIGHT_MODE;
     }
 
+    /**
+     * Returns whether the theme mode is dark.
+     *
+     * @return bool True if the theme mode is dark.
+     * @internal
+     */
     public function getIsDarkMode(): bool
     {
         return $this->themeMode === self::DARK_MODE;
     }
 
+    /**
+     * Returns the theme mode.
+     *
+     * @return string One of the AUTO_MODE, LIGHT_MODE and DARK_MODE constants.
+     * @internal
+     */
     public function getThemeMode(): string
     {
         return $this->themeMode;
     }
 
+    /**
+     * Returns the value of a theme variable for the current mode; an empty string if the property does not exist.
+     *
+     * @param string $name The property name, eg 'colorBrand'.
+     * @return string The value for the current mode.
+     * @internal
+     */
     public function getPropertyValue(string $name): string
     {
         if (!property_exists($this, $name)) {
@@ -505,6 +658,9 @@ class ThemeStyles
         return $this->resolvePropertyValue($this->$name, $this->getIsDarkMode() ? 1 : 0);
     }
 
+    /**
+     * @internal
+     */
     public function toLessCode()
     {
         $rootCssVars = [];

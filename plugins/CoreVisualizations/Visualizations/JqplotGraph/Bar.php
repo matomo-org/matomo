@@ -17,6 +17,11 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
  */
 class Bar extends JqplotGraph
 {
+    /**
+     * The visualization ID, used in Report::configureView() and getDefaultTypeViewDataTable().
+     *
+     * @api
+     */
     public const ID = 'graphVerticalBar';
     public const FOOTER_ICON       = 'icon-chart-bar';
     public const FOOTER_ICON_TITLE = 'General_VBarGraph';

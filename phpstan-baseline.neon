@@ -2515,24 +2515,6 @@ parameters:
 			path: plugins/CoreVisualizations/Visualizations/Sparklines.php
 
 		-
-			message: '#^If condition is always true\.$#'
-			identifier: if.alwaysTrue
-			count: 1
-			path: plugins/CoreVisualizations/Visualizations/Sparklines.php
-
-		-
-			message: '#^Parameter \#3 \$description of method Piwik\\Plugins\\CoreVisualizations\\Visualizations\\Sparklines\\Config\:\:addSparkline\(\) expects array\|string, null given\.$#'
-			identifier: argument.type
-			count: 2
-			path: plugins/CoreVisualizations/Visualizations/Sparklines.php
-
-		-
-			message: '#^Parameter \#8 \$seriesIndices of method Piwik\\Plugins\\CoreVisualizations\\Visualizations\\Sparklines\\Config\:\:addSparkline\(\) expects int\|null, list\<int\> given\.$#'
-			identifier: argument.type
-			count: 1
-			path: plugins/CoreVisualizations/Visualizations/Sparklines.php
-
-		-
 			message: '#^Variable \$segmentPretty might not be defined\.$#'
 			identifier: variable.undefined
 			count: 1
@@ -2547,24 +2529,6 @@ parameters:
 		-
 			message: '#^Call to function is_null\(\) with Piwik\\Site will always evaluate to false\.$#'
 			identifier: function.impossibleType
-			count: 1
-			path: plugins/CoreVisualizations/Visualizations/Sparklines/Config.php
-
-		-
-			message: '#^Offset ''group'' on array\{value\: mixed, description\: mixed, column\: mixed\} in isset\(\) does not exist\.$#'
-			identifier: isset.offset
-			count: 1
-			path: plugins/CoreVisualizations/Visualizations/Sparklines/Config.php
-
-		-
-			message: '#^Result of && is always false\.$#'
-			identifier: booleanAnd.alwaysFalse
-			count: 1
-			path: plugins/CoreVisualizations/Visualizations/Sparklines/Config.php
-
-		-
-			message: '#^Strict comparison using \=\=\= between array\|string and null will always evaluate to false\.$#'
-			identifier: identical.alwaysFalse
 			count: 1
 			path: plugins/CoreVisualizations/Visualizations/Sparklines/Config.php
 
@@ -3557,12 +3521,6 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: plugins/UserCountry/Columns/Country.php
-
-		-
-			message: '#^If condition is always false\.$#'
-			identifier: if.alwaysFalse
-			count: 1
-			path: plugins/UserCountry/Controller.php
 
 		-
 			message: '#^Call to function is_null\(\) with array will always evaluate to false\.$#'

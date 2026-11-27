@@ -29,6 +29,11 @@ use Piwik\SettingsPiwik;
  */
 abstract class Graph extends Visualization
 {
+    /**
+     * ID of the graph visualizations; pass it to ViewDataTable::isViewDataTableId() to match any graph.
+     *
+     * @api
+     */
     public const ID = 'graph';
 
     public $selectableRows = array();

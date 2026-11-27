@@ -13,6 +13,11 @@ use Piwik\Url;
 
 class Type extends \Piwik\Measurable\Type
 {
+    /**
+     * The site `type` value of mobile apps.
+     *
+     * @api
+     */
     public const ID = 'mobileapp';
     protected $name = 'MobileAppMeasurable_MobileApp';
     protected $namePlural = 'MobileAppMeasurable_MobileApps';

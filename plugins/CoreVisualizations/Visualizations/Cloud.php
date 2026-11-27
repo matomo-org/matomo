@@ -23,6 +23,11 @@ use Piwik\Plugin\Visualization;
  */
 class Cloud extends Visualization
 {
+    /**
+     * The visualization ID, used in Report::configureView() and getDefaultTypeViewDataTable().
+     *
+     * @api
+     */
     public const ID = 'cloud';
     public const TEMPLATE_FILE     = "@CoreVisualizations/_dataTableViz_tagCloud.twig";
     public const FOOTER_ICON       = 'icon-tag-cloud';

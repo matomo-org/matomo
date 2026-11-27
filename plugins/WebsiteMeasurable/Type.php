@@ -11,6 +11,11 @@ namespace Piwik\Plugins\WebsiteMeasurable;
 
 class Type extends \Piwik\Measurable\Type
 {
+    /**
+     * The site `type` value of websites.
+     *
+     * @api
+     */
     public const ID = 'website';
     protected $name = 'Referrers_ColumnWebsite'; // we will use new key of WebsiteType_ once we have them
     protected $namePlural = 'SitesManager_Sites'; // translated into more languages

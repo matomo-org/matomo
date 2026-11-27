@@ -12,7 +12,11 @@ namespace Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 use Piwik\ViewDataTable\Config as VisualizationConfig;
 
 /**
- * Configuration for the HtmlTable visualization.
+ * Display properties of the HtmlTable visualization.
+ *
+ * Set them via `$view->config` in Report::configureView().
+ *
+ * @api
  */
 class Config extends VisualizationConfig
 {
@@ -21,6 +25,8 @@ class Config extends VisualizationConfig
      * If false, subtables will be shown as whole tables between rows.
      *
      * Default value: false
+     *
+     * @var bool
      */
     public $show_embedded_subtable = false;
 
@@ -29,6 +35,8 @@ class Config extends VisualizationConfig
      * specific table in the tree.
      *
      * Default value: false
+     *
+     * @var bool
      */
     public $show_expanded = false;
 
@@ -37,6 +45,8 @@ class Config extends VisualizationConfig
      * replaced with their subtables, or if they are shown alongside their subtables.
      *
      * Default value: false
+     *
+     * @var bool
      */
     public $replace_row_with_subtable = false;
 
@@ -44,6 +54,8 @@ class Config extends VisualizationConfig
      * Controls whether any DataTable Row Action icons are shown. If true, no icons are shown.
      *
      * Default value: false
+     *
+     * @var bool
      */
     public $disable_row_actions = false;
 
@@ -51,6 +63,8 @@ class Config extends VisualizationConfig
      * Controls whether the row evolution DataTable Row Action icon is shown or not.
      *
      * Default value: false
+     *
+     * @var bool
      */
     public $disable_row_evolution = false;
 
@@ -60,6 +74,8 @@ class Config extends VisualizationConfig
      * when viewing the last rows.
      *
      * Default value: false
+     *
+     * @var bool
      */
     public $keep_summary_row = false;
 
@@ -69,6 +85,8 @@ class Config extends VisualizationConfig
      * goals view is not allowed) are displayed.
      *
      * Default value: false
+     *
+     * @var bool
      */
     public $show_extra_columns = false;
 
@@ -77,6 +95,8 @@ class Config extends VisualizationConfig
      * each row.
      *
      * Default value: false
+     *
+     * @var bool
      */
     public $show_goals_columns = false;
 
@@ -85,6 +105,8 @@ class Config extends VisualizationConfig
      * 'show_goals_columns' property is also true.
      *
      * Default value: false
+     *
+     * @var bool
      */
     public $disable_subtable_when_show_goals = false;
 
@@ -92,19 +114,25 @@ class Config extends VisualizationConfig
      * If true, the summary row will be colored differently than all other DataTable rows.
      *
      * Default value: false
+     *
+     * @var bool
      */
     public $highlight_summary_row = false;
 
     /**
-     * If true, the totals row will be shown
+     * If true, the totals row will be shown. Not shown for subtables.
      *
-     * Default value: false
+     * Default value: true
+     *
+     * @var bool
      */
     public $show_totals_row = true;
 
     /**
-     * A list of columns that support showing the ratio percentage on hover
-     * @var array
+     * A list of columns that support showing the ratio percentage on hover.
+     *
+     * @var array<int, string>
+     * @internal
      */
     public $report_ratio_columns = array();
 
@@ -115,6 +143,7 @@ class Config extends VisualizationConfig
      * Derived from columns_to_display, so it is only accurate once those are final. A visualization
      * that rewrites the columns after HtmlTable::beforeRender() has run must set this again.
      * @var bool
+     * @internal
      */
     public $report_supports_percentage_values = false;
 
@@ -132,6 +161,9 @@ class Config extends VisualizationConfig
      */
     public $max_label_width = 440;
 
+    /**
+     * @internal
+     */
     public function __construct()
     {
         parent::__construct();
