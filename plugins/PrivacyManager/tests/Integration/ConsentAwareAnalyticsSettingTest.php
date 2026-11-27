@@ -11,15 +11,29 @@ declare(strict_types=1);
 
 namespace Piwik\Plugins\PrivacyManager\tests\Integration;
 
-use Piwik\Plugins\PrivacyManager\MeasurableSettings;
+use Exception;
+use Piwik\Access;
+use Piwik\Config;
+use Piwik\Container\StaticContainer;
+use Piwik\Exception\UnexpectedWebsiteFoundException;
+use Piwik\NoAccessException;
+use Piwik\Piwik;
+use Piwik\Plugins\PrivacyManager\API;
+use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
+use Piwik\Plugins\PrivacyManager\ReferrerAnonymizer;
+use Piwik\Plugins\PrivacyManager\Settings\CampaignParameterValuesMasked;
+use Piwik\Plugins\PrivacyManager\Settings\ConsentAwareAnalytics;
+use Piwik\Plugins\PrivacyManager\Settings\ReferrerAnonymisation;
+use Piwik\Plugins\UserId\Settings\UserIdDisabled;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Tracker\Cache as TrackerCache;
 
 /**
- * Opting a site in lifts restrictions a compliance policy enforces, and enforcing a policy is
- * reserved to a superuser. A site admin who could switch this on would be able to undo a
- * decision they cannot make.
+ * Consent-aware analytics is turned on from the Compliance page, for the instance or for a site.
+ * It lifts restrictions a compliance policy enforces, and enforcing a policy is reserved to a
+ * superuser, so only a superuser may turn it on.
  *
  * @group PrivacyManager
  * @group Plugins
@@ -29,38 +43,420 @@ class ConsentAwareAnalyticsSettingTest extends IntegrationTestCase
     /** @var int */
     private $idSite;
 
+    /** @var int */
+    private $otherIdSite;
+
+    /** @var API */
+    private $api;
+
     public function setUp(): void
     {
         parent::setUp();
 
         $this->idSite = Fixture::createWebsite('2024-01-01 00:00:00', 0, 'Consent aware');
+        $this->otherIdSite = Fixture::createWebsite('2024-01-01 00:00:00', 0, 'Other');
+        $this->api = API::getInstance();
+
+        Config::getInstance()->FeatureFlags = ['HybridTracking_feature' => 'enabled'];
     }
 
-    public function testASuperUserMayOptTheSiteIn(): void
+    public function testASiteMeasuresItWhenItIsOnForTheSiteOrForTheInstance(): void
     {
-        FakeAccess::$superUser = true;
+        $this->assertFalse(ConsentAwareAnalytics::isEnabledForSite($this->idSite));
 
-        $settings = new MeasurableSettings($this->idSite);
+        ConsentAwareAnalytics::setEnabled(true, $this->idSite);
 
-        $this->assertTrue($settings->consentAwareAnalytics->isWritableByCurrentUser());
+        $this->assertTrue(ConsentAwareAnalytics::isEnabledForSite($this->idSite));
+        $this->assertFalse(ConsentAwareAnalytics::isEnabledForSite($this->otherIdSite));
+        $this->assertFalse(ConsentAwareAnalytics::isEnabledForInstance());
+
+        ConsentAwareAnalytics::setEnabled(true);
+
+        $this->assertTrue(ConsentAwareAnalytics::isEnabledForSite($this->otherIdSite));
+        $this->assertTrue(ConsentAwareAnalytics::isEnabledForInstance());
     }
 
-    public function testASiteAdminMayNotOptTheSiteIn(): void
+    public function testTurningItOnForTheInstanceReachesTheTrackerCacheOfEverySite(): void
     {
-        FakeAccess::$superUser = false;
+        // warm the cache of both sites before the change
+        $this->assertFalse(ConsentAwareAnalytics::isEnabled($this->idSite));
+        $this->assertFalse(ConsentAwareAnalytics::isEnabled($this->otherIdSite));
+
+        ConsentAwareAnalytics::setEnabled(true);
+
+        $this->assertTrue(ConsentAwareAnalytics::isEnabled($this->idSite));
+        $this->assertTrue(ConsentAwareAnalytics::isEnabled($this->otherIdSite));
+    }
+
+    /**
+     * @dataProvider getTextsThatDependOnConsentAwareAnalytics
+     */
+    public function testTheAllWebsitesViewDescribesTheConsentAwareBehaviourWhenItIsOnForTheInstance(
+        callable $getText,
+        string $plainKey
+    ): void {
+        ConsentAwareAnalytics::setEnabled(true, $this->idSite);
+
+        $this->assertSame($plainKey, $getText(null));
+        $this->assertSame($plainKey . 'ConsentAware', $getText($this->idSite));
+        $this->assertSame($plainKey, $getText($this->otherIdSite));
+
+        ConsentAwareAnalytics::setEnabled(true);
+
+        $this->assertSame($plainKey . 'ConsentAware', $getText(null));
+        $this->assertSame($plainKey . 'ConsentAware', $getText($this->otherIdSite));
+    }
+
+    public function getTextsThatDependOnConsentAwareAnalytics(): iterable
+    {
+        $settings = [
+            CampaignParameterValuesMasked::class => 'PrivacyManager_CampaignParameterValuesMaskedSetting',
+            ReferrerAnonymisation::class => 'PrivacyManager_ReferrerAnonymizationSetting',
+            UserIdDisabled::class => 'UserId_UserIdDisabledSetting',
+        ];
+
+        foreach ($settings as $class => $keyPrefix) {
+            $name = substr($class, strrpos($class, '\\') + 1);
+            yield $name . ' what it does' => [[$class, 'getWhatItDoes'], $keyPrefix . 'WhatItDoes'];
+            yield $name . ' impact' => [[$class, 'getImpact'], $keyPrefix . 'Impact'];
+        }
+    }
+
+    public function testGetReturnsTheValueOfTheScopeAndWhetherItIsOnForEveryWebsite(): void
+    {
+        ConsentAwareAnalytics::setEnabled(true, $this->idSite);
+
+        $this->assertSame(
+            ['enabled' => true, 'enabledForAllWebsites' => false, 'isWritable' => true],
+            $this->api->getConsentAwareAnalytics($this->idSite)
+        );
+        $this->assertSame(
+            ['enabled' => false, 'enabledForAllWebsites' => false, 'isWritable' => true],
+            $this->api->getConsentAwareAnalytics('all')
+        );
+
+        ConsentAwareAnalytics::setEnabled(true);
+
+        $this->assertSame(
+            ['enabled' => false, 'enabledForAllWebsites' => true, 'isWritable' => true],
+            $this->api->getConsentAwareAnalytics($this->otherIdSite)
+        );
+        $this->assertSame(
+            ['enabled' => true, 'enabledForAllWebsites' => true, 'isWritable' => true],
+            $this->api->getConsentAwareAnalytics('all')
+        );
+    }
+
+    public function testSetWritesTheValueOfTheScope(): void
+    {
+        $this->assertSame(
+            ['enabled' => true, 'enabledForAllWebsites' => false, 'isWritable' => true],
+            $this->api->setConsentAwareAnalytics($this->idSite, '1')
+        );
+        $this->assertFalse(ConsentAwareAnalytics::isEnabledForSite($this->otherIdSite));
+
+        $this->api->setConsentAwareAnalytics('all', '1');
+        $this->assertTrue(ConsentAwareAnalytics::isEnabledForSite($this->otherIdSite));
+
+        // turning it off for every website leaves the website that has it on for itself
+        $this->api->setConsentAwareAnalytics('all', '0');
+        $this->assertFalse(ConsentAwareAnalytics::isEnabledForSite($this->otherIdSite));
+        $this->assertTrue(ConsentAwareAnalytics::isEnabledForSite($this->idSite));
+    }
+
+    public function testSetReadsTheStringFalseAsOff(): void
+    {
+        ConsentAwareAnalytics::setEnabled(true, $this->idSite);
+
+        $this->api->setConsentAwareAnalytics($this->idSite, 'false');
+
+        $this->assertFalse(ConsentAwareAnalytics::isEnabledForSite($this->idSite));
+    }
+
+    /**
+     * @dataProvider getValuesThatAreNotABoolean
+     */
+    public function testSetRejectsAValueThatIsNotABoolean($enabled): void
+    {
+        ConsentAwareAnalytics::setEnabled(true, $this->idSite);
+
+        try {
+            $this->api->setConsentAwareAnalytics($this->idSite, $enabled);
+            $this->fail('The value was accepted');
+        } catch (Exception $e) {
+            $this->assertSame('Invalid value for the parameter "enabled"', $e->getMessage());
+        }
+
+        // an empty value must not read as off
+        $this->assertTrue(ConsentAwareAnalytics::isEnabledForSite($this->idSite));
+    }
+
+    public function getValuesThatAreNotABoolean(): iterable
+    {
+        yield 'a word' => ['egg'];
+        yield 'empty' => [''];
+        yield 'blank' => [' '];
+        yield 'an array' => [[]];
+        yield 'null' => [null];
+    }
+
+    public function testGetAndSetThrowForAnUnknownSite(): void
+    {
+        try {
+            $this->api->getConsentAwareAnalytics(99999);
+            $this->fail('An unknown site was read');
+        } catch (UnexpectedWebsiteFoundException $e) {
+            // expected
+        }
+
+        $this->expectException(UnexpectedWebsiteFoundException::class);
+        $this->api->setConsentAwareAnalytics(99999, '1');
+    }
+
+    public function testGetAndSetRequireSuperUserAccess(): void
+    {
+        $fakeAccess = StaticContainer::getContainer()->get(Access::class);
+        $fakeAccess->setSuperUserAccess(false);
         FakeAccess::$idSitesAdmin = [$this->idSite];
 
-        $settings = new MeasurableSettings($this->idSite);
+        try {
+            $this->api->setConsentAwareAnalytics($this->idSite, '1');
+            $this->fail('A site admin was able to turn it on');
+        } catch (NoAccessException $e) {
+            $this->assertFalse(ConsentAwareAnalytics::isEnabledForSite($this->idSite));
+        }
 
-        $this->assertFalse($settings->consentAwareAnalytics->isWritableByCurrentUser());
+        $this->expectException(NoAccessException::class);
+        $this->api->getConsentAwareAnalytics($this->idSite);
+    }
+
+    public function testGetAndSetRequireTheHybridTrackingFeature(): void
+    {
+        // the granular compliance feature alone is not enough
+        Config::getInstance()->FeatureFlags = [
+            'HybridTracking_feature' => 'disabled',
+            'GranularPrivacyCompliance_feature' => 'enabled',
+        ];
+
+        try {
+            $this->api->setConsentAwareAnalytics($this->idSite, '1');
+            $this->fail('It was turned on without the feature');
+        } catch (Exception $e) {
+            $this->assertSame('Hybrid tracking is not enabled', $e->getMessage());
+        }
+
+        $this->expectExceptionMessage('Hybrid tracking is not enabled');
+        $this->api->getConsentAwareAnalytics($this->idSite);
+    }
+
+    public function testSetRequiresThePasswordWhenUsingASessionToken(): void
+    {
+        $_GET['force_api_session'] = 0;
+        $_POST['token_auth'] = 'postToken';
+        $_POST['force_api_session'] = 1;
+
+        try {
+            $this->api->setConsentAwareAnalytics($this->idSite, '1');
+            $this->fail('It was turned on without the password');
+        } catch (Exception $e) {
+            $this->assertSame('UsersManager_ConfirmWithReAuthentication', $e->getMessage());
+            $this->assertFalse(ConsentAwareAnalytics::isEnabledForSite($this->idSite));
+        } finally {
+            unset($_GET['force_api_session'], $_POST['token_auth'], $_POST['force_api_session']);
+        }
+    }
+
+    public function testTheInstanceValueCannotBeChangedWhenItIsSetInTheConfig(): void
+    {
+        Config::getInstance()->PrivacyManager = ['consent_aware_analytics' => 1];
+
+        $this->assertSame(
+            ['enabled' => true, 'enabledForAllWebsites' => true, 'isWritable' => false],
+            $this->api->getConsentAwareAnalytics('all')
+        );
+
+        $this->expectExceptionMessage('CoreAdminHome_PluginSettingChangeNotAllowed');
+        $this->api->setConsentAwareAnalytics('all', '0');
+    }
+
+    /**
+     * A value set in the config fixes the instance value only. A website keeps its own toggle, so
+     * one that was already on can still be turned off.
+     */
+    public function testAWebsiteCanStillBeTurnedOffWhenTheConfigSetsTheInstanceValue(): void
+    {
+        ConsentAwareAnalytics::setEnabled(true, $this->idSite);
+        Config::getInstance()->PrivacyManager = ['consent_aware_analytics' => 0];
+
+        $this->assertSame(
+            ['enabled' => true, 'enabledForAllWebsites' => false, 'isWritable' => true],
+            $this->api->getConsentAwareAnalytics($this->idSite)
+        );
+
+        $this->api->setConsentAwareAnalytics($this->idSite, '0');
+
+        $this->assertFalse(ConsentAwareAnalytics::isEnabledForSite($this->idSite));
+        $this->assertFalse(ConsentAwareAnalytics::isEnabled($this->idSite));
+    }
+
+    public function testTheScopeIsTheWebsiteWhenOneIsGivenAndTheInstanceOtherwise(): void
+    {
+        ConsentAwareAnalytics::setEnabled(true, $this->idSite);
+
+        $this->assertTrue(ConsentAwareAnalytics::isEnabledForScope($this->idSite));
+        $this->assertFalse(ConsentAwareAnalytics::isEnabledForScope(null));
+
+        ConsentAwareAnalytics::setEnabled(true);
+
+        $this->assertTrue(ConsentAwareAnalytics::isEnabledForScope(null));
+        $this->assertTrue(ConsentAwareAnalytics::isEnabledForScope($this->otherIdSite));
+    }
+
+    public function testAChangeIsAnnouncedOnlyWhenTheValueChanged(): void
+    {
+        $updates = [];
+        Piwik::addAction('PrivacyManager.consentAwareAnalyticsUpdated', static function ($update) use (&$updates): void {
+            $updates[] = $update;
+        });
+
+        $this->api->setConsentAwareAnalytics($this->idSite, '1');
+        $this->api->setConsentAwareAnalytics($this->idSite, '1');
+        $this->api->setConsentAwareAnalytics('all', '1');
+        $this->api->setConsentAwareAnalytics($this->idSite, '0');
+
+        $this->assertSame([
+            ['idSite' => $this->idSite, 'enabled' => true, 'previousEnabled' => false, 'enabledForAllWebsites' => false],
+            ['idSite' => null, 'enabled' => true, 'previousEnabled' => false, 'enabledForAllWebsites' => true],
+            // the website's own value is off, but it is still measured as it is on for all websites
+            ['idSite' => $this->idSite, 'enabled' => false, 'previousEnabled' => true, 'enabledForAllWebsites' => true],
+        ], $updates);
+    }
+
+    public function testARefusedChangeIsNotAnnounced(): void
+    {
+        $updates = [];
+        Piwik::addAction('PrivacyManager.consentAwareAnalyticsUpdated', static function ($update) use (&$updates): void {
+            $updates[] = $update;
+        });
+
+        try {
+            $this->api->setConsentAwareAnalytics($this->idSite, 'egg');
+            $this->fail('An invalid value was accepted');
+        } catch (Exception $e) {
+            $this->assertSame('Invalid value for the parameter "enabled"', $e->getMessage());
+        }
+
+        Config::getInstance()->PrivacyManager = ['consent_aware_analytics' => 1];
+        try {
+            $this->api->setConsentAwareAnalytics('all', '0');
+            $this->fail('The instance value set in the config was changed');
+        } catch (Exception $e) {
+            $this->assertSame('CoreAdminHome_PluginSettingChangeNotAllowed', $e->getMessage());
+        }
+
+        $this->assertSame([], $updates);
+    }
+
+    public function testAFailingListenerDoesNotFailTheChange(): void
+    {
+        Piwik::addAction('PrivacyManager.consentAwareAnalyticsUpdated', static function (): void {
+            throw new Exception('listener failure');
+        });
+
+        $this->api->setConsentAwareAnalytics($this->idSite, '1');
+
+        $this->assertTrue(ConsentAwareAnalytics::isEnabledForSite($this->idSite));
+    }
+
+    /**
+     * @return iterable<string, array{0: bool, 1: bool, 2: bool}>
+     */
+    public function getMeasuredForSiteCases(): iterable
+    {
+        // turned on, cookieless tracking forced, measured
+        yield 'turned on' => [true, false, true];
+        yield 'turned on, but cookieless tracking is forced' => [true, true, false];
+        yield 'not turned on' => [false, false, false];
+    }
+
+    /**
+     * What a report or segment offers for consented visits must follow what tracking stores for
+     * them, so this gives the answer a request on the site would.
+     *
+     * @dataProvider getMeasuredForSiteCases
+     */
+    public function testASiteIsMeasuredForConsentExactlyWhereItsRequestsAre(
+        bool $enabled,
+        bool $forceCookieless,
+        bool $expected
+    ): void {
+        ConsentAwareAnalytics::setEnabled($enabled, $this->idSite);
+        $privacyConfig = new PrivacyManagerConfig();
+        $privacyConfig->forceCookielessTracking = $forceCookieless;
+        TrackerCache::deleteTrackerCache();
+
+        $request = new \Piwik\Tracker\Request(['idsite' => $this->idSite, 'rec' => 1]);
+
+        $this->assertSame($expected, ConsentAwareAnalytics::isMeasuredForSite($this->idSite));
+        $this->assertSame($expected, $request->measuresConsentAwareAnalytics());
+        $this->assertFalse(ConsentAwareAnalytics::isMeasuredForSite(0));
+
+        $privacyConfig->forceCookielessTracking = false;
+    }
+
+    /**
+     * @return iterable<string, array{0: string, 1: ?string, 2: bool}>
+     */
+    public function getConfiguredValueRestrictionCases(): iterable
+    {
+        // enforced referrer anonymisation, the admin's own (null: not in the cache), relaxable
+        yield 'a policy enforcing more than the admin configured' => [ReferrerAnonymizer::EXCLUDE_PATH, ReferrerAnonymizer::EXCLUDE_QUERY, true];
+        yield 'the admin\'s own value, nothing enforced over it' => [ReferrerAnonymizer::EXCLUDE_PATH, ReferrerAnonymizer::EXCLUDE_PATH, false];
+        yield 'a cache written before the admin\'s own value was kept' => [ReferrerAnonymizer::EXCLUDE_PATH, null, false];
+    }
+
+    /**
+     * A privacy setting consent lifts back to the admin's own value is something to relax only
+     * where a policy enforces more than that value. Every other setting is held unrestricted here.
+     *
+     * @dataProvider getConfiguredValueRestrictionCases
+     */
+    public function testASettingEnforcedOverTheAdminsOwnValueIsARelaxableRestriction(
+        string $enforced,
+        ?string $configured,
+        bool $expected
+    ): void {
+        $siteCache = TrackerCache::getCacheWebsiteAttributes($this->idSite);
+
+        $siteCache[CampaignParameterValuesMasked::class] = false;
+        $siteCache[UserIdDisabled::class] = false;
+        $siteCache[UserIdDisabled::CONFIGURED_VALUE_CACHE_KEY] = false;
+        $siteCache['PrivacyManager.anonymizeReferrer'] = $enforced;
+        unset($siteCache['PrivacyManager.anonymizeReferrerConfiguredValue']);
+        if (null !== $configured) {
+            $siteCache['PrivacyManager.anonymizeReferrerConfiguredValue'] = $configured;
+        }
+
+        TrackerCache::$cache->save($this->idSite, $siteCache);
+
+        // a cache written before the configured value was kept lacks it in the general cache too
+        $generalCache = TrackerCache::getCacheGeneral();
+        unset($generalCache['PrivacyManager.anonymizeReferrerConfiguredValue']);
+        TrackerCache::setCacheGeneral($generalCache);
+
+        $this->assertSame($expected, ConsentAwareAnalytics::hasRelaxableRestriction($this->idSite));
     }
 
     public function provideContainerConfig()
     {
-        FakeAccess::$superUser = true;
-
         return [
             'Piwik\Access' => new FakeAccess(),
         ];
+    }
+
+    protected static function configureFixture($fixture)
+    {
+        parent::configureFixture($fixture);
+        $fixture->createSuperUser = true;
     }
 }

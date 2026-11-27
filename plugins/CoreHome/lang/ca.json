@@ -11,6 +11,7 @@
         "ClickToEditX": "Feu clic per editar %s",
         "ClickToSeeFullInformation": "Feu clic per veure tota la informació",
         "CloseWidgetDirections": "Podeu tancar aquest giny fent clic a la icona \"X\" a la part superior del giny.",
+        "ConsentState": "Estat de consentiment",
         "CopyModalNote": "%1$sNota:%2$s És possible que calgui ajustar el %3$s copiat si inclou referències específiques del lloc web original. Reviseu la configuració per garantir la compatibilitat.",
         "CopyX": "Copia %1$s",
         "CopyXDescription": "Seleccioneu el lloc web on voleu copiar aquest %1$s. Això crearà una còpia exacta, inclosa la configuració, al lloc web escollit.",

@@ -313,7 +313,8 @@ class SegmentEditor extends \Piwik\Plugin
         }
 
         // if no visits recorded, data will not appear, so don't show the message
-        $visits = StaticContainer::get(LiveModel::class)->queryLogVisits($idSites, $periodStr, $date, $segment->getString(), $offset = 0, $limit = 1, false, false, 'ASC');
+        // only whether a visit exists is asked, nothing is shown, so the visits of visitors without consent count too
+        $visits = StaticContainer::get(LiveModel::class)->withoutConsentFilter()->queryLogVisits($idSites, $periodStr, $date, $segment->getString(), $offset = 0, $limit = 1, false, false, 'ASC');
         if (empty($visits)) {
             return null;
         }

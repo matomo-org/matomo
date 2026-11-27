@@ -80,14 +80,7 @@ class UserId extends VisitDimension
         // A policy that withholds the User ID is lifted by the visitor's consent, and that
         // consent belongs to the visit: a later request that does not repeat the flag is still
         // part of a visit that consented, so the User ID is not withheld from it.
-        $hasConsent = Consent::visitHasConsent($request, $visitor);
-
-        // The exception is a consent this visit may not use at all - a consent ping landing on a
-        // visit measured before any was given, which cannot start a visit of its own. That one
-        // belongs to the visit it will go on to start, not to this one.
-        if ($request->hasConsent() && !Consent::appliesToVisit($request, $visitor, $action)) {
-            $hasConsent = false;
-        }
+        $hasConsent = Consent::visitConsentApplies($request, $visitor, $action);
 
         $value = $request->getForcedUserIdForConsent($hasConsent);
 

@@ -15,6 +15,7 @@ use Piwik\Plugins\PrivacyManager\API;
 use Piwik\Plugins\PrivacyManager\ReferrerAnonymizer;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Tracker\Cache as TrackerCache;
 
 /**
  * @group Plugins
@@ -229,6 +230,31 @@ class PrivacyManagerConfigTest extends IntegrationTestCase
 
         $this->assertSame(ReferrerAnonymizer::EXCLUDE_PATH, $this->config->anonymizeReferrer, 'the policy should be enforced');
         $this->assertSame(ReferrerAnonymizer::EXCLUDE_QUERY, $this->config->getConfiguredValue('anonymizeReferrer'));
+    }
+
+    /**
+     * A tracker cache written before the configured value was kept in it says nothing about what
+     * the admin chose, so the enforced value stands: falling back to the setting's default could
+     * be less strict than what the admin chose themselves.
+     */
+    public function testGetConfiguredValueKeepsTheEnforcedValueWhereTheCacheLacksTheConfiguredOne()
+    {
+        $idSite = Fixture::createWebsite('2024-01-01 00:00:00');
+
+        $siteCache = TrackerCache::getCacheWebsiteAttributes($idSite);
+        $siteCache['PrivacyManager.anonymizeReferrer'] = ReferrerAnonymizer::EXCLUDE_ALL;
+        unset($siteCache['PrivacyManager.anonymizeReferrerConfiguredValue']);
+        TrackerCache::$cache->save($idSite, $siteCache);
+
+        // written before the configured value was kept, the general cache lacks it too
+        $generalCache = TrackerCache::getCacheGeneral();
+        unset($generalCache['PrivacyManager.anonymizeReferrerConfiguredValue']);
+        TrackerCache::setCacheGeneral($generalCache);
+
+        $config = new PrivacyManagerConfig($idSite);
+
+        $this->assertSame(ReferrerAnonymizer::EXCLUDE_ALL, $config->getConfiguredValue('anonymizeReferrer'));
+        $this->assertFalse($config->isConfiguredValueOverriddenByPolicy());
     }
 
     public function testGetConfiguredValueRejectsASettingItIsNotCachedFor()

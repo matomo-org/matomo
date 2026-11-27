@@ -31,7 +31,6 @@ use Piwik\Segment\SegmentExpression;
 use Piwik\Tracker;
 use Piwik\Cache as PiwikCache;
 use Piwik\Tracker\Cache as TrackerCache;
-use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
 use Piwik\Plugins\PrivacyManager\Settings\ConsentAwareAnalytics;
 use Piwik\Plugins\UserId\Settings\UserIdDisabled;
 
@@ -981,10 +980,10 @@ class Request
      * Consent-aware measurement is opt-in per site, so this is false for every site that has not
      * been opted in, whatever the request reports.
      *
-     * The JavaScript tracker reports consent when it is in use and has been granted, either for
-     * tracking as a whole or for cookies. A request without the parameter is not a refusal, it
-     * only means the site is not signalling consent, so nothing may be relaxed on the strength of
-     * its absence.
+     * The JavaScript tracker reports consent to being tracked (`setConsentGiven()`,
+     * `rememberConsentGiven()`), never consent to cookies alone. A request without the parameter
+     * is not a refusal, it only means the site is not signalling consent, so nothing may be
+     * relaxed on the strength of its absence.
      */
     public function hasConsent(): bool
     {
@@ -1025,13 +1024,7 @@ class Request
             return $this->measuresConsentCache = false;
         }
 
-        if (!ConsentAwareAnalytics::isEnabled((int) $idSite)) {
-            return $this->measuresConsentCache = false;
-        }
-
-        $privacyConfig = new PrivacyManagerConfig((int) $idSite);
-
-        return $this->measuresConsentCache = !$privacyConfig->forceCookielessTracking;
+        return $this->measuresConsentCache = ConsentAwareAnalytics::isMeasuredForSite((int) $idSite);
     }
 
     public function getPlugins()

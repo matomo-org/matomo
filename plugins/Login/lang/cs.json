@@ -16,6 +16,8 @@
         "ConfirmPasswordResetIntro": "Zadáním nového hesla potvrďte, že jste skutečně požádali o změnu hesla.",
         "ConfirmPasswordResetWrongPassword": "Zadané heslo neodpovídá nově vytvořenému heslu. Pokud si je nepamatujete, obnovte heslo znovu. Jestliže jste o změnu hesla nepožádali a chcete si současné heslo ponechat, nic nedělejte.",
         "ConfirmPasswordToContinue": "Potvrďte heslo a pokračujte",
+        "ConfirmSecondFactorIntro": "Pro potvrzení této akce zadejte kód pro dvoufaktorové ověření, například z ověřovací aplikace.",
+        "ConfirmSecondFactorToContinue": "Potvrďte pomocí dvoufaktorového ověření a pokračujte",
         "ConfirmationLinkPossiblySent": "Pokud jsou zadané údaje přiřazeny k účtu, obdržíte e-mail s potvrzením obnovení hesla.",
         "ContactAdmin": "Možný důvod: poskytovatel hostingu mohl zakázat funkci mail(). <br>Obraťte se na správce Matoma.",
         "CreatePasswordDescription": "Toto heslo si zapamatujte a uchovávejte je na bezpečném místě.",
@@ -106,6 +108,7 @@
         "TokenAuthenticationFailed": "Ověření pomocí zadaného tokenu se nezdařilo. Token je neplatný nebo jeho platnost vypršela.",
         "TokenAuthenticationFailedInsecure": "Ověření pomocí zadaného tokenu se nezdařilo. Token je neplatný, jeho platnost vypršela nebo musí být odeslán jako parametr POST či v hlavičce HTTP Authorization. Pokud byl token vytvořen s volbou „Povolit pouze zabezpečené požadavky“, musí být odeslán jako parametr POST nebo v hlavičce HTTP Authorization.",
         "UnblockAllIPs": "Odblokovat všechny zablokované IP adresy",
-        "WrongPasswordEntered": "Zadejte své heslo."
+        "WrongPasswordEntered": "Zadejte své heslo.",
+        "WrongSecondFactorCode": "Ověřovací kód není správný. Zkuste to prosím znovu."
     }
 }

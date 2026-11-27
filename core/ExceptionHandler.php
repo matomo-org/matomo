@@ -135,6 +135,14 @@ class ExceptionHandler
             $valuesToReplace['smtppass'] = $mailConfig['password'];
         }
 
+        if (!empty($mailConfig['oauth_client_secret'])) {
+            $valuesToReplace['smtpoauthclientsecret'] = $mailConfig['oauth_client_secret'];
+        }
+
+        if (!empty($mailConfig['oauth_private_key_password'])) {
+            $valuesToReplace['smtpoauthprivatekeypassword'] = $mailConfig['oauth_private_key_password'];
+        }
+
         // Remove possible empty entries
         $valuesToReplace = array_filter($valuesToReplace);
 

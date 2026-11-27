@@ -11,11 +11,14 @@ declare(strict_types=1);
 
 namespace Piwik\Plugins\PrivacyManager\Settings;
 
+use Piwik\Piwik;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
 use Piwik\Plugins\UserId\Settings\UserIdDisabled;
 use Piwik\Settings\FieldConfig;
 use Piwik\Settings\Interfaces\MeasurableSettingInterface;
-use Piwik\Settings\Interfaces\Traits\Getters\MeasurableGetterTrait;
+use Piwik\Settings\Interfaces\SystemSettingInterface;
+use Piwik\Settings\Interfaces\Traits\Setters\MeasurableSetterTrait;
+use Piwik\Settings\Interfaces\Traits\Setters\SystemSetterTrait;
 use Piwik\Tracker\Cache as TrackerCache;
 
 /**
@@ -25,16 +28,39 @@ use Piwik\Tracker\Cache as TrackerCache;
  * same, whether or not they consented. While it is on, a visitor who consents is measured without
  * the restrictions the policy imposes for those who have not.
  *
- * It is set per site rather than for the instance, so it can be rolled out a site at a time.
+ * It is set on the Compliance page, for the whole instance or for a website. A website measures
+ * consent-aware analytics when either is on, so it can be rolled out a website at a time.
  *
+ * `[PrivacyManager] consent_aware_analytics` in the config sets the instance value and locks it,
+ * as for any system setting. It does not lock the websites, which keep their own value.
+ *
+ * @implements SystemSettingInterface<bool>
  * @implements MeasurableSettingInterface<bool>
  */
-class ConsentAwareAnalytics implements MeasurableSettingInterface
+class ConsentAwareAnalytics implements SystemSettingInterface, MeasurableSettingInterface
 {
-    /** @use MeasurableGetterTrait<bool> */
-    use MeasurableGetterTrait;
+    /** @use SystemSetterTrait<bool> */
+    use SystemSetterTrait;
+
+    /** @use MeasurableSetterTrait<bool> */
+    use MeasurableSetterTrait;
 
     public const TRACKER_CACHE_KEY = 'PrivacyManager.consentAwareAnalytics';
+
+    protected static function getSystemName(): string
+    {
+        return 'consent_aware_analytics';
+    }
+
+    protected static function getSystemType(): string
+    {
+        return FieldConfig::TYPE_BOOL;
+    }
+
+    protected static function getSystemDefaultValue()
+    {
+        return false;
+    }
 
     protected static function getMeasurableName(): string
     {
@@ -52,11 +78,61 @@ class ConsentAwareAnalytics implements MeasurableSettingInterface
     }
 
     /**
-     * The value as configured, for writing into the tracker cache.
+     * Whether it is on for the whole instance.
+     */
+    public static function isEnabledForInstance(): bool
+    {
+        return (bool) self::getSystemValue();
+    }
+
+    /**
+     * Whether this site measures consent-aware analytics, as configured for the instance or for
+     * the site, for writing into the tracker cache.
      */
     public static function isEnabledForSite(int $idSite): bool
     {
-        return (bool) self::getMeasurableValue($idSite);
+        return self::isEnabledForInstance() || (bool) self::getMeasurableValue($idSite);
+    }
+
+    /**
+     * Whether the given scope measures it: for a website, when it is on for the whole instance or
+     * for that website; without a website, when it is on for the whole instance.
+     */
+    public static function isEnabledForScope(?int $idSite): bool
+    {
+        return null === $idSite ? self::isEnabledForInstance() : self::isEnabledForSite($idSite);
+    }
+
+    /**
+     * The text a compliance setting shows for the given scope: the consent-aware variant, keyed
+     * `<key>ConsentAware`, where consent-aware analytics is on for that scope, and the plain one
+     * otherwise. A scope that does not measure it treats every visitor the same, so the plain
+     * text is what is true there.
+     *
+     * @param array<int, mixed> $params as for Piwik::translate()
+     */
+    public static function translateForScope(?int $idSite, string $translationKey, array $params = []): string
+    {
+        if (self::isEnabledForScope($idSite)) {
+            return Piwik::translate($translationKey . 'ConsentAware', $params);
+        }
+
+        return Piwik::translate($translationKey, $params);
+    }
+
+    /**
+     * Turns it on or off for the whole instance, or for a site when one is given.
+     */
+    public static function setEnabled(bool $enabled, ?int $idSite = null): void
+    {
+        if (null === $idSite) {
+            self::setSystemValue($enabled);
+        } else {
+            self::setMeasurableValue($idSite, $enabled);
+        }
+
+        // every site inherits the instance value, so every site's tracker cache is stale
+        TrackerCache::deleteTrackerCache();
     }
 
     /**
@@ -72,6 +148,23 @@ class ConsentAwareAnalytics implements MeasurableSettingInterface
         $cache = TrackerCache::getCacheWebsiteAttributes($idSite);
 
         return true === ($cache[self::TRACKER_CACHE_KEY] ?? false);
+    }
+
+    /**
+     * Whether consent is measured while tracking this site: it measures consent-aware analytics
+     * and does not force cookieless tracking, under which consent changes nothing.
+     *
+     * This is Request::measuresConsentAwareAnalytics() for when no request is at hand - a report
+     * or segment deciding whether consented visits can have stored what it shows - so that what
+     * they offer stays in step with what tracking stores. Read from the tracker cache.
+     */
+    public static function isMeasuredForSite(int $idSite): bool
+    {
+        if ($idSite <= 0 || !self::isEnabled($idSite)) {
+            return false;
+        }
+
+        return !(new PrivacyManagerConfig($idSite))->forceCookielessTracking;
     }
 
     /**
@@ -108,8 +201,7 @@ class ConsentAwareAnalytics implements MeasurableSettingInterface
             return true;
         }
 
-        $config = new PrivacyManagerConfig($idSite);
-
-        return $config->anonymizeReferrer !== (string) $config->getConfiguredValue('anonymizeReferrer');
+        // every privacy setting consent lifts back to the admin's own value
+        return (new PrivacyManagerConfig($idSite))->isConfiguredValueOverriddenByPolicy();
     }
 }

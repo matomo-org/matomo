@@ -40,6 +40,11 @@ class Consent extends VisitDimension
     public const COLUMN_TYPE = 'TINYINT(1) UNSIGNED NULL';
     public const CONSENT_GIVEN = 1;
 
+    /**
+     * The stored value of a visit whose visitor consented
+     */
+    public const CONSENTED = 1;
+
     private const SEGMENT_VALUES = [
         'consented' => 'consented',
         'unknown' => '',
@@ -200,6 +205,32 @@ class Consent extends VisitDimension
         // consent-aware analytics, so turning the setting off - or forcing cookieless tracking -
         // takes effect for visits that had already consented rather than only for new ones
         return $request->measuresConsentAwareAnalytics() && self::hasVisitConsented($visitor);
+    }
+
+    /**
+     * Whether the visit's consent may relax what this request writes to the visit.
+     *
+     * This is {@see visitHasConsent()}, except for a consent this visit may not use at all: a
+     * consent ping landing on a visit measured before any was given belongs to the visit it goes
+     * on to start, not to this one. A visit being created now is the one the request starts, so
+     * that question does not arise there.
+     *
+     * Ask it once whether the request starts a new visit is settled, that is from a dimension's
+     * onNewVisit() / onExistingVisit() or a request processor's afterRequestProcessed() on.
+     *
+     * @param Action|null $action
+     */
+    public static function visitConsentApplies(Request $request, Visitor $visitor, $action = null): bool
+    {
+        if (!self::visitHasConsent($request, $visitor)) {
+            return false;
+        }
+
+        if (!$request->hasConsent() || $request->getMetadata('CoreHome', 'isNewVisit')) {
+            return true;
+        }
+
+        return self::appliesToVisit($request, $visitor, $action);
     }
 
     /**

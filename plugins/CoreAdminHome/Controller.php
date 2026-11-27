@@ -14,7 +14,9 @@ use Piwik\API\ResponseBuilder;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Http\JsonResponse;
+use Piwik\Log\LoggerInterface;
 use Piwik\Mail;
 use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
@@ -125,12 +127,18 @@ class Controller extends ControllerAdmin
         $view->pathUserLogoSmall     = CustomLogo::getPathUserLogoSmall();
         $view->pathUserLogoSVG       = CustomLogo::getPathUserSvgLogo();
         $view->pathUserLogoDirectory = realpath(dirname($view->pathUserLogo) . '/');
-        $view->mailTypes = array(
+        $mailTypes = array(
             '' => '',
             'Plain' => 'Plain',
             'Login' => 'Login',
             'Cram-md5' => 'Cram-md5',
         );
+        $mailType = (string) (Config::getInstance()->mail['type'] ?? '');
+        if (strtolower($mailType) === 'xoauth2') {
+            // there is no form for the OAuth settings yet, so the option is only there to show what is configured
+            $mailTypes[$mailType] = 'OAuth 2.0 (set up in config.ini.php)';
+        }
+        $view->mailTypes = $mailTypes;
         $view->mailEncryptions = array(
             '' => 'auto',
             'ssl' => 'SSL',
@@ -192,6 +200,22 @@ class Controller extends ControllerAdmin
 
             $mail['encryption'] =  $request->getStringParameter('mailEncryption', '');
 
+            // the form has no fields for the OAuth settings, keep what is set in the config file
+            $oauthSettings = [
+                'oauth_token_url', 'oauth_client_id', 'oauth_scope', 'oauth_credential_type', 'oauth_client_secret',
+                'oauth_certificate_path', 'oauth_private_key_path', 'oauth_private_key_password',
+            ];
+            foreach ($oauthSettings as $oauthSetting) {
+                $mail[$oauthSetting] = Config::getInstance()->mail[$oauthSetting] ?? '';
+            }
+
+            if (Config::getInstance()->mail['host'] !== $mail['host']) {
+                // like the password, the OAuth credentials are not kept for another host
+                foreach (['oauth_client_secret', 'oauth_certificate_path', 'oauth_private_key_path', 'oauth_private_key_password'] as $credential) {
+                    $mail[$credential] = '';
+                }
+            }
+
             Config::getInstance()->mail = $mail;
 
             $general = Config::getInstance()->General;
@@ -208,6 +232,42 @@ class Controller extends ControllerAdmin
             Config::getInstance()->General = $general;
 
             Config::getInstance()->forceSave();
+
+            try {
+                /**
+                 * Triggered after the email server settings were saved on the general settings page.
+                 *
+                 * The event is posted once for each save, also if no value changed. It is not posted when
+                 * the save fails. It never contains the password.
+                 *
+                 * **Example**
+                 *
+                 *     Piwik::addAction('CoreAdminHome.mailSettingsUpdated', function ($settings) {
+                 *         Log::info('SMTP host: ' . $settings['host']);
+                 *     });
+                 *
+                 * @param array $settings The saved settings: `transport`, `host`, `port`, `type`, `username` and
+                 *                        `encryption` of the `[mail]` config section, `noreply_email_name` and
+                 *                        `noreply_email_address` of the `[General]` config section, and
+                 *                        `password_set`, which is `true` if a password is stored.
+                 */
+                Piwik::postEvent('CoreAdminHome.mailSettingsUpdated', [[
+                    'transport' => $mail['transport'],
+                    'host' => $mail['host'],
+                    'port' => $mail['port'],
+                    'type' => $mail['type'],
+                    'username' => $mail['username'],
+                    'encryption' => $mail['encryption'],
+                    'noreply_email_name' => $general['noreply_email_name'],
+                    'noreply_email_address' => $general['noreply_email_address'],
+                    'password_set' => (string) $mail['password'] !== '',
+                ]]);
+            } catch (\Throwable $e) {
+                StaticContainer::get(LoggerInterface::class)->warning(
+                    'A listener of CoreAdminHome.mailSettingsUpdated failed: {message}',
+                    ['message' => $e->getMessage(), 'exception' => $e]
+                );
+            }
 
             $toReturn = $response->getResponse();
         } catch (Exception $e) {
@@ -356,6 +416,8 @@ class Controller extends ControllerAdmin
         $mail['noreply_email_address'] = Config::getInstance()->General['noreply_email_address'];
         $mail['noreply_email_name'] = Config::getInstance()->General['noreply_email_name'];
         $mail['password'] = !empty($mail['password']) ? '*****' : '';
+        $mail['oauth_client_secret'] = !empty($mail['oauth_client_secret']) ? '*****' : '';
+        $mail['oauth_private_key_password'] = !empty($mail['oauth_private_key_password']) ? '*****' : '';
         $view->mail = $mail;
     }
 
