@@ -28,7 +28,8 @@ class Development
     /**
      * Returns `true` if development mode is enabled and `false` otherwise.
      *
-     * @return bool
+     * @return bool True if development mode is enabled.
+     * @api
      */
     public static function isEnabled()
     {

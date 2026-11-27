@@ -228,6 +228,13 @@ class SettingsPiwik
         return $url;
     }
 
+    /**
+     * Returns true if Matomo is installed: the config file exists, contains database settings and no installation
+     * is in progress.
+     *
+     * @return bool True if Matomo is installed.
+     * @api
+     */
     public static function isMatomoInstalled(): bool
     {
         $config = Config::getInstance()->getLocalPath();
@@ -256,8 +263,11 @@ class SettingsPiwik
     }
 
     /**
-     * Check if outgoing internet connections are enabled
-     * This is often disable in an intranet environment
+     * Returns whether outgoing internet connections are enabled (the `enable_internet_features` setting).
+     * Plugins must check it before making outgoing requests.
+     *
+     * @return bool True if outgoing connections are enabled.
+     * @api
      */
     public static function isInternetEnabled(): bool
     {
@@ -531,8 +541,12 @@ class SettingsPiwik
     }
 
     /**
+     * Returns the configured instance ID (the `instance_id` setting) with unsafe characters removed.
+     * In CLI mode before Matomo is installed, it returns the hostname.
+     *
      * @throws Exception
-     * @return string|false return string or false if not set
+     * @return string|false The instance ID or false if not set.
+     * @api
      */
     public static function getPiwikInstanceId()
     {

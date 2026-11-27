@@ -30,11 +30,35 @@ class Common
     private const FLOAT_REGEX = "/^[-+]?((([0-9]+(_[0-9]+)*)|(([0-9]+(_[0-9]+)*)?\.([0-9]+(_[0-9]+)*))|(([0-9]+(_[0-9]+)*)\.([0-9]+(_[0-9]+)*)?))([eE][+-]?([0-9]+(_[0-9]+)*))?)$/";
 
     // constants used to map the referrer type to an integer in the log_visit table
+    /**
+     * Referrer type of a visit that came directly, without a referrer (`log_visit.referer_type`).
+     * @api
+     */
     public const REFERRER_TYPE_DIRECT_ENTRY = 1;
+    /**
+     * Referrer type of a visit that came from a search engine (`log_visit.referer_type`).
+     * @api
+     */
     public const REFERRER_TYPE_SEARCH_ENGINE = 2;
+    /**
+     * Referrer type of a visit that came from another website (`log_visit.referer_type`).
+     * @api
+     */
     public const REFERRER_TYPE_WEBSITE = 3;
+    /**
+     * Referrer type of a visit that came from a campaign (`log_visit.referer_type`).
+     * @api
+     */
     public const REFERRER_TYPE_CAMPAIGN = 6;
+    /**
+     * Referrer type of a visit that came from a social network (`log_visit.referer_type`).
+     * @api
+     */
     public const REFERRER_TYPE_SOCIAL_NETWORK = 7;
+    /**
+     * Referrer type of a visit that came from an AI assistant (`log_visit.referer_type`).
+     * @api
+     */
     public const REFERRER_TYPE_AI_ASSISTANT = 8;
 
     // Flag used with htmlspecialchar. See php.net/htmlspecialchars.
@@ -133,10 +157,11 @@ class Common
     }
 
     /**
-     * Returns true if PHP was invoked from command-line interface (shell)
+     * Returns true if PHP was invoked from command-line interface (shell).
      *
      * @since added in 0.4.4
-     * @return bool true if PHP invoked as a CGI or from CLI
+     * @return bool True if PHP was invoked from the CLI, or as CGI without a remote address.
+     * @api
      */
     public static function isPhpCliMode(): bool
     {
@@ -1098,10 +1123,11 @@ class Common
     }
 
     /**
-     * Sets outgoing header.
+     * Sends an HTTP header, like PHP's header(). Does nothing in CLI mode or if the headers were already sent.
      *
-     * @param string $header The header.
-     * @param bool $replace Whether to replace existing or not.
+     * @param string $header The header, eg, `'Content-Type: text/html'`.
+     * @param bool $replace Whether to replace an existing header of the same name or not.
+     * @api
      */
     public static function sendHeader($header, $replace = true)
     {
