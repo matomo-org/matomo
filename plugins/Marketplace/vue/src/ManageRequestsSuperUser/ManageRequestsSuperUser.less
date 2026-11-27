@@ -101,6 +101,27 @@
   color: @theme-color-text-contrast;
 }
 
+.manageRequestsSuperUser__sort {
+  display: inline-flex;
+  align-items: safe center;
+  gap: 4px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+}
+
+.manageRequestsSuperUser__sortIcon {
+  font-size: 10px;
+}
+
+// kept in the layout so the columns do not shift as the sort moves between them
+.manageRequestsSuperUser__sortIcon--inactive {
+  visibility: hidden;
+}
+
 .manageRequestsSuperUser__headCell--indented {
   padding-left: 40px;
 }
@@ -154,13 +175,15 @@
 // these text-like buttons; the focus ring is kept for keyboard focus only
 .manageRequestsSuperUser__toggle:focus,
 .manageRequestsSuperUser__decline:focus,
+.manageRequestsSuperUser__sort:focus,
 .manageRequestsSuperUser__tabItem:focus {
   outline: none;
   background: none;
 }
 
 .manageRequestsSuperUser__toggle:focus-visible,
-.manageRequestsSuperUser__decline:focus-visible {
+.manageRequestsSuperUser__decline:focus-visible,
+.manageRequestsSuperUser__sort:focus-visible {
   outline: 2px solid @theme-color-focus-ring;
   outline-offset: 2px;
   border-radius: 2px;

@@ -217,6 +217,149 @@ describe('Marketplace/ManageRequestsSuperUser', () => {
       ]);
     });
 
+    describe('sorting', () => {
+      // in the order Marketplace.getPendingPluginRequests returns them: newest request first
+      const plugins = () => [
+        makePending({
+          pluginName: 'MediaAnalytics',
+          displayName: 'Media Analytics',
+          isFree: null,
+          priceFrom: null,
+          numRequests: 3,
+          lastRequestedAt: '2026-11-10 10:00:00',
+        }),
+        makePending({ numRequests: 2, lastRequestedAt: '2026-11-08 10:00:00' }),
+        makePending({
+          pluginName: 'ActivityLog',
+          displayName: 'Activity Log',
+          isFree: true,
+          priceFrom: null,
+          numRequests: 1,
+          lastRequestedAt: '2026-11-05 10:00:00',
+        }),
+        makePending({
+          pluginName: 'Cohorts',
+          displayName: 'Cohorts',
+          priceFrom: { price: '15', currency: 'USD', period: 'month' } as IPluginShopVariation,
+          numRequests: 5,
+          lastRequestedAt: '2026-11-02 10:00:00',
+        }),
+      ];
+      const order = (wrapper: Page) => wrapper.findAll('.manageRequestsSuperUser__row')
+        .map((tr) => tr.attributes('data-plugin'));
+      const sortBy = (wrapper: Page, column: string) => wrapper
+        .find(`.manageRequestsSuperUser__sort[data-sort="${column}"]`).trigger('click');
+      const ariaSorts = (wrapper: Page) => wrapper.findAll('.manageRequestsSuperUser__table > thead th')
+        .map((th) => th.attributes('aria-sort'));
+
+      it('starts with the newest request first, and marks that column as sorted', () => {
+        const wrapper = mountPage(plugins());
+
+        expect(order(wrapper)).toEqual(['MediaAnalytics', 'Funnels', 'ActivityLog', 'Cohorts']);
+        expect(ariaSorts(wrapper)).toEqual(['none', 'none', 'descending', 'none', undefined]);
+        const shownIcons = wrapper.findAll('.manageRequestsSuperUser__sortIcon')
+          .filter((icon) => !icon.classes('manageRequestsSuperUser__sortIcon--inactive'));
+        expect(shownIcons).toHaveLength(1);
+      });
+
+      it('sorts by plugin name, A to Z first, and reverses on a second click', async () => {
+        const wrapper = mountPage(plugins());
+
+        await sortBy(wrapper, 'displayName');
+        expect(order(wrapper)).toEqual(['ActivityLog', 'Cohorts', 'Funnels', 'MediaAnalytics']);
+        expect(ariaSorts(wrapper)[0]).toBe('ascending');
+
+        await sortBy(wrapper, 'displayName');
+        expect(order(wrapper)).toEqual(['MediaAnalytics', 'Funnels', 'Cohorts', 'ActivityLog']);
+        expect(ariaSorts(wrapper)[0]).toBe('descending');
+      });
+
+      it('sorts by number of requests, most first', async () => {
+        const wrapper = mountPage(plugins());
+
+        await sortBy(wrapper, 'numRequests');
+
+        expect(order(wrapper)).toEqual(['Cohorts', 'MediaAnalytics', 'Funnels', 'ActivityLog']);
+      });
+
+      it('reverses the last requested order on a click, as it is already sorted by it', async () => {
+        const wrapper = mountPage(plugins());
+
+        await sortBy(wrapper, 'lastRequestedAt');
+
+        expect(order(wrapper)).toEqual(['Cohorts', 'ActivityLog', 'Funnels', 'MediaAnalytics']);
+      });
+
+      it('sorts by price per month, cheapest first, with an unknown price last either way', async () => {
+        const wrapper = mountPage(plugins());
+
+        // 239 a year is more per month than 15 a month
+        await sortBy(wrapper, 'price');
+        expect(order(wrapper)).toEqual(['ActivityLog', 'Cohorts', 'Funnels', 'MediaAnalytics']);
+
+        await sortBy(wrapper, 'price');
+        expect(order(wrapper)).toEqual(['Funnels', 'Cohorts', 'ActivityLog', 'MediaAnalytics']);
+      });
+
+      it('puts a price without a currency last, as it is shown as unknown', async () => {
+        const wrapper = mountPage([
+          makePending({
+            pluginName: 'Cohorts',
+            displayName: 'Cohorts',
+            priceFrom: { price: '10', period: 'month' } as IPluginShopVariation,
+          }),
+          makePending(),
+        ]);
+
+        await sortBy(wrapper, 'price');
+        expect(order(wrapper)).toEqual(['Funnels', 'Cohorts']);
+
+        await sortBy(wrapper, 'price');
+        expect(order(wrapper)).toEqual(['Funnels', 'Cohorts']);
+      });
+
+      it('orders plugins that tie by their newest request', async () => {
+        const wrapper = mountPage([
+          makePending({ pluginName: 'Cohorts', displayName: 'Cohorts', lastRequestedAt: '2026-11-01 10:00:00' }),
+          makePending({ lastRequestedAt: '2026-11-08 10:00:00' }),
+        ]);
+
+        await sortBy(wrapper, 'numRequests');
+
+        expect(order(wrapper)).toEqual(['Funnels', 'Cohorts']);
+      });
+
+      it('keeps the requesters of a plugin under it', async () => {
+        const wrapper = mountPage(plugins(), undefined, { transition: false });
+        await row(wrapper, 'Funnels').find('.manageRequestsSuperUser__toggle').trigger('click');
+
+        await sortBy(wrapper, 'displayName');
+
+        const bodyRows = wrapper.findAll('.manageRequestsSuperUser__table > tbody > tr')
+          .map((tr) => `${tr.classes()[0]}:${tr.attributes('data-plugin')}`);
+        expect(bodyRows).toEqual([
+          'manageRequestsSuperUser__row:ActivityLog',
+          'manageRequestsSuperUser__row:Cohorts',
+          'manageRequestsSuperUser__row:Funnels',
+          'manageRequestsSuperUser__requesterPanel:Funnels',
+          'manageRequestsSuperUser__row:MediaAnalytics',
+        ]);
+      });
+
+      it('keeps the order when a plugin is declined', async () => {
+        ajaxPost.mockResolvedValue({ value: 5 });
+        const wrapper = mountPage(plugins());
+        await sortBy(wrapper, 'displayName');
+
+        const decline = await openDeclineDialog(wrapper, 'Cohorts');
+        decline();
+        await flushPromises();
+
+        expect(order(wrapper)).toEqual(['ActivityLog', 'Funnels', 'MediaAnalytics']);
+        expect(ariaSorts(wrapper)[0]).toBe('ascending');
+      });
+    });
+
     it('lists a plugin with its number of requests, last request and price', () => {
       const wrapper = mountPage();
 

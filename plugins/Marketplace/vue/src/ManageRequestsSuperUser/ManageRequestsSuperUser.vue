@@ -68,19 +68,34 @@
           <table class="manageRequestsSuperUser__table">
             <thead>
             <tr class="manageRequestsSuperUser__headRow">
-              <th class="manageRequestsSuperUser__headCell manageRequestsSuperUser__headCell--indented">
-                {{ translate('General_Plugin') }}
+              <th
+                v-for="column in pendingColumns"
+                :key="column.id"
+                class="manageRequestsSuperUser__headCell"
+                :class="{ 'manageRequestsSuperUser__headCell--indented': column.id === 'displayName' }"
+                :aria-sort="ariaSort(column.id)"
+              >
+                <button
+                  type="button"
+                  class="manageRequestsSuperUser__sort"
+                  :data-sort="column.id"
+                  @click="sortPendingBy(column.id)"
+                >
+                  {{ column.label }}
+                  <span
+                    class="manageRequestsSuperUser__sortIcon"
+                    :class="sortIconClass(column.id)"
+                    aria-hidden="true"
+                  />
+                </button>
               </th>
-              <th class="manageRequestsSuperUser__headCell">{{ translate('Marketplace_Requests') }}</th>
-              <th class="manageRequestsSuperUser__headCell">{{ translate('Marketplace_LastRequested') }}</th>
-              <th class="manageRequestsSuperUser__headCell">{{ translate('General_Price') }}</th>
               <th class="manageRequestsSuperUser__headCell manageRequestsSuperUser__headCell--alignEnd">
                 {{ translate('General_Action') }}
               </th>
             </tr>
             </thead>
             <tbody>
-            <template v-for="plugin in pending" :key="plugin.pluginName">
+            <template v-for="plugin in sortedPending" :key="plugin.pluginName">
               <tr class="manageRequestsSuperUser__row" :data-plugin="plugin.pluginName">
                 <td class="manageRequestsSuperUser__cell manageRequestsSuperUser__cell--flushStart">
                   <div class="manageRequestsSuperUser__pluginName">
@@ -329,7 +344,9 @@ import { PluginName } from 'CorePluginsAdmin';
 import { IPluginShopVariation } from '../types';
 import {
   PERIOD_MONTHLY,
+  ShopPeriod,
   formatAmount,
+  monthlyAmount,
   toShopPeriod,
   variationPrice,
 } from '../PluginDetails/shopPricing';
@@ -374,9 +391,77 @@ export interface PluginRequestHistory {
 
 type Tab = 'pending' | 'history';
 
+type PendingSortColumn = 'displayName' | 'numRequests' | 'lastRequestedAt' | 'price';
+
+type SortOrder = 'asc' | 'desc';
+
+const FIRST_SORT_ORDER: Record<PendingSortColumn, SortOrder> = {
+  displayName: 'asc',
+  numRequests: 'desc',
+  lastRequestedAt: 'desc',
+  price: 'asc',
+};
+
+interface ShownPrice {
+  variation: IPluginShopVariation;
+  price: number;
+  period: ShopPeriod;
+  currency: string;
+}
+
+/**
+ * Null when the price is unknown, which the table shows as '-' and the price sort puts last
+ */
+function shownPrice(plugin: PendingPluginRequest): ShownPrice | null {
+  const variation = plugin.priceFrom;
+  const price = variationPrice(variation || undefined);
+  const period = toShopPeriod(variation?.period || '');
+  if (!variation || price === null || !period || !variation.currency) {
+    return null;
+  }
+
+  return {
+    variation,
+    price,
+    period,
+    currency: variation.currency,
+  };
+}
+
+/**
+ * Per month, so that monthly and annual prices compare; null when the price is unknown
+ */
+function monthlyPrice(plugin: PendingPluginRequest): number | null {
+  if (plugin.isFree) {
+    return 0;
+  }
+
+  const shown = shownPrice(plugin);
+  return shown ? monthlyAmount(shown.variation, shown.period) : null;
+}
+
+function comparePending(
+  a: PendingPluginRequest,
+  b: PendingPluginRequest,
+  column: Exclude<PendingSortColumn, 'price'>,
+): number {
+  if (column === 'displayName') {
+    return a.displayName.localeCompare(b.displayName, undefined, { sensitivity: 'base' });
+  }
+
+  if (column === 'numRequests') {
+    return a.numRequests - b.numRequests;
+  }
+
+  // UTC as `Y-m-d H:i:s`, so the text order is the time order
+  return a.lastRequestedAt.localeCompare(b.lastRequestedAt);
+}
+
 interface ManageRequestsSuperUserState {
   activeTab: Tab;
   pending: PendingPluginRequest[];
+  sortColumn: PendingSortColumn;
+  sortOrder: SortOrder;
   expandedPlugins: string[];
   closingPlugins: string[];
   historyPage: PluginRequestHistory;
@@ -440,6 +525,9 @@ export default defineComponent({
     return {
       activeTab: 'pending',
       pending: [...this.pendingRequests],
+      // the order Marketplace.getPendingPluginRequests returns
+      sortColumn: 'lastRequestedAt',
+      sortOrder: 'desc',
       expandedPlugins: [],
       closingPlugins: [],
       historyPage: this.history,
@@ -465,6 +553,41 @@ export default defineComponent({
         { id: 'pending', label: translate('Marketplace_PendingRequestsTab', `${this.pending.length}`) },
         { id: 'history', label: translate('CorePluginsAdmin_History') },
       ];
+    },
+    pendingColumns(): { id: PendingSortColumn, label: string }[] {
+      return [
+        { id: 'displayName', label: translate('General_Plugin') },
+        { id: 'numRequests', label: translate('Marketplace_Requests') },
+        { id: 'lastRequestedAt', label: translate('Marketplace_LastRequested') },
+        { id: 'price', label: translate('General_Price') },
+      ];
+    },
+    sortedPending(): PendingPluginRequest[] {
+      const column = this.sortColumn;
+      const direction = this.sortOrder === 'asc' ? 1 : -1;
+
+      return [...this.pending].sort((a, b) => {
+        if (column === 'price') {
+          const priceA = monthlyPrice(a);
+          const priceB = monthlyPrice(b);
+
+          // an unknown price is last whichever way the column is sorted
+          if (priceA === null || priceB === null) {
+            if (priceA !== priceB) {
+              return priceA === null ? 1 : -1;
+            }
+          } else if (priceA !== priceB) {
+            return (priceA - priceB) * direction;
+          }
+        } else {
+          const result = comparePending(a, b, column);
+          if (result !== 0) {
+            return result * direction;
+          }
+        }
+
+        return comparePending(b, a, 'lastRequestedAt') || comparePending(a, b, 'displayName');
+      });
     },
     declineText(): string {
       const numRequests = this.decliningPlugin?.numRequests || 0;
@@ -520,23 +643,44 @@ export default defineComponent({
     onRequestersClosed(plugin: PendingPluginRequest) {
       this.closingPlugins = this.closingPlugins.filter((name) => name !== plugin.pluginName);
     },
+    sortPendingBy(column: PendingSortColumn) {
+      if (this.sortColumn === column) {
+        this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
+      } else {
+        this.sortColumn = column;
+        this.sortOrder = FIRST_SORT_ORDER[column];
+      }
+    },
+    sortIconClass(column: PendingSortColumn): string {
+      if (this.sortColumn !== column) {
+        return 'icon-chevron-down manageRequestsSuperUser__sortIcon--inactive';
+      }
+
+      return this.sortOrder === 'asc' ? 'icon-chevron-up' : 'icon-chevron-down';
+    },
+    ariaSort(column: PendingSortColumn): 'ascending' | 'descending' | 'none' {
+      if (this.sortColumn !== column) {
+        return 'none';
+      }
+
+      return this.sortOrder === 'asc' ? 'ascending' : 'descending';
+    },
     priceLabel(plugin: PendingPluginRequest): string {
       if (plugin.isFree) {
         return translate('Marketplace_Free');
       }
 
-      const price = variationPrice(plugin.priceFrom || undefined);
-      const period = toShopPeriod(plugin.priceFrom?.period || '');
-      if (price === null || !period || !plugin.priceFrom?.currency) {
+      const shown = shownPrice(plugin);
+      if (!shown) {
         return '-';
       }
 
       const amountPeriod = translate(
-        period === PERIOD_MONTHLY ? 'Marketplace_PerMonthWithCurrency' : 'Marketplace_PerYearWithCurrency',
-        plugin.priceFrom.currency,
+        shown.period === PERIOD_MONTHLY ? 'Marketplace_PerMonthWithCurrency' : 'Marketplace_PerYearWithCurrency',
+        shown.currency,
       );
 
-      return translate('Marketplace_PriceFrom', `${formatAmount(price)} ${amountPeriod}`);
+      return translate('Marketplace_PriceFrom', `${formatAmount(shown.price)} ${amountPeriod}`);
     },
     /**
      * The link's nonce is single-use, so a second click would fail the install the first one started
