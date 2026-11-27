@@ -10,6 +10,7 @@
         "ClickHereToOptIn": "Clique aqui para aceitar.",
         "ClickHereToOptOut": "Clique aqui para optar por sair.",
         "CloudflareDescription": "Se o seu site estiver hospedado na Cloudflare, consulte %1$seste guia%2$s.",
+        "ComponentLibrary": "Biblioteca de componentes",
         "ConfirmDeleteAllTrackingFailures": "Você tem certeza que deseja remover todas as falhas de rastreamento?",
         "ConfirmDeleteThisTrackingFailure": "Você tem certeza que deseja remover esta falha de rastreamento?",
         "Cors": "CORS",
