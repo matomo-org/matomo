@@ -13,6 +13,7 @@ namespace Piwik\Plugins\LanguagesManager;
 
 use Piwik\Common;
 use Piwik\Db;
+use Piwik\Db\Schema;
 use Piwik\DbHelper;
 
 class Model
@@ -52,7 +53,7 @@ class Model
     public function setLanguageForUser($login, $languageCode)
     {
         $query = 'INSERT INTO ' . $this->table .
-                 ' (login, language) VALUES (?,?) ON DUPLICATE KEY UPDATE language=?';
+                 ' (login, language) VALUES (?,?) ' . Schema::getInstance()->getOnDuplicateKeyUpdateSql() . ' language=?';
         $bind  = array($login, $languageCode, $languageCode);
         Db::query($query, $bind);
 
@@ -82,7 +83,7 @@ class Model
     public function set12HourClock($login, $use12HourClock)
     {
         $query = 'INSERT INTO ' . $this->table .
-            ' (login, use_12_hour_clock) VALUES (?,?) ON DUPLICATE KEY UPDATE use_12_hour_clock=?';
+            ' (login, use_12_hour_clock) VALUES (?,?) ' . Schema::getInstance()->getOnDuplicateKeyUpdateSql() . ' use_12_hour_clock=?';
         $bind = [$login, (int)$use12HourClock, (int)$use12HourClock];
         Db::query($query, $bind);
 

@@ -10,6 +10,7 @@
 namespace Piwik\Segment;
 
 use Exception;
+use Piwik\Db\Schema;
 
 class SegmentExpression
 {
@@ -319,6 +320,14 @@ class SegmentExpression
         // Do not use empty() here: '0' is a value to exclude, e.g. `!=0` must keep the rows where the field is NULL
         $alsoMatchNULLValues = $alsoMatchNULLValues && $value !== null && $value !== '';
 
+        // patterns built with escapeLikeString() need the engine's escape clause right after the placeholder
+        $isLikeMatch = in_array(
+            $matchType,
+            [self::MATCH_CONTAINS, self::MATCH_DOES_NOT_CONTAIN, self::MATCH_STARTS_WITH, self::MATCH_ENDS_WITH],
+            true
+        );
+        $likeEscape = $isLikeMatch ? Schema::getInstance()->getLikeEscapeSql() : '';
+
         if (
             $matchType === self::MATCH_ACTIONS_CONTAINS || $matchType === self::MATCH_ACTIONS_NOT_CONTAINS
             || is_null($value)
@@ -326,9 +335,9 @@ class SegmentExpression
             $sqlExpression = "( $sqlMatch )";
         } else {
             if ($alsoMatchNULLValues) {
-                $sqlExpression = "( $field IS NULL OR $sqlMatch ? )";
+                $sqlExpression = "( $field IS NULL OR $sqlMatch ?$likeEscape )";
             } else {
-                $sqlExpression = "$sqlMatch ?";
+                $sqlExpression = "$sqlMatch ?$likeEscape";
             }
         }
 

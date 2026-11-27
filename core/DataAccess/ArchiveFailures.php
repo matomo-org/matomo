@@ -17,6 +17,7 @@ use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Db\Schema;
 use Piwik\DbHelper;
 use Piwik\Period\Range;
 use Piwik\Log\LoggerInterface;
@@ -126,7 +127,7 @@ class ArchiveFailures
         Db::query(
             "INSERT INTO `$table` (idsite, period, date1, date2, archive_hash, name, `report`, attempts, last_error, ts_first_failed, ts_last_failed, ts_retry_after)
                   VALUES (?, ?, ?, ?, ?, ?, ?, 1, ?, ?, ?, ?)
-                  ON DUPLICATE KEY UPDATE attempts = attempts + 1, last_error = ?, ts_last_failed = ?, ts_retry_after = ?",
+                  " . Schema::getInstance()->getOnDuplicateKeyUpdateSql() . " attempts = attempts + 1, last_error = ?, ts_last_failed = ?, ts_retry_after = ?",
             array_merge(
                 $this->getArchiveBind($invalidation),
                 [$invalidation['name'], (string) ($invalidation['report'] ?? '')],
