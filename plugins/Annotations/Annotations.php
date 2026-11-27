@@ -74,6 +74,8 @@ class Annotations extends \Piwik\Plugin
             return [false, false];
         }
 
+        Period\Factory::checkPeriodIsEnabled($period);
+
         $isMultiplePeriod = Period\Range::isMultiplePeriod($date, $period);
 
         // if the range is just a normal period (or the period is a range in which case lastN is ignored)
