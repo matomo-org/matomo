@@ -79,6 +79,7 @@
         "ComplianceHybridTrackingRequirementConsent": "Vaše implementace měření musí předávat informaci o souhlasu návštěvníka. %1$sZjistěte, jak nastavit hybridní měření%2$s",
         "ComplianceHybridTrackingRequirementPolicy": "Pro web musí být vynuceny zásady dodržování předpisů, například níže uvedená výjimka z povinnosti získat souhlas pro webovou analytiku podle CNIL.",
         "ComplianceHybridTrackingRequirementsIntro": "Hybridní měření vyžaduje splnění následujících podmínek:",
+        "ComplianceHybridTrackingRolloutNote": "Hybridní měření se zavádí postupně. U návštěvníků, kteří udělili souhlas, se nyní shromažďují názvy a klíčová slova kampaní, úplné odkazující adresy URL a ID uživatele. Jejich návštěvy se zobrazují v Protokolu návštěv a Profilu návštěvníka a lze je segmentovat podle stavu souhlasu. Další omezení a pokročilé funkce, jako jsou Tepelné mapy a Záznamy relací, budou brzy k dispozici. %1$sDalší informace%2$s",
         "ComplianceHybridTrackingTitle": "Hybridní měření",
         "ComplianceHybridTrackingToggleHelpAllWebsites": "Tuto volbu vyberte, chcete-li povolit hybridní měření pro tuto instanci.",
         "ComplianceHybridTrackingToggleHelpSingleWebsite": "Tuto volbu vyberte, chcete-li povolit hybridní měření pro tento web.",

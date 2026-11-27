@@ -2,6 +2,8 @@
     "VisitsSummary": {
         "AverageGenerationTime": "meán-am giniúna",
         "AverageVisitDuration": "meánré cuairte",
+        "ColumnNbUniqVisitorsEstimated": "Cuairteoirí uathúla (measta)",
+        "ColumnNbUsersEstimated": "Úsáideoirí (measta)",
         "GenerateQueries": "%s ceist curtha i gcrích",
         "GenerateTime": "%s soicind chun an leathanach a ghiniúint",
         "MaxNbActions": "gníomhartha uasta in aon chuairt amháin",
@@ -16,7 +18,9 @@
         "NbUniqueOutlinksDescription": "eislínte uathúla",
         "NbUniquePageviewsDescription": "radhairc leathanaigh uathúla",
         "NbUniqueVisitors": "cuairteoirí uathúla",
+        "NbUniqueVisitorsEstimated": "cuairteoirí uathúla (measta)",
         "NbUsersDescription": "úsáideoirí",
+        "NbUsersEstimatedDescription": "úsáideoirí (measta)",
         "NbVisitsBounced": "tá na cuairteanna tar éis preabadh (fág an suíomh Gréasáin tar éis leathanach amháin)",
         "NbVisitsDescription": "cuairteanna",
         "PluginDescription": "Tuairiscíonn méadracht ghinearálta anailíse: cuairteanna, cuairteoirí uathúla, líon na ngníomhaíochtaí, ráta preab, etc.",

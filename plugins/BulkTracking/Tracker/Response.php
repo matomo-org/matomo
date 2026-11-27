@@ -27,6 +27,8 @@ class Response extends Tracker\Response
 
     private bool $shouldSendResponse = true;
 
+    private bool $isExceptionOutput = false;
+
     /**
      * Echos an error message & other information, then exits.
      *
@@ -34,6 +36,7 @@ class Response extends Tracker\Response
      */
     public function outputException(Tracker $tracker, Exception $e, $statusCode)
     {
+        $this->isExceptionOutput = true;
         Common::sendResponseCode($statusCode);
 
         $this->logExceptionToErrorLog($e);
@@ -45,6 +48,21 @@ class Response extends Tracker\Response
 
     public function outputResponse(Tracker $tracker)
     {
+        if ($this->isExceptionOutput) {
+            return;
+        }
+
+        // also when tracker debug output was printed, like for a single request
+        if (!$tracker->shouldRecordStatistics()) {
+            Common::sendResponseCode(503);
+
+            if ($this->shouldSendResponse() && !$this->hasAlreadyPrintedOutput()) {
+                echo json_encode(['status' => 'error', 'tracked' => 0, 'invalid' => 0]);
+            }
+
+            return;
+        }
+
         if ($this->hasAlreadyPrintedOutput()) {
             return;
         }

@@ -6,6 +6,9 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ## Matomo 6.1.0
 
+### Breaking Changes
+* An endpoint entered in the AIProviders settings, for the Custom Provider or for a plugin's provider with an endpoint field, is now requested over the SSRF-safe request path. It is refused when it resolves to a private, loopback, link-local or other reserved address, when the request would go through a configured `[proxy]`, or when the curl extension is not available. To keep using a model server on your own network, such as Ollama on localhost, set its endpoint in the config file instead: `[AIProviders] custom-providerEndpointUrl`. Endpoints set there and the hosted providers are not affected.
+
 ### New features
 * New setting `consent_aware_analytics` (PrivacyManager, off by default), turned on by a superuser on the *Privacy → Compliance* page for the whole instance or for a website. A website measures it when either is on. The page offers it while the `HybridTracking` feature flag is enabled. When it is on and a compliance policy is enforced, a visitor who has given consent is measured without the policy's restrictions: campaign values, the full referrer (up to the site's own anonymisation level) and the User ID. `ConsentAwareAnalytics::isEnabled()` and `ConsentAwareAnalytics::hasRelaxableRestriction()` read it from the tracker cache.
 * New event `PrivacyManager.consentAwareAnalyticsUpdated`, posted when consent-aware measurement is turned on or off. For a website, `enabled` is the website's own value and `enabledForAllWebsites` says whether it is on for the whole instance.
@@ -54,6 +57,9 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * A segment using `!=` with the value `0`, or a value its segment maps to `0` such as `visitorType!=new`, `deviceType!=desktop` or `visitEcommerceStatus!=none`, now also matches the visits where the segment's value is `NULL`, as `!=` already did for any other value.
 * For estimated periods, `VisitsSummary.get`, `VisitFrequency.get`, `AIAgents.get` and `API.get` return estimated `nb_uniq_visitors` and `nb_users`, and a new `uniques_estimated` column (`1` when estimated). `VisitFrequency.get` and `AIAgents.get` return it per visitor type, for example `uniques_estimated_returning`. A period without a unique count now leaves out `nb_uniq_visitors` and `nb_users` instead of returning `0`, also in `API.getProcessedReport`, `ImageGraph` and `VisitsSummary.getUniqueVisitors` / `getUsers`.
 
+### HTTP Tracking API
+* With `[Tracker] record_statistics = 0`, the tracking endpoint now also answers requests with `send_image=0` with `503` instead of `204`, and bulk requests with `503` and `"status":"error"` instead of a success response.
+
 ### Archiving
 * Different `core:archive` processes can now archive "All visits" and segments of the same site and an overlapping period at the same time. State that an archiver shares across a site's segments must therefore also be safe to use while the "All visits" archive is processed.
 * Plugins reading `nb_uniq_visitors` or `nb_users` from the `VisitsSummary` archive of an estimated period get the estimate. The archive's `uniques_estimated` record is `1` when the value was estimated.
@@ -64,6 +70,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### Other changes
 * The chart parameters built by `Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\Chart::setAxisXLabels()` now hold the x-axis `ticks` as plain text instead of HTML-encoded, so a label like `My "quoted" video` shows as written on bar chart axes and in pie chart legends. `labels` stay HTML-encoded. Plugin JavaScript that inserts `axes.xaxis.ticks` values into HTML, for example in a tooltip, must now escape them, e.g. with `piwikHelper.htmlEntities()`.
 * Action names stored in `log_action.name` are now truncated to 4096 characters if they exceed the column limit.
+* Error log records written during tracking requests no longer include the request's query string as context, as it holds visitor data.
 * The JavaScript `AjaxHelper` now handles an API error answered with a 4xx status like one answered with status `200`, unless an error callback set via `setErrorCallback()` handles it.
 * On a website whose compliance policy disables the visits log, `PrivacyManager.findDataSubjects` now returns the visits of visitors who gave consent instead of nothing, and `PrivacyManager.exportDataSubjects` rejects any other visit of such a website. Each visit returned by `PrivacyManager.findDataSubjects` now includes `consentState`, as `Live.getLastVisitsDetails` reports it. `PrivacyManager.exportDataSubjects` and `PrivacyManager.deleteDataSubjects` now reject an `idsite` or `idvisit` that is not a positive integer, such as `3abc`, `-1` or `5.0`, with a 400 error on every website, where such a value used to be cast to an integer.
 * On a website whose compliance policy disables the visits log, `API.getSuggestedValuesForSegment` now suggests values from the visits of visitors who gave consent instead of failing. If that website also measures consent-aware analytics, `Live.getLastVisitsDetails`, `Live.getVisitorProfile`, `Live.getMostRecentVisitorId` and `Live.getFirstVisitForVisitorId` return those visits instead of an error, when asked for that website alone; a request for several websites still skips it.
