@@ -1,10 +1,10 @@
 {
     "SegmentEditor": {
         "AddANDorORCondition": "Tilføj %s betingelse",
-        "AddNewSegment": "Tilføj nyt segment",
+        "AddNewSegment": "Opret nyt segment",
         "AddThisToMatomo": "Tilføj dette segment til Matomo",
         "AddingSegmentForAllWebsitesDisabled": "Tilføjelse af segmenter for alle websteder er blevet deaktiveret.",
-        "AreYouSureDeleteSegment": "Er du sikker på, at du vil slette dette segment?",
+        "AreYouSureDeleteSegment": "Er du sikker på, at du vil slette segmentet \"%s\"?",
         "AutoArchivePreProcessed": "Segmenterede rapporter behandles på forhånd (er hurtigere, kræver archive.php cron)",
         "AutoArchiveRealTime": "Segmenterede rapporter behandles tidstro",
         "ChangingSegmentDefinitionConfirmationNotProcessedOnRequest": "Du er ved at ændre segmentdefinitionen. Dine analyserapporter for dette nye segment vil ikke være tilgængelige, før rapporterne er blevet behandlet igen. Der kan gå et par timer, før der vises rapportdata for dette segment. Vil du fortsætte alligevel?",
@@ -24,8 +24,10 @@
         "DefaultAllVisits": "Alle besøg",
         "DragDropCondition": "Træk og slip-betingelse",
         "HideMessageInFuture": "Skjul denne besked fremover",
+        "LimitSegmentsSettingImpact": "Besøgendes IP-adresse, hjemmesidetid – time og annonceklik-id kan ikke bruges ved oprettelse eller anvendelse af segmenter.",
         "LimitSegmentsSettingRequirementNote": "Begræns de tilgængelige segmenter for at overholde kravene.",
         "LimitSegmentsSettingTitle": "Tilgængelighed af segmenter begrænset",
+        "LimitSegmentsSettingWhatItDoes": "Segmenter baseret på besøgendes IP-adresse, hjemmesidetid – time, som repræsenterer tidspunktet for den seneste handling, og annonceklik-id er deaktiveret.<br><br>Dette forhindrer, at disse detaljerede egenskaber filtreres eller kombineres for at identificere en bestemt besøgende.",
         "LoadingSegmentedDataMayTakeSomeTime": "Behandling af segmenterede besøgsdata kan tage et par minutter…",
         "ManageSegments": "Administrer segmenter",
         "ManageSegmentsRealtimeNoDataTooltip": "Dette segment behandles i realtid, så der vises ingen data.",
