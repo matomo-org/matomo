@@ -2,6 +2,8 @@
     "VisitsSummary": {
         "AverageGenerationTime": "durchschnittliche Generierungszeit",
         "AverageVisitDuration": "durchschnittliche Aufenthaltsdauer",
+        "ColumnNbUniqVisitorsEstimated": "Eindeutige Besucher (geschätzt)",
+        "ColumnNbUsersEstimated": "Benutzer (geschätzt)",
         "GenerateQueries": "%s Abfragen durchgeführt",
         "GenerateTime": "%s Sekunden, um die Seite zu generieren",
         "MaxNbActions": "max. Aktionen pro Besuch",
@@ -16,7 +18,9 @@
         "NbUniqueOutlinksDescription": "Einmalige ausgehende Verweise",
         "NbUniquePageviewsDescription": "Eindeutige Seitenansichten",
         "NbUniqueVisitors": "Eindeutige Besucher",
+        "NbUniqueVisitorsEstimated": "eindeutige Besucher (geschätzt)",
         "NbUsersDescription": "Benutzer",
+        "NbUsersEstimatedDescription": "Benutzer (geschätzt)",
         "NbVisitsBounced": "abgesprungene Besucher (Verlassen der Webseite nach einer Seite)",
         "NbVisitsDescription": "Besuche",
         "PluginDescription": "Berichte mit generellen analytischen Metriken: Besuche, eindeutige Besucher, Anzahl Aktionen, Absprungsrate usw.",

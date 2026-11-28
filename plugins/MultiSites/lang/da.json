@@ -27,7 +27,7 @@
         "MetricDocumentationRevenue": "Den samlede indtægt, der er sporet for denne hjemmeside. Denne måling er tilgængelig, hvis sporing af e-handel er aktiveret, og afspejler køb eller målbaseret indtægt.",
         "MetricDocumentationVisits": "Det samlede antal besøg, der er registreret for denne hjemmeside. Et besøg starter, når en bruger tilgår hjemmesiden, og slutter efter en periode med inaktivitet, eller når sessionen udløber.",
         "MetricDocumentationWebsite": "Listen over sporede hjemmesider, der vises i kontrolpanelet. Hver række repræsenterer en separat hjemmeside med dens tilhørende analysedata.",
-        "PluginDescription": "Se og sammenlign alle dine websider og apps i dette brugbare 'Alle websider' oversigtsbillede.",
+        "PluginDescription": "Se og sammenlign alle dine hjemmesider og apps i dette nyttige kontrolpanel med navnet 'Alle hjemmesider'.",
         "SegmentationNotSupported": "Segmentering understøttes ikke",
         "SingleWebsitesDashboardDocumentation": "Denne rapport giver dig et informativt overblik over en bestemt hjemmeside med de mest generelle målinger om dine besøgende.",
         "TopLinkTooltip": "Sammenlign analyse statistik for alle hjemmesider."

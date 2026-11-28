@@ -1,6 +1,8 @@
 {
     "Diagnostics": {
         "AllPrivateDirectoriesAreInaccessible": "Alle privaten Verzeichnisse sind nicht aus dem Internet zugänglich.",
+        "ArchivingFailuresCheck": "Fehlgeschlagene Archivierungen",
+        "ArchivingFailuresComment": "%1$s Archive konnten nicht verarbeitet werden und warten auf einen erneuten Versuch; %2$s Archive wurden nach Erreichen der maximalen Anzahl von Versuchen aufgegeben. Berichte für aufgegebene Archive und die Zeiträume, die sie enthalten, werden erst nach einem erneuten Versuch aktualisiert. Der älteste Fehler trat am %3$s auf. Verwenden Sie den Konsolenbefehl %4$s, um die Fehler anzuzeigen und die Verarbeitung erneut zu versuchen.",
         "BrowserAndAutoArchivingEnabledComment": "Sowohl Browser als auch Autoarchivierung scheinen aktiviert zu sein. Autoarchivierung startete zuletzt vor %3$s. Wenn %1$sAutoarchvierung%2$s aktiviert ist, sollten Sie Browserarchivierung in „Allgemeine Einstellungen“ deaktivieren.",
         "BrowserAndAutoArchivingEnabledLabel": "Browser- und Autoarchivierung aktiviert",
         "BrowserTriggeredArchivingEnabled": "Für eine optimale Leistung und ein schnelles Matomo wird dringend empfohlen, einen Crontab einzurichten, um Ihre Berichte automatisch zu archivieren und das Auslösen durch den Browser in den Matomo-Einstellungen zu deaktivieren. %1$sErfahren Sie mehr.%2$s",

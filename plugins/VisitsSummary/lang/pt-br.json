@@ -2,6 +2,8 @@
     "VisitsSummary": {
         "AverageGenerationTime": "tempo médio de geração",
         "AverageVisitDuration": "duração média da visita",
+        "ColumnNbUniqVisitorsEstimated": "Visitantes únicos (estimados)",
+        "ColumnNbUsersEstimated": "Usuários (estimados)",
         "GenerateQueries": "%s consultas executadas",
         "GenerateTime": "%s segundos para gerar a página",
         "MaxNbActions": "ações máximas em uma visita",
@@ -16,7 +18,9 @@
         "NbUniqueOutlinksDescription": "links externos únicos",
         "NbUniquePageviewsDescription": "exibições de páginas únicas",
         "NbUniqueVisitors": "visitantes únicos",
+        "NbUniqueVisitorsEstimated": "visitantes únicos (estimados)",
         "NbUsersDescription": "usuários",
+        "NbUsersEstimatedDescription": "usuários (estimados)",
         "NbVisitsBounced": "as visitas foram devolvidas (saiu do site após uma página)",
         "NbVisitsDescription": "visitas",
         "PluginDescription": "Informa métricas analíticas gerais: visitas, visitantes únicos, número de ações, taxa de rejeição, etc.",

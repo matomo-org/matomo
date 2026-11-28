@@ -34,6 +34,7 @@
         "LicenseHomepage": "Página de licenciamento",
         "LikeThisPlugin": "Curte esse plugin?",
         "MenuPlatform": "Plataforma",
+        "MissingRequirementsNotYetCompatibleNotice": "Este plugin ainda não é compatível com %1$s %2$s. Versões compatíveis: %1$s %3$s. Aguarde uma atualização do plugin.",
         "MissingRequirementsNotice": "Por favor, atualize %1$s %2$s para uma nova versão, %1$s %3$s é necessária.",
         "MissingRequirementsPleaseInstallNotice": "Por favor instalar %1$s %2$s, como é exigido por %3$s.",
         "NUpdatesAvailable": "%1$s Atualização(ões) disponível(is)",

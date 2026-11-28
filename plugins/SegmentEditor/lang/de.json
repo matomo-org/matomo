@@ -24,6 +24,7 @@
         "DefaultAllVisits": "Alle Besuche",
         "DragDropCondition": "„Drag &amp; Drop“-Bedingung",
         "HideMessageInFuture": "Diese Meldung nicht mehr anzeigen",
+        "LimitSegmentsSettingImpact": "Besucher-IP-Adresse, Seitenzeit – Stunde und Ad-Klick-ID können beim Erstellen oder Anwenden von Segmenten nicht verwendet werden.",
         "LimitSegmentsSettingRequirementNote": "Beschränken Sie die verfügbaren Segmente, um die Vorschriften einzuhalten.",
         "LimitSegmentsSettingTitle": "Verfügbarkeit von Segmenten eingeschränkt",
         "LimitSegmentsSettingWhatItDoes": "Segmente auf Basis der Besucher-IP-Adressen, der Zeit der letzten Aktion und der Ad-Klick-ID sind deaktiviert.<br><br>Dies verindert, dass diese detaillierten Attribute herausgefiltert oder kombiniert werden, um einen bestimmten Besucher zu identifizieren.",

@@ -2,7 +2,7 @@
     "UserLanguage": {
         "BrowserLanguage": "Browsersprog",
         "LanguageCode": "Sprogkode",
-        "PluginDescription": "Rapporterer sproget, som anvendes af de besøgendes browsere.",
+        "PluginDescription": "Rapporterer det primære browsersprog, som dine besøgende bruger.",
         "getLanguageCodeDocumentation": "Viser, hvilken nøjagtig sprogkode de besøgendes browsere er indstillet til. (f.eks. \"Tysk — Østrig (de-at)\")",
         "getLanguageDocumentation": "Viser, hvilket sprog de besøgendes browsere bruger. (f.eks. \"Fransk\")"
     }

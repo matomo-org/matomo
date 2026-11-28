@@ -2,6 +2,8 @@
     "VisitsSummary": {
         "AverageGenerationTime": "gennemsnitstid for at lave siden",
         "AverageVisitDuration": "besøgstid i gennemsnit",
+        "ColumnNbUniqVisitorsEstimated": "Unikke besøgende (estimeret)",
+        "ColumnNbUsersEstimated": "Brugere (estimeret)",
         "GenerateQueries": "%s forespørgsler kørt",
         "GenerateTime": "Side lavet på %s sekund",
         "MaxNbActions": "maksimum handlinger i ét besøg",
@@ -16,7 +18,9 @@
         "NbUniqueOutlinksDescription": "unikke udgående links",
         "NbUniquePageviewsDescription": "unikke sidevisninger",
         "NbUniqueVisitors": "unikke besøgende",
+        "NbUniqueVisitorsEstimated": "unikke besøgende (estimeret)",
         "NbUsersDescription": "brugere",
+        "NbUsersEstimatedDescription": "brugere (estimeret)",
         "NbVisitsBounced": "afviste besøg (forlod hjemmesiden efter én side)",
         "NbVisitsDescription": "besøg",
         "PluginDescription": "Rapportere generelle analyse målinger: besøg, unikke besøgende, antal handlinger, afvisningsrate, osv",

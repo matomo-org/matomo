@@ -37,7 +37,7 @@
         "FeedbackRequest": "N'hésitez pas à partager vos idées et suggestions avec l'équipe Matomo :",
         "HelpMessageContent": "Consultez la %1$s FAQ Matomo %2$s qui explique les erreurs les plus courantes lors de la mise à jour. %3$s Demandez à votre administrateur système : il pourra peut-être vous aider à résoudre cette erreur, très probablement liée à la configuration de votre serveur ou de MySQL.",
         "HelpMessageIntroductionWhenError": "Ci-dessus est le message d'erreur du noyau. Cela devrait expliquer la cause, mais si vous nécessitez davantage d'aide merci de :",
-        "HelpMessageIntroductionWhenWarning": "La mise à jour a été complétée avec succès. Cependant, des problèmes sont survenus. Lisez la description ci-dessus pour plus de détails. Pour davantage d'aide :",
+        "HelpMessageIntroductionWhenWarning": "La mise à jour s’est terminée avec succès, mais des problèmes sont survenus au cours du processus. Veuillez lire les descriptions ci-dessus pour plus de détails. Pour obtenir davantage d’aide :",
         "HighTrafficPiwikServerEnableMaintenance": "Si vous gérez un serveur Matomo à fort trafic, nous recommandons de %1$sdésactiver momentanément le suivi des visiteurs et de mettre l'interface utilisateur de Matomo en mode de maintenance%2$s.",
         "IncompatbilePluginsWillBeDisabledInfo": "Note : certains plugins ne sont pas compatibles avec Matomo %s. Nous allons les mettre à jour si une nouvelle version existe sur la marketplace, sinon nous les désactiverons lorsque vous effectuerez la mise à jour :",
         "InstallingTheLatestVersion": "Installation de la dernière version",

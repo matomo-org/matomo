@@ -72,6 +72,8 @@
         "PasswordResetEmail1": "Recebemos uma solicitação para redefinir a senha da sua conta Matomo a partir do endereço IP %1$s. Se você iniciou essa solicitação, pode redefinir sua senha clicando no link abaixo:",
         "PasswordResetEmail2": "Este link expirará em 24 horas por razões de segurança.",
         "PasswordResetEmail3": "Se você não solicitou essa redefinição de senha, você pode cancelar a solicitação clicando no link abaixo:",
+        "PasswordResetEmail4": "Sua conta permanece segura, mas recomendamos que você tome providências rapidamente caso não tenha iniciado esta solicitação.",
+        "PasswordResetEmail5": "Para maior segurança, recomendamos ativar a autenticação de dois fatores (2FA) após redefinir sua senha.",
         "PasswordsDoNotMatch": "Senhas não conferem.",
         "PluginDescription": "Fornece login de nome de usuário e senha, bem como funcionalidade de redefinição de senha. O método de login pode ser alterado usando outro plugin de login, como o LoginLdap, disponível na loja de aplicativos.",
         "RememberMe": "Lembrar de mim",

@@ -10,6 +10,7 @@
         "ClickHereToOptIn": "Cliquez ici pour vous inscrire.",
         "ClickHereToOptOut": "Cliquez ici pour vous désinscrire.",
         "CloudflareDescription": "Si votre site web est hébergé sur Cloudflare, veuillez consulter %1$sce guide%2$s.",
+        "ComponentLibrary": "Bibliothèque de composants",
         "ConfirmDeleteAllTrackingFailures": "Voulez-vous vraiment supprimer toutes les erreurs de suivi ?",
         "ConfirmDeleteThisTrackingFailure": "Voulez-vous vraiment supprimer cette erreur de suivi ?",
         "Cors": "cors",

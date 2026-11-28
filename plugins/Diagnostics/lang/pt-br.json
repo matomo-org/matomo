@@ -1,6 +1,8 @@
 {
     "Diagnostics": {
         "AllPrivateDirectoriesAreInaccessible": "Todos os diretórios privados são inacessíveis a partir da Internet.",
+        "ArchivingFailuresCheck": "Arquivos Fracassados",
+        "ArchivingFailuresComment": "%1$s arquivos não puderam ser processados e aguardam uma nova tentativa, enquanto o processamento de %2$s arquivos foi abandonado após atingirem o número máximo de tentativas. Os relatórios referentes aos arquivos cujo processamento foi abandonado — bem como os períodos que os abrangem — não são atualizados até que uma nova tentativa seja realizada. A falha mais antiga ocorreu em %3$s. Utilize o comando de console %4$s para visualizar os erros e realizar novas tentativas.",
         "BrowserAndAutoArchivingEnabledComment": "Parece que o navegador e o arquivamento automático estão ativados. O arquivamento automático começou pela última vez há %3$s. Se o %1$sauto arquivamento%2$s estiver habilitado, você deve desabilitar o arquivamento do navegador em 'Configurações gerais'.",
         "BrowserAndAutoArchivingEnabledLabel": "Navegador e arquivamento automático ativados",
         "BrowserTriggeredArchivingEnabled": "Para uma performance ótima e um Matomo veloz, é altamente recomendável definir um crontab para automaticamente arquivar seus relatórios, e desabilitar o acionamento de navegador nas configurações do Matomo. %1$sSaiba mais.%2$s",

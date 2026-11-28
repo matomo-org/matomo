@@ -107,6 +107,15 @@
         "TopPageUrlsLast30MinutesDocumentation": "Affiche les URLs de pages demandées par les chatbots IA au cours des 30 dernières minutes, classées par nombre de requêtes de chatbots.",
         "AIChatbotsRealtimeHelp1": "La page Chatbots IA en temps réel affiche l'activité récente des chatbots IA à partir des données brutes de suivi des robots, incluant le volume de requêtes des chatbots, les URLs de pages uniques et le nombre d'erreurs HTTP.",
         "TopPageUrlsLast8HoursDocumentation": "Affiche les URLs de pages demandées par les chatbots IA au cours des 8 dernières heures, classées par nombre de requêtes de chatbots.",
-        "TopPageUrlsLast8HoursTitle": "Principales URLs de pages - 8 dernières heures"
+        "TopPageUrlsLast8HoursTitle": "Principales URLs de pages - 8 dernières heures",
+        "AIChatbotTrafficRatioBelowValue": "&lt;%1$s×",
+        "AIChatbotTrafficRatioValue": "%1$s×",
+        "ColumnAIChatbotTrafficRatio": "Ratio de trafic des chatbots IA",
+        "ColumnAIChatbotTrafficRatioDocumentation": "Le rapport entre les requêtes des chatbots IA et les pages vues par des humains, directement ou via des agents IA. Une valeur de 2,0× signifie qu’il y a eu deux fois plus de requêtes de chatbots IA que de pages vues.",
+        "NoDataHttpTrackingApiInstructions1": "L’API de suivi HTTP permet de suivre les requêtes des chatbots IA directement dans Matomo lorsque vous avez besoin d’une intégration personnalisée. Envoyez les requêtes de chatbots IA détectées à Matomo avec les paramètres de suivi des robots requis.",
+        "NoDataHttpTrackingApiInstructions2": "Identifiez les requêtes des chatbots IA dans votre application ou sur votre serveur.",
+        "NoDataHttpTrackingApiInstructions3": "Envoyez les requêtes à Matomo via l’API de suivi HTTP, avec l’identifiant de votre site Matomo et les paramètres de suivi des robots requis.",
+        "NoDataHttpTrackingApiInstructions4": "Une fois la configuration effectuée et l’activité de chatbots IA détectée, vérifiez qu’elle apparaît dans les rapports des chatbots IA.",
+        "NoDataLinkApiReference": "Référence de l’API : %1$sréférence de l’API de suivi HTTP%2$s"
     }
 }

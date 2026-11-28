@@ -33,6 +33,10 @@
         "SparklineHumanBounceRate": "af de menneskelige besøg blev afvist (forlod hjemmesiden efter én side)",
         "SparklineHumanVisits": "menneskelige besøg",
         "WidgetGraphAIAgents": "AI-agenter over tid",
-        "WidgetOverviewAIAgents": "Oversigt over AI-agenter"
+        "WidgetOverviewAIAgents": "Oversigt over AI-agenter",
+        "ColumnAIAgentUniqueVisitorsEstimated": "Unikke AI-agentbesøgende (estimeret)",
+        "ColumnAIAgentUsersEstimated": "AI-agentbrugere (estimeret)",
+        "ColumnHumanUniqueVisitorsEstimated": "Unikke menneskelige besøgende (estimeret)",
+        "ColumnHumanUsersEstimated": "Menneskelige brugere (estimeret)"
     }
 }

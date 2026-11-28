@@ -1,6 +1,8 @@
 {
     "Diagnostics": {
         "AllPrivateDirectoriesAreInaccessible": "Tous les répertoires privés sont inaccessibles depuis Internet.",
+        "ArchivingFailuresCheck": "Archives en échec",
+        "ArchivingFailuresComment": "%1$s archives n’ont pas pu être traitées et sont en attente d’une nouvelle tentative. %2$s archives ont été abandonnées après avoir atteint le nombre maximal de tentatives. Les rapports correspondant aux archives abandonnées et aux périodes qui les contiennent ne sont pas mis à jour tant qu’elles ne sont pas relancées. L’échec le plus ancien s’est produit le %3$s. Utilisez la commande de console %4$s pour consulter les erreurs et relancer ces archives.",
         "BrowserAndAutoArchivingEnabledComment": "Il semble que l'archivage par le navigateur et l'archivage automatique soient tous deux activés. L'archivage automatique a démarré pour la dernière fois il y a %3$s. Si l'%1$sarchivage automatique%2$s est activé, vous devez désactiver l'archivage par le navigateur dans \"Paramètres généraux\".",
         "BrowserAndAutoArchivingEnabledLabel": "Archivage par le navigateur et archivage automatique activés",
         "BrowserTriggeredArchivingEnabled": "Pour des performances optimales et un Matomo rapide, il est vivement recommandé de mettre en place une entrée CRON pour archiver automatiquement vos rapports, et de désactiver le déclenchement depuis l'interface depuis les paramètres Matomo. %1$sApprenez-en plus.%2$s",
