@@ -12,6 +12,7 @@ namespace Piwik\Plugins\Login\tests\Integration;
 use Piwik\Access;
 use Piwik\Cache;
 use Piwik\Changes\Model as ChangesModel;
+use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\Log\LoggerInterface;
 use Piwik\Piwik;
@@ -315,6 +316,51 @@ class WhatsNewProviderTest extends IntegrationTestCase
         $provider = $this->provider($model);
 
         $this->assertSame([], $provider->getChanges());
+    }
+
+    /**
+     * @dataProvider getDisabledSettingValues
+     * @param mixed $value
+     */
+    public function testReturnsEmptyWhenThePanelIsTurnedOffInTheConfig($value): void
+    {
+        GeneralConfig::setConfigValue('login_whats_new_panel_enabled', $value);
+
+        $model = $this->createMock(ChangesModel::class);
+        $model->expects($this->never())->method('getChangeItems');
+
+        $this->assertSame([], $this->provider($model)->getChanges());
+    }
+
+    public function getDisabledSettingValues(): array
+    {
+        return [
+            'string zero' => ['0'],
+            'integer zero' => [0],
+            'boolean false' => [false],
+        ];
+    }
+
+    /**
+     * An entry cached while the panel was on must not be served once an admin turns it off.
+     */
+    public function testTurningThePanelOffIgnoresEntriesCachedForLoggedOutVisitors(): void
+    {
+        $model = $this->createMock(ChangesModel::class);
+        $model->expects($this->once())->method('getChangeItems')->willReturn([$this->change([])]);
+
+        $this->assertCount(1, $this->getChangesAsLoggedOutVisitor($this->provider($model)));
+
+        GeneralConfig::setConfigValue('login_whats_new_panel_enabled', '0');
+
+        $this->assertSame([], $this->getChangesAsLoggedOutVisitor($this->provider($model)));
+    }
+
+    public function testShowsThePanelWhenTheConfigSettingIsOn(): void
+    {
+        GeneralConfig::setConfigValue('login_whats_new_panel_enabled', '1');
+
+        $this->assertCount(1, $this->makeProvider([$this->change([])])->getChanges());
     }
 
     public function testReturnsEmptyWhenWhiteLabelIsActive(): void
