@@ -32,6 +32,7 @@
         "NoMoreVisits": "Estas são todas as visitas deste visitante.",
         "OnClickPause": "%s está em execução... Clique para pausá-lo.",
         "OnClickStart": "%s está parado. Clique para iniciá-lo.",
+        "OnlyConsentedVisitsShown": "Apenas as visitas de usuários que deram seu consentimento são exibidas, uma vez que a política de conformidade deste site desativa o registro de visitas.",
         "PageRefreshed": "Número de vezes que esta página foi vista / recarregada em uma linha.",
         "PluginDescription": "Fornece o registro de visitas ao vivo e permite que você assista seus visitantes no widget do painel em tempo real. Um perfil de visitante pode ser pesquisado para qualquer usuário.",
         "PreviousVisitor": "Visitante anterior",
