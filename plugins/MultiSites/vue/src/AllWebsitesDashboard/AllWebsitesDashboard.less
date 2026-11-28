@@ -241,6 +241,14 @@
     margin: -8px 0;
     display: inline-block;
     width: 100px;
+
+    // browser-default selects skip the Morpheus select styles, so they keep Materialize's
+    // near-white background while inheriting the light dark-mode text colour
+    .inDarkMode({
+      color: @theme-color-text;
+      background-color: @theme-color-background-contrast;
+      border-color: @theme-color-border;
+    });
   }
 
   .sitesTableSparkline img {
